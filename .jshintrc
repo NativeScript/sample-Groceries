@@ -1,0 +1,14 @@
+{
+  "boss": true,
+  "curly": true,
+  "esnext": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "expr": true,
+  "immed": true,
+  "noarg": true,
+  "quotmark": "double",
+  "smarttabs": true,
+  "trailing": true,
+  "unused": true
+}

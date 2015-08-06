@@ -1,0 +1,13 @@
+<Page loaded="load">
+	<Page.actionBar>
+		<ActionBar title="Sign up"></ActionBar>
+	</Page.actionBar>
+	<StackLayout>
+		<Image src="res://logo" stretch="none" horizontalAlignment="center"/>
+
+		<TextField text="{{ email_address }}" id="email" hint="Email Address" keyboardType="email" />
+		<TextField text="{{ password }}" secure="true" hint="Password" />
+
+		<Button text="Sign Up" tap="register" />
+	</StackLayout>
+</Page>

@@ -1,0 +1,23 @@
+{
+  "disallowMixedSpacesAndTabs": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowMultipleSpaces": true,
+  "disallowMultipleVarDecl": true,
+  "disallowNamedUnassignedFunctions": true,
+  "disallowNewlineBeforeBlockStatements": true,
+  "disallowSpacesInCallExpression": true,
+  "disallowSpacesInFunctionDeclaration": {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowTrailingWhitespace": true,
+  "esnext": true,
+  "requireCommaBeforeLineBreak": true,
+  "requireCurlyBraces": ["if", "else", "for", "while", "try", "catch"],
+  "requireSemicolons": true,
+  "requireSpaceBetweenArguments": true,
+  "requireSpacesInConditionalExpression": true,
+  "requireSpacesInForStatement": true,
+  "requireSpacesInsideObjectBrackets": "all",
+  "validateIndentation": "\t",
+  "validateQuoteMarks": "\""
+}
