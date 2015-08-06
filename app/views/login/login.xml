@@ -9,6 +9,6 @@
 		<TextField secure="true" text="{{ password }}" hint="Password" />
 
 		<Button text="Sign in" tap="signIn" />
-		<Button text="Sign up for Groceries" tap="register" cssClass="noBorder" />
+		<Button text="Sign up for Groceries" tap="register" cssClass="link" />
 	</StackLayout>
 </Page>
