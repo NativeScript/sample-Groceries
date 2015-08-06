@@ -1,15 +1,9 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var view = require("ui/core/view");
 var contentView = require("ui/content-view");
 var common = require("ui/scroll-view/scroll-view-common");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var ScrollView = (function (_super) {
     __extends(ScrollView, _super);
     function ScrollView() {

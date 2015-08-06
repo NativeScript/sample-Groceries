@@ -1,6 +1,8 @@
 var fs = require("file-system");
 var types = require("utils/types");
 var trace = require("trace");
+var platform = require("platform");
+var application = require("application");
 var MIN_WH = "minWH";
 var MIN_W = "minW";
 var MIN_H = "minH";
@@ -167,3 +169,23 @@ function checkQualifier(value, context) {
     }
     return -1;
 }
+var appEventAttached = false;
+var resolverInstance;
+function resolveFileName(path, ext) {
+    if (!appEventAttached) {
+        application.on(application.orientationChangedEvent, function (data) {
+            resolverInstance = undefined;
+        });
+        appEventAttached = true;
+    }
+    if (!resolverInstance) {
+        resolverInstance = new FileNameResolver({
+            width: platform.screen.mainScreen.widthDIPs,
+            height: platform.screen.mainScreen.heightDIPs,
+            os: platform.device.os,
+            deviceType: platform.device.deviceType
+        });
+    }
+    return resolverInstance.resolveFileName(path, ext);
+}
+exports.resolveFileName = resolveFileName;

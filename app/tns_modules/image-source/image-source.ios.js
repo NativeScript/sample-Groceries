@@ -2,7 +2,7 @@ var types = require("utils/types");
 var fs = require("file-system");
 var common = require("image-source/image-source-common");
 var enums = require("ui/enums");
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var ImageSource = (function () {
     function ImageSource() {
     }

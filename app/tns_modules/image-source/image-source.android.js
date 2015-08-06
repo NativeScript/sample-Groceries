@@ -1,18 +1,17 @@
 var types = require("utils/types");
 var fs = require("file-system");
-var appModule = require("application");
 var common = require("image-source/image-source-common");
 var enums = require("ui/enums");
-require("utils/module-merge").merge(common, exports);
+var utils = require("utils/utils");
+global.moduleMerge(common, exports);
 var ImageSource = (function () {
     function ImageSource() {
     }
     ImageSource.prototype.loadFromResource = function (name) {
         this.android = null;
-        var androidApp = appModule.android;
-        var res = androidApp.context.getResources();
+        var res = utils.ad.getApplicationContext().getResources();
         if (res) {
-            var identifier = res.getIdentifier(name, 'drawable', androidApp.packageName);
+            var identifier = res.getIdentifier(name, 'drawable', utils.ad.getApplication().getPackageName());
             if (0 < identifier) {
                 var bitmapDrawable = res.getDrawable(identifier);
                 if (bitmapDrawable && bitmapDrawable.getBitmap) {

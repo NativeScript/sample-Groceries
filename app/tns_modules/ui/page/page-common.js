@@ -1,11 +1,6 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var contentView = require("ui/content-view");
 var view = require("ui/core/view");
+var styleModule = require("ui/styling/style");
 var styleScope = require("ui/styling/style-scope");
 var fs = require("file-system");
 var fileSystemAccess = require("file-system/file-system-access");
@@ -28,6 +23,7 @@ var Page = (function (_super) {
         this._styleScope = new styleScope.StyleScope();
         this._cssFiles = {};
         this.actionBar = new actionBar.ActionBar();
+        this.style._setValue(styleModule.backgroundColorProperty, "white", dependencyObservable.ValueSource.Inherited);
     }
     Page.prototype.onLoaded = function () {
         this._applyCss();

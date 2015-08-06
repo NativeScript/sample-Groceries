@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var observable = require("data/observable");
 var types = require("utils/types");
 var propertyFromKey = {};
@@ -55,7 +49,7 @@ var PropertyMetadata = (function () {
     function PropertyMetadata(defaultValue, options, onChanged, onValidateValue, equalityComparer) {
         this._defaultValue = defaultValue;
         this._options = options;
-        if (types.isUndefined(this._options)) {
+        if (types.isNullOrUndefined(this._options)) {
             this._options = PropertyMetadataSettings.None;
         }
         this._onChanged = onChanged;

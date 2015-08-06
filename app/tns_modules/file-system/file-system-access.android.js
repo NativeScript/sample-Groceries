@@ -1,6 +1,6 @@
-var appModule = require("application");
 var textModule = require("text");
 var types = require("utils/types");
+var utils = require("utils/utils");
 var FileSystemAccess = (function () {
     function FileSystemAccess() {
         this._pathSeparator = java.io.File.separator.toString();
@@ -173,13 +173,11 @@ var FileSystemAccess = (function () {
         }
     };
     FileSystemAccess.prototype.getDocumentsFolderPath = function () {
-        var context = appModule.android.context;
-        var dir = context.getFilesDir();
+        var dir = utils.ad.getApplicationContext().getFilesDir();
         return dir.getAbsolutePath();
     };
     FileSystemAccess.prototype.getTempFolderPath = function () {
-        var context = appModule.android.context;
-        var dir = context.getCacheDir();
+        var dir = utils.ad.getApplicationContext().getCacheDir();
         return dir.getAbsolutePath();
     };
     FileSystemAccess.prototype.readText = function (path, onSuccess, onError, encoding) {

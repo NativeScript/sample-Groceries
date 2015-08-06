@@ -1,6 +1,7 @@
 var types = require("utils/types");
 var knownColors = require("color/known-colors");
 var AMP = "#";
+var HEX_REGEX = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)|(^#[0-9A-F]{8}$)/i;
 var Color = (function () {
     function Color() {
         if (arguments.length === 1) {
@@ -115,6 +116,18 @@ var Color = (function () {
             return false;
         }
         return value1.equals(value2);
+    };
+    Color.isValid = function (value) {
+        if (types.isNullOrUndefined(value) || value instanceof Color) {
+            return true;
+        }
+        if (!types.isString(value)) {
+            return false;
+        }
+        if (knownColors.isKnownName(value)) {
+            return true;
+        }
+        return HEX_REGEX.test(value);
     };
     Color.prototype._buildHex = function () {
         return AMP + this._componentToHex(this._a) + this._componentToHex(this._r) + this._componentToHex(this._g) + this._componentToHex(this._b);

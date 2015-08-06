@@ -10,34 +10,12 @@ var platform = require("platform");
 var EVENT = "Event";
 var UI_PATH = "ui/";
 var MODULES = {
-    "ActivityIndicator": "ui/activity-indicator",
-    "ListView": "ui/list-view",
-    "GridLayout": "ui/layouts/grid-layout",
-    "DockLayout": "ui/layouts/dock-layout",
-    "WrapLayout": "ui/layouts/wrap-layout",
-    "AbsoluteLayout": "ui/layouts/absolute-layout",
-    "StackLayout": "ui/layouts/stack-layout",
-    "ScrollView": "ui/scroll-view",
-    "SearchBar": "ui/search-bar",
-    "SlideOut": "ui/slide-out",
-    "TabView": "ui/tab-view",
     "TabViewItem": "ui/tab-view",
-    "TextField": "ui/text-field",
-    "TextView": "ui/text-view",
     "FormattedString": "text/formatted-string",
     "Span": "text/span",
-    "WebView": "ui/web-view",
-    "HtmlView": "ui/html-view",
-    "SegmentedBar": "ui/segmented-bar",
-    "SegmentedBarItem": "ui/segmented-bar",
-    "ToolBar": "ui/tool-bar",
-    "ToolBarItem": "ui/tool-bar",
-    "TimePicker": "ui/time-picker",
-    "DatePicker": "ui/date-picker",
-    "ListPicker": "ui/list-picker",
-    "ActionBar": "ui/action-bar",
     "ActionItem": "ui/action-bar",
     "NavigationButton": "ui/action-bar",
+    "SegmentedBarItem": "ui/segmented-bar",
 };
 var ROW = "row";
 var COL = "col";
@@ -50,7 +28,10 @@ function getComponentModule(elementName, namespace, attributes, exports) {
     var instance;
     var instanceModule;
     var componentModule;
-    var moduleId = MODULES[elementName] || UI_PATH + elementName.toLowerCase();
+    elementName = elementName.split("-").map(function (s) { return s[0].toUpperCase() + s.substring(1); }).join("");
+    var moduleId = MODULES[elementName] || UI_PATH +
+        (elementName.toLowerCase().indexOf("layout") !== -1 ? "layouts/" : "") +
+        elementName.split(/(?=[A-Z])/).join("-").toLowerCase();
     try {
         if (types.isString(namespace)) {
             var pathInsideTNSModules = fs.path.join(fs.knownFolders.currentApp().path, "tns_modules", namespace);

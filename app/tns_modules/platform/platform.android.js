@@ -1,5 +1,5 @@
 var enums = require("ui/enums");
-var application = require("application");
+var utils = require("utils/utils");
 var platformNames;
 (function (platformNames) {
     platformNames.android = "Android";
@@ -74,7 +74,7 @@ var device = (function () {
     Object.defineProperty(device, "uuid", {
         get: function () {
             if (!device._uuid) {
-                device._uuid = android.provider.Settings.Secure.getString(application.android.context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+                device._uuid = android.provider.Settings.Secure.getString(utils.ad.getApplicationContext().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
             }
             return device._uuid;
         },
@@ -95,23 +95,17 @@ var device = (function () {
     return device;
 })();
 exports.device = device;
-var mainScreenInfo;
+var mainScreen;
 var screen = (function () {
     function screen() {
     }
     Object.defineProperty(screen, "mainScreen", {
         get: function () {
-            if (!mainScreenInfo) {
-                var metrics = application.android.context.getResources().getDisplayMetrics();
-                mainScreenInfo = {
-                    widthPixels: metrics.widthPixels,
-                    heightPixels: metrics.heightPixels,
-                    scale: metrics.density,
-                    widthDIPs: metrics.widthPixels / metrics.density,
-                    heightDIPs: metrics.heightPixels / metrics.density
-                };
+            if (!mainScreen) {
+                var metrics = utils.ad.getApplicationContext().getResources().getDisplayMetrics();
+                mainScreen = new MainScreen(metrics);
             }
-            return mainScreenInfo;
+            return mainScreen;
         },
         enumerable: true,
         configurable: true
@@ -119,3 +113,44 @@ var screen = (function () {
     return screen;
 })();
 exports.screen = screen;
+var MainScreen = (function () {
+    function MainScreen(metrics) {
+        this._metrics = metrics;
+    }
+    Object.defineProperty(MainScreen.prototype, "widthPixels", {
+        get: function () {
+            return this._metrics.widthPixels;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MainScreen.prototype, "heightPixels", {
+        get: function () {
+            return this._metrics.heightPixels;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MainScreen.prototype, "scale", {
+        get: function () {
+            return this._metrics.density;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MainScreen.prototype, "widthDIPs", {
+        get: function () {
+            return this._metrics.widthPixels / this._metrics.density;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MainScreen.prototype, "heightDIPs", {
+        get: function () {
+            return this._metrics.heightPixels / this._metrics.density;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return MainScreen;
+})();

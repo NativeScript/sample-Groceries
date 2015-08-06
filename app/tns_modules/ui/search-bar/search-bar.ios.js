@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/search-bar/search-bar-common");
 var color = require("color");
 var types = require("utils/types");
@@ -46,7 +40,7 @@ function getUITextField(bar) {
     }
     return undefined;
 }
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var UISearchBarDelegateImpl = (function (_super) {
     __extends(UISearchBarDelegateImpl, _super);
     function UISearchBarDelegateImpl() {

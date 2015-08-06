@@ -1,18 +1,12 @@
 /**
  * iOS specific dialogs functions implementation.
  */
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var dialogs = require("ui/dialogs");
-var dialogs_common = require("ui/dialogs/dialogs-common");
+var dialogsCommon = require("ui/dialogs/dialogs-common");
 var types = require("utils/types");
 var utils = require("utils/utils");
 var frame = require("ui/frame");
-require("utils/module-merge").merge(dialogs_common, exports);
+global.moduleMerge(dialogsCommon, exports);
 var UIAlertViewDelegateImpl = (function (_super) {
     __extends(UIAlertViewDelegateImpl, _super);
     function UIAlertViewDelegateImpl() {
@@ -132,7 +126,7 @@ function addButtonsToAlertController(alertController, options, okCallback, cance
 function alert(arg) {
     return new Promise(function (resolve, reject) {
         try {
-            var options = types.isString(arg) ? { title: dialogs_common.ALERT, okButtonText: dialogs_common.OK, message: arg } : arg;
+            var options = types.isString(arg) ? { title: dialogsCommon.ALERT, okButtonText: dialogsCommon.OK, message: arg } : arg;
             if (utils.ios.MajorVersion < 8) {
                 var alert = createUIAlertView(options);
                 if (options.okButtonText) {
@@ -160,7 +154,7 @@ exports.alert = alert;
 function confirm(arg) {
     return new Promise(function (resolve, reject) {
         try {
-            var options = types.isString(arg) ? { title: dialogs_common.CONFIRM, okButtonText: dialogs_common.OK, cancelButtonText: dialogs_common.CANCEL, message: arg } : arg;
+            var options = types.isString(arg) ? { title: dialogsCommon.CONFIRM, okButtonText: dialogsCommon.OK, cancelButtonText: dialogsCommon.CANCEL, message: arg } : arg;
             if (utils.ios.MajorVersion < 8) {
                 var alert = createUIAlertView(options);
                 addButtonsToAlertDialog(alert, options);
@@ -186,9 +180,9 @@ exports.confirm = confirm;
 function prompt(arg) {
     var options;
     var defaultOptions = {
-        title: dialogs_common.PROMPT,
-        okButtonText: dialogs_common.OK,
-        cancelButtonText: dialogs_common.CANCEL,
+        title: dialogsCommon.PROMPT,
+        okButtonText: dialogsCommon.OK,
+        cancelButtonText: dialogsCommon.CANCEL,
         inputType: dialogs.inputType.text,
     };
     if (arguments.length === 1) {
@@ -247,7 +241,7 @@ function prompt(arg) {
 exports.prompt = prompt;
 function login(arg) {
     var options;
-    var defaultOptions = { title: dialogs_common.LOGIN, okButtonText: dialogs_common.OK, cancelButtonText: dialogs_common.CANCEL };
+    var defaultOptions = { title: dialogsCommon.LOGIN, okButtonText: dialogsCommon.OK, cancelButtonText: dialogsCommon.CANCEL };
     if (arguments.length === 1) {
         if (types.isString(arguments[0])) {
             options = defaultOptions;
@@ -330,7 +324,7 @@ function showUIAlertController(alertController) {
 }
 function action(arg) {
     var options;
-    var defaultOptions = { cancelButtonText: dialogs_common.CANCEL };
+    var defaultOptions = { cancelButtonText: dialogsCommon.CANCEL };
     if (arguments.length === 1) {
         if (types.isString(arguments[0])) {
             options = defaultOptions;

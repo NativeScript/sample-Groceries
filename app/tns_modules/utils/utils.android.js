@@ -1,6 +1,5 @@
-var application = require("application");
 var common = require("utils/utils-common");
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var layout;
 (function (layout) {
     var density = -1;
@@ -10,8 +9,8 @@ var layout;
     var sdkVersion = -1;
     var useOldMeasureSpec = false;
     function makeMeasureSpec(size, mode) {
-        if (sdkVersion === -1 && application.android && application.android.context) {
-            sdkVersion = application.android.context.getApplicationInfo().targetSdkVersion;
+        if (sdkVersion === -1) {
+            sdkVersion = ad.getApplicationContext().getApplicationInfo().targetSdkVersion;
             useOldMeasureSpec = sdkVersion <= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
         }
         if (useOldMeasureSpec) {
@@ -29,13 +28,17 @@ var layout;
     layout.getDisplayDensity = getDisplayDensity;
     function getDisplayMetrics() {
         if (!metrics) {
-            metrics = application.android.context.getResources().getDisplayMetrics();
+            metrics = ad.getApplicationContext().getResources().getDisplayMetrics();
         }
         return metrics;
     }
 })(layout = exports.layout || (exports.layout = {}));
 var ad;
 (function (ad) {
+    function getApplication() { return com.tns.NativeScriptApplication.getInstance(); }
+    ad.getApplication = getApplication;
+    function getApplicationContext() { return getApplication().getApplicationContext(); }
+    ad.getApplicationContext = getApplicationContext;
     var collections;
     (function (collections) {
         function stringArrayToStringSet(str) {
@@ -72,9 +75,8 @@ var ad;
         }
         resources_1.getStringId = getStringId;
         function getId(name) {
-            var context = application.android.context;
-            var resources = context.getResources();
-            var packageName = context.getPackageName();
+            var resources = getApplicationContext().getResources();
+            var packageName = getApplicationContext().getPackageName();
             var uri = packageName + name;
             return resources.getIdentifier(uri, null, null);
         }

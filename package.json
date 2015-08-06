@@ -15,11 +15,6 @@
     "url": "https://github.com/nativescript/sample-Groceries/issues"
   },
   "homepage": "https://github.com/nativescript/sample-Groceries/groceries",
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-jscs": "^1.6.0",
-    "gulp-jshint": "^1.11.0"
-  },
   "nativescript": {
     "id": "org.nativescript.groceries",
     "tns-android": {

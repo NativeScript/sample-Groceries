@@ -1,6 +1,6 @@
 var trace = require("trace");
 var cssSelector = require("ui/styling/css-selector");
-var cssParser = require("js-libs/reworkcss");
+var cssParser = require("css");
 var visual_state_1 = require("ui/styling/visual-state");
 var application = require("application");
 var utils = require("utils/utils");
@@ -32,7 +32,12 @@ var StyleScope = (function () {
         this._cssFileName = cssFileName;
         this._reset();
         if (!this._cssSelectors) {
-            this._cssSelectors = new Array();
+            if (application.cssSelectorsCache) {
+                this._cssSelectors = StyleScope._joinCssSelectorsArrays([application.cssSelectorsCache]);
+            }
+            else {
+                this._cssSelectors = new Array();
+            }
         }
         var selectorsFromFile = StyleScope.createSelectorsFromCss(cssString, cssFileName);
         this._cssSelectors = StyleScope._joinCssSelectorsArrays([this._cssSelectors, selectorsFromFile]);

@@ -1,16 +1,10 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/action-bar/action-bar-common");
 var imageSource = require("image-source");
 var frameModule = require("ui/frame");
 var enums = require("ui/enums");
 var view = require("ui/core/view");
 var utils = require("utils/utils");
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var ActionItem = (function (_super) {
     __extends(ActionItem, _super);
     function ActionItem() {
