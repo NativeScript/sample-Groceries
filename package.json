@@ -28,9 +28,5 @@
     "tns-ios": {
       "version": "1.2.0"
     }
-  },
-  "dependencies": {
-    "email-validator": "^1.0.2",
-    "nativescript-social-share": "^1.1.0"
   }
 }

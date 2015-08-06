@@ -1,8 +1,14 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/web-view/web-view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
 var fs = require("file-system");
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var UIWebViewDelegateImpl = (function (_super) {
     __extends(UIWebViewDelegateImpl, _super);
     function UIWebViewDelegateImpl() {

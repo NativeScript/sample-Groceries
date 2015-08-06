@@ -96,16 +96,27 @@ var device = (function () {
     return device;
 })();
 exports.device = device;
-var mainScreen;
+var mainScreenInfo = null;
 var screen = (function () {
     function screen() {
     }
     Object.defineProperty(screen, "mainScreen", {
         get: function () {
-            if (!mainScreen) {
-                mainScreen = new MainScreen(UIScreen.mainScreen());
+            if (!mainScreenInfo) {
+                var mainScreen = UIScreen.mainScreen();
+                if (mainScreen) {
+                    var size = mainScreen.bounds.size;
+                    var scale = mainScreen.scale;
+                    mainScreenInfo = {
+                        widthPixels: size.width * scale,
+                        heightPixels: size.height * scale,
+                        scale: scale,
+                        widthDIPs: size.width,
+                        heightDIPs: size.height
+                    };
+                }
             }
-            return mainScreen;
+            return mainScreenInfo;
         },
         enumerable: true,
         configurable: true
@@ -113,44 +124,3 @@ var screen = (function () {
     return screen;
 })();
 exports.screen = screen;
-var MainScreen = (function () {
-    function MainScreen(metrics) {
-        this._screen = metrics;
-    }
-    Object.defineProperty(MainScreen.prototype, "widthPixels", {
-        get: function () {
-            return this.widthDIPs * this.scale;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MainScreen.prototype, "heightPixels", {
-        get: function () {
-            return this.heightDIPs * this.scale;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MainScreen.prototype, "scale", {
-        get: function () {
-            return this._screen.scale;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MainScreen.prototype, "widthDIPs", {
-        get: function () {
-            return this._screen.bounds.size.width;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MainScreen.prototype, "heightDIPs", {
-        get: function () {
-            return this._screen.bounds.size.height;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return MainScreen;
-})();

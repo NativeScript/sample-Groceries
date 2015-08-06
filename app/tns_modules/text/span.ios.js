@@ -1,6 +1,12 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var spanCommon = require("text/span-common");
 var enums = require("ui/enums");
-global.moduleMerge(spanCommon, exports);
+require("utils/module-merge").merge(spanCommon, exports);
 var Span = (function (_super) {
     __extends(Span, _super);
     function Span() {

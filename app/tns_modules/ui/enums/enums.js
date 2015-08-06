@@ -25,12 +25,6 @@ var Orientation;
     Orientation.horizontal = "horizontal";
     Orientation.vertical = "vertical";
 })(Orientation = exports.Orientation || (exports.Orientation = {}));
-var DeviceOrientation;
-(function (DeviceOrientation) {
-    DeviceOrientation.portrait = "portrait";
-    DeviceOrientation.landscape = "landscape";
-    DeviceOrientation.unknown = "unknown";
-})(DeviceOrientation = exports.DeviceOrientation || (exports.DeviceOrientation = {}));
 var HorizontalAlignment;
 (function (HorizontalAlignment) {
     HorizontalAlignment.left = "left";

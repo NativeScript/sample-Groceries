@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/slider/slider-common");
 function onValuePropertyChanged(data) {
     var slider = data.object;
@@ -14,7 +20,7 @@ function onMaxValuePropertyChanged(data) {
 common.Slider.valueProperty.metadata.onSetNativeValue = onValuePropertyChanged;
 common.Slider.minValueProperty.metadata.onSetNativeValue = onMinValuePropertyChanged;
 common.Slider.maxValueProperty.metadata.onSetNativeValue = onMaxValuePropertyChanged;
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var SliderChangeHandlerImpl = (function (_super) {
     __extends(SliderChangeHandlerImpl, _super);
     function SliderChangeHandlerImpl() {

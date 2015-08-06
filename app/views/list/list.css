@@ -1,5 +1,5 @@
 ListView {
-	margin: 5;
+	margin: 10;
 }
 Label {
 	margin: 10;
@@ -7,10 +7,11 @@ Label {
 	vertical-align: center;
 }
 TextField {
+	margin: 10;
 	border-width: 5;
 	border-style: solid;
 	border-color: #034793;
 }
-Image {
+Image{
 	margin: 10;
 }

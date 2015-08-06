@@ -110,7 +110,7 @@
     }
 
     var support = {
-        blob: 'FileReader' in global && 'Blob' in global && (function () {
+        blob: 'FileReader' in self && 'Blob' in self && (function () {
             try {
                 new Blob();
                 return true
@@ -118,7 +118,7 @@
                 return false
             }
         })(),
-        formData: 'FormData' in global
+        formData: 'FormData' in self
     }
 
     function Body() {

@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/progress/progress-common");
 function onValuePropertyChanged(data) {
     var progress = data.object;
@@ -15,7 +21,7 @@ function onMaxValuePropertyChanged(data) {
 }
 common.Progress.valueProperty.metadata.onSetNativeValue = onValuePropertyChanged;
 common.Progress.maxValueProperty.metadata.onSetNativeValue = onMaxValuePropertyChanged;
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var Progress = (function (_super) {
     __extends(Progress, _super);
     function Progress() {
