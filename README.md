@@ -2,9 +2,11 @@
 
 Groceries is a NativeScript-built iOS and Android app for managing grocery lists.
 
+![](assets/screenshots/login.ios.png)
 ![](assets/screenshots/register.ios.png)
 ![](assets/screenshots/list.ios.png)
 
+![](assets/screenshots/login.android.png)
 ![](assets/screenshots/register.android.png)
 ![](assets/screenshots/list.android.png)
 
