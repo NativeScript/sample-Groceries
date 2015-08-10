@@ -4,14 +4,14 @@ var view = require("ui/core/view");
 
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
-var GroceryList = require("../../shared/models/GroceryList");
+var GroceryList = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
-var pageData = new observable.Observable();
-var groceryList = new GroceryList();
-
-pageData.set("grocery", "");
-pageData.set("groceryList", groceryList);
+var groceryList = new GroceryList([]);
+var pageData = new observable.Observable({
+	grocery: "",
+	groceryList: groceryList
+});
 
 exports.navigatedTo = function(args) {
 	page = args.object;
@@ -27,7 +27,8 @@ exports.navigatedTo = function(args) {
 };
 
 exports.add = function() {
-	if (groceryList.isValidItem(pageData.get("grocery"))) {
+	// Check for empty submission
+	if (pageData.get("grocery").trim() !== "") {
 		view.getViewById(page, "grocery").dismissSoftInput();
 		groceryList.add(pageData.get("grocery"))
 			.catch(function() {
@@ -36,6 +37,8 @@ exports.add = function() {
 					okButtonText: "OK"
 				});
 			});
+
+		// Clear the textfield
 		pageData.set("grocery", "");
 	} else {
 		dialogs.alert({

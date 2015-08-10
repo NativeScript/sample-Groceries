@@ -1,14 +1,14 @@
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var User = require("../../shared/models/User");
+var UserViewModel = require("../../shared/view-models/user-view-model");
 
-var user = new User();
+var user = new UserViewModel({
+	email: "tj.vantoll@gmail.com",
+	password: "password"
+});
 
 exports.load = function(args) {
 	var page = args.object;
-
-	user.set("email_address", "tj.vantoll@gmail.com");
-	user.set("password", "password");
 
 	if (page.ios) {
 		var navigationBar = frameModule.topmost().ios.controller.navigationBar;
