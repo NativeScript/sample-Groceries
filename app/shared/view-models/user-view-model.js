@@ -38,6 +38,6 @@ function User(info) {
 	};
 
 	return viewModel;
-};
+}
 
 module.exports = User;
