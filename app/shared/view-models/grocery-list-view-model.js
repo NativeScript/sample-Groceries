@@ -58,10 +58,10 @@ function GroceryList(items) {
 					"Authorization": "Bearer " + config.token,
 					"Content-Type": "application/json"
 				}
-			}).then(function(data) {
+			}).then(function() {
 				viewModel.splice(index, 1);
 				resolve();
-			}).catch(function(error) {
+			}).catch(function() {
 				reject();
 			});
 		});

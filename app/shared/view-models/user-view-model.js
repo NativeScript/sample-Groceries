@@ -12,7 +12,6 @@ function User(info) {
 		password: info.password || "",
 
 		login: function() {
-			var that = this;
 			return new Promise(function(resolve, reject) {
 				http.request({
 					url: config.apiUrl + "oauth/token",
@@ -63,6 +62,6 @@ function User(info) {
 	};
 
 	return viewModel;
-};
+}
 
 module.exports = User;
