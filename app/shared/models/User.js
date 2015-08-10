@@ -1,4 +1,5 @@
 var config = require("../../shared/config");
+var http = require("http");
 
 var observableModule = require("data/observable");
 
