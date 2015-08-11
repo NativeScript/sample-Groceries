@@ -1,16 +1,16 @@
 Button {
-	border-width: 1;
-	border-style: solid;
-	border-color: #034793;
-	border-radius: 2;
+    border-width: 1;
+    border-style: solid;
+    border-color: #034793;
+    border-radius: 2;
 }
 TextField {
-	background-color: #FAFAFA;
-	border-width: 1;
-	border-style: solid;
-	border-color: #C7C7CC;
-	border-radius: 2;
+    background-color: #FAFAFA;
+    border-width: 1;
+    border-style: solid;
+    border-color: #C7C7CC;
+    border-radius: 2;
 }
 .link {
-	border-width: 0;
+    border-width: 0;
 }

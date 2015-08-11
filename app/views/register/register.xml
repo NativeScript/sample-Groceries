@@ -1,10 +1,10 @@
 <Page loaded="load">
-	<StackLayout>
-		<Image src="res://logo" stretch="none" horizontalAlignment="center"/>
+    <StackLayout>
+        <Image src="res://logo" stretch="none" horizontalAlignment="center"/>
 
-		<TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" />
-		<TextField text="{{ password }}" secure="true" hint="Password" />
+        <TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" />
+        <TextField text="{{ password }}" secure="true" hint="Password" />
 
-		<Button text="Sign Up" tap="register" />
-	</StackLayout>
+        <Button text="Sign Up" tap="register" />
+    </StackLayout>
 </Page>
