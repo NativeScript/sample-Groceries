@@ -4,10 +4,10 @@ var view = require("ui/core/view");
 
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
-var GroceryList = require("../../shared/view-models/grocery-list-view-model");
+var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
-var groceryList = new GroceryList([]);
+var groceryList = new GroceryListViewModel([]);
 var pageData = new observable.Observable({
 	grocery: "",
 	groceryList: groceryList
