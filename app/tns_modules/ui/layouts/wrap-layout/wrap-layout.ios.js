@@ -1,58 +1,15 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var layouts = require("ui/layouts/layout");
 var utils = require("utils/utils");
-var dependencyObservable = require("ui/core/dependency-observable");
 var view = require("ui/core/view");
 var enums = require("ui/enums");
-var proxy = require("ui/core/proxy");
-function isWidthHeightValid(value) {
-    return isNaN(value) || (value >= 0.0 && value !== Number.POSITIVE_INFINITY);
-}
-function isValidOrientation(value) {
-    return value === enums.Orientation.vertical || value === enums.Orientation.horizontal;
-}
+var common = require("ui/layouts/wrap-layout/wrap-layout-common");
+global.moduleMerge(common, exports);
 var WrapLayout = (function (_super) {
     __extends(WrapLayout, _super);
     function WrapLayout() {
         _super.apply(this, arguments);
     }
-    Object.defineProperty(WrapLayout.prototype, "orientation", {
-        get: function () {
-            return this._getValue(WrapLayout.orientationProperty);
-        },
-        set: function (value) {
-            this._setValue(WrapLayout.orientationProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(WrapLayout.prototype, "itemWidth", {
-        get: function () {
-            return this._getValue(WrapLayout.itemWidthProperty);
-        },
-        set: function (value) {
-            this._setValue(WrapLayout.itemWidthProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(WrapLayout.prototype, "itemHeight", {
-        get: function () {
-            return this._getValue(WrapLayout.itemHeightProperty);
-        },
-        set: function (value) {
-            this._setValue(WrapLayout.itemHeightProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     WrapLayout.getChildMeasureSpec = function (parentMode, parentLength, itemLength) {
-        if (!isNaN(itemLength)) {
+        if (itemLength > 0) {
             return utils.layout.makeMeasureSpec(itemLength, utils.layout.EXACTLY);
         }
         else if (parentMode === utils.layout.UNSPECIFIED) {
@@ -161,7 +118,7 @@ var WrapLayout = (function (_super) {
             var length = this._lenghts[rowOrColumn];
             if (isVertical) {
                 childWidth = length;
-                childHeight = isNaN(this.itemHeight) ? childHeight : this.itemHeight * density;
+                childHeight = this.itemHeight > 0 ? this.itemHeight * density : childHeight;
                 if (childTop + childHeight > childrenLength) {
                     childTop = this.paddingTop * density;
                     childLeft += length;
@@ -170,7 +127,7 @@ var WrapLayout = (function (_super) {
                 }
             }
             else {
-                childWidth = isNaN(this.itemWidth) ? childWidth : this.itemWidth * density;
+                childWidth = this.itemWidth > 0 ? this.itemWidth * density : childWidth;
                 childHeight = length;
                 if (childLeft + childWidth > childrenLength) {
                     childLeft = this.paddingLeft * density;
@@ -188,9 +145,6 @@ var WrapLayout = (function (_super) {
             }
         }
     };
-    WrapLayout.orientationProperty = new dependencyObservable.Property("orientation", "WrapLayout", new proxy.PropertyMetadata(enums.Orientation.horizontal, dependencyObservable.PropertyMetadataSettings.AffectsLayout, undefined, isValidOrientation));
-    WrapLayout.itemWidthProperty = new dependencyObservable.Property("itemWidth", "WrapLayout", new proxy.PropertyMetadata(Number.NaN, dependencyObservable.PropertyMetadataSettings.AffectsLayout, undefined, isWidthHeightValid));
-    WrapLayout.itemHeightProperty = new dependencyObservable.Property("itemHeight", "WrapLayout", new proxy.PropertyMetadata(Number.NaN, dependencyObservable.PropertyMetadataSettings.AffectsLayout, undefined, isWidthHeightValid));
     return WrapLayout;
-})(layouts.Layout);
+})(common.WrapLayout);
 exports.WrapLayout = WrapLayout;

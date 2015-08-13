@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/html-view/html-view-common");
 var utils = require("utils/utils");
 var types = require("utils/types");
@@ -24,13 +18,13 @@ function onHtmlPropertyChanged(data) {
     var _a;
 }
 common.HtmlView.htmlProperty.metadata.onSetNativeValue = onHtmlPropertyChanged;
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var HtmlView = (function (_super) {
     __extends(HtmlView, _super);
     function HtmlView(options) {
         _super.call(this, options);
         this._ios = new UILabel();
-        _super.prototype._prepareNativeView.call(this, this._ios);
+        this._ios.userInteractionEnabled = true;
     }
     Object.defineProperty(HtmlView.prototype, "ios", {
         get: function () {

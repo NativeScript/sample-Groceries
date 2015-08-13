@@ -1,35 +1,14 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var layouts = require("ui/layouts/layout");
 var utils = require("utils/utils");
-var dependencyObservable = require("ui/core/dependency-observable");
 var enums = require("ui/enums");
-var proxy = require("ui/core/proxy");
 var view = require("ui/core/view");
-function validateOrientation(value) {
-    return value === enums.Orientation.vertical || value === enums.Orientation.horizontal;
-}
-exports.orientationProperty = new dependencyObservable.Property("orientation", "StackLayout", new proxy.PropertyMetadata(enums.Orientation.vertical, dependencyObservable.PropertyMetadataSettings.AffectsLayout, undefined, validateOrientation));
+var common = require("ui/layouts/stack-layout/stack-layout-common");
+global.moduleMerge(common, exports);
 var StackLayout = (function (_super) {
     __extends(StackLayout, _super);
     function StackLayout() {
         _super.apply(this, arguments);
         this._totalLength = 0;
     }
-    Object.defineProperty(StackLayout.prototype, "orientation", {
-        get: function () {
-            return this._getValue(exports.orientationProperty);
-        },
-        set: function (value) {
-            this._setValue(exports.orientationProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     StackLayout.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         _super.prototype.onMeasure.call(this, widthMeasureSpec, heightMeasureSpec);
         var density = utils.layout.getDisplayDensity();
@@ -172,5 +151,5 @@ var StackLayout = (function (_super) {
         }
     };
     return StackLayout;
-})(layouts.Layout);
+})(common.StackLayout);
 exports.StackLayout = StackLayout;

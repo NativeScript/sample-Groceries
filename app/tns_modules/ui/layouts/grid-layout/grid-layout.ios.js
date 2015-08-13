@@ -1,260 +1,41 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var layouts = require("ui/layouts/layout");
-var definition = require("ui/layouts/grid-layout");
 var utils = require("utils/utils");
-var dependencyObservable = require("ui/core/dependency-observable");
 var enums = require("ui/enums");
 var view = require("ui/core/view");
-var bindable = require("ui/core/bindable");
-var types = require("utils/types");
-var numberUtils = require("utils/number-utils");
-var GridUnitType;
-(function (GridUnitType) {
-    GridUnitType.auto = "auto";
-    GridUnitType.pixel = "pixel";
-    GridUnitType.star = "star";
-})(GridUnitType = exports.GridUnitType || (exports.GridUnitType = {}));
-var ItemSpec = (function (_super) {
-    __extends(ItemSpec, _super);
-    function ItemSpec() {
-        _super.call(this);
-        this._actualLength = 0;
-        if (arguments.length === 0) {
-            this._value = 1;
-            this._unitType = GridUnitType.star;
-        }
-        else if (arguments.length === 2) {
-            if (types.isNumber(arguments[0]) && types.isString(arguments[1])) {
-                if (arguments[0] < 0 || (arguments[1] !== GridUnitType.auto && arguments[1] !== GridUnitType.star && arguments[1] !== GridUnitType.pixel)) {
-                    throw new Error("Invalid values.");
-                }
-                this._value = arguments[0];
-                this._unitType = arguments[1];
-            }
-            else {
-                throw new Error("Arguments must be number and string.");
-            }
-        }
-        else {
-            throw new Error("ItemSpec expects 0 or 2 arguments");
-        }
-        this.index = -1;
-    }
-    Object.defineProperty(ItemSpec.prototype, "actualLength", {
-        get: function () {
-            return this._actualLength;
-        },
-        set: function (value) {
-            throw new Error("actualLength is read-only property");
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ItemSpec.equals = function (value1, value2) {
-        return (value1.gridUnitType === value2.gridUnitType) && (value1.value === value2.value) && (value1.owner === value2.owner) && (value1.index === value2.index);
-    };
-    Object.defineProperty(ItemSpec.prototype, "gridUnitType", {
-        get: function () {
-            return this._unitType;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ItemSpec.prototype, "isAbsolute", {
-        get: function () {
-            return this._unitType === GridUnitType.pixel;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ItemSpec.prototype, "isAuto", {
-        get: function () {
-            return this._unitType === GridUnitType.auto;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ItemSpec.prototype, "isStar", {
-        get: function () {
-            return this._unitType === GridUnitType.star;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ItemSpec.prototype, "value", {
-        get: function () {
-            return this._value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return ItemSpec;
-})(bindable.Bindable);
-exports.ItemSpec = ItemSpec;
+var common = require("ui/layouts/grid-layout/grid-layout-common");
+global.moduleMerge(common, exports);
 var GridLayout = (function (_super) {
     __extends(GridLayout, _super);
     function GridLayout() {
-        _super.call(this);
-        this._rows = new Array();
-        this._cols = new Array();
-        this._singleRow = new ItemSpec();
-        this._singleColumn = new ItemSpec();
+        _super.apply(this, arguments);
         this._isValid = false;
-        this._singleRow.index = 0;
-        this._singleColumn.index = 0;
     }
-    GridLayout.getColumn = function (element) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        return element._getValue(GridLayout.columnProperty);
-    };
-    GridLayout.setColumn = function (element, value) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        element._setValue(GridLayout.columnProperty, value);
-    };
-    GridLayout.getColumnSpan = function (element) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        return element._getValue(GridLayout.columnSpanProperty);
-    };
-    GridLayout.setColumnSpan = function (element, value) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        element._setValue(GridLayout.columnSpanProperty, value);
-    };
-    GridLayout.getRow = function (element) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        return element._getValue(GridLayout.rowProperty);
-    };
-    GridLayout.setRow = function (element, value) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        element._setValue(GridLayout.rowProperty, value);
-    };
-    GridLayout.getRowSpan = function (element) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        return element._getValue(GridLayout.rowSpanProperty);
-    };
-    GridLayout.setRowSpan = function (element, value) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        element._setValue(GridLayout.rowSpanProperty, value);
-    };
-    GridLayout.attachedPropertyChanged = function (data) {
-        if (data.object instanceof view.View) {
-            var element = data.object;
-            if (!element) {
-                throw new Error("Element is not View.");
-            }
-            var grid = element.parent;
-            if (grid instanceof GridLayout) {
-                grid.invalidate();
-            }
-        }
-    };
-    GridLayout.validateItemSpec = function (itemSpec) {
-        if (!itemSpec) {
-            throw new Error("Value cannot be undefined.");
-        }
-        if (itemSpec.owner) {
-            throw new Error("itemSpec is already added to GridLayout.");
-        }
-    };
-    GridLayout.prototype.addRow = function (itemSpec) {
-        GridLayout.validateItemSpec(itemSpec);
-        itemSpec.owner = this;
-        this._rows.push(itemSpec);
+    GridLayout.prototype.onRowAdded = function (itemSpec) {
         this.invalidate();
     };
-    GridLayout.prototype.addColumn = function (itemSpec) {
-        GridLayout.validateItemSpec(itemSpec);
-        itemSpec.owner = this;
-        this._cols.push(itemSpec);
+    GridLayout.prototype.onColumnAdded = function (itemSpec) {
         this.invalidate();
     };
-    GridLayout.prototype.removeColumn = function (itemSpec) {
-        if (!itemSpec) {
-            throw new Error("Value is null.");
-        }
-        var index = this._cols.indexOf(itemSpec);
-        if (itemSpec.owner !== this || index < 0) {
-            throw new Error("Column is not child of this GridLayout");
-        }
-        itemSpec.index = -1;
-        this._cols.splice(index, 1);
+    GridLayout.prototype.onRowRemoved = function (itemSpec, index) {
         this.invalidate();
     };
-    GridLayout.prototype.removeRow = function (itemSpec) {
-        if (!itemSpec) {
-            throw new Error("Value is null.");
-        }
-        var index = this._rows.indexOf(itemSpec);
-        if (itemSpec.owner !== this || index < 0) {
-            throw new Error("Row is not child of this GridLayout");
-        }
-        itemSpec.index = -1;
-        this._rows.splice(index, 1);
+    GridLayout.prototype.onColumnRemoved = function (itemSpec, index) {
         this.invalidate();
     };
-    GridLayout.prototype.getColumns = function () {
-        return this._cols.slice();
-    };
-    GridLayout.prototype.getRows = function () {
-        return this._rows.slice();
-    };
-    GridLayout.prototype.setColumns = function (value) {
-        this._cols = GridLayout.parseItemSpecs(value);
+    GridLayout.prototype.onRowChanged = function (element, oldValue, newValue) {
         this.invalidate();
     };
-    GridLayout.prototype.setRows = function (value) {
-        this._rows = GridLayout.parseItemSpecs(value);
+    GridLayout.prototype.onRowSpanChanged = function (element, oldValue, newValue) {
+        this.invalidate();
+    };
+    GridLayout.prototype.onColumnChanged = function (element, oldValue, newValue) {
+        this.invalidate();
+    };
+    GridLayout.prototype.onColumnSpanChanged = function (element, oldValue, newValue) {
         this.invalidate();
     };
     GridLayout.prototype.invalidate = function () {
         this._isValid = false;
         this.requestLayout();
-    };
-    GridLayout.prototype.getColumn = function (view) {
-        if (this._cols.length === 0) {
-            return this._singleColumn;
-        }
-        var columnIndex = Math.min(GridLayout.getColumn(view), this._cols.length - 1);
-        return this._cols[columnIndex];
-    };
-    GridLayout.prototype.getRow = function (view) {
-        if (this._rows.length === 0) {
-            return this._singleRow;
-        }
-        var columnIndex = Math.min(GridLayout.getRow(view), this._rows.length - 1);
-        return this._rows[columnIndex];
-    };
-    GridLayout.prototype.getColumnSpan = function (view, columnIndex) {
-        if (this._cols.length === 0) {
-            return 1;
-        }
-        return Math.min(GridLayout.getColumnSpan(view), this._cols.length - columnIndex);
-    };
-    GridLayout.prototype.getRowSpan = function (view, rowIndex) {
-        if (this._rows.length === 0) {
-            return 1;
-        }
-        return Math.min(GridLayout.getRowSpan(view), this._rows.length - rowIndex);
     };
     GridLayout.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         _super.prototype.onMeasure.call(this, widthMeasureSpec, heightMeasureSpec);
@@ -271,11 +52,13 @@ var GridLayout = (function (_super) {
         var columnGroup;
         var row;
         var rowGroup;
+        var rows = this.getRows();
+        var cols = this.getColumns();
         if (!this._isValid) {
-            this._rows.forEach(function (value, index, array) {
+            rows.forEach(function (value, index, array) {
                 value.index = index;
             });
-            this._cols.forEach(function (value, index, array) {
+            cols.forEach(function (value, index, array) {
                 value.index = index;
             });
             this.helper = new MeasureHelper();
@@ -284,26 +67,26 @@ var GridLayout = (function (_super) {
             this.helper.height = height - (this.paddingTop + this.paddingBottom) * density;
             this.helper.infinityWidth = infinityWidth;
             this.helper.infinityHeight = infinityHeight;
-            for (i = 0; i < this._cols.length; i++) {
-                column = this._cols[i];
+            for (i = 0; i < cols.length; i++) {
+                column = cols[i];
                 columnGroup = new ColumnGroup(column, this.helper);
                 this.helper.columns.push(columnGroup);
                 if (column.isAbsolute) {
                     columnGroup.width = column.value * density;
                 }
             }
-            for (i = 0; i < this._rows.length; i++) {
-                row = this._rows[i];
+            for (i = 0; i < rows.length; i++) {
+                row = rows[i];
                 rowGroup = new RowGroup(row, this.helper);
                 this.helper.rows.push(rowGroup);
                 if (row.isAbsolute) {
                     rowGroup.height = row.value * density;
                 }
             }
-            if (this._rows.length === 0) {
+            if (rows.length === 0) {
                 this.helper.rows.push(new RowGroup(this._singleRow, this.helper));
             }
-            if (this._cols.length === 0) {
+            if (cols.length === 0) {
                 this.helper.columns.push(new ColumnGroup(this._singleColumn, this.helper));
             }
         }
@@ -378,46 +161,8 @@ var GridLayout = (function (_super) {
             }
         }
     };
-    GridLayout.prototype._applyXmlAttribute = function (attributeName, attributeValue) {
-        if (attributeName === "columns") {
-            this.setColumns(attributeValue);
-            return true;
-        }
-        else if (attributeName === "rows") {
-            this.setRows(attributeValue);
-            return true;
-        }
-        return _super.prototype._applyXmlAttribute.call(this, attributeName, attributeValue);
-    };
-    GridLayout.parseItemSpecs = function (value) {
-        var result = new Array();
-        var arr = value.split(",");
-        for (var i = 0; i < arr.length; i++) {
-            result.push(GridLayout.convertGridLength(arr[i].trim()));
-        }
-        return result;
-    };
-    GridLayout.convertGridLength = function (value) {
-        if (value === "auto") {
-            return new definition.ItemSpec(1, definition.GridUnitType.auto);
-        }
-        else if (value.indexOf("*") !== -1) {
-            var starCount = parseInt(value.replace("*", "") || "1");
-            return new definition.ItemSpec(starCount, definition.GridUnitType.star);
-        }
-        else if (!isNaN(parseInt(value))) {
-            return new definition.ItemSpec(parseInt(value), definition.GridUnitType.pixel);
-        }
-        else {
-            throw new Error("Cannot parse item spec from string: " + value);
-        }
-    };
-    GridLayout.columnProperty = new dependencyObservable.Property("Column", "GridLayout", new dependencyObservable.PropertyMetadata(0, dependencyObservable.PropertyMetadataSettings.None, GridLayout.attachedPropertyChanged, numberUtils.notNegative));
-    GridLayout.columnSpanProperty = new dependencyObservable.Property("ColumnSpan", "GridLayout", new dependencyObservable.PropertyMetadata(1, dependencyObservable.PropertyMetadataSettings.None, GridLayout.attachedPropertyChanged, numberUtils.greaterThanZero));
-    GridLayout.rowProperty = new dependencyObservable.Property("Row", "GridLayout", new dependencyObservable.PropertyMetadata(0, dependencyObservable.PropertyMetadataSettings.None, GridLayout.attachedPropertyChanged, numberUtils.notNegative));
-    GridLayout.rowSpanProperty = new dependencyObservable.Property("RowSpan", "GridLayout", new dependencyObservable.PropertyMetadata(1, dependencyObservable.PropertyMetadataSettings.None, GridLayout.attachedPropertyChanged, numberUtils.greaterThanZero));
     return GridLayout;
-})(layouts.Layout);
+})(common.GridLayout);
 exports.GridLayout = GridLayout;
 var MeasureSpecs = (function () {
     function MeasureSpecs(child, column, row, columnSpan, rowSpan) {

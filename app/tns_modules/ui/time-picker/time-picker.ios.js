@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/time-picker/time-picker-common");
 function onHourPropertyChanged(data) {
     var picker = data.object;
@@ -23,7 +17,7 @@ function onMinutePropertyChanged(data) {
     }
 }
 common.TimePicker.minuteProperty.metadata.onSetNativeValue = onMinutePropertyChanged;
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var TimePicker = (function (_super) {
     __extends(TimePicker, _super);
     function TimePicker() {

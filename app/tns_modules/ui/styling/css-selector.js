@@ -1,11 +1,6 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var observable = require("ui/core/dependency-observable");
 var styleProperty = require("ui/styling/style-property");
+var trace = require("trace");
 var ID_SPECIFICITY = 10000;
 var CLASS_SPECIFICITY = 100;
 var TYPE_SPECIFICITY = 1;
@@ -40,7 +35,12 @@ var CssSelector = (function () {
     };
     CssSelector.prototype.apply = function (view) {
         this.eachSetter(function (property, value) {
-            view.style._setValue(property, value, observable.ValueSource.Css);
+            try {
+                view.style._setValue(property, value, observable.ValueSource.Css);
+            }
+            catch (ex) {
+                trace.write("Error setting property: " + property.name + " view: " + view + " value: " + value + " " + ex, trace.categories.Style, trace.messageType.error);
+            }
         });
     };
     CssSelector.prototype.eachSetter = function (callback) {

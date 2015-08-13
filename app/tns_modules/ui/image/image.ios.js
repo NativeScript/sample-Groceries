@@ -1,12 +1,9 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var imageCommon = require("ui/image/image-common");
 var enums = require("ui/enums");
-require("utils/module-merge").merge(imageCommon, exports);
+var utils = require("utils/utils");
+var trace = require("trace");
+var view = require("ui/core/view");
+global.moduleMerge(imageCommon, exports);
 function onStretchPropertyChanged(data) {
     var image = data.object;
     switch (data.newValue) {
@@ -38,7 +35,7 @@ var Image = (function (_super) {
         this._ios = new UIImageView();
         this._ios.contentMode = UIViewContentMode.UIViewContentModeScaleAspectFit;
         this._ios.clipsToBounds = true;
-        _super.prototype._prepareNativeView.call(this, this._ios);
+        this._ios.userInteractionEnabled = true;
     }
     Object.defineProperty(Image.prototype, "ios", {
         get: function () {
@@ -52,6 +49,60 @@ var Image = (function (_super) {
         if (isNaN(this.width) || isNaN(this.height)) {
             this.requestLayout();
         }
+    };
+    Image.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
+        var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
+        var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
+        var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
+        var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
+        trace.write(this + " :onMeasure: " + utils.layout.getMode(widthMode) + " " + width + ", " + utils.layout.getMode(heightMode) + " " + height, trace.categories.Layout);
+        var nativeWidth = this.imageSource ? this.imageSource.width : 0;
+        var nativeHeight = this.imageSource ? this.imageSource.height : 0;
+        var measureWidth = Math.max(nativeWidth, this.minWidth);
+        var measureHeight = Math.max(nativeHeight, this.minHeight);
+        var finiteWidth = widthMode !== utils.layout.UNSPECIFIED;
+        var finiteHeight = heightMode !== utils.layout.UNSPECIFIED;
+        if (nativeWidth !== 0 && nativeHeight !== 0 && (finiteWidth || finiteHeight)) {
+            var scale = Image.computeScaleFactor(width, height, finiteWidth, finiteHeight, nativeWidth, nativeHeight, this.stretch);
+            var resultW = Math.floor(nativeWidth * scale.width);
+            var resultH = Math.floor(nativeHeight * scale.height);
+            measureWidth = finiteWidth ? Math.min(resultW, width) : resultW;
+            measureHeight = finiteHeight ? Math.min(resultH, height) : resultH;
+            trace.write("Image stretch: " + this.stretch +
+                ", nativeWidth: " + nativeWidth +
+                ", nativeHeight: " + nativeHeight, trace.categories.Layout);
+        }
+        var widthAndState = view.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
+        var heightAndState = view.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
+        this.setMeasuredDimension(widthAndState, heightAndState);
+    };
+    Image.computeScaleFactor = function (measureWidth, measureHeight, widthIsFinite, heightIsFinite, nativeWidth, nativeHeight, imageStretch) {
+        var scaleW = 1;
+        var scaleH = 1;
+        if ((imageStretch === enums.Stretch.aspectFill || imageStretch === enums.Stretch.aspectFit || imageStretch === enums.Stretch.fill) &&
+            (widthIsFinite || heightIsFinite)) {
+            scaleW = (nativeWidth > 0) ? measureWidth / nativeWidth : 0;
+            scaleH = (nativeHeight > 0) ? measureHeight / nativeHeight : 0;
+            if (!widthIsFinite) {
+                scaleW = scaleH;
+            }
+            else if (!heightIsFinite) {
+                scaleH = scaleW;
+            }
+            else {
+                switch (imageStretch) {
+                    case enums.Stretch.aspectFit:
+                        scaleH = scaleW < scaleH ? scaleW : scaleH;
+                        scaleW = scaleH;
+                        break;
+                    case enums.Stretch.aspectFill:
+                        scaleH = scaleW > scaleH ? scaleW : scaleH;
+                        scaleW = scaleH;
+                        break;
+                }
+            }
+        }
+        return { width: scaleW, height: scaleH };
     };
     return Image;
 })(imageCommon.Image);

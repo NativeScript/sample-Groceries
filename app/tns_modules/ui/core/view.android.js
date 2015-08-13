@@ -1,14 +1,9 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var viewCommon = require("ui/core/view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
 var gestures = require("ui/gestures");
-require("utils/module-merge").merge(viewCommon, exports);
+var types = require("utils/types");
+global.moduleMerge(viewCommon, exports);
 var ANDROID = "_android";
 var NATIVE_VIEW = "_nativeView";
 var VIEW_GROUP = "_viewGroup";
@@ -29,16 +24,13 @@ function onIsUserInteractionEnabledPropertyChanged(data) {
 }
 viewCommon.View.isUserInteractionEnabledProperty.metadata.onSetNativeValue = onIsUserInteractionEnabledPropertyChanged;
 exports.NativeViewGroup = android.view.ViewGroup.extend({
-    get owner() {
-        return this[OWNER];
-    },
     onMeasure: function (widthMeasureSpec, heightMeasureSpec) {
-        var owner = this.owner;
+        var owner = this[OWNER];
         owner.onMeasure(widthMeasureSpec, heightMeasureSpec);
         this.setMeasuredDimension(owner.getMeasuredWidth(), owner.getMeasuredHeight());
     },
     onLayout: function (changed, left, top, right, bottom) {
-        var owner = this.owner;
+        var owner = this[OWNER];
         owner.onLayout(left, top, right, bottom);
     }
 });
@@ -198,6 +190,16 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(View.prototype, "isLayoutValid", {
+        get: function () {
+            if (this._nativeView) {
+                return !this._nativeView.isLayoutRequested();
+            }
+            return false;
+        },
+        enumerable: true,
+        configurable: true
+    });
     View.prototype.layoutNativeView = function (left, top, right, bottom) {
         if (this._nativeView) {
             this._nativeView.layout(left, top, right, bottom);
@@ -236,9 +238,32 @@ var View = (function (_super) {
             trace.write(this + " :onLayout: " + left + ", " + top + ", " + (right - left) + ", " + (bottom - top), trace.categories.Layout);
         }
     };
+    View.prototype._getCurrentLayoutBounds = function () {
+        if (this._nativeView) {
+            return {
+                left: this._nativeView.getLeft(),
+                top: this._nativeView.getTop(),
+                right: this._nativeView.getRight(),
+                bottom: this._nativeView.getBottom()
+            };
+        }
+        return _super.prototype._getCurrentLayoutBounds.call(this);
+    };
+    View.prototype.getMeasuredWidth = function () {
+        if (this._nativeView) {
+            return this._nativeView.getMeasuredWidth();
+        }
+        return _super.prototype.getMeasuredWidth.call(this);
+    };
+    View.prototype.getMeasuredHeight = function () {
+        if (this._nativeView) {
+            return this._nativeView.getMeasuredHeight();
+        }
+        return _super.prototype.getMeasuredHeight.call(this);
+    };
     View.prototype.focus = function () {
-        if (this.android) {
-            return this.android.requestFocus();
+        if (this._nativeView) {
+            return this._nativeView.requestFocus();
         }
         return false;
     };
@@ -282,13 +307,17 @@ var CustomLayoutView = (function (_super) {
         configurable: true
     });
     CustomLayoutView.prototype._createUI = function () {
-        this._viewGroup = new exports.NativeViewGroup(this._context);
-        this._viewGroup[OWNER] = this;
+        this._viewGroup = new org.nativescript.widgets.ContentLayout(this._context);
     };
-    CustomLayoutView.prototype._addViewToNativeVisualTree = function (child) {
+    CustomLayoutView.prototype._addViewToNativeVisualTree = function (child, atIndex) {
         _super.prototype._addViewToNativeVisualTree.call(this, child);
         if (this._nativeView && child._nativeView) {
-            this._nativeView.addView(child._nativeView);
+            if (types.isNullOrUndefined(atIndex) || atIndex >= this._nativeView.getChildCount()) {
+                this._nativeView.addView(child._nativeView);
+            }
+            else {
+                this._nativeView.addView(child._nativeView, atIndex);
+            }
             return true;
         }
         return false;
@@ -299,37 +328,6 @@ var CustomLayoutView = (function (_super) {
             this._nativeView.removeView(child._nativeView);
             trace.notifyEvent(child, "childInLayoutRemovedFromNativeVisualTree");
         }
-    };
-    CustomLayoutView.prototype.measure = function (widthMeasureSpec, heightMeasureSpec) {
-        this._setCurrentMeasureSpecs(widthMeasureSpec, heightMeasureSpec);
-        var view = this._nativeView;
-        if (view) {
-            var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
-            var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
-            var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
-            var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
-            trace.write(this + " :measure: " + utils.layout.getMode(widthMode) + " " + width + ", " + utils.layout.getMode(heightMode) + " " + height, trace.categories.Layout);
-            view.measure(widthMeasureSpec, heightMeasureSpec);
-        }
-    };
-    CustomLayoutView.prototype.layout = function (left, top, right, bottom) {
-        this._setCurrentLayoutBounds(left, top, right, bottom);
-        var view = this._nativeView;
-        if (view) {
-            this.layoutNativeView(left, top, right, bottom);
-            trace.write(this + " :layout: " + left + ", " + top + ", " + (right - left) + ", " + (bottom - top), trace.categories.Layout);
-        }
-    };
-    CustomLayoutView.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
-        // Don't call super because it will trigger measure again.
-        var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
-        var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
-        var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
-        var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
-        trace.write(this + " :onMeasure: " + utils.layout.getMode(widthMode) + " " + width + ", " + utils.layout.getMode(heightMode) + " " + height, trace.categories.Layout);
-    };
-    CustomLayoutView.prototype.onLayout = function (left, top, right, bottom) {
-        trace.write(this + " :onLayout: " + left + ", " + top + ", " + (right - left) + ", " + (bottom - top), trace.categories.Layout);
     };
     return CustomLayoutView;
 })(View);

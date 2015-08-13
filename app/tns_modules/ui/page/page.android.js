@@ -1,13 +1,7 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var pageCommon = require("ui/page/page-common");
 var trace = require("trace");
 var color = require("color");
-require("utils/module-merge").merge(pageCommon, exports);
+global.moduleMerge(pageCommon, exports);
 var DialogFragmentClass = (function (_super) {
     __extends(DialogFragmentClass, _super);
     function DialogFragmentClass(owner, fullscreen) {

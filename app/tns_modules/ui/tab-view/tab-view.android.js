@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/tab-view/tab-view-common");
 var view = require("ui/core/view");
 var trace = require("trace");
@@ -12,7 +6,7 @@ var types = require("utils/types");
 var app = require("application");
 var VIEWS_STATES = "_viewStates";
 var RESOURCE_PREFIX = "res://";
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var ViewPagerClass = (function (_super) {
     __extends(ViewPagerClass, _super);
     function ViewPagerClass(ctx, owner) {

@@ -1,14 +1,9 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var viewCommon = require("ui/core/view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
 var background = require("ui/styling/background");
-require("utils/module-merge").merge(viewCommon, exports);
+var types = require("utils/types");
+global.moduleMerge(viewCommon, exports);
 function onIdPropertyChanged(data) {
     var view = data.object;
     if (!view._nativeView) {
@@ -65,14 +60,19 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    View.prototype._prepareNativeView = function (view) {
-        view.userInteractionEnabled = true;
-    };
+    Object.defineProperty(View.prototype, "isLayoutRequested", {
+        get: function () {
+            return (this._privateFlags & PFLAG_FORCE_LAYOUT) === PFLAG_FORCE_LAYOUT;
+        },
+        enumerable: true,
+        configurable: true
+    });
     View.prototype.requestLayout = function () {
         _super.prototype.requestLayout.call(this);
         this._privateFlags |= PFLAG_FORCE_LAYOUT;
-        if (this.parent) {
-            this.parent.requestLayout();
+        var parent = this.parent;
+        if (parent && !parent.isLayoutRequested) {
+            parent.requestLayout();
         }
     };
     View.prototype.measure = function (widthMeasureSpec, heightMeasureSpec) {
@@ -185,17 +185,22 @@ var CustomLayoutView = (function (_super) {
         configurable: true
     });
     CustomLayoutView.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
-        // Don't call super because it will trigger measure again.
+        // Don't call super because it will set MeasureDimension. This method must be overriden and calculate its measuredDimensions.
         var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
         var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
         var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
         var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
         trace.write(this + " :onMeasure: " + utils.layout.getMode(widthMode) + " " + width + ", " + utils.layout.getMode(heightMode) + " " + height, trace.categories.Layout);
     };
-    CustomLayoutView.prototype._addViewToNativeVisualTree = function (child) {
+    CustomLayoutView.prototype._addViewToNativeVisualTree = function (child, atIndex) {
         _super.prototype._addViewToNativeVisualTree.call(this, child);
         if (this._nativeView && child._nativeView) {
-            this._nativeView.addSubview(child._nativeView);
+            if (types.isNullOrUndefined(atIndex) || atIndex >= this._nativeView.subviews.count) {
+                this._nativeView.addSubview(child._nativeView);
+            }
+            else {
+                this._nativeView.insertSubviewAtIndex(child._nativeView, atIndex);
+            }
             return true;
         }
         return false;

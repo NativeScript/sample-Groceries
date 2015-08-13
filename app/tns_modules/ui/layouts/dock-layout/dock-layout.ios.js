@@ -1,54 +1,16 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var layouts = require("ui/layouts/layout");
 var utils = require("utils/utils");
-var dependencyObservable = require("ui/core/dependency-observable");
 var view = require("ui/core/view");
 var enums = require("ui/enums");
-var proxy = require("ui/core/proxy");
-function isDockValid(value) {
-    return value === enums.Dock.left || value === enums.Dock.top || value === enums.Dock.right || value === enums.Dock.bottom;
-}
-function onDockPropertyChanged(data) {
-    var uiView = data.object;
-    if (uiView instanceof view.View) {
-        var layout = uiView.parent;
-        if (layout instanceof DockLayout) {
-            layout.requestLayout();
-        }
-    }
-}
+var common = require("ui/layouts/dock-layout/dock-layout-common");
+global.moduleMerge(common, exports);
 var DockLayout = (function (_super) {
     __extends(DockLayout, _super);
     function DockLayout() {
         _super.apply(this, arguments);
     }
-    DockLayout.getDock = function (element) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        return element._getValue(DockLayout.dockProperty);
+    DockLayout.prototype.onDockChanged = function (view, oldValue, newValue) {
+        this.requestLayout();
     };
-    DockLayout.setDock = function (element, value) {
-        if (!element) {
-            throw new Error("element cannot be null or undefinied.");
-        }
-        element._setValue(DockLayout.dockProperty, value);
-    };
-    Object.defineProperty(DockLayout.prototype, "stretchLastChild", {
-        get: function () {
-            return this._getValue(DockLayout.stretchLastChildProperty);
-        },
-        set: function (value) {
-            this._setValue(DockLayout.stretchLastChildProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     DockLayout.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         _super.prototype.onMeasure.call(this, widthMeasureSpec, heightMeasureSpec);
         var measureWidth = 0;
@@ -164,8 +126,6 @@ var DockLayout = (function (_super) {
             view.View.layoutChild(this, childToStretch, x, y, x + remainingWidth, y + remainingHeight);
         }
     };
-    DockLayout.dockProperty = new dependencyObservable.Property("dock", "DockLayout", new dependencyObservable.PropertyMetadata(enums.Dock.left, undefined, onDockPropertyChanged, isDockValid));
-    DockLayout.stretchLastChildProperty = new dependencyObservable.Property("stretchLastChild", "DockLayout", new proxy.PropertyMetadata(true, dependencyObservable.PropertyMetadataSettings.AffectsLayout));
     return DockLayout;
-})(layouts.Layout);
+})(common.DockLayout);
 exports.DockLayout = DockLayout;

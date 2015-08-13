@@ -27,8 +27,3 @@ function notNegative(value) {
     return value >= 0;
 }
 exports.notNegative = notNegative;
-function isFiniteNumber(value) {
-    var num = value;
-    return isFinite(num);
-}
-exports.isFiniteNumber = isFiniteNumber;

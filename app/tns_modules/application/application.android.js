@@ -1,28 +1,18 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-if (typeof __decorate !== "function") __decorate = function (decorators, target, key, desc) {
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
-    switch (arguments.length) {
-        case 2: return decorators.reduceRight(function(o, d) { return (d && d(o)) || o; }, target);
-        case 3: return decorators.reduceRight(function(o, d) { return (d && d(target, key)), void 0; }, void 0);
-        case 4: return decorators.reduceRight(function(o, d) { return (d && d(target, key, o)) || o; }, desc);
-    }
-};
 var appModule = require("application/application-common");
 var dts = require("application");
 var frame = require("ui/frame");
 var types = require("utils/types");
 var observable = require("data/observable");
-require("utils/module-merge").merge(appModule, exports);
+var enums = require("ui/enums");
+global.moduleMerge(appModule, exports);
 exports.mainModule;
 var initEvents = function () {
     var androidApp = exports.android;
     var lifecycleCallbacks = new android.app.Application.ActivityLifecycleCallbacks({
         onActivityCreated: function (activity, bundle) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             if (!androidApp.startActivity) {
                 androidApp.startActivity = activity;
                 androidApp.notify({ eventName: "activityCreated", object: androidApp, activity: activity, bundle: bundle });
@@ -33,6 +23,9 @@ var initEvents = function () {
             androidApp.currentContext = activity;
         },
         onActivityDestroyed: function (activity) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             if (activity === androidApp.foregroundActivity) {
                 androidApp.foregroundActivity = undefined;
             }
@@ -53,6 +46,9 @@ var initEvents = function () {
             gc();
         },
         onActivityPaused: function (activity) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             if (activity === androidApp.foregroundActivity) {
                 if (exports.onSuspend) {
                     exports.onSuspend();
@@ -65,6 +61,9 @@ var initEvents = function () {
             }
         },
         onActivityResumed: function (activity) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             if (activity === androidApp.foregroundActivity) {
                 if (exports.onResume) {
                     exports.onResume();
@@ -77,12 +76,18 @@ var initEvents = function () {
             }
         },
         onActivitySaveInstanceState: function (activity, bundle) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             androidApp.notify({ eventName: "saveActivityState", object: androidApp, activity: activity, bundle: bundle });
             if (androidApp.onSaveActivityState) {
                 androidApp.onSaveActivityState(activity, bundle);
             }
         },
         onActivityStarted: function (activity) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             androidApp.foregroundActivity = activity;
             androidApp.notify({ eventName: "activityStarted", object: androidApp, activity: activity });
             if (androidApp.onActivityStarted) {
@@ -90,6 +95,9 @@ var initEvents = function () {
             }
         },
         onActivityStopped: function (activity) {
+            if (!(activity instanceof com.tns.NativeScriptActivity)) {
+                return;
+            }
             androidApp.notify({ eventName: "activityStopped", object: androidApp, activity: activity });
             if (androidApp.onActivityStopped) {
                 androidApp.onActivityStopped(activity);
@@ -111,6 +119,8 @@ var AndroidApplication = (function (_super) {
     __extends(AndroidApplication, _super);
     function AndroidApplication() {
         _super.apply(this, arguments);
+        this._registeredReceivers = {};
+        this._pendingReceiverRegistrations = new Array();
     }
     AndroidApplication.prototype.getActivity = function (intent) {
         if (intent && intent.getAction() === android.content.Intent.ACTION_MAIN) {
@@ -118,6 +128,7 @@ var AndroidApplication = (function (_super) {
                 exports.onLaunch(intent);
             }
             exports.notify({ eventName: dts.launchEvent, object: this, android: intent });
+            setupOrientationListener(this);
         }
         var topFrame = frame.topmost();
         if (!topFrame) {
@@ -137,7 +148,40 @@ var AndroidApplication = (function (_super) {
         this.context = nativeApp.getApplicationContext();
         this._eventsToken = initEvents();
         this.nativeApp.registerActivityLifecycleCallbacks(this._eventsToken);
-        this.context = this.nativeApp.getApplicationContext();
+        this._registerPendingReceivers();
+    };
+    AndroidApplication.prototype._registerPendingReceivers = function () {
+        if (this._pendingReceiverRegistrations) {
+            var i = 0;
+            var length = this._pendingReceiverRegistrations.length;
+            for (; i < length; i++) {
+                var registerFunc = this._pendingReceiverRegistrations[i];
+                registerFunc(this.context);
+            }
+            this._pendingReceiverRegistrations = new Array();
+        }
+    };
+    AndroidApplication.prototype.registerBroadcastReceiver = function (intentFilter, onReceiveCallback) {
+        var that = this;
+        var registerFunc = function (context) {
+            var receiver = new BroadcastReceiver(onReceiveCallback);
+            context.registerReceiver(receiver, new android.content.IntentFilter(intentFilter));
+            that._registeredReceivers[intentFilter] = receiver;
+        };
+        if (this.context) {
+            registerFunc(this.context);
+        }
+        else {
+            this._pendingReceiverRegistrations.push(registerFunc);
+        }
+    };
+    AndroidApplication.prototype.unregisterBroadcastReceiver = function (intentFilter) {
+        var receiver = this._registeredReceivers[intentFilter];
+        if (receiver) {
+            this.context.unregisterReceiver(receiver);
+            this._registeredReceivers[intentFilter] = undefined;
+            delete this._registeredReceivers[intentFilter];
+        }
     };
     AndroidApplication.activityCreatedEvent = "activityCreated";
     AndroidApplication.activityDestroyedEvent = "activityDestroyed";
@@ -148,33 +192,23 @@ var AndroidApplication = (function (_super) {
     AndroidApplication.saveActivityStateEvent = "saveActivityState";
     AndroidApplication.activityResultEvent = "activityResult";
     AndroidApplication.activityBackPressedEvent = "activityBackPressed";
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityCreated");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityDestroyed");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityStarted");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityPaused");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityResumed");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityStopped");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onSaveActivityState");
-    __decorate([
-        Deprecated
-    ], AndroidApplication.prototype, "onActivityResult");
     return AndroidApplication;
 })(observable.Observable);
 exports.AndroidApplication = AndroidApplication;
+var BroadcastReceiver = (function (_super) {
+    __extends(BroadcastReceiver, _super);
+    function BroadcastReceiver(onReceiveCallback) {
+        _super.call(this);
+        this._onReceiveCallback = onReceiveCallback;
+        return global.__native(this);
+    }
+    BroadcastReceiver.prototype.onReceive = function (context, intent) {
+        if (this._onReceiveCallback) {
+            this._onReceiveCallback(context, intent);
+        }
+    };
+    return BroadcastReceiver;
+})(android.content.BroadcastReceiver);
 global.__onUncaughtError = function (error) {
     if (!types.isFunction(exports.onUncaughtError)) {
         return;
@@ -191,3 +225,32 @@ exports.start = function () {
     dts.loadCss();
 };
 exports.android = new AndroidApplication();
+var currentOrientation;
+function setupOrientationListener(androidApp) {
+    androidApp.registerBroadcastReceiver(android.content.Intent.ACTION_CONFIGURATION_CHANGED, onConfigurationChanged);
+    currentOrientation = androidApp.context.getResources().getConfiguration().orientation;
+}
+function onConfigurationChanged(context, intent) {
+    var orientation = context.getResources().getConfiguration().orientation;
+    if (currentOrientation !== orientation) {
+        currentOrientation = orientation;
+        var newValue;
+        switch (orientation) {
+            case android.content.res.Configuration.ORIENTATION_LANDSCAPE:
+                newValue = enums.DeviceOrientation.landscape;
+                break;
+            case android.content.res.Configuration.ORIENTATION_PORTRAIT:
+                newValue = enums.DeviceOrientation.portrait;
+                break;
+            default:
+                newValue = enums.DeviceOrientation.unknown;
+                break;
+        }
+        exports.notify({
+            eventName: dts.orientationChangedEvent,
+            android: context,
+            newValue: newValue,
+            object: exports.android,
+        });
+    }
+}

@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/search-bar/search-bar-common");
 var color = require("color");
 var types = require("utils/types");
@@ -70,7 +64,7 @@ function _changeSearchViewHintColor(bar, color) {
         textView.setHintTextColor(color);
     }
 }
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var SearchBar = (function (_super) {
     __extends(SearchBar, _super);
     function SearchBar() {

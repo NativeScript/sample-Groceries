@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var types = require("utils/types");
 var proxy = require("ui/core/proxy");
 var style = require("ui/styling/style");
@@ -16,6 +10,7 @@ var bindable = require("ui/core/bindable");
 var styleScope = require("ui/styling/style-scope");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
+var animationModule = require("ui/animation");
 function getViewById(view, id) {
     if (!view) {
         return undefined;
@@ -276,56 +271,6 @@ var View = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(View.prototype, "padding", {
-        get: function () {
-            return this.style.padding;
-        },
-        set: function (value) {
-            this.style.padding = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "paddingLeft", {
-        get: function () {
-            return this.style.paddingLeft;
-        },
-        set: function (value) {
-            this.style.paddingLeft = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "paddingTop", {
-        get: function () {
-            return this.style.paddingTop;
-        },
-        set: function (value) {
-            this.style.paddingTop = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "paddingRight", {
-        get: function () {
-            return this.style.paddingRight;
-        },
-        set: function (value) {
-            this.style.paddingRight = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(View.prototype, "paddingBottom", {
-        get: function () {
-            return this.style.paddingBottom;
-        },
-        set: function (value) {
-            this.style.paddingBottom = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(View.prototype, "horizontalAlignment", {
         get: function () {
             return this.style.horizontalAlignment;
@@ -531,10 +476,10 @@ var View = (function (_super) {
         this._setCurrentLayoutBounds(left, top, right, bottom);
     };
     View.prototype.getMeasuredWidth = function () {
-        return this._measuredWidth;
+        return this._measuredWidth & utils.layout.MEASURED_SIZE_MASK;
     };
     View.prototype.getMeasuredHeight = function () {
-        return this._measuredHeight;
+        return this._measuredHeight & utils.layout.MEASURED_SIZE_MASK;
     };
     View.prototype.setMeasuredDimension = function (measuredWidth, measuredHeight) {
         this._measuredWidth = measuredWidth;
@@ -685,12 +630,6 @@ var View = (function (_super) {
         }
         return utils.layout.makeMeasureSpec(resultSize, resultMode);
     };
-    View.prototype._getCurrentMeasureSpecs = function () {
-        return {
-            widthMeasureSpec: this._oldWidthMeasureSpec,
-            heightMeasureSpec: this._oldHeightMeasureSpec
-        };
-    };
     View.prototype._setCurrentMeasureSpecs = function (widthMeasureSpec, heightMeasureSpec) {
         var changed = this._oldWidthMeasureSpec !== widthMeasureSpec || this._oldHeightMeasureSpec !== heightMeasureSpec;
         this._oldWidthMeasureSpec = widthMeasureSpec;
@@ -736,8 +675,6 @@ var View = (function (_super) {
     };
     View.prototype._onContextChanged = function () {
     };
-    View.prototype._prepareNativeView = function (view) {
-    };
     Object.defineProperty(View.prototype, "_childrenCount", {
         get: function () {
             return 0;
@@ -747,7 +684,7 @@ var View = (function (_super) {
     });
     View.prototype._eachChildView = function (callback) {
     };
-    View.prototype._addView = function (view) {
+    View.prototype._addView = function (view, atIndex) {
         if (!view) {
             throw new Error("Expecting a valid View instance.");
         }
@@ -755,14 +692,14 @@ var View = (function (_super) {
             throw new Error("View already has a parent.");
         }
         view._parent = this;
-        this._addViewCore(view);
+        this._addViewCore(view, atIndex);
         trace.write("called _addView on view " + this._domId + " for a child " + view._domId, trace.categories.ViewHierarchy);
     };
-    View.prototype._addViewCore = function (view) {
+    View.prototype._addViewCore = function (view, atIndex) {
         this._propagateInheritableProperties(view);
         view.style._inheritStyleProperties();
         if (!view._isAddedToNativeVisualTree) {
-            view._isAddedToNativeVisualTree = this._addViewToNativeVisualTree(view);
+            view._isAddedToNativeVisualTree = this._addViewToNativeVisualTree(view, atIndex);
         }
         if (this._isLoaded) {
             view.onLoaded();
@@ -812,7 +749,7 @@ var View = (function (_super) {
         };
         view._eachSetProperty(inheritablePropertiesSetCallback);
     };
-    View.prototype._addViewToNativeVisualTree = function (view) {
+    View.prototype._addViewToNativeVisualTree = function (view, atIndex) {
         if (view._isAddedToNativeVisualTree) {
             throw new Error("Child already added to the native visual tree.");
         }
@@ -859,6 +796,14 @@ var View = (function (_super) {
     });
     View.prototype.focus = function () {
         return undefined;
+    };
+    View.prototype.animate = function (animation) {
+        return this.createAnimation(animation).play().finished;
+    };
+    View.prototype.createAnimation = function (animation) {
+        var that = this;
+        animation.target = that;
+        return new animationModule.Animation([animation]);
     };
     View.loadedEvent = "loaded";
     View.unloadedEvent = "unloaded";

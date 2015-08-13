@@ -16,11 +16,11 @@ exports.takePicture = function (options) {
             }
             var takePictureIntent = new android.content.Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             var dateStamp = createDateTimeStamp();
-            var tempPicturePath = fileSystem.path.join(appModule.android.currentContext.getExternalFilesDir(null).getAbsolutePath(), "cameraPicture_" + dateStamp + ".jpg");
+            var tempPicturePath = fileSystem.path.join(utils.ad.getApplicationContext().getExternalFilesDir(null).getAbsolutePath(), "cameraPicture_" + dateStamp + ".jpg");
             var nativeFile = new java.io.File(tempPicturePath);
             var tempPictureUri = android.net.Uri.fromFile(nativeFile);
             takePictureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, tempPictureUri);
-            if (takePictureIntent.resolveActivity(appModule.android.context.getPackageManager()) != null) {
+            if (takePictureIntent.resolveActivity(utils.ad.getApplicationContext().getPackageManager()) != null) {
                 var previousResult = appModule.android.onActivityResult;
                 appModule.android.onActivityResult = function (requestCode, resultCode, data) {
                     appModule.android.onActivityResult = previousResult;
