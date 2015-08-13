@@ -1,6 +1,6 @@
 var style = require("ui/styling/style");
 var common = require("ui/styling/background-common");
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var ios;
 (function (ios) {
     function createBackgroundUIColor(view) {
