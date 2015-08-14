@@ -3,9 +3,9 @@
 	"ProjectGuid": "{aef80a5b-1d98-46c7-bf09-6269b23127ac}",
 	"projectVersion": 1,
 	"AppIdentifier": "com.telerik.sampleGroceries",
-	"DisplayName": "sample-Groceries",
+	"DisplayName": "Groceries",
 	"Author": "",
-	"Description": "sample-Groceries",
+	"Description": "A NativeScript-built iOS and Android app for managing grocery lists",
 	"BundleVersion": "1.0",
 	"AndroidVersionCode": "1",
 	"iOSDeviceFamily": [
