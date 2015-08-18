@@ -2,7 +2,7 @@ var style = require("ui/styling/style");
 var stylersCommon = require("ui/styling/stylers-common");
 var enums = require("ui/enums");
 var background = require("ui/styling/background");
-global.moduleMerge(stylersCommon, exports);
+require("utils/module-merge").merge(stylersCommon, exports);
 var DefaultStyler = (function () {
     function DefaultStyler() {
     }
@@ -164,21 +164,10 @@ var ButtonStyler = (function () {
             contentAlign: btn.contentHorizontalAlignment
         };
     };
-    ButtonStyler.setPaddingProperty = function (view, newValue) {
-        var top = newValue.top + view.borderWidth;
-        var left = newValue.left + view.borderWidth;
-        var bottom = newValue.bottom + view.borderWidth;
-        var right = newValue.right + view.borderWidth;
-        view._nativeView.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
-    };
-    ButtonStyler.resetPaddingProperty = function (view, nativeValue) {
-        view._nativeView.contentEdgeInsets = UIEdgeInsetsFromString("{0,0,0,0}");
-    };
     ButtonStyler.registerHandlers = function () {
         style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setColorProperty, ButtonStyler.resetColorProperty, ButtonStyler.getNativeColorValue), "Button");
         style.registerHandler(style.fontInternalProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setFontInternalProperty, ButtonStyler.resetFontInternalProperty, ButtonStyler.getNativeFontInternalValue), "Button");
         style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setTextAlignmentProperty, ButtonStyler.resetTextAlignmentProperty, ButtonStyler.getNativeTextAlignmentValue), "Button");
-        style.registerHandler(style.nativePaddingsProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setPaddingProperty, ButtonStyler.resetPaddingProperty), "Button");
     };
     return ButtonStyler;
 })();

@@ -1,5 +1,5 @@
 {
-  "name": "css",
+  "name": "reworkcss",
   "version": "2.1.0",
   "description": "CSS parser",
   "main": "reworkcss.js",

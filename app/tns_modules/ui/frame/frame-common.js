@@ -1,9 +1,17 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var view = require("ui/core/view");
 var pages = require("ui/page");
 var types = require("utils/types");
 var trace = require("trace");
 var builder = require("ui/builder");
 var fs = require("file-system");
+var utils = require("utils/utils");
+var platform = require("platform");
 var fileResolverModule = require("file-system/file-name-resolver");
 var frameStack = [];
 function buildEntryFromArgs(arg) {
@@ -38,7 +46,7 @@ function resolvePageFromEntry(entry) {
         var currentAppPath = fs.knownFolders.currentApp().path;
         var moduleNamePath = fs.path.join(currentAppPath, entry.moduleName);
         var moduleExports;
-        var moduleExportsResolvedPath = fileResolverModule.resolveFileName(moduleNamePath, "js");
+        var moduleExportsResolvedPath = resolveFilePath(moduleNamePath, "js");
         if (moduleExportsResolvedPath) {
             trace.write("Loading JS file: " + moduleExportsResolvedPath, trace.categories.Navigation);
             moduleExportsResolvedPath = moduleExportsResolvedPath.substr(0, moduleExportsResolvedPath.length - 3);
@@ -58,16 +66,28 @@ function resolvePageFromEntry(entry) {
     return page;
 }
 exports.resolvePageFromEntry = resolvePageFromEntry;
+var fileNameResolver;
+function resolveFilePath(path, ext) {
+    if (!fileNameResolver) {
+        fileNameResolver = new fileResolverModule.FileNameResolver({
+            width: platform.screen.mainScreen.widthDIPs,
+            height: platform.screen.mainScreen.heightDIPs,
+            os: platform.device.os,
+            deviceType: platform.device.deviceType
+        });
+    }
+    return fileNameResolver.resolveFileName(path, ext);
+}
 function pageFromBuilder(moduleNamePath, moduleExports) {
     var page;
     var element;
-    var fileName = fileResolverModule.resolveFileName(moduleNamePath, "xml");
+    var fileName = resolveFilePath(moduleNamePath, "xml");
     if (fileName) {
         trace.write("Loading XML file: " + fileName, trace.categories.Navigation);
         element = builder.load(fileName, moduleExports);
         if (element instanceof pages.Page) {
             page = element;
-            var cssFileName = fileResolverModule.resolveFileName(moduleNamePath, "css");
+            var cssFileName = resolveFilePath(moduleNamePath, "css");
             if (cssFileName) {
                 page.addCssFile(cssFileName);
             }
@@ -264,6 +284,19 @@ var Frame = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Frame.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
+        var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
+        var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
+        var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
+        var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
+        var result = view.View.measureChild(this, this.currentPage, widthMeasureSpec, utils.layout.makeMeasureSpec(height - this.navigationBarHeight, heightMode));
+        var widthAndState = view.View.resolveSizeAndState(result.measuredWidth, width, widthMode, 0);
+        var heightAndState = view.View.resolveSizeAndState(result.measuredHeight, height, heightMode, 0);
+        this.setMeasuredDimension(widthAndState, heightAndState);
+    };
+    Frame.prototype.onLayout = function (left, top, right, bottom) {
+        view.View.layoutChild(this, this.currentPage, 0, this.navigationBarHeight, right - left, bottom - top);
+    };
     Frame.prototype._addViewToNativeVisualTree = function (child) {
         return true;
     };

@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var aiCommon = require("ui/activity-indicator/activity-indicator-common");
 function onBusyPropertyChanged(data) {
     var indicator = data.object;
@@ -12,7 +18,7 @@ function onBusyPropertyChanged(data) {
     }
 }
 aiCommon.ActivityIndicator.busyProperty.metadata.onSetNativeValue = onBusyPropertyChanged;
-global.moduleMerge(aiCommon, exports);
+require("utils/module-merge").merge(aiCommon, exports);
 var ActivityIndicator = (function (_super) {
     __extends(ActivityIndicator, _super);
     function ActivityIndicator() {

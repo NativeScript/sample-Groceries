@@ -1,9 +1,15 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var pageCommon = require("ui/page/page-common");
 var viewModule = require("ui/core/view");
 var trace = require("trace");
 var utils = require("utils/utils");
 var types = require("utils/types");
-global.moduleMerge(pageCommon, exports);
+require("utils/module-merge").merge(pageCommon, exports);
 var UIViewControllerImpl = (function (_super) {
     __extends(UIViewControllerImpl, _super);
     function UIViewControllerImpl() {
