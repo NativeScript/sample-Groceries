@@ -1,6 +1,6 @@
-var dialogs = require("ui/dialogs");
-var observable = require("data/observable");
-var view = require("ui/core/view");
+var dialogsModule = require("ui/dialogs");
+var observableModule = require("data/observable");
+var viewModule = require("ui/core/view");
 
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
@@ -8,7 +8,7 @@ var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-m
 
 var page;
 var groceryList = new GroceryListViewModel([]);
-var pageData = new observable.Observable({
+var pageData = new observableModule.Observable({
 	grocery: "",
 	groceryList: groceryList
 });
@@ -16,7 +16,7 @@ var pageData = new observable.Observable({
 exports.navigatedTo = function(args) {
 	page = args.object;
 	if (page.ios) {
-		var listView = view.getViewById(page, "groceryList");
+		var listView = viewModule.getViewById(page, "groceryList");
 		swipeDelete.enable(listView, function(index) {
 			groceryList.delete(index);
 		});
@@ -29,10 +29,10 @@ exports.navigatedTo = function(args) {
 exports.add = function() {
 	// Check for empty submission
 	if (pageData.get("grocery").trim() !== "") {
-		view.getViewById(page, "grocery").dismissSoftInput();
+		viewModule.getViewById(page, "grocery").dismissSoftInput();
 		groceryList.add(pageData.get("grocery"))
 			.catch(function() {
-				dialogs.alert({
+				dialogsModule.alert({
 					message: "An error occurred adding to your list.",
 					okButtonText: "OK"
 				});
@@ -41,7 +41,7 @@ exports.add = function() {
 		// Clear the textfield
 		pageData.set("grocery", "");
 	} else {
-		dialogs.alert({
+		dialogsModule.alert({
 			message: "Please enter a grocery item",
 			okButtonText: "OK"
 		});

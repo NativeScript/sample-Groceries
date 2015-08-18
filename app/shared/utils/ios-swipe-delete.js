@@ -1,8 +1,7 @@
 var callback;
-var application = require("application");
 var EditableDataSource;
 
-if (application.ios) {
+if (typeof NSObject != "undefined") {
 	EditableDataSource = (function(_super) {
 		__extends(EditableDataSource, _super);
 		function EditableDataSource() {

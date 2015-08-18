@@ -1,12 +1,12 @@
 var config = require("../../shared/config");
-var http = require("http");
+var httpModule = require("http");
 var observableArrayModule = require("data/observable-array");
 
 function GroceryListViewModel(items) {
 	var viewModel = new observableArrayModule.ObservableArray(items);
 
 	viewModel.load = function() {
-		http.getJSON({
+		httpModule.getJSON({
 			url: config.apiUrl + "Groceries",
 			method: "GET",
 			headers: {
@@ -30,7 +30,7 @@ function GroceryListViewModel(items) {
 
 	viewModel.add = function(grocery) {
 		return new Promise(function(resolve, reject) {
-			http.request({
+			httpModule.request({
 				url: config.apiUrl + "Groceries",
 				method: "POST",
 				content: JSON.stringify({
@@ -43,7 +43,8 @@ function GroceryListViewModel(items) {
 			}).then(function() {
 				viewModel.push({ name: grocery });
 				resolve();
-			}).catch(function() {
+			}).catch(function(error) {
+				console.log(error);
 				reject();
 			});
 		});
@@ -51,7 +52,7 @@ function GroceryListViewModel(items) {
 
 	viewModel.delete = function(index) {
 		return new Promise(function(resolve, reject) {
-			http.request({
+			httpModule.request({
 				url: config.apiUrl + "Groceries/" + viewModel.getItem(index).id,
 				method: "DELETE",
 				headers: {
@@ -61,7 +62,8 @@ function GroceryListViewModel(items) {
 			}).then(function() {
 				viewModel.splice(index, 1);
 				resolve();
-			}).catch(function() {
+			}).catch(function(error) {
+				console.log(error);
 				reject();
 			});
 		});

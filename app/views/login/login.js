@@ -1,4 +1,4 @@
-var dialogs = require("ui/dialogs");
+var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 
@@ -25,7 +25,7 @@ exports.signIn = function() {
 		.then(function() {
 			frameModule.topmost().navigate("./views/list/list");
 		}).catch(function() {
-			dialogs.alert({
+			dialogsModule.alert({
 				message: "Unfortunately we could not find your account.",
 				okButtonText: "OK"
 			});
