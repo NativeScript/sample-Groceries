@@ -9,32 +9,31 @@ function User(info) {
 	// You can add properties to observables on creation
 	var viewModel = new observableModule.Observable({
 		email: info.email || "",
-		password: info.password || "",
-
-		login: function() {
-			return new Promise(function(resolve, reject) {
-				http.request({
-					url: config.apiUrl + "oauth/token",
-					method: "POST",
-					content: JSON.stringify({
-						username: viewModel.get("email"),
-						password: viewModel.get("password"),
-						grant_type: "password"
-					}),
-					headers: {
-						"Content-Type": "application/json"
-					}
-				}).then(function(data) {
-					config.token = data.content.toJSON().Result.access_token;
-					resolve();
-				}).catch(function(e) {
-					reject(e);
-				});
-			});
-		}
+		password: info.password || ""
 	});
 
-	// You can also add them after you create the Observable
+	viewModel.login = function() {
+		return new Promise(function(resolve, reject) {
+			http.request({
+				url: config.apiUrl + "oauth/token",
+				method: "POST",
+				content: JSON.stringify({
+					username: viewModel.get("email"),
+					password: viewModel.get("password"),
+					grant_type: "password"
+				}),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(function(data) {
+				config.token = data.content.toJSON().Result.access_token;
+				resolve();
+			}).catch(function() {
+				reject();
+			});
+		});
+	};
+
 	viewModel.register = function() {
 		return new Promise(function(resolve, reject) {
 			http.request({
