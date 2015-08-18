@@ -8,14 +8,13 @@ function User(info) {
     // You can add properties to observables on creation
     var viewModel = new observableModule.Observable({
         email: info.email || "",
-        password: info.password || "",
-
-        login: function() {
-
-        }
+        password: info.password || ""
     });
 
-    // You can also add them after you create the Observable
+    viewModel.login = function() {
+
+    };
+
     viewModel.register = function() {
         return new Promise(function(resolve, reject) {
             http.request({
