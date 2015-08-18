@@ -21,9 +21,9 @@ function User(info) {
                 url: config.apiUrl + "Users",
                 method: "POST",
                 content: JSON.stringify({
-                    username: viewModel.get("email"),
-                    email: viewModel.get("email"),
-                    password: viewModel.get("password")
+                    Username: viewModel.get("email"),
+                    Email: viewModel.get("email"),
+                    Password: viewModel.get("password")
                 }),
                 headers: {
                     "Content-Type": "application/json"
