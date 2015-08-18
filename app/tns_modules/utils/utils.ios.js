@@ -1,6 +1,6 @@
 var common = require("utils/utils-common");
 var colorModule = require("color");
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 function isOrientationLandscape(orientation) {
     return orientation === UIDeviceOrientation.UIDeviceOrientationLandscapeLeft || orientation === UIDeviceOrientation.UIDeviceOrientationLandscapeRight;
 }

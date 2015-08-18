@@ -1,7 +1,13 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/text-view/text-view-common");
 var textBase = require("ui/text-base");
 var enums = require("ui/enums");
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var UITextViewDelegateImpl = (function (_super) {
     __extends(UITextViewDelegateImpl, _super);
     function UITextViewDelegateImpl() {
@@ -37,7 +43,7 @@ var TextView = (function (_super) {
     __extends(TextView, _super);
     function TextView() {
         _super.call(this);
-        this._ios = new UITextView();
+        this._ios = UITextView.new();
         if (!this._ios.font) {
             this._ios.font = UIFont.systemFontOfSize(12);
         }

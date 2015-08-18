@@ -1,6 +1,6 @@
 var trace = require("trace");
 var cssSelector = require("ui/styling/css-selector");
-var cssParser = require("css");
+var cssParser = require("js-libs/reworkcss");
 var visual_state_1 = require("ui/styling/visual-state");
 var application = require("application");
 var utils = require("utils/utils");

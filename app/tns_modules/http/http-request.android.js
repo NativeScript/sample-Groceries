@@ -58,8 +58,8 @@ function buildJavaOptions(options) {
     if (types.isString(options.method)) {
         javaOptions.method = options.method;
     }
-    if (types.isString(options.content) || options.content instanceof FormData) {
-        javaOptions.content = options.content.toString();
+    if (options.content) {
+        javaOptions.content = options.content;
     }
     if (types.isNumber(options.timeout)) {
         javaOptions.timeout = options.timeout;

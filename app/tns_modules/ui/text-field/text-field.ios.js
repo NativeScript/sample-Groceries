@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/text-field/text-field-common");
 var textBase = require("ui/text-base");
 var enums = require("ui/enums");
@@ -6,7 +12,7 @@ function onSecurePropertyChanged(data) {
     textField.ios.secureTextEntry = data.newValue;
 }
 common.secureProperty.metadata.onSetNativeValue = onSecurePropertyChanged;
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var UITextFieldDelegateImpl = (function (_super) {
     __extends(UITextFieldDelegateImpl, _super);
     function UITextFieldDelegateImpl() {
@@ -54,37 +60,11 @@ var UITextFieldDelegateImpl = (function (_super) {
     UITextFieldDelegateImpl.ObjCProtocols = [UITextFieldDelegate];
     return UITextFieldDelegateImpl;
 })(NSObject);
-var UITextFieldImpl = (function (_super) {
-    __extends(UITextFieldImpl, _super);
-    function UITextFieldImpl() {
-        _super.apply(this, arguments);
-    }
-    UITextFieldImpl.new = function () {
-        return _super.new.call(this);
-    };
-    UITextFieldImpl.prototype.initWithOwner = function (owner) {
-        this._owner = owner;
-        return this;
-    };
-    UITextFieldImpl.prototype._getTextRectForBounds = function (bounds) {
-        if (!this._owner) {
-            return bounds;
-        }
-        return CGRectMake(this._owner.borderWidth + this._owner.style.paddingLeft, this._owner.borderWidth + this._owner.style.paddingTop, bounds.size.width - (this._owner.borderWidth + this._owner.style.paddingLeft + this._owner.style.paddingRight + this._owner.borderWidth), bounds.size.height - (this._owner.borderWidth + this._owner.style.paddingTop + this._owner.style.paddingBottom + this._owner.borderWidth));
-    };
-    UITextFieldImpl.prototype.textRectForBounds = function (bounds) {
-        return this._getTextRectForBounds(bounds);
-    };
-    UITextFieldImpl.prototype.editingRectForBounds = function (bounds) {
-        return this._getTextRectForBounds(bounds);
-    };
-    return UITextFieldImpl;
-})(UITextField);
 var TextField = (function (_super) {
     __extends(TextField, _super);
     function TextField() {
         _super.call(this);
-        this._ios = UITextFieldImpl.new().initWithOwner(this);
+        this._ios = new UITextField();
         this._delegate = UITextFieldDelegateImpl.new().initWithOwner(this);
     }
     TextField.prototype.onLoaded = function () {

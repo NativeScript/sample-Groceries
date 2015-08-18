@@ -1,7 +1,7 @@
 var colorModule = require("color");
 var types = require("utils/types");
 var enums = require("ui/enums");
-var cssValue = require("css-value");
+var cssValue = require("js-libs/reworkcss-value");
 var Background = (function () {
     function Background(color, image, repeat, position, size) {
         this.color = color;

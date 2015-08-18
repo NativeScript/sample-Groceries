@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/label/label-common");
 var utils = require("utils/utils");
 var viewModule = require("ui/core/view");
@@ -14,36 +20,13 @@ function onTextWrapPropertyChanged(data) {
     }
 }
 common.Label.textWrapProperty.metadata.onSetNativeValue = onTextWrapPropertyChanged;
-global.moduleMerge(common, exports);
-var UILabelImpl = (function (_super) {
-    __extends(UILabelImpl, _super);
-    function UILabelImpl() {
-        _super.apply(this, arguments);
-    }
-    UILabelImpl.new = function () {
-        return _super.new.call(this);
-    };
-    UILabelImpl.prototype.initWithOwner = function (owner) {
-        this._owner = owner;
-        return this;
-    };
-    UILabelImpl.prototype.textRectForBoundsLimitedToNumberOfLines = function (bounds, numberOfLines) {
-        var rect = _super.prototype.textRectForBoundsLimitedToNumberOfLines.call(this, bounds, numberOfLines);
-        var textRect = CGRectMake(-(this._owner.borderWidth + this._owner.style.paddingLeft), -(this._owner.borderWidth + this._owner.style.paddingTop), rect.size.width + (this._owner.borderWidth + this._owner.style.paddingLeft + this._owner.style.paddingRight + this._owner.borderWidth), rect.size.height + (this._owner.borderWidth + this._owner.style.paddingTop + this._owner.style.paddingBottom + this._owner.borderWidth));
-        return textRect;
-    };
-    UILabelImpl.prototype.drawTextInRect = function (rect) {
-        var textRect = CGRectMake((this._owner.borderWidth + this._owner.style.paddingLeft), (this._owner.borderWidth + this._owner.style.paddingTop), rect.size.width - (this._owner.borderWidth + this._owner.style.paddingLeft + this._owner.style.paddingRight + this._owner.borderWidth), rect.size.height - (this._owner.borderWidth + this._owner.style.paddingTop + this._owner.style.paddingBottom + this._owner.borderWidth));
-        _super.prototype.drawTextInRect.call(this, textRect);
-    };
-    return UILabelImpl;
-})(UILabel);
+require("utils/module-merge").merge(common, exports);
 var Label = (function (_super) {
     __extends(Label, _super);
     function Label(options) {
         _super.call(this, options);
-        this._ios = UILabelImpl.new().initWithOwner(this);
-        this._ios.userInteractionEnabled = true;
+        this._ios = new UILabel();
+        _super.prototype._prepareNativeView.call(this, this._ios);
     }
     Object.defineProperty(Label.prototype, "ios", {
         get: function () {

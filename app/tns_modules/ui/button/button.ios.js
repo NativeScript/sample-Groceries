@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/button/button-common");
 var stateChanged = require("ui/core/control-state-change");
 var TapHandlerImpl = (function (_super) {
@@ -20,7 +26,7 @@ var TapHandlerImpl = (function (_super) {
     };
     return TapHandlerImpl;
 })(NSObject);
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var Button = (function (_super) {
     __extends(Button, _super);
     function Button() {

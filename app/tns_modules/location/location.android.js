@@ -1,13 +1,14 @@
 var enums = require("ui/enums");
+var appModule = require("application");
 var locationModule = require("location");
 var common = require("location/location-common");
-var utils = require("utils/utils");
-global.moduleMerge(common, exports);
+var merger = require("utils/module-merge");
+merger.merge(common, exports);
 var LocationManager = (function () {
     function LocationManager() {
         this.desiredAccuracy = enums.Accuracy.any;
         this.updateDistance = 0;
-        var alm = utils.ad.getApplicationContext().getSystemService(android.content.Context.LOCATION_SERVICE);
+        var alm = appModule.android.context.getSystemService(android.content.Context.LOCATION_SERVICE);
         this.androidLocationManager = new AndroidLocationManager(alm);
         this.androidLocationManager.minimumUpdateTime = 200;
     }
@@ -94,7 +95,7 @@ var LocationManager = (function () {
     LocationManager.isEnabled = function () {
         var criteria = new android.location.Criteria();
         criteria.setAccuracy(android.location.Criteria.ACCURACY_COARSE);
-        var lm = utils.ad.getApplicationContext().getSystemService(android.content.Context.LOCATION_SERVICE);
+        var lm = appModule.android.context.getSystemService(android.content.Context.LOCATION_SERVICE);
         var enabledProviders = lm.getProviders(criteria, true);
         return (enabledProviders.size() > 0) ? true : false;
     };

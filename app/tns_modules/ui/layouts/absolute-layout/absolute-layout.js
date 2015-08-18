@@ -1,17 +1,51 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var layouts = require("ui/layouts/layout");
 var utils = require("utils/utils");
+var dependencyObservable = require("ui/core/dependency-observable");
 var view = require("ui/core/view");
-var common = require("ui/layouts/absolute-layout/absolute-layout-common");
-global.moduleMerge(common, exports);
+var numberUtils = require("utils/number-utils");
+function onPropertyChanged(data) {
+    var uiView = data.object;
+    if (uiView instanceof view.View) {
+        var layout = uiView.parent;
+        if (layout instanceof AbsoluteLayout) {
+            layout.requestLayout();
+        }
+    }
+}
 var AbsoluteLayout = (function (_super) {
     __extends(AbsoluteLayout, _super);
     function AbsoluteLayout() {
         _super.apply(this, arguments);
     }
-    AbsoluteLayout.prototype.onLeftChanged = function (view, oldValue, newValue) {
-        this.requestLayout();
+    AbsoluteLayout.getLeft = function (element) {
+        if (!element) {
+            throw new Error("element cannot be null or undefinied.");
+        }
+        return element._getValue(AbsoluteLayout.leftProperty);
     };
-    AbsoluteLayout.prototype.onTopChanged = function (view, oldValue, newValue) {
-        this.requestLayout();
+    AbsoluteLayout.setLeft = function (element, value) {
+        if (!element) {
+            throw new Error("element cannot be null or undefinied.");
+        }
+        element._setValue(AbsoluteLayout.leftProperty, value);
+    };
+    AbsoluteLayout.getTop = function (element) {
+        if (!element) {
+            throw new Error("element cannot be null or undefinied.");
+        }
+        return element._getValue(AbsoluteLayout.topProperty);
+    };
+    AbsoluteLayout.setTop = function (element, value) {
+        if (!element) {
+            throw new Error("element cannot be null or undefinied.");
+        }
+        element._setValue(AbsoluteLayout.topProperty, value);
     };
     AbsoluteLayout.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         _super.prototype.onMeasure.call(this, widthMeasureSpec, heightMeasureSpec);
@@ -59,6 +93,8 @@ var AbsoluteLayout = (function (_super) {
             view.View.layoutChild(this, child, childLeft, childTop, childRight, childBottom);
         }
     };
+    AbsoluteLayout.leftProperty = new dependencyObservable.Property("left", "AbsoluteLayout", new dependencyObservable.PropertyMetadata(0, undefined, onPropertyChanged, numberUtils.isFiniteNumber));
+    AbsoluteLayout.topProperty = new dependencyObservable.Property("top", "AbsoluteLayout", new dependencyObservable.PropertyMetadata(0, undefined, onPropertyChanged, numberUtils.isFiniteNumber));
     return AbsoluteLayout;
-})(common.AbsoluteLayout);
+})(layouts.Layout);
 exports.AbsoluteLayout = AbsoluteLayout;
