@@ -150,9 +150,9 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
     if (!fs.File.exists(componentPath) || componentPath === "." || componentPath === "./") {
         fullComponentPathFilePathWithoutExt = fs.path.join(fs.knownFolders.currentApp().path, componentPath, componentName);
     }
-    var xmlFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "xml");
+    var xmlFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "xml");
     if (xmlFilePath) {
-        var jsFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "js");
+        var jsFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "js");
         var subExports;
         if (jsFilePath) {
             subExports = require(jsFilePath);
@@ -168,7 +168,7 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
     else {
         result = componentBuilder.getComponentModule(componentName, componentPath, attributes, context);
     }
-    var cssFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "css");
+    var cssFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "css");
     if (cssFilePath) {
         if (parentPage) {
             parentPage.addCssFile(cssFilePath);
@@ -178,6 +178,18 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
         }
     }
     return result;
+}
+var fileNameResolver;
+function resolveFilePath(path, ext) {
+    if (!fileNameResolver) {
+        fileNameResolver = new fileResolverModule.FileNameResolver({
+            width: platform.screen.mainScreen.widthDIPs,
+            height: platform.screen.mainScreen.heightDIPs,
+            os: platform.device.os,
+            deviceType: platform.device.deviceType
+        });
+    }
+    return fileNameResolver.resolveFileName(path, ext);
 }
 function load(pathOrOptions, context) {
     var viewToReturn;

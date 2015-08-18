@@ -1,8 +1,14 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/gestures/gestures-common");
 var definition = require("ui/gestures");
 var view = require("ui/core/view");
 var trace = require("trace");
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var UIGestureRecognizerImpl = (function (_super) {
     __extends(UIGestureRecognizerImpl, _super);
     function UIGestureRecognizerImpl() {

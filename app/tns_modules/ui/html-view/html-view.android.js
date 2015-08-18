@@ -1,3 +1,9 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/html-view/html-view-common");
 var types = require("utils/types");
 function onHtmlPropertyChanged(data) {
@@ -13,7 +19,7 @@ function onHtmlPropertyChanged(data) {
     }
 }
 common.HtmlView.htmlProperty.metadata.onSetNativeValue = onHtmlPropertyChanged;
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 var HtmlView = (function (_super) {
     __extends(HtmlView, _super);
     function HtmlView() {

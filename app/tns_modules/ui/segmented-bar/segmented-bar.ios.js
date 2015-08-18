@@ -1,7 +1,13 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var common = require("ui/segmented-bar/segmented-bar-common");
 var types = require("utils/types");
 var color = require("color");
-global.moduleMerge(common, exports);
+require("utils/module-merge").merge(common, exports);
 function onSelectedIndexPropertyChanged(data) {
     var view = data.object;
     if (!view.ios || !view.items) {

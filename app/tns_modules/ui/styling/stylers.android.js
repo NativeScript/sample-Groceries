@@ -6,7 +6,7 @@ var enums = require("ui/enums");
 var utils = require("utils/utils");
 var styleModule = require("ui/styling/style");
 var background = require("ui/styling/background");
-global.moduleMerge(stylersCommon, exports);
+require("utils/module-merge").merge(stylersCommon, exports);
 var _defaultBackgrounds = new Map();
 function onBackgroundOrBorderPropertyChanged(v) {
     if (!v._nativeView) {
@@ -24,8 +24,8 @@ function onBackgroundOrBorderPropertyChanged(v) {
             }
             nativeView.setBackground(bkg);
         }
-        var density = utils.layout.getDisplayDensity();
-        nativeView.setPadding((v.borderWidth + v.style.paddingLeft) * density, (v.borderWidth + v.style.paddingTop) * density, (v.borderWidth + v.style.paddingRight) * density, (v.borderWidth + v.style.paddingBottom) * density);
+        var padding = v.borderWidth * utils.layout.getDisplayDensity();
+        nativeView.setPadding(padding, padding, padding, padding);
         bkg.borderWidth = v.borderWidth;
         bkg.cornerRadius = v.borderRadius;
         bkg.borderColor = v.borderColor ? v.borderColor.android : android.graphics.Color.TRANSPARENT;
@@ -72,100 +72,6 @@ var DefaultStyler = (function () {
     DefaultStyler.resetMinHeightProperty = function (view, nativeValue) {
         view._nativeView.setMinimumHeight(0);
     };
-    DefaultStyler.getNativeLayoutParams = function (nativeView) {
-        var lp = nativeView.getLayoutParams();
-        if (!(lp instanceof org.nativescript.widgets.CommonLayoutParams)) {
-            lp = new org.nativescript.widgets.CommonLayoutParams();
-        }
-        return lp;
-    };
-    DefaultStyler.setNativeLayoutParamsProperty = function (view, params) {
-        var nativeView = view._nativeView;
-        var lp = DefaultStyler.getNativeLayoutParams(nativeView);
-        lp.leftMargin = params.leftMargin * utils.layout.getDisplayDensity();
-        lp.topMargin = params.topMargin * utils.layout.getDisplayDensity();
-        lp.rightMargin = params.rightMargin * utils.layout.getDisplayDensity();
-        lp.bottomMargin = params.bottomMargin * utils.layout.getDisplayDensity();
-        var width = params.width * utils.layout.getDisplayDensity();
-        var height = params.height * utils.layout.getDisplayDensity();
-        if (width < 0) {
-            width = -2;
-        }
-        if (height < 0) {
-            height = -2;
-        }
-        var gravity = 0;
-        switch (params.horizontalAlignment) {
-            case enums.HorizontalAlignment.left:
-                gravity |= android.view.Gravity.LEFT;
-                break;
-            case enums.HorizontalAlignment.center:
-                gravity |= android.view.Gravity.CENTER_HORIZONTAL;
-                break;
-            case enums.HorizontalAlignment.right:
-                gravity |= android.view.Gravity.RIGHT;
-                break;
-            case enums.HorizontalAlignment.stretch:
-                gravity |= android.view.Gravity.FILL_HORIZONTAL;
-                if (width < 0) {
-                    width = -1;
-                }
-                break;
-            default:
-                throw new Error("Invalid horizontalAlignment value: " + params.horizontalAlignment);
-        }
-        switch (params.verticalAlignment) {
-            case enums.VerticalAlignment.top:
-                gravity |= android.view.Gravity.TOP;
-                break;
-            case enums.VerticalAlignment.center:
-                gravity |= android.view.Gravity.CENTER_VERTICAL;
-                break;
-            case enums.VerticalAlignment.bottom:
-                gravity |= android.view.Gravity.BOTTOM;
-                break;
-            case enums.VerticalAlignment.stretch:
-                gravity |= android.view.Gravity.FILL_VERTICAL;
-                if (height < 0) {
-                    height = -1;
-                }
-                break;
-            default:
-                throw new Error("Invalid verticalAlignment value: " + params.verticalAlignment);
-        }
-        lp.gravity = gravity;
-        lp.width = width;
-        lp.height = height;
-        nativeView.setLayoutParams(lp);
-    };
-    DefaultStyler.resetNativeLayoutParamsProperty = function (view, nativeValue) {
-        var nativeView = view._nativeView;
-        var lp = DefaultStyler.getNativeLayoutParams(nativeView);
-        lp.width = -1;
-        lp.height = -1;
-        lp.leftMargin = 0;
-        lp.topMargin = 0;
-        lp.rightMargin = 0;
-        lp.bottomMargin = 0;
-        lp.gravity = android.view.Gravity.FILL_HORIZONTAL | android.view.Gravity.FILL_VERTICAL;
-        nativeView.setLayoutParams(lp);
-    };
-    DefaultStyler.setPaddingProperty = function (view, newValue) {
-        var density = utils.layout.getDisplayDensity();
-        var left = (newValue.left + view.borderWidth) * density;
-        var top = (newValue.top + view.borderWidth) * density;
-        var right = (newValue.right + view.borderWidth) * density;
-        var bottom = (newValue.bottom + view.borderWidth) * density;
-        view._nativeView.setPadding(left, top, right, bottom);
-    };
-    DefaultStyler.resetPaddingProperty = function (view, nativeValue) {
-        var density = utils.layout.getDisplayDensity();
-        var left = view.borderWidth * density;
-        var top = view.borderWidth * density;
-        var right = view.borderWidth * density;
-        var bottom = view.borderWidth * density;
-        view._nativeView.setPadding(left, top, right, bottom);
-    };
     DefaultStyler.registerHandlers = function () {
         style.registerHandler(style.visibilityProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setVisibilityProperty, DefaultStyler.resetVisibilityProperty));
         style.registerHandler(style.opacityProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setOpacityProperty, DefaultStyler.resetOpacityProperty));
@@ -176,10 +82,6 @@ var DefaultStyler = (function () {
         style.registerHandler(style.borderWidthProperty, borderHandler);
         style.registerHandler(style.borderColorProperty, borderHandler);
         style.registerHandler(style.borderRadiusProperty, borderHandler);
-        style.registerHandler(style.nativeLayoutParamsProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setNativeLayoutParamsProperty, DefaultStyler.resetNativeLayoutParamsProperty));
-        style.registerHandler(style.nativePaddingsProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setPaddingProperty, DefaultStyler.resetPaddingProperty), "TextBase");
-        style.registerHandler(style.nativePaddingsProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setPaddingProperty, DefaultStyler.resetPaddingProperty), "Button");
-        style.registerHandler(style.nativePaddingsProperty, new stylersCommon.StylePropertyChangedHandler(DefaultStyler.setPaddingProperty, DefaultStyler.resetPaddingProperty), "LayoutBase");
     };
     return DefaultStyler;
 })();

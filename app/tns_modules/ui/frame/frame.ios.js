@@ -1,10 +1,16 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var frameCommon = require("ui/frame/frame-common");
 var trace = require("trace");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
 var types = require("utils/types");
-global.moduleMerge(frameCommon, exports);
+require("utils/module-merge").merge(frameCommon, exports);
 var ENTRY = "_entry";
 var navDepth = 0;
 var Frame = (function (_super) {

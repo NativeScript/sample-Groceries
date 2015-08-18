@@ -1,9 +1,16 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var frameCommon = require("ui/frame/frame-common");
 var trace = require("trace");
 var observable = require("data/observable");
 var utils = require("utils/utils");
+var view = require("ui/core/view");
 var application = require("application");
-global.moduleMerge(frameCommon, exports);
+require("utils/module-merge").merge(frameCommon, exports);
 var TAG = "_fragmentTag";
 var OWNER = "_owner";
 var HIDDEN = "_hidden";
@@ -287,7 +294,8 @@ var NativeActivity = {
         }
         this.super.onCreate(savedInstanceState);
         this.androidFrame.setActivity(this);
-        var root = new org.nativescript.widgets.ContentLayout(this);
+        var root = new view.NativeViewGroup(this);
+        root[OWNER] = this.frame;
         this.androidFrame.rootViewGroup = root;
         this.androidFrame.rootViewGroup.setId(this.frame.containerViewId);
         this.setContentView(this.androidFrame.rootViewGroup);
