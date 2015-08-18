@@ -1,4 +1,4 @@
-var http = require("http");
+var httpModule = require("http");
 var config = require("../../shared/config");
 var observableModule = require("data/observable");
 
@@ -17,7 +17,7 @@ function User(info) {
 
     viewModel.register = function() {
         return new Promise(function(resolve, reject) {
-            http.request({
+            httpModule.request({
                 url: config.apiUrl + "Users",
                 method: "POST",
                 content: JSON.stringify({

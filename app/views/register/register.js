@@ -1,4 +1,4 @@
-var dialogs = require("ui/dialogs");
+var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 
 var UserViewModel = require("../../shared/view-models/user-view-model");
@@ -12,16 +12,17 @@ exports.load = function(args) {
 function completeRegistration() {
     user.register()
         .then(function() {
-            dialogs
+            dialogsModule
                 .alert("Your account was successfully created.")
                 .then(function() {
                     frameModule.topmost().navigate("./views/login/login");
                 });
         }).catch(function() {
-            dialogs.alert({
-                message: "Unfortunately we were unable to create your account.",
-                okButtonText: "OK"
-            });
+            dialogsModule
+                .alert({
+                    message: "Unfortunately we were unable to create your account.",
+                    okButtonText: "OK"
+                });
         });
 }
 
