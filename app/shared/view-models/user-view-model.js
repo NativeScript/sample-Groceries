@@ -11,10 +11,6 @@ function User(info) {
         password: info.password || ""
     });
 
-    viewModel.login = function() {
-
-    };
-
     viewModel.register = function() {
         return new Promise(function(resolve, reject) {
             httpModule.request({
