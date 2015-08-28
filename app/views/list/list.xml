@@ -18,7 +18,8 @@
 			<ListView.itemTemplate>
 				<GridLayout columns="*, auto">
 					<Label text="{{ name }}" />
-					<Image src="res://ic_menu_delete" ios:visibility="collapsed" col="1" tap="delete" />
+					<Image src="res://ic_menu_delete" ios:visibility="collapsed" tap="delete"
+						col="1" />
 				</GridLayout>
 			</ListView.itemTemplate>
 		</ListView>
