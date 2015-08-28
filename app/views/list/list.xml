@@ -8,7 +8,6 @@
 	</Page.actionBar>
 
 	<GridLayout rows="auto, *" columns="2*, *">
-
 		<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item"
 			row="0" col="0" />
 		<Button text="Add" tap="add"
@@ -19,10 +18,11 @@
 			<ListView.itemTemplate>
 				<GridLayout columns="*, auto">
 					<Label text="{{ name }}" />
-					<Image src="res://ic_menu_delete" ios:visibility="collapsed" tap="delete"
-						col="1" />
+					<Image src="res://ic_menu_delete" ios:visibility="collapsed" col="1" tap="delete" />
 				</GridLayout>
 			</ListView.itemTemplate>
 		</ListView>
+
+		<ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2" />
 	</GridLayout>
 </Page>

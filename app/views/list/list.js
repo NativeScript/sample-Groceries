@@ -23,7 +23,10 @@ exports.loaded = function(args) {
 	}
 	page.bindingContext = pageData;
 	groceryList.empty();
-	groceryList.load();
+	pageData.set("isLoading", true);
+	groceryList.load().then(function() {
+		pageData.set("isLoading", false);
+	});
 };
 
 exports.add = function() {
