@@ -13,7 +13,7 @@ var pageData = new observableModule.Observable({
 	groceryList: groceryList
 });
 
-exports.navigatedTo = function(args) {
+exports.loaded = function(args) {
 	page = args.object;
 	if (page.ios) {
 		var listView = viewModule.getViewById(page, "groceryList");

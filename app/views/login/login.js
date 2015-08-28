@@ -7,7 +7,7 @@ var user = new UserViewModel({
 	password: "password"
 });
 
-exports.load = function(args) {
+exports.loaded = function(args) {
 	var page = args.object;
 
 	if (page.ios) {

@@ -6,18 +6,24 @@ function GroceryListViewModel(items) {
 	var viewModel = new observableArrayModule.ObservableArray(items);
 
 	viewModel.load = function() {
-		httpModule.getJSON({
-			url: config.apiUrl + "Groceries",
-			method: "GET",
-			headers: {
-				"Authorization": "Bearer " + config.token
-			}
-		}).then(function(data) {
-			data.Result.forEach(function(grocery) {
-				viewModel.push({
-					name: grocery.Name,
-					id: grocery.Id
+		return new Promise(function(resolve, reject) {
+			httpModule.getJSON({
+				url: config.apiUrl + "Groceries",
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + config.token
+				}
+			}).then(function(data) {
+				data.Result.forEach(function(grocery) {
+					viewModel.push({
+						name: grocery.Name,
+						id: grocery.Id
+					});
 				});
+				resolve();
+			}).catch(function(error) {
+				console.log(error);
+				reject();
 			});
 		});
 	};
