@@ -36,7 +36,7 @@ exports.add = function() {
 		groceryList.add(pageData.get("grocery"))
 			.catch(function() {
 				dialogsModule.alert({
-					message: "An error occurred adding to your list.",
+					message: "An error occurred while adding an item to your list.",
 					okButtonText: "OK"
 				});
 			});
