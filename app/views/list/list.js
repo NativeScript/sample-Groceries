@@ -45,7 +45,7 @@ exports.add = function() {
 		pageData.set("grocery", "");
 	} else {
 		dialogsModule.alert({
-			message: "Please enter a grocery item",
+			message: "Enter a grocery item",
 			okButtonText: "OK"
 		});
 	}
