@@ -31,7 +31,7 @@ exports.register = function() {
 		completeRegistration();
 	} else {
 		dialogsModule.alert({
-			message: "Please include a valid email address.",
+			message: "Enter a valid email address.",
 			okButtonText: "OK"
 		});
 	}
