@@ -1,7 +1,7 @@
-var httpModule = require("http");
 var config = require("../../shared/config");
-var validator = require("email-validator/index");
+var fetchModule = require("fetch");
 var observableModule = require("data/observable");
+var validator = require("email-validator/index");
 
 function User(info) {
 	info = info || {};
@@ -14,10 +14,9 @@ function User(info) {
 
 	viewModel.login = function() {
 		return new Promise(function(resolve, reject) {
-			httpModule.request({
-				url: config.apiUrl + "oauth/token",
+			fetchModule.fetch(config.apiUrl + "oauth/token", {
 				method: "POST",
-				content: JSON.stringify({
+				body: JSON.stringify({
 					username: viewModel.get("email"),
 					password: viewModel.get("password"),
 					grant_type: "password"
@@ -25,8 +24,10 @@ function User(info) {
 				headers: {
 					"Content-Type": "application/json"
 				}
+			}).then(function(response) {
+				return response.json();
 			}).then(function(data) {
-				config.token = data.content.toJSON().Result.access_token;
+				config.token = data.Result.access_token;
 				resolve();
 			}).catch(function(error) {
 				console.log(error);
@@ -37,10 +38,9 @@ function User(info) {
 
 	viewModel.register = function() {
 		return new Promise(function(resolve, reject) {
-			httpModule.request({
-				url: config.apiUrl + "Users",
+			fetchModule.fetch(config.apiUrl + "Users", {
 				method: "POST",
-				content: JSON.stringify({
+				body: JSON.stringify({
 					Username: viewModel.get("email"),
 					Email: viewModel.get("email"),
 					Password: viewModel.get("password")
