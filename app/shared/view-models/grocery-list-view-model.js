@@ -1,5 +1,5 @@
 var config = require("../../shared/config");
-var httpModule = require("http");
+var fetchModule = require("fetch");
 var observableArrayModule = require("data/observable-array");
 
 function GroceryListViewModel(items) {

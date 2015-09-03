@@ -1,5 +1,5 @@
-var httpModule = require("http");
 var config = require("../../shared/config");
+var fetchModule = require("fetch");
 var observableModule = require("data/observable");
 
 function User(info) {
@@ -13,10 +13,9 @@ function User(info) {
 
     viewModel.register = function() {
         return new Promise(function(resolve, reject) {
-            httpModule.request({
-                url: config.apiUrl + "Users",
+            fetchModule.fetch(config.apiUrl + "Users", {
                 method: "POST",
-                content: JSON.stringify({
+                body: JSON.stringify({
                     Username: viewModel.get("email"),
                     Email: viewModel.get("email"),
                     Password: viewModel.get("password")
@@ -26,7 +25,8 @@ function User(info) {
                 }
             }).then(function() {
                 resolve();
-            }).catch(function() {
+            }).catch(function(error) {
+                console.log(error);
                 reject();
             });
         });
