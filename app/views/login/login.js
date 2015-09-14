@@ -20,6 +20,7 @@ exports.loaded = function(args) {
 
 	page.bindingContext = user;
 };
+
 exports.signIn = function() {
 	user.login()
 		.then(function() {
