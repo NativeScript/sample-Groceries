@@ -12,27 +12,28 @@ function User(info) {
     });
 
     viewModel.register = function() {
-        return new Promise(function(resolve, reject) {
-            fetchModule.fetch(config.apiUrl + "Users", {
-                method: "POST",
-                body: JSON.stringify({
-                    Username: viewModel.get("email"),
-                    Email: viewModel.get("email"),
-                    Password: viewModel.get("password")
-                }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(function() {
-                resolve();
-            }).catch(function(error) {
-                console.log(error);
-                reject();
-            });
-        });
+        return fetchModule.fetch(config.apiUrl + "Users", {
+            method: "POST",
+            body: JSON.stringify({
+                Username: viewModel.get("email"),
+                Email: viewModel.get("email"),
+                Password: viewModel.get("password")
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(handleErrors);
     };
 
     return viewModel;
+}
+
+function handleErrors(response) {
+    if (!response.ok) {
+        console.log(JSON.stringify(response));
+        return Promise.reject(new Error(response.statusText));
+    }
+    return Promise.resolve(response);
 }
 
 module.exports = User;
