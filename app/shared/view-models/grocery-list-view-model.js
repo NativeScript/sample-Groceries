@@ -5,24 +5,20 @@ function GroceryListViewModel(items) {
 	var viewModel = new observableArrayModule.ObservableArray(items);
 
 	viewModel.load = function() {
-		return new Promise(function(resolve, reject) {
-			fetch(config.apiUrl + "Groceries", {
-				headers: {
-					"Authorization": "Bearer " + config.token
-				}
-			}).then(function(response) {
-				return response.json();
-			}).then(function(data) {
-				data.Result.forEach(function(grocery) {
-					viewModel.push({
-						name: grocery.Name,
-						id: grocery.Id
-					});
+		return fetch(config.apiUrl + "Groceries", {
+			headers: {
+				"Authorization": "Bearer " + config.token
+			}
+		})
+		.then(handleErrors)
+		.then(function(response) {
+			return response.json();
+		}).then(function(data) {
+			data.Result.forEach(function(grocery) {
+				viewModel.push({
+					name: grocery.Name,
+					id: grocery.Id
 				});
-				resolve();
-			}).catch(function(error) {
-				console.log(error);
-				reject();
 			});
 		});
 	};
@@ -34,45 +30,48 @@ function GroceryListViewModel(items) {
 	};
 
 	viewModel.add = function(grocery) {
-		return new Promise(function(resolve, reject) {
-			fetch(config.apiUrl + "Groceries", {
-				method: "POST",
-				body: JSON.stringify({
-					Name: grocery
-				}),
-				headers: {
-					"Authorization": "Bearer " + config.token,
-					"Content-Type": "application/json"
-				}
-			}).then(function() {
-				viewModel.push({ name: grocery });
-				resolve();
-			}).catch(function(error) {
-				console.log(error);
-				reject();
-			});
+		return fetch(config.apiUrl + "Groceries", {
+			method: "POST",
+			body: JSON.stringify({
+				Name: grocery
+			}),
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors)
+		.then(function(response) {
+			return response.json();
+		})
+		.then(function(data) {
+			viewModel.push({ name: grocery, id: data.Result.Id });
 		});
 	};
 
 	viewModel.delete = function(index) {
-		return new Promise(function(resolve, reject) {
-			fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
-				method: "DELETE",
-				headers: {
-					"Authorization": "Bearer " + config.token,
-					"Content-Type": "application/json"
-				}
-			}).then(function() {
-				viewModel.splice(index, 1);
-				resolve();
-			}).catch(function(error) {
-				console.log(error);
-				reject();
-			});
+		return fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
+			method: "DELETE",
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors)
+		.then(function() {
+			viewModel.splice(index, 1);
 		});
 	};
 
 	return viewModel;
+}
+
+function handleErrors(response) {
+	if (!response.ok) {
+		console.log(JSON.stringify(response));
+		return Promise.reject(new Error(response.statusText));
+	}
+	return Promise.resolve(response);
 }
 
 module.exports = GroceryListViewModel;
