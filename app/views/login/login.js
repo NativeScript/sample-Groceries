@@ -23,7 +23,7 @@ exports.loaded = function(args) {
 exports.signIn = function() {
 	user.login()
 		.then(function() {
-			frameModule.topmost().navigate("./views/list/list");
+			frameModule.topmost().navigate("views/list/list");
 		}).catch(function() {
 			dialogsModule.alert({
 				message: "Unfortunately we could not find your account.",
@@ -34,5 +34,5 @@ exports.signIn = function() {
 
 exports.register = function() {
 	var topmost = frameModule.topmost();
-	topmost.navigate("./views/register/register");
+	topmost.navigate("views/register/register");
 };
