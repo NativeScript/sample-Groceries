@@ -1,5 +1,4 @@
 var config = require("../../shared/config");
-var fetchModule = require("fetch");
 var observableArrayModule = require("data/observable-array");
 
 function GroceryListViewModel(items) {
@@ -7,7 +6,7 @@ function GroceryListViewModel(items) {
 
 	viewModel.load = function() {
 		return new Promise(function(resolve, reject) {
-			fetchModule.fetch(config.apiUrl + "Groceries", {
+			fetch(config.apiUrl + "Groceries", {
 				headers: {
 					"Authorization": "Bearer " + config.token
 				}
@@ -36,7 +35,7 @@ function GroceryListViewModel(items) {
 
 	viewModel.add = function(grocery) {
 		return new Promise(function(resolve, reject) {
-			fetchModule.fetch(config.apiUrl + "Groceries", {
+			fetch(config.apiUrl + "Groceries", {
 				method: "POST",
 				body: JSON.stringify({
 					Name: grocery
@@ -57,7 +56,7 @@ function GroceryListViewModel(items) {
 
 	viewModel.delete = function(index) {
 		return new Promise(function(resolve, reject) {
-			fetchModule.fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
+			fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
 				method: "DELETE",
 				headers: {
 					"Authorization": "Bearer " + config.token,
