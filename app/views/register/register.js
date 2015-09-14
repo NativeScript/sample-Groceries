@@ -15,7 +15,7 @@ function completeRegistration() {
             dialogsModule
                 .alert("Your account was successfully created.")
                 .then(function() {
-                    frameModule.topmost().navigate("./views/login/login");
+                    frameModule.topmost().navigate("views/login/login");
                 });
         }).catch(function() {
             dialogsModule
