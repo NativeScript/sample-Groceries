@@ -57,9 +57,9 @@ function User(info) {
 function handleErrors(response) {
 	if (!response.ok) {
 		console.log(JSON.stringify(response));
-		return Promise.reject(new Error(response.statusText));
+		throw Error(response.statusText);
 	}
-	return Promise.resolve(response);
+	return response;
 }
 
 module.exports = User;
