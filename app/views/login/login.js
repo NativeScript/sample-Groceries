@@ -10,6 +10,13 @@ var user = new UserViewModel({
 exports.loaded = function(args) {
 	var page = args.object;
 
+	// Fade the page in over one second
+	page.animate({
+		opacity: 1,
+		duration: 1000
+	});
+
+	// Change the color and style of the iOS UINavigationBar
 	if (page.ios) {
 		var navigationBar = frameModule.topmost().ios.controller.navigationBar;
 		navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
