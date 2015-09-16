@@ -25,6 +25,6 @@
 		}
 	},
 	"dependencies": {
-		"tns-core-modules": "file:../../../Desktop/tns-core-modules-1.3.0.tgz"
+		"tns-core-modules": "1.3"
 	}
 }
