@@ -21,7 +21,7 @@
 		"gulp-jshint": "^1.11.0"
 	},
 	"nativescript": {
-		"id": "org.nativescript.groceries",
+		"id": "com.tjvantoll.groceries",
 		"tns-android": {
 			"version": "1.3.0"
 		},
