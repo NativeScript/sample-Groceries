@@ -39,3 +39,8 @@ exports.register = function() {
 	var topmost = frameModule.topmost();
 	topmost.navigate("views/register/register");
 };
+
+exports.forgotPassword = function() {
+	var topmost = frameModule.topmost();
+	topmost.navigate("views/password/password");
+};

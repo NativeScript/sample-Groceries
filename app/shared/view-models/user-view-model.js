@@ -46,6 +46,19 @@ function User(info) {
 		.then(handleErrors);
 	};
 
+	viewModel.resetPassword = function() {
+		return fetch(config.apiUrl + "Users/resetpassword", {
+			method: "POST",
+			body: JSON.stringify({
+				Email: viewModel.get("email"),
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors);
+	};
+
 	viewModel.isValidEmail = function() {
 		var email = this.get("email");
 		return validator.validate(email);
