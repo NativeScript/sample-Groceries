@@ -1,7 +1,6 @@
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var gesturesModule = require("ui/gestures");
-var viewModule = require("ui/core/view");
 
 var UserViewModel = require("../../shared/view-models/user-view-model");
 var user = new UserViewModel();
@@ -11,8 +10,8 @@ exports.loaded = function(args) {
 	page.bindingContext = user;
 
 	// Dismiss the keyboard when the user taps outside of the two textfields
-	var email = viewModule.getViewById(page, "email");
-	var password = viewModule.getViewById(page, "password");
+	var email = page.getViewById("email");
+	var password = page.getViewById("password");
 	page.observe(gesturesModule.GestureTypes.tap, function() {
 		email.dismissSoftInput();
 		password.dismissSoftInput();

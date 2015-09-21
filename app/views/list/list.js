@@ -1,6 +1,5 @@
 var dialogsModule = require("ui/dialogs");
 var observableModule = require("data/observable");
-var viewModule = require("ui/core/view");
 
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
@@ -17,7 +16,7 @@ exports.loaded = function(args) {
 	page = args.object;
 
 	if (page.ios) {
-		var listView = viewModule.getViewById(page, "groceryList");
+		var listView = page.getViewById("groceryList");
 		swipeDelete.enable(listView, function(index) {
 			groceryList.delete(index);
 		});
@@ -32,7 +31,7 @@ exports.loaded = function(args) {
 		pageData.set("isLoading", false);
 
 		// Fade in the ListView over 1 second
-		viewModule.getViewById(page, "groceryList").animate({
+		page.getViewById("groceryList").animate({
 			opacity: 1,
 			duration: 1000
 		});
@@ -42,7 +41,7 @@ exports.loaded = function(args) {
 exports.add = function() {
 	// Check for empty submission
 	if (pageData.get("grocery").trim() !== "") {
-		viewModule.getViewById(page, "grocery").dismissSoftInput();
+		page.getViewById("grocery").dismissSoftInput();
 		groceryList.add(pageData.get("grocery"))
 			.catch(function(error) {
 				console.log(error);
