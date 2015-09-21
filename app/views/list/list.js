@@ -15,17 +15,27 @@ var pageData = new observableModule.Observable({
 
 exports.loaded = function(args) {
 	page = args.object;
+
 	if (page.ios) {
 		var listView = viewModule.getViewById(page, "groceryList");
 		swipeDelete.enable(listView, function(index) {
 			groceryList.delete(index);
 		});
 	}
+
 	page.bindingContext = pageData;
+
 	groceryList.empty();
+
 	pageData.set("isLoading", true);
 	groceryList.load().then(function() {
 		pageData.set("isLoading", false);
+
+		// Fade in the ListView over 1 second
+		viewModule.getViewById(page, "groceryList").animate({
+			opacity: 1,
+			duration: 1000
+		});
 	});
 };
 
