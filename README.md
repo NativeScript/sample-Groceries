@@ -1,6 +1,18 @@
 # Groceries
 
-Groceries is a NativeScript-built iOS and Android app for managing grocery lists.
+Groceries is a NativeScript-built iOS and Android app for managing grocery lists. You can learn how to build this app from scratch in the [NativeScript getting started guide](http://docs.nativescript.org/getting-started).
+
+## Download
+
+<!--<a href="https://itunes.apple.com/us/app/city-search-geography-challenge/id954908040?mt=8">
+	<img src="assets/app-store-icons/ios-app-store.png" style="height: 59px;">
+</a>-->
+
+<a href="https://play.google.com/store/apps/details?id=org.nativescript.groceries&hl=en">
+	<img src="assets/app-store-icons/google-play.png" style="height: 59px;">
+</a>
+
+## Screenshots
 
 ![](assets/screenshots/login.ios.png)
 ![](assets/screenshots/register.ios.png)
