@@ -31,23 +31,21 @@ $ git clone https://github.com/NativeScript/sample-Groceries.git
 $ cd sample-Groceries
 ```
 
-Next, install the app's npm dependencies:
+Next, install the app's iOS and Android runtimes, as well as the app's npm dependencies:
 
 ```
-$ npm install
+$ tns install
 ```
 
-From there you can use the `platform add` and `run` commands to run Groceries on iOS:
+From there you can use the `run` command to run Groceries on iOS:
 
 ```
-$ tns platform add ios
 $ tns run ios --emulator
 ```
 
-And the same commands to run Groceries on Android:
+And the same command to run Groceries on Android:
 
 ```
-$ tns platform add android
 $ tns run android --emulator
 ```
 
