@@ -18,6 +18,9 @@ exports.loaded = function(args) {
 		navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
 		navigationBar.barStyle = 1;
 		navigationBar.tintColor = UIColor.whiteColor();
+
+		// Enable IQKeyboardManager from the NativeScript-IQKeyboardManager plugin
+		IQKeyboardManager.sharedManager().enable = true;
 	}
 
 	// Dismiss the keyboard when the user taps outside of the two textfields
