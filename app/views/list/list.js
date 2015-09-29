@@ -18,7 +18,7 @@ exports.loaded = function(args) {
 	if (page.ios) {
 		var listView = page.getViewById("groceryList");
 		swipeDelete.enable(listView, function(index) {
-			groceryList.delete(index);
+			performDelete(index);
 		});
 	}
 
@@ -41,9 +41,14 @@ exports.loaded = function(args) {
 exports.add = function() {
 	// Check for empty submission
 	if (pageData.get("grocery").trim() !== "") {
+		pageData.set("isLoading", true);
 		page.getViewById("grocery").dismissSoftInput();
 		groceryList.add(pageData.get("grocery"))
+			.then(function() {
+				pageData.set("isLoading", false);
+			})
 			.catch(function(error) {
+				pageData.set("isLoading", false);
 				console.log(error);
 				dialogsModule.alert({
 					message: "An error occurred while adding an item to your list.",
@@ -70,8 +75,18 @@ exports.share = function() {
 	socialShare.shareText(listString);
 };
 
+function performDelete(index) {
+	pageData.set("isLoading", true);
+	groceryList.delete(index)
+		.then(function() {
+			pageData.set("isLoading", false);
+		})
+		.catch(function() {
+			pageData.set("isLoading", false);
+		});
+}
+
 exports.delete = function(args) {
 	var item = args.view.bindingContext;
-	var index = groceryList.indexOf(item);
-	groceryList.delete(index);
+	performDelete(groceryList.indexOf(item));
 };
