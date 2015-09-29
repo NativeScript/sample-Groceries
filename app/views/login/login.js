@@ -5,7 +5,8 @@ var UserViewModel = require("../../shared/view-models/user-view-model");
 
 var user = new UserViewModel({
 	email: "tj.vantoll@gmail.com",
-	password: "password"
+	password: "password",
+	authenticating: false
 });
 
 exports.loaded = function(args) {
@@ -35,11 +36,19 @@ exports.loaded = function(args) {
 };
 
 exports.signIn = function() {
+	// Don't send off multiple requests at the same time
+	if (user.get("authenticating")) {
+		return;
+	}
+
+	user.set("authenticating", true);
 	user.login()
 		.then(function() {
+			user.set("authenticating", false);
 			frameModule.topmost().navigate("views/list/list");
 		}).catch(function(error) {
 			console.log(error);
+			user.set("authenticating", false);
 			dialogsModule.alert({
 				message: "Unfortunately we could not find your account.",
 				okButtonText: "OK"

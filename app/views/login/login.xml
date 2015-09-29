@@ -9,7 +9,10 @@
 			<TextField id="email_address" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
 			<TextField id="password" secure="true" text="{{ password }}" hint="Password" />
 
-			<Button text="Sign in" tap="signIn" />
+			<GridLayout>
+				<Button text="Sign in" tap="signIn" />
+				<ActivityIndicator busy="{{ authenticating }}" />
+			</GridLayout>
 			<Button text="Sign up for Groceries" tap="register" cssClass="link" />
 			<Button text="Forgot password?" tap="forgotPassword" cssClass="link" />
 		</StackLayout>
