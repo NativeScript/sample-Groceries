@@ -27,19 +27,19 @@ function completeRegistration() {
 	user.set("authenticating", true);
 	user.register()
 		.then(function() {
-			user.set("authenticating", false);
 			dialogsModule
 				.alert("Your account was successfully created.")
 				.then(function() {
 					frameModule.topmost().navigate("views/login/login");
 				});
 		}).catch(function() {
-			user.set("authenticating", false);
 			dialogsModule
 				.alert({
 					message: "Unfortunately we were unable to create your account.",
 					okButtonText: "OK"
 				});
+		}).then(function() {
+			user.set("authenticating", false);
 		});
 }
 

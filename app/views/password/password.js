@@ -25,18 +25,19 @@ exports.reset = function() {
 		user.set("authenticating", true);
 		user.resetPassword()
 			.then(function() {
-				user.set("authenticating", false);
 				dialogsModule.alert({
 					message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
 					okButtonText: "OK"
 				});
 			})
 			.catch(function() {
-				user.set("authenticating", false);
 				dialogsModule.alert({
 					message: "Unfortunately, an error occurred resetting your password.",
 					okButtonText: "OK"
 				});
+			})
+			.then(function() {
+				user.set("authenticating", false);
 			});
 	} else {
 		dialogsModule.alert({

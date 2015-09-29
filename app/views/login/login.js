@@ -44,15 +44,17 @@ exports.signIn = function() {
 	user.set("authenticating", true);
 	user.login()
 		.then(function() {
-			user.set("authenticating", false);
 			frameModule.topmost().navigate("views/list/list");
-		}).catch(function(error) {
+		})
+		.catch(function(error) {
 			console.log(error);
-			user.set("authenticating", false);
 			dialogsModule.alert({
 				message: "Unfortunately we could not find your account.",
 				okButtonText: "OK"
 			});
+		})
+		.then(function() {
+			user.set("authenticating", false);
 		});
 };
 

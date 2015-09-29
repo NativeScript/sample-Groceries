@@ -44,16 +44,15 @@ exports.add = function() {
 		pageData.set("isLoading", true);
 		page.getViewById("grocery").dismissSoftInput();
 		groceryList.add(pageData.get("grocery"))
-			.then(function() {
-				pageData.set("isLoading", false);
-			})
 			.catch(function(error) {
-				pageData.set("isLoading", false);
 				console.log(error);
 				dialogsModule.alert({
 					message: "An error occurred while adding an item to your list.",
 					okButtonText: "OK"
 				});
+			})
+			.then(function() {
+				pageData.set("isLoading", false);
 			});
 
 		// Clear the textfield
