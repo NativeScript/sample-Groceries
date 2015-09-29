@@ -77,10 +77,14 @@ exports.share = function() {
 function performDelete(index) {
 	pageData.set("isLoading", true);
 	groceryList.delete(index)
-		.then(function() {
-			pageData.set("isLoading", false);
+		.catch(function(error) {
+			console.log(error);
+			dialogsModule.alert({
+				message: "An error occurred while adding an item to your list.",
+				okButtonText: "OK"
+			});
 		})
-		.catch(function() {
+		.then(function() {
 			pageData.set("isLoading", false);
 		});
 }
