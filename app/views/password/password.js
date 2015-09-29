@@ -2,7 +2,7 @@ var dialogsModule = require("ui/dialogs");
 var gesturesModule = require("ui/gestures");
 
 var UserViewModel = require("../../shared/view-models/user-view-model");
-var user = new UserViewModel();
+var user = new UserViewModel({ authenticating: false });
 
 exports.loaded = function(args) {
 	var page = args.object;
@@ -16,15 +16,23 @@ exports.loaded = function(args) {
 };
 
 exports.reset = function() {
+	// Don't send off multiple requests at the same time
+	if (user.get("authenticating")) {
+		return;
+	}
+
 	if (user.isValidEmail()) {
+		user.set("authenticating", true);
 		user.resetPassword()
 			.then(function() {
+				user.set("authenticating", false);
 				dialogsModule.alert({
 					message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
 					okButtonText: "OK"
 				});
 			})
 			.catch(function() {
+				user.set("authenticating", false);
 				dialogsModule.alert({
 					message: "Unfortunately, an error occurred resetting your password.",
 					okButtonText: "OK"

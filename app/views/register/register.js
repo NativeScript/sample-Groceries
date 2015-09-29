@@ -3,7 +3,7 @@ var frameModule = require("ui/frame");
 var gesturesModule = require("ui/gestures");
 
 var UserViewModel = require("../../shared/view-models/user-view-model");
-var user = new UserViewModel();
+var user = new UserViewModel({ authenticating: false });
 
 exports.loaded = function(args) {
 	var page = args.object;
@@ -19,14 +19,22 @@ exports.loaded = function(args) {
 };
 
 function completeRegistration() {
+	// Don't send off multiple requests at the same time
+	if (user.get("authenticating")) {
+		return;
+	}
+
+	user.set("authenticating", true);
 	user.register()
 		.then(function() {
+			user.set("authenticating", false);
 			dialogsModule
 				.alert("Your account was successfully created.")
 				.then(function() {
 					frameModule.topmost().navigate("views/login/login");
 				});
 		}).catch(function() {
+			user.set("authenticating", false);
 			dialogsModule
 				.alert({
 					message: "Unfortunately we were unable to create your account.",
