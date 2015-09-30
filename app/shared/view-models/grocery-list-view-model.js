@@ -105,7 +105,12 @@ function GroceryListViewModel(items) {
 		})
 		.then(handleErrors)
 		.then(function() {
-			viewModel.setItem(index, item);
+			viewModel.setItem(index, {
+				name: item.name,
+				id: item.id,
+				deleted: item.deleted,
+				done: item.done
+			});
 		});
 	};
 
