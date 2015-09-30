@@ -19,10 +19,10 @@
 				<ListView items="{{ groceryList }}" id="groceryList"
 					row="1" colSpan="2">
 					<ListView.itemTemplate>
-						<GridLayout columns="*, auto">
-							<Label text="{{ name }}" />
-							<Image src="res://ic_menu_delete" ios:visibility="collapsed" tap="delete"
-								col="1" />
+						<GridLayout columns="auto, *, auto">
+							<Image src="{{ done ? '~/images/checked.png' : '~/images/unchecked.png' }}" cssClass="checkbox" tap="toggleDone" col="0" />
+							<Label text="{{ name }}" col="1" />
+							<Image src="res://ic_menu_delete" ios:visibility="collapsed" tap="delete" col="2" />
 						</GridLayout>
 					</ListView.itemTemplate>
 				</ListView>

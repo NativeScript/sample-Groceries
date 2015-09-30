@@ -27,9 +27,9 @@ exports.loaded = function(args) {
 
 	groceryList.empty();
 
-	pageData.set("isLoading", true);
+	showPageLoadingIndicator();
 	groceryList.load().then(function() {
-		pageData.set("isLoading", false);
+		hidePageLoadingIndicator();
 
 		// Fade in the ListView over 1 second
 		page.getViewById("groceryList").animate({
@@ -42,7 +42,7 @@ exports.loaded = function(args) {
 exports.add = function() {
 	// Check for empty submission
 	if (pageData.get("grocery").trim() !== "") {
-		pageData.set("isLoading", true);
+		showPageLoadingIndicator();
 		page.getViewById("grocery").dismissSoftInput();
 		groceryList.add(pageData.get("grocery"))
 			.catch(function(error) {
@@ -52,9 +52,7 @@ exports.add = function() {
 					okButtonText: "OK"
 				});
 			})
-			.then(function() {
-				pageData.set("isLoading", false);
-			});
+			.then(hidePageLoadingIndicator);
 
 		// Clear the textfield
 		pageData.set("grocery", "");
@@ -98,15 +96,28 @@ function handleAddError(error) {
 }
 
 function performDelete(index) {
-	pageData.set("isLoading", true);
+	showPageLoadingIndicator();
 	groceryList.delete(index)
 		.catch(handleAddError)
-		.then(function() {
-			pageData.set("isLoading", false);
-		});
+		.then(hidePageLoadingIndicator);
+}
+
+function showPageLoadingIndicator() {
+	pageData.set("isLoading", true);
+}
+function hidePageLoadingIndicator() {
+	pageData.set("isLoading", false);
 }
 
 exports.delete = function(args) {
 	var item = args.view.bindingContext;
 	performDelete(groceryList.indexOf(item));
+};
+
+exports.toggleDone = function(args) {
+	var item = args.view.bindingContext;
+	showPageLoadingIndicator();
+	groceryList.toggleDone(groceryList.indexOf(item))
+		.catch(handleAddError)
+		.then(hidePageLoadingIndicator);
 };

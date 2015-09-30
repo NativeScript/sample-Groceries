@@ -15,6 +15,10 @@ TextField {
 Image {
 	margin: 10;
 }
+.checkbox {
+	margin-right: 0;
+	height: 30;
+}
 #drawerContent, StackLayout, #history {
 	background-color: #F7F7F7;
 }

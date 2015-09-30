@@ -20,7 +20,8 @@ function GroceryListViewModel(items) {
 				destination.push({
 					name: grocery.Name,
 					id: grocery.Id,
-					deleted: grocery.Deleted
+					deleted: grocery.Deleted,
+					done: grocery.Done
 				});
 			});
 		});
@@ -86,6 +87,26 @@ function GroceryListViewModel(items) {
 	};
 	viewModel.delete = function(index) {
 		return toggleDelete(index, true);
+	};
+
+	viewModel.toggleDone = function(index) {
+		var item = viewModel.getItem(index);
+		item.done = !item.done;
+
+		return fetch(config.apiUrl + "Groceries/" + item.id, {
+			method: "PUT",
+			body: JSON.stringify({
+				Done: item.done
+			}),
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors)
+		.then(function() {
+			viewModel.setItem(index, item);
+		});
 	};
 
 	return viewModel;
