@@ -49,6 +49,15 @@ And the same command to run Groceries on Android:
 $ tns run android --emulator
 ```
 
+Finally, use the `livesync` command to push out changes to your app without having to go through the full build cycle:
+
+```
+$ tns livesync ios --emulator --watch
+```
+```
+$ tns livesync android --emulator --watch
+```
+
 ### Linting
 
 Groceries uses [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for code linting. To kick off both, use the app's `gulp lint` command:
