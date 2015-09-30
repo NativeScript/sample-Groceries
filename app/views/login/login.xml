@@ -6,14 +6,13 @@
 		<StackLayout>
 			<Image src="res://logo" stretch="none" horizontalAlignment="center" />
 
-			<TextField id="email_address" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
-			<TextField id="password" secure="true" text="{{ password }}" hint="Password" />
-
-			<GridLayout>
-				<Button text="Sign in" tap="signIn" />
-				<ActivityIndicator busy="{{ authenticating }}" />
+			<GridLayout rows="auto, auto">
+				<TextField id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" row="0" />
+				<TextField id="password" secure="true" text="{{ password }}" hint="Password" row="1" />
+				<ActivityIndicator busy="{{ authenticating }}" rowSpan="2" />
 			</GridLayout>
 
+			<Button text="Sign in" tap="signIn" />
 			<Button text="Sign up for Groceries" tap="register" cssClass="link" />
 			<Button text="Forgot password?" tap="forgotPassword" cssClass="link" />
 		</StackLayout>

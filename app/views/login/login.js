@@ -1,6 +1,6 @@
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var gesturesModule = require("ui/gestures");
+var formUtil = require("../../shared/utils/form-util");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 
 var user = new UserViewModel({
@@ -9,8 +9,12 @@ var user = new UserViewModel({
 	authenticating: false
 });
 
+var email;
+var password;
+
 exports.loaded = function(args) {
 	var page = args.object;
+	page.bindingContext = user;
 
 	// Change the color and style of the iOS UINavigationBar
 	if (page.ios) {
@@ -24,16 +28,21 @@ exports.loaded = function(args) {
 		IQKeyboardManager.sharedManager().enable = true;
 	}
 
-	// Dismiss the keyboard when the user taps outside of the two textfields
-	var email = page.getViewById("email_address");
-	var password = page.getViewById("password");
-	page.observe(gesturesModule.GestureTypes.tap, function() {
-		email.dismissSoftInput();
-		password.dismissSoftInput();
-	});
-
-	page.bindingContext = user;
+	email = page.getViewById("email");
+	password = page.getViewById("password");
+	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
+
+function disableForm() {
+	email.editable = false;
+	password.editable = false;
+	user.set("authenticating", true);
+}
+function enableForm() {
+	email.editable = true;
+	password.editable = true;
+	user.set("authenticating", false);
+}
 
 exports.signIn = function() {
 	// Don't send off multiple requests at the same time
@@ -41,7 +50,7 @@ exports.signIn = function() {
 		return;
 	}
 
-	user.set("authenticating", true);
+	disableForm();
 	user.login()
 		.then(function() {
 			frameModule.topmost().navigate("views/list/list");
@@ -53,9 +62,7 @@ exports.signIn = function() {
 				okButtonText: "OK"
 			});
 		})
-		.then(function() {
-			user.set("authenticating", false);
-		});
+		.then(enableForm);
 };
 
 exports.register = function() {

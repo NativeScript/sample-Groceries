@@ -1,19 +1,28 @@
 var dialogsModule = require("ui/dialogs");
-var gesturesModule = require("ui/gestures");
-
+var formUtil = require("../../shared/utils/form-util");
 var UserViewModel = require("../../shared/view-models/user-view-model");
+
 var user = new UserViewModel({ authenticating: false });
+var email;
 
 exports.loaded = function(args) {
 	var page = args.object;
 	page.bindingContext = user;
 
-	// Dismiss the keyboard when the user taps outside textfield
-	var email = page.getViewById("email");
-	page.observe(gesturesModule.GestureTypes.tap, function() {
-		email.dismissSoftInput();
-	});
+	user.set("email", "");
+
+	email = page.getViewById("email");
+	formUtil.hideKeyboardOnBlur(page, [email]);
 };
+
+function disableForm() {
+	email.editable = false;
+	user.set("authenticating", true);
+}
+function enableForm() {
+	email.editable = true;
+	user.set("authenticating", false);
+}
 
 exports.reset = function() {
 	// Don't send off multiple requests at the same time
@@ -22,7 +31,7 @@ exports.reset = function() {
 	}
 
 	if (user.isValidEmail()) {
-		user.set("authenticating", true);
+		disableForm();
 		user.resetPassword()
 			.then(function() {
 				dialogsModule.alert({
@@ -36,9 +45,7 @@ exports.reset = function() {
 					okButtonText: "OK"
 				});
 			})
-			.then(function() {
-				user.set("authenticating", false);
-			});
+			.then(enableForm);
 	} else {
 		dialogsModule.alert({
 			message: "Enter a valid email address.",

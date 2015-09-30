@@ -1,22 +1,34 @@
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var gesturesModule = require("ui/gestures");
-
+var formUtil = require("../../shared/utils/form-util");
 var UserViewModel = require("../../shared/view-models/user-view-model");
+
 var user = new UserViewModel({ authenticating: false });
+var email;
+var password;
 
 exports.loaded = function(args) {
 	var page = args.object;
 	page.bindingContext = user;
 
-	// Dismiss the keyboard when the user taps outside of the two textfields
-	var email = page.getViewById("email");
-	var password = page.getViewById("password");
-	page.observe(gesturesModule.GestureTypes.tap, function() {
-		email.dismissSoftInput();
-		password.dismissSoftInput();
-	});
+	user.set("email", "");
+	user.set("password", "");
+
+	email = page.getViewById("email");
+	password = page.getViewById("password");
+	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
+
+function disableForm() {
+	email.editable = false;
+	password.editable = false;
+	user.set("authenticating", true);
+}
+function enableForm() {
+	email.editable = true;
+	password.editable = true;
+	user.set("authenticating", false);
+}
 
 function completeRegistration() {
 	// Don't send off multiple requests at the same time
@@ -24,7 +36,7 @@ function completeRegistration() {
 		return;
 	}
 
-	user.set("authenticating", true);
+	disableForm();
 	user.register()
 		.then(function() {
 			dialogsModule
@@ -38,9 +50,7 @@ function completeRegistration() {
 					message: "Unfortunately we were unable to create your account.",
 					okButtonText: "OK"
 				});
-		}).then(function() {
-			user.set("authenticating", false);
-		});
+		}).then(enableForm);
 }
 
 exports.register = function() {
