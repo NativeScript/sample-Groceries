@@ -3,6 +3,7 @@ var observableArrayModule = require("data/observable-array");
 
 function GroceryListViewModel(items) {
 	var viewModel = new observableArrayModule.ObservableArray(items);
+	var history = new observableArrayModule.ObservableArray([]);
 
 	viewModel.load = function() {
 		return fetch(config.apiUrl + "Groceries", {
@@ -15,9 +16,11 @@ function GroceryListViewModel(items) {
 			return response.json();
 		}).then(function(data) {
 			data.Result.forEach(function(grocery) {
-				viewModel.push({
+				var destination = grocery.Deleted ? history : viewModel;
+				destination.push({
 					name: grocery.Name,
-					id: grocery.Id
+					id: grocery.Id,
+					deleted: grocery.Deleted
 				});
 			});
 		});
@@ -27,6 +30,13 @@ function GroceryListViewModel(items) {
 		while (viewModel.length) {
 			viewModel.pop();
 		}
+		while (history.length) {
+			history.pop();
+		}
+	};
+
+	viewModel.history = function() {
+		return history;
 	};
 
 	viewModel.add = function(grocery) {
@@ -49,9 +59,16 @@ function GroceryListViewModel(items) {
 		});
 	};
 
-	viewModel.delete = function(index) {
-		return fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
-			method: "DELETE",
+	function toggleDelete(index, deleteFlag) {
+		var source = deleteFlag ? viewModel : history;
+		var destination = deleteFlag ? history : viewModel;
+		var item = source.getItem(index);
+
+		return fetch(config.apiUrl + "Groceries/" + item.id, {
+			method: "PUT",
+			body: JSON.stringify({
+				Deleted: deleteFlag
+			}),
 			headers: {
 				"Authorization": "Bearer " + config.token,
 				"Content-Type": "application/json"
@@ -59,8 +76,16 @@ function GroceryListViewModel(items) {
 		})
 		.then(handleErrors)
 		.then(function() {
-			viewModel.splice(index, 1);
+			source.splice(index, 1);
+			destination.push(item);
 		});
+	}
+
+	viewModel.restore = function(index) {
+		return toggleDelete(index, false);
+	};
+	viewModel.delete = function(index) {
+		return toggleDelete(index, true);
 	};
 
 	return viewModel;

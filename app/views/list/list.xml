@@ -37,11 +37,13 @@
 				<ListView id="history" items="{{ history }}" row="1">
 					<ListView.itemTemplate>
 						<StackLayout orientation="horizontal">
-							<Button text="+" cssClass="addButton" />
+							<Image src="~/images/add.png" tap="addFromHistory" cssClass="addButton" />
 							<Label text="{{ name }}" />
 						</StackLayout>
 					</ListView.itemTemplate>
 				</ListView>
+				<ActivityIndicator busy="{{ isHistoryLoading }}"
+					rowSpan="2" />
 			</GridLayout>
 		</drawer:SideDrawer.drawerContent>
 	</drawer:SideDrawer>
