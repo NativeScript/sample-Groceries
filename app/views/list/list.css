@@ -1,4 +1,4 @@
-ListView {
+#groceryList {
 	margin: 5;
 	opacity: 0;
 }
@@ -14,4 +14,23 @@ TextField {
 }
 Image {
 	margin: 10;
+}
+#drawerContent, StackLayout, #history {
+	background-color: #F7F7F7;
+}
+.heading {
+	text-decoration: underline;
+	font-weight: bold;
+	text-size: 14;
+	border-bottom-width: 1;
+}
+.addButton {
+	background-color: green;
+	color: white;
+	padding: 0 5;
+	border-color: #eee;
+	border-radius: 0;
+	font-weight: bold;
+	margin-right: 0;
+	vertical-align: center;
 }

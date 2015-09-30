@@ -1,5 +1,6 @@
 var dialogsModule = require("ui/dialogs");
 var observableModule = require("data/observable");
+var observableArrayModule = require("data/observable-array");
 
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
@@ -7,9 +8,11 @@ var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-m
 
 var page;
 var groceryList = new GroceryListViewModel([]);
+var history = new observableArrayModule.ObservableArray([]);
 var pageData = new observableModule.Observable({
 	grocery: "",
-	groceryList: groceryList
+	groceryList: groceryList,
+	history: history
 });
 
 exports.loaded = function(args) {
@@ -23,6 +26,8 @@ exports.loaded = function(args) {
 	}
 
 	page.bindingContext = pageData;
+	history.push({ name: "foo" });
+	history.push({ name: "bar" });
 
 	groceryList.empty();
 
@@ -63,6 +68,10 @@ exports.add = function() {
 			okButtonText: "OK"
 		});
 	}
+};
+
+exports.history = function() {
+	page.getViewById("drawer").toggleDrawerState();
 };
 
 exports.share = function() {

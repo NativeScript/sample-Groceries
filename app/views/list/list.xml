@@ -1,30 +1,48 @@
-<Page loaded="loaded">
+<Page loaded="loaded" xmlns:drawer="nativescript-telerik-ui/sidedrawer">
 	<Page.actionBar>
 		<ActionBar title="Groceries">
 			<ActionBar.actionItems>
+				<ActionItem text="History" tap="history" ios.position="right" />
 				<ActionItem text="Share" tap="share" ios.position="right" />
 			</ActionBar.actionItems>
 		</ActionBar>
 	</Page.actionBar>
 
-	<GridLayout rows="auto, *" columns="2*, *">
-		<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item"
-			row="0" col="0" />
-		<Button text="Add" tap="add"
-			row="0" col="1" />
+	<drawer:SideDrawer id="drawer" drawerLocation="Right">
+		<drawer:SideDrawer.mainContent>
+			<GridLayout rows="auto, *" columns="2*, *">
+				<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item"
+					row="0" col="0" />
+				<Button text="Add" tap="add"
+					row="0" col="1" />
 
-		<ListView items="{{ groceryList }}" id="groceryList"
-			row="1" colSpan="2">
-			<ListView.itemTemplate>
-				<GridLayout columns="*, auto">
-					<Label text="{{ name }}" />
-					<Image src="res://ic_menu_delete" ios:visibility="collapsed" tap="delete"
-						col="1" />
-				</GridLayout>
-			</ListView.itemTemplate>
-		</ListView>
+				<ListView items="{{ groceryList }}" id="groceryList"
+					row="1" colSpan="2">
+					<ListView.itemTemplate>
+						<GridLayout columns="*, auto">
+							<Label text="{{ name }}" />
+							<Image src="res://ic_menu_delete" ios:visibility="collapsed" tap="delete"
+								col="1" />
+						</GridLayout>
+					</ListView.itemTemplate>
+				</ListView>
 
-		<ActivityIndicator busy="{{ isLoading }}"
-			rowSpan="2" colSpan="2" />
-	</GridLayout>
+				<ActivityIndicator busy="{{ isLoading }}"
+					rowSpan="2" colSpan="2" />
+			</GridLayout>
+		</drawer:SideDrawer.mainContent>
+		<drawer:SideDrawer.drawerContent>
+			<GridLayout rows="auto, *" id="drawerContent">
+				<Label text="History" cssClass="heading" row="0" />
+				<ListView id="history" items="{{ history }}" row="1">
+					<ListView.itemTemplate>
+						<StackLayout orientation="horizontal">
+							<Button text="+" cssClass="addButton" />
+							<Label text="{{ name }}" />
+						</StackLayout>
+					</ListView.itemTemplate>
+				</ListView>
+			</GridLayout>
+		</drawer:SideDrawer.drawerContent>
+	</drawer:SideDrawer>
 </Page>
