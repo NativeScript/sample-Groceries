@@ -76,7 +76,7 @@ function add() {
 			okButtonText: "OK"
 		});
 	}
-};
+}
 
 exports.signOut = function() {
 	frameModule.topmost().goBack();
@@ -91,10 +91,7 @@ exports.toggleHistory = function(args) {
 	groceryList.toggleDoneHistory(history.indexOf(item));
 };
 
-exports.addFromHistory = function(args) {
-	groceryList.restore();
-	return;
-
+exports.addFromHistory = function() {
 	pageData.set("isHistoryLoading", true);
 	groceryList.restore()
 		.catch(handleAddError)

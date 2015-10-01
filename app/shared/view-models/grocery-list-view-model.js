@@ -82,29 +82,39 @@ function GroceryListViewModel(items) {
 
 	viewModel.restore = function() {
 		var indeces = [];
+		var matches = [];
 		history.forEach(function(item) {
 			if (item.deleted && item.done) {
 				indeces.push(item.id);
+				matches.push(item);
 			}
 		});
 
-		return;
-
-		return fetch(config.apiUrl + "Groceries/" + item.id, {
+		return fetch(config.apiUrl + "Groceries", {
 			method: "PUT",
 			body: JSON.stringify({
-				Deleted: true
+				Deleted: false,
+				Done: false
 			}),
 			headers: {
 				"Authorization": "Bearer " + config.token,
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
+				"X-Everlive-Filter": JSON.stringify({
+					"Id": {
+						"$in": indeces
+					}
+				})
 			}
 		})
 		.then(handleErrors)
 		.then(function() {
-			viewModel.splice(index, 1);
-			item.done = false;
-			history.push(item);
+			matches.forEach(function(match) {
+				var index = history.indexOf(match);
+				match.deleted = false;
+				match.done = false;
+				history.splice(index, 1);
+				viewModel.push(match);
+			});
 		});
 	};
 
