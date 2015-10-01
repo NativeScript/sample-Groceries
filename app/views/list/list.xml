@@ -33,7 +33,7 @@
 		</drawer:SideDrawer.mainContent>
 		<drawer:SideDrawer.drawerContent>
 			<GridLayout rows="auto, *" id="drawerContent">
-				<Label text="History" cssClass="heading" row="0" />
+				<Label text="Add from history" cssClass="heading" row="0" />
 				<ListView id="history" items="{{ history }}" row="1">
 					<ListView.itemTemplate>
 						<StackLayout orientation="horizontal">
