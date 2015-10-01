@@ -1,4 +1,5 @@
 var dialogsModule = require("ui/dialogs");
+var frameModule = require("ui/frame");
 var observableModule = require("data/observable");
 
 var socialShare = require("nativescript-social-share");
@@ -19,6 +20,10 @@ exports.loaded = function(args) {
 	page.bindingContext = pageData;
 
 	if (page.ios) {
+		// Hide the Back arrow
+		var controller = frameModule.topmost().ios.controller;
+		controller.visibleViewController.navigationItem.setHidesBackButtonAnimated(true, false);
+
 		var listView = page.getViewById("groceryList");
 		swipeDelete.enable(listView, function(index) {
 			performDelete(index);
@@ -62,6 +67,10 @@ exports.add = function() {
 			okButtonText: "OK"
 		});
 	}
+};
+
+exports.signOut = function() {
+	frameModule.topmost().goBack();
 };
 
 exports.history = function() {

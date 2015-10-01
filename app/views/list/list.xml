@@ -2,6 +2,7 @@
 	<Page.actionBar>
 		<ActionBar title="Groceries">
 			<ActionBar.actionItems>
+				<ActionItem text="Sign out" tap="signOut" ios.position="left" />
 				<ActionItem text="History" tap="history" ios.position="right" />
 				<ActionItem text="Share" tap="share" ios.position="right" />
 			</ActionBar.actionItems>
