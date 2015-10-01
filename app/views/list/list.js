@@ -1,3 +1,4 @@
+var applicationModule = require("application");
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var observableModule = require("data/observable");
@@ -7,6 +8,7 @@ var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
+var firstTime = true;
 var groceryList = new GroceryListViewModel([]);
 var history = groceryList.history();
 var pageData = new observableModule.Observable({
@@ -28,6 +30,11 @@ exports.loaded = function(args) {
 		swipeDelete.enable(listView, function(index) {
 			performDelete(index);
 		});
+
+		// Add a listeners
+		if (firstTime) {
+			applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", add);
+		}
 	}
 
 	groceryList.empty();
@@ -42,9 +49,11 @@ exports.loaded = function(args) {
 			duration: 1000
 		});
 	});
+
+	firstTime = false;
 };
 
-exports.add = function() {
+function add() {
 	// Check for empty submission
 	if (pageData.get("grocery").trim() !== "") {
 		showPageLoadingIndicator();
@@ -77,10 +86,17 @@ exports.history = function() {
 	page.getViewById("drawer").toggleDrawerState();
 };
 
-exports.addFromHistory = function(args) {
+exports.toggleHistory = function(args) {
 	var item = args.view.bindingContext;
+	groceryList.toggleDoneHistory(history.indexOf(item));
+};
+
+exports.addFromHistory = function(args) {
+	groceryList.restore();
+	return;
+
 	pageData.set("isHistoryLoading", true);
-	groceryList.restore(history.indexOf(item))
+	groceryList.restore()
 		.catch(handleAddError)
 		.then(function() {
 			pageData.set("isHistoryLoading", false);

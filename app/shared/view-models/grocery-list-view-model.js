@@ -21,9 +21,10 @@ function GroceryListViewModel(items) {
 					name: grocery.Name,
 					id: grocery.Id,
 					deleted: grocery.Deleted,
-					done: grocery.Done
+					done: grocery.Done || false
 				});
 			});
+			viewModel.resetHistory();
 		});
 	};
 
@@ -38,6 +39,25 @@ function GroceryListViewModel(items) {
 
 	viewModel.history = function() {
 		return history;
+	};
+	viewModel.toggleDoneHistory = function(index) {
+		var item = history.getItem(index);
+		history.setItem(index, {
+			name: item.name,
+			id: item.id,
+			deleted: true,
+			done: !item.done
+		});
+	};
+	viewModel.resetHistory = function() {
+		history.forEach(function(item, index) {
+			history.setItem(index, {
+				name: item.name,
+				id: item.id,
+				deleted: true,
+				done: false
+			});
+		});
 	};
 
 	viewModel.add = function(grocery) {
@@ -60,15 +80,20 @@ function GroceryListViewModel(items) {
 		});
 	};
 
-	function toggleDelete(index, deleteFlag) {
-		var source = deleteFlag ? viewModel : history;
-		var destination = deleteFlag ? history : viewModel;
-		var item = source.getItem(index);
+	viewModel.restore = function() {
+		var indeces = [];
+		history.forEach(function(item) {
+			if (item.deleted && item.done) {
+				indeces.push(item.id);
+			}
+		});
+
+		return;
 
 		return fetch(config.apiUrl + "Groceries/" + item.id, {
 			method: "PUT",
 			body: JSON.stringify({
-				Deleted: deleteFlag
+				Deleted: true
 			}),
 			headers: {
 				"Authorization": "Bearer " + config.token,
@@ -77,16 +102,31 @@ function GroceryListViewModel(items) {
 		})
 		.then(handleErrors)
 		.then(function() {
-			source.splice(index, 1);
-			destination.push(item);
+			viewModel.splice(index, 1);
+			item.done = false;
+			history.push(item);
 		});
-	}
-
-	viewModel.restore = function(index) {
-		return toggleDelete(index, false);
 	};
+
 	viewModel.delete = function(index) {
-		return toggleDelete(index, true);
+		var item = viewModel.getItem(index);
+
+		return fetch(config.apiUrl + "Groceries/" + item.id, {
+			method: "PUT",
+			body: JSON.stringify({
+				Deleted: true
+			}),
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors)
+		.then(function() {
+			viewModel.splice(index, 1);
+			item.done = false;
+			history.push(item);
+		});
 	};
 
 	viewModel.toggleDone = function(index) {

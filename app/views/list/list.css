@@ -7,28 +7,30 @@ Label {
 	horizontal-align: left;
 	vertical-align: center;
 }
-TextField {
-	border-width: 5;
-	border-style: solid;
-	border-color: #034793;
-}
 Image {
 	margin: 10;
 }
+.topSection, .addAllButton {
+	background-color: #2E6DAD;
+}
 .checkbox {
 	margin-right: 0;
-	height: 30;
+	height: 35;
 }
-#drawerContent, StackLayout, #history {
-	background-color: #F7F7F7;
+#drawerContent {
+	background-color: white;
+	border-width: 1;
+	border-color: #eee;
 }
 .heading {
-	text-decoration: underline;
 	font-weight: bold;
 	text-size: 14;
-	border-bottom-width: 1;
 }
 .addButton {
 	height: 30;
 	margin-right: 0;
+}
+.addAllButton {
+	color: white;
+	border-width: 0;
 }
