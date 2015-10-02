@@ -15,6 +15,7 @@ function GroceryListViewModel(items) {
 		.then(function(response) {
 			return response.json();
 		}).then(function(data) {
+			viewModel.empty();
 			data.Result.forEach(function(grocery) {
 				var destination = grocery.Deleted ? history : viewModel;
 				destination.push({

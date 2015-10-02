@@ -17,6 +17,18 @@ Image {
 	margin-right: 0;
 	height: 35;
 }
+.deleteButton, .doneButton {
+	border-width: 0;
+	margin: 0;
+	color: white;
+	font-size: 10;
+}
+.deleteButton {
+	background-color: red;
+}
+.doneButton {
+	background-color: green;
+}
 #drawerContent {
 	background-color: white;
 	border-width: 1;

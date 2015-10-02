@@ -2,12 +2,16 @@ var applicationModule = require("application");
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var observableModule = require("data/observable");
+var dependencyObservableModule = require("ui/core/dependency-observable");
 
 var socialShare = require("nativescript-social-share");
-var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
+var drawerElement;
+var groceryListElement;
+var mainContentElement;
+
 var firstTime = true;
 var groceryList = new GroceryListViewModel([]);
 var history = groceryList.history();
@@ -21,19 +25,23 @@ exports.loaded = function(args) {
 	page = args.object;
 	page.bindingContext = pageData;
 
+	drawerElement = page.getViewById("drawer");
+	drawerElement.delegate = new DrawerCallbacksModel();
+	groceryListElement = page.getViewById("groceryList");
+	mainContentElement = page.getViewById("mainContent");
+
 	if (page.ios) {
 		// Hide the Back arrow
 		var controller = frameModule.topmost().ios.controller;
 		controller.visibleViewController.navigationItem.setHidesBackButtonAnimated(true, false);
 
-		var listView = page.getViewById("groceryList");
-		swipeDelete.enable(listView, function(index) {
-			performDelete(index);
-		});
-
-		// Add a listeners
+		// Add listeners
 		if (firstTime) {
-			applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", add);
+			applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", function() {
+				if (pageData.get("grocery").trim() !== "") {
+					add();
+				}
+			});
 		}
 	}
 
@@ -44,7 +52,7 @@ exports.loaded = function(args) {
 		hidePageLoadingIndicator();
 
 		// Fade in the ListView over 1 second
-		page.getViewById("groceryList").animate({
+		groceryListElement.animate({
 			opacity: 1,
 			duration: 1000
 		});
@@ -54,28 +62,20 @@ exports.loaded = function(args) {
 };
 
 function add() {
-	// Check for empty submission
-	if (pageData.get("grocery").trim() !== "") {
-		showPageLoadingIndicator();
-		page.getViewById("grocery").dismissSoftInput();
-		groceryList.add(pageData.get("grocery"))
-			.catch(function(error) {
-				console.log(error);
-				dialogsModule.alert({
-					message: "An error occurred while adding an item to your list.",
-					okButtonText: "OK"
-				});
-			})
-			.then(hidePageLoadingIndicator);
+	showPageLoadingIndicator();
+	page.getViewById("grocery").dismissSoftInput();
+	groceryList.add(pageData.get("grocery"))
+		.catch(function(error) {
+			console.log(error);
+			dialogsModule.alert({
+				message: "An error occurred while adding an item to your list.",
+				okButtonText: "OK"
+			});
+		})
+		.then(hidePageLoadingIndicator);
 
-		// Clear the textfield
-		pageData.set("grocery", "");
-	} else {
-		dialogsModule.alert({
-			message: "Enter a grocery item",
-			okButtonText: "OK"
-		});
-	}
+	// Clear the textfield
+	pageData.set("grocery", "");
 }
 
 exports.signOut = function() {
@@ -83,7 +83,7 @@ exports.signOut = function() {
 };
 
 exports.history = function() {
-	page.getViewById("drawer").toggleDrawerState();
+	drawerElement.toggleDrawerState();
 };
 
 exports.toggleHistory = function(args) {
@@ -117,13 +117,6 @@ function handleAddError(error) {
 	});
 }
 
-function performDelete(index) {
-	showPageLoadingIndicator();
-	groceryList.delete(index)
-		.catch(handleAddError)
-		.then(hidePageLoadingIndicator);
-}
-
 function showPageLoadingIndicator() {
 	pageData.set("isLoading", true);
 }
@@ -131,15 +124,55 @@ function hidePageLoadingIndicator() {
 	pageData.set("isLoading", false);
 }
 
-exports.delete = function(args) {
-	var item = args.view.bindingContext;
-	performDelete(groceryList.indexOf(item));
+exports.didFinishSwipeCell = function(args) {
+	var offset = args.data;
+	if (offset.x < 0) {
+		performDelete(args.itemIndex);
+	} else {
+		performToggleDone(args.itemIndex);
+	}
+};
+
+function performDelete(index) {
+	showPageLoadingIndicator();
+	groceryList.delete(index)
+		.catch(handleAddError)
+		.then(hidePageLoadingIndicator);
+};
+
+function performToggleDone(index) {
+	showPageLoadingIndicator();
+	groceryList.toggleDone(index)
+		.catch(handleAddError)
+		.then(hidePageLoadingIndicator);
+}
+
+exports.shouldRefreshOnPull = function(args) {
+	args.returnValue = true;
+	groceryList.load().then(function() {
+		groceryListElement.didRefreshOnPull();
+	});
 };
 
 exports.toggleDone = function(args) {
 	var item = args.view.bindingContext;
-	showPageLoadingIndicator();
-	groceryList.toggleDone(groceryList.indexOf(item))
-		.catch(handleAddError)
-		.then(hidePageLoadingIndicator);
+	performToggleDone(groceryList.indexOf(item));
 };
+
+
+function DrawerCallbacksModel() {}
+DrawerCallbacksModel.prototype = new dependencyObservableModule.DependencyObservable();
+DrawerCallbacksModel.prototype.onDrawerOpening = function () {
+	mainContentElement.animate({
+		duration: 250,
+		opacity: 0.5
+	});
+};
+DrawerCallbacksModel.prototype.onDrawerOpened = function () {};
+DrawerCallbacksModel.prototype.onDrawerClosing = function () {
+	mainContentElement.animate({
+		duration: 250,
+		opacity: 1
+	});
+};
+DrawerCallbacksModel.prototype.onDrawerClosed = function () {};

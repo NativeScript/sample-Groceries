@@ -1,0 +1,46 @@
+<Page loaded="loaded" xmlns:lv="component/listview">
+	<GridLayout>
+		<lv:ListView
+			id="list"
+			items="{{ groceryList }}"
+			swipeCells="true"
+			cellReorder="true"
+			selectionBehavior="none"
+			>
+			<lv:ListView.listViewLayout>
+				<lv:ListViewLinearLayout />
+			</lv:ListView.listViewLayout>
+			<lv:ListView.itemTemplate>
+				<StackLayout>
+					<Label text="{{ name }}"/>
+				</StackLayout>
+			</lv:ListView.itemTemplate>
+			<lv:ListView.itemSwipeTemplate>
+				<GridLayout columns="60, *, 180">
+					<Button text="foo" col="0" style="background-color: red;" />
+					<Label text="{{ foo }}" col="1" />
+					<Button text="bang" col="2" style="background-color: blue;" />
+				</GridLayout>
+			</lv:ListView.itemSwipeTemplate>
+			<lv:ListView.pullToRefreshTemplate>
+				<Label text="hi" />
+			</lv:ListView.pullToRefreshTemplate>
+		</lv:ListView>
+	</GridLayout>
+</Page>
+
+
+<!--
+	<GridLayout columns="60, *, 180">
+		<Button text="foo" col="0" style="background-color: red;" />
+		<Label text="{{ foo }}" col="1" />
+		<Button text="bang" col="2" style="background-color: blue;" />
+	</GridLayout>
+-->
+<!--<ListView items="{{ groceryList }}">
+	<ListView.itemTemplate>
+		<StackLayout>
+			<Label text="{{ name }}"/>
+		</StackLayout>
+	</ListView.itemTemplate>
+</ListView>-->
