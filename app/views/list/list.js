@@ -127,13 +127,14 @@ function hidePageLoadingIndicator() {
 	pageData.set("isLoading", false);
 }
 
-exports.didFinishSwipeCell = function(args) {
-	var offset = args.data;
-	if (offset.x < 0) {
-		performDelete(args.itemIndex);
-	} else {
-		performToggleDone(args.itemIndex);
-	}
+exports.shouldSwipeCell = function(args) {
+	args.returnValue = true;
+
+	// Why is args.data undefined?
+	return;
+	args.data.swipeLimits.left = 60;
+	args.data.swipeLimits.right = 60;
+	args.data.swipeLimits.threshold = 50;
 };
 
 function performDelete(index) {

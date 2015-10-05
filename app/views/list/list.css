@@ -15,6 +15,7 @@ Image {
 }
 .checkbox {
 	margin-right: 0;
+	margin-top: 5;
 	height: 35;
 }
 .deleteButton, .doneButton {

@@ -25,12 +25,12 @@
 					cellReorder="true"
 					selectionBehavior="none"
 					swipeCells="true"
-					didFinishSwipeCell="didFinishSwipeCell"
+					shouldSwipeCell="shouldSwipeCell"
 					pullToRefresh="true"
 					shouldRefreshOnPull="shouldRefreshOnPull"
 					row="1">
 					<lv:ListView.listViewLayout>
-						<lv:ListViewLinearLayout />
+						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
 					</lv:ListView.listViewLayout>
 					<lv:ListView.itemTemplate>
 						<GridLayout columns="auto, *">
@@ -39,10 +39,10 @@
 						</GridLayout>
 					</lv:ListView.itemTemplate>
 					<lv:ListView.itemSwipeTemplate>
-						<GridLayout columns="60, *, 180">
-							<Button text="Done" col="0" cssClass="doneButton" />
-							<Label text="{{ foo }}" col="1" />
-							<Button text="Delete" col="2" cssClass="deleteButton" />
+						<GridLayout columns="60, *, 60">
+							<Image src="res://done" cssClass="doneButton" col="0" />
+							<Button text="{{ foo }}" col="1" />
+							<Image src="res://delete" cssClass="deleteButton" col="2" />
 						</GridLayout>
 					</lv:ListView.itemSwipeTemplate>
 				</lv:ListView>
@@ -55,7 +55,7 @@
 				<Label text="Add recent items" cssClass="heading" row="0" />
 				<lv:ListView id="history" items="{{ history }}" row="1">
 					<lv:ListView.listViewLayout>
-						<lv:ListViewLinearLayout />
+						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
 					</lv:ListView.listViewLayout>
 					<lv:ListView.itemTemplate>
 						<StackLayout orientation="horizontal">
