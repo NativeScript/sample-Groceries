@@ -5,10 +5,9 @@
 			items="{{ groceryList }}"
 			swipeCells="true"
 			cellReorder="true"
-			selectionBehavior="none"
 			>
 			<lv:ListView.listViewLayout>
-				<lv:ListViewLinearLayout />
+				<lv:ListViewLinearLayout itemHeight="75" itemWidth="500" />
 			</lv:ListView.listViewLayout>
 			<lv:ListView.itemTemplate>
 				<StackLayout>
