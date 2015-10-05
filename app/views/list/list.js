@@ -1,4 +1,5 @@
 var applicationModule = require("application");
+var colorModule = require("color");
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var observableModule = require("data/observable");
@@ -43,6 +44,8 @@ exports.loaded = function(args) {
 				}
 			});
 		}
+
+		groceryListElement._ios.pullToRefreshView.backgroundColor = new colorModule.Color("white").ios;
 	}
 
 	groceryList.empty();
