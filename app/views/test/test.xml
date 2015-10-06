@@ -5,6 +5,8 @@
 			items="{{ groceryList }}"
 			swipeCells="true"
 			cellReorder="true"
+			pullToRefresh="true"
+			shouldRefreshOnPull="shouldRefreshOnPull"
 			>
 			<lv:ListView.listViewLayout>
 				<lv:ListViewLinearLayout itemHeight="75" itemWidth="500" />
@@ -17,7 +19,7 @@
 			<lv:ListView.itemSwipeTemplate>
 				<GridLayout columns="60, *, 180">
 					<Button text="foo" col="0" style="background-color: red;" />
-					<Label text="{{ foo }}" col="1" />
+					<Placeholder col="1" />
 					<Button text="bang" col="2" style="background-color: blue;" />
 				</GridLayout>
 			</lv:ListView.itemSwipeTemplate>

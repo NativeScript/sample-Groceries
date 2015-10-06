@@ -18,18 +18,23 @@ Image {
 	margin-top: 5;
 	height: 35;
 }
-.deleteButton, .doneButton {
-	border-width: 0;
-	margin: 0;
-	color: white;
-	font-size: 10;
+
+.swipeImageContainer {
+	background-color: green;
+	height: 50;
 }
-.deleteButton {
+.swipeButton {
+	border-width: 0;
+	margin-top: 15;
+	height: 20;
+}
+.deleteButtonContainer {
 	background-color: red;
 }
-.doneButton {
+.doneButtonContainer {
 	background-color: green;
 }
+
 #drawerContent {
 	background-color: white;
 	border-width: 1;

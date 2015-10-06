@@ -127,17 +127,24 @@ function hidePageLoadingIndicator() {
 	pageData.set("isLoading", false);
 }
 
+// TODO: Why isn't this called? What's the purpose of this function anyways?
+exports.startSwipeCell = function(args) {
+	console.log("startSwipeCell");
+};
+
 exports.shouldSwipeCell = function(args) {
-	args.returnValue = true;
+	console.log("shouldSwipeCell");
+	// TODO: Why is there no data object here? I want to configure thresholds.
+	console.log(Object.keys(args));
+};
 
-	console.log("in here");
-	console.log(args.data);
-
-	// Why is args.data undefined?
-	return;
-	args.data.swipeLimits.left = 60;
-	args.data.swipeLimits.right = 60;
-	args.data.swipeLimits.threshold = 50;
+exports.swipeDone = function(args) {
+	var item = args.view.bindingContext;
+	performToggleDone(groceryList.indexOf(item));
+};
+exports.swipeDelete = function(args) {
+	var item = args.view.bindingContext;
+	performDelete(groceryList.indexOf(item));
 };
 
 function performDelete(index) {
@@ -145,7 +152,7 @@ function performDelete(index) {
 	groceryList.delete(index)
 		.catch(handleAddError)
 		.then(hidePageLoadingIndicator);
-};
+}
 
 function performToggleDone(index) {
 	showPageLoadingIndicator();
@@ -154,18 +161,16 @@ function performToggleDone(index) {
 		.then(hidePageLoadingIndicator);
 }
 
+exports.itemTap = function(args) {
+	performToggleDone(args.itemIndex);
+};
+
 exports.shouldRefreshOnPull = function(args) {
 	args.returnValue = true;
 	groceryList.load().then(function() {
 		groceryListElement.didRefreshOnPull();
 	});
 };
-
-exports.toggleDone = function(args) {
-	var item = args.view.bindingContext;
-	performToggleDone(groceryList.indexOf(item));
-};
-
 
 function DrawerCallbacksModel() {}
 DrawerCallbacksModel.prototype = new dependencyObservableModule.DependencyObservable();
