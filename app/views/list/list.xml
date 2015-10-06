@@ -27,11 +27,10 @@
 					selectionBehavior="Press"
 					swipeCells="true"
 					startSwipeCell="startSwipeCell"
-					shouldSwipeCell="shouldSwipeCell"
 					itemTap="itemTap"
 					row="1">
 					<lv:ListView.listViewLayout>
-						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
+						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" itemWidth="500" />
 					</lv:ListView.listViewLayout>
 					<lv:ListView.itemTemplate>
 						<GridLayout columns="auto, *">
@@ -58,13 +57,17 @@
 		<drawer:SideDrawer.drawerContent>
 			<GridLayout rows="auto, *, auto" id="drawerContent">
 				<Label text="Add recent items" cssClass="heading" row="0" />
-				<lv:ListView id="history" items="{{ history }}" row="1">
+				<lv:ListView
+					id="history"
+					items="{{ history }}"
+					itemTap="toggleHistory"
+					row="1">
 					<lv:ListView.listViewLayout>
 						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
 					</lv:ListView.listViewLayout>
 					<lv:ListView.itemTemplate>
 						<StackLayout orientation="horizontal">
-							<Image src="{{ done ? 'res://selected' : 'res://add-to-groceries' }}" tap="toggleHistory" cssClass="addButton" />
+							<Image src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" cssClass="addButton" />
 							<Label text="{{ name }}" />
 						</StackLayout>
 					</lv:ListView.itemTemplate>

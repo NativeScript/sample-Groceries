@@ -90,8 +90,7 @@ exports.history = function() {
 };
 
 exports.toggleHistory = function(args) {
-	var item = args.view.bindingContext;
-	groceryList.toggleDoneHistory(history.indexOf(item));
+	groceryList.toggleDoneHistory(args.itemIndex);
 };
 
 exports.addFromHistory = function() {
@@ -127,32 +126,22 @@ function hidePageLoadingIndicator() {
 	pageData.set("isLoading", false);
 }
 
-// TODO: Why isn't this called? What's the purpose of this function anyways?
 exports.startSwipeCell = function(args) {
-	console.log("startSwipeCell");
+	args.data.swipeLimits.left = 60;
+	args.data.swipeLimits.right = 60;
 };
-
-exports.shouldSwipeCell = function(args) {
-	console.log("shouldSwipeCell");
-	// TODO: Why is there no data object here? I want to configure thresholds.
-	console.log(Object.keys(args));
-};
-
 exports.swipeDone = function(args) {
 	var item = args.view.bindingContext;
 	performToggleDone(groceryList.indexOf(item));
 };
 exports.swipeDelete = function(args) {
 	var item = args.view.bindingContext;
-	performDelete(groceryList.indexOf(item));
-};
-
-function performDelete(index) {
+	var index = groceryList.indexOf(item);
 	showPageLoadingIndicator();
 	groceryList.delete(index)
 		.catch(handleAddError)
 		.then(hidePageLoadingIndicator);
-}
+};
 
 function performToggleDone(index) {
 	showPageLoadingIndicator();

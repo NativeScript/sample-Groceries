@@ -1,7 +1,8 @@
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var viewModule = require("ui/core/view");
 var observableArray = require("data/observable-array");
@@ -211,17 +212,19 @@ var ListViewLayoutBase = (function (_super) {
     ListViewLayoutBase.itemDeleteAnimationProperty = new dependencyObservable.Property("itemDeleteAnimation", "ListViewLayoutBase", new proxyModule.PropertyMetadata(ListViewItemAnimation.Default, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewLayoutBase.onItemDeleteAnimationPropertyChanged));
     ListViewLayoutBase.itemAppearAnimationProperty = new dependencyObservable.Property("itemAppearAnimation", "ListViewLayoutBase", new proxyModule.PropertyMetadata(ListViewItemAnimation.Default, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewLayoutBase.onItemAppearAnimationPropertyChanged));
     ListViewLayoutBase.animationDurationProperty = new dependencyObservable.Property("animationDuration", "ListViewLayoutBase", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.None, ListViewLayoutBase.onAnimationDurationPropertyChanged));
+    /**
+     The desired cell alignment within a column.
+     */
     ListViewLayoutBase.itemAlignmentProperty = new dependencyObservable.Property("itemAlignment", "ListViewLayoutBase", new proxyModule.PropertyMetadata(ListViewItemAlignment.Center, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewLayoutBase.onItemAlignmentPropertyChanged));
+    /**
+     The spacing between items.
+     */
     ListViewLayoutBase.itemSpacingProperty = new dependencyObservable.Property("itemSpacing", "ListViewLayoutBase", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewLayoutBase.onItemSpacingPropertyChanged));
     ListViewLayoutBase.itemWidthProperty = new dependencyObservable.Property("itemWidth", "ListViewLayoutBase", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewLayoutBase.onItemWidthPropertyChanged));
     ListViewLayoutBase.itemHeightProperty = new dependencyObservable.Property("itemHeight", "ListViewLayoutBase", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewLayoutBase.onItemHeightPropertyChanged));
     return ListViewLayoutBase;
 })(bindableModule.Bindable);
 exports.ListViewLayoutBase = ListViewLayoutBase;
-function onItemsPropertyChanged(data) {
-    var listView = data.object;
-    listView._onItemsPropertyChanged(data);
-}
 var ListView = (function (_super) {
     __extends(ListView, _super);
     function ListView() {
@@ -341,6 +344,16 @@ var ListView = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ListView.prototype, "items", {
+        get: function () {
+            return this._getValue(ListView.itemsProperty);
+        },
+        set: function (value) {
+            this._setValue(ListView.itemsProperty, value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     ListView.onLayoutPropertyChanged = function (data) {
         var lv;
         lv = data.object;
@@ -352,7 +365,7 @@ var ListView = (function (_super) {
     };
     ListView.onItemSwipeTemplatePropertyChanged = function (data) {
         var lv = data.object;
-        lv.onItemTemplateChanged(data);
+        lv.onItemSwipeTemplateChanged(data);
     };
     ListView.onMultipleSelectionPropertyChanged = function (data) {
         var lv = data.object;
@@ -382,6 +395,10 @@ var ListView = (function (_super) {
         var lv = data.object;
         lv.onSelectionBehaviorChanged(data);
     };
+    ListView.onItemsPropertyChanged = function (data) {
+        var listView = data.object;
+        listView.onItemsChanged(data);
+    };
     ListView.prototype.onListViewLayoutChanged = function (data) {
     };
     ListView.prototype.onDataSourceChanged = function (data) {
@@ -404,32 +421,22 @@ var ListView = (function (_super) {
     };
     ListView.prototype.onSelectionBehaviorChanged = function (data) {
     };
-    ListView.prototype._onItemsPropertyChanged = function (data) {
+    ListView.prototype.onItemsChangedInternal = function (data) {
         var lvDataSource;
         lvDataSource = data.object;
         if (data.oldValue instanceof observableModule.Observable) {
-            weakEvents.removeWeakEventListener(data.oldValue, observableArray.ObservableArray.changeEvent, this._onItemsChanged, this);
+            weakEvents.removeWeakEventListener(data.oldValue, observableArray.ObservableArray.changeEvent, this.onSourceCollectionChanged, this);
         }
         if (data.newValue instanceof observableModule.Observable) {
-            weakEvents.addWeakEventListener(data.newValue, observableArray.ObservableArray.changeEvent, this._onItemsChanged, this);
+            weakEvents.addWeakEventListener(data.newValue, observableArray.ObservableArray.changeEvent, this.onSourceCollectionChanged, this);
         }
-        lvDataSource._onItemsChanged(data);
     };
     ListView.prototype.onItemsChanged = function (data) {
+        this.onItemsChangedInternal(data);
     };
-    ListView.prototype._onItemsChanged = function (args) {
+    ListView.prototype.onSourceCollectionChanged = function (data) {
         this.refresh();
     };
-    Object.defineProperty(ListView.prototype, "items", {
-        get: function () {
-            return this._getValue(ListView.itemsProperty);
-        },
-        set: function (value) {
-            this._setValue(ListView.itemsProperty, value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     ListView.prototype.refresh = function () {
     };
     ListView.prototype.scrollToIndex = function (index) {
@@ -441,11 +448,12 @@ var ListView = (function (_super) {
     ListView.didUnhighlightItemEvent = "didUnhighlightItem";
     ListView.shouldSelectItemEvent = "shouldSelectItem";
     ListView.shouldDeselectItemEvent = "shouldDeselectItem";
-    ListView.itemTapEvent = "itemTap";
+    ListView.itemTapEvent = "itemTap"; //didSelectItemEvent
     ListView.didDeselectItemEvent = "didDeselectItem";
     ListView.didReorderItemEvent = "didReorderItem";
     ListView.shouldSwipeCellEvent = "shouldSwipeCell";
     ListView.didSwipeCellEvent = "didSwipeCell";
+    ListView.startSwipeCellEvent = "startSwipeCell";
     ListView.didFinishSwipeCellEvent = "didFinishSwipeCell";
     ListView.didPullEvent = "didPull";
     ListView.didLongPressCellEvent = "didLongPressCell";
@@ -462,7 +470,7 @@ var ListView = (function (_super) {
     ListView.loadOnDemandModeProperty = new dependencyObservable.Property("loadOnDemandMode", "ListView", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.None, ListView.onLoadOnDemandModePropertyChanged));
     ListView.loadOnDemandBufferSizeProperty = new dependencyObservable.Property("loadOnDemandBufferSize", "ListView", new proxyModule.PropertyMetadata(1, dependencyObservable.PropertyMetadataSettings.None, ListView.onLoadOnDemandBufferSizePropertyChanged));
     ListView.selectionBehaviorProperty = new dependencyObservable.Property("selectionBehavior", "ListView", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.None, ListView.onSelectionBehaviorPropertyChanged));
-    ListView.itemsProperty = new dependencyObservable.Property("items", "ListView", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, onItemsPropertyChanged));
+    ListView.itemsProperty = new dependencyObservable.Property("items", "ListView", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListView.onItemsPropertyChanged));
     return ListView;
 })(viewModule.View);
 exports.ListView = ListView;

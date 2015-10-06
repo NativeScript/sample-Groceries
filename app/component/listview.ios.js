@@ -1,7 +1,8 @@
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var viewModule = require("ui/core/view");
 var dependencyObservable = require("ui/core/dependency-observable");
@@ -9,6 +10,9 @@ var commonModule = require("./listview-common");
 var utilsModule = require("utils/utils");
 var builder = require("ui/builder");
 var proxyModule = require("ui/core/proxy");
+var colorModule = require("color");
+// declare var exports;
+// require("utils/module-merge").merge(commonModule, exports);
 var infinity = utilsModule.layout.makeMeasureSpec(0, utilsModule.layout.UNSPECIFIED);
 var knownTemplates;
 (function (knownTemplates) {
@@ -132,20 +136,16 @@ var ListViewLayoutBase = (function (_super) {
     };
     ListViewLayoutBase.prototype.onItemWidthChanged = function (data) {
         if (!isNaN(+data.newValue)) {
-            this._itemWidth = data.newValue;
             this.updateItemSize();
         }
     };
     ListViewLayoutBase.prototype.onItemHeightChanged = function (data) {
         if (!isNaN(+data.newValue)) {
-            this._itemHeight = data.newValue;
             this.updateItemSize();
         }
     };
     ListViewLayoutBase.prototype.updateItemSize = function () {
-        if (this._itemWidth && this._itemHeight) {
-            this.ios.itemSize = CGSizeMake(this._itemWidth, this._itemHeight);
-        }
+        this.ios.itemSize = CGSizeMake(this.itemWidth ? this.itemWidth : this.ios.itemSize.width, this.itemHeight ? this.itemHeight : this.ios.itemSize.height);
     };
     return ListViewLayoutBase;
 })(commonModule.ListViewLayoutBase);
@@ -203,7 +203,9 @@ var ListViewGridLayout = (function (_super) {
             this.ios.lineSpacing = data.newValue;
         }
     };
+    //note: this property should be defined in common module, but inheritence will not be possible then
     ListViewGridLayout.spanCountProperty = new dependencyObservable.Property("spanCount", "ListViewGridLayout", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewGridLayout.onSpanCountPropertyChanged));
+    //note: this property should be defined in common module, but inheritence will not be possible then
     ListViewGridLayout.lineSpacingProperty = new dependencyObservable.Property("lineSpacing", "ListViewGridLayout", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewGridLayout.onLineSpacingPropertyChanged));
     return ListViewGridLayout;
 })(ListViewLayoutBase);
@@ -217,6 +219,8 @@ var ListViewStaggeredLayout = (function (_super) {
     return ListViewStaggeredLayout;
 })(ListViewGridLayout);
 exports.ListViewStaggeredLayout = ListViewStaggeredLayout;
+/////////////////////////////////////////////////////////////
+// TKListViewDelegateImpl
 var TKListViewDelegateImpl = (function (_super) {
     __extends(TKListViewDelegateImpl, _super);
     function TKListViewDelegateImpl() {
@@ -229,6 +233,18 @@ var TKListViewDelegateImpl = (function (_super) {
         this._owner = owner;
         return this;
     };
+    Object.defineProperty(TKListViewDelegateImpl.prototype, "swipeLimits", {
+        get: function () {
+            if (!this._swipeLimits) {
+                this._swipeLimits = (this._owner.listViewLayout.scrollDirection === "Vertical") ?
+                    { left: 60, top: 0, right: 60, bottom: 0, threshold: 30 } :
+                    { left: 0, top: 60, right: 0, bottom: 60, threshold: 30 };
+            }
+            return this._swipeLimits;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TKListViewDelegateImpl.prototype.listViewShouldHighlightItemAtIndexPath = function (listView, indexPath) {
         if (!indexPath) {
             return;
@@ -285,31 +301,50 @@ var TKListViewDelegateImpl = (function (_super) {
         if (!listView || !originalIndexPath || !targetIndexPath) {
             return;
         }
-        var args = { eventName: commonModule.ListView.didReorderItemEvent, object: this._owner, itemIndex: originalIndexPath.row, groupIndex: originalIndexPath.section,
-            data: { targetIndex: targetIndexPath.row, targetGroupIndex: targetIndexPath.section } };
+        var args = {
+            eventName: commonModule.ListView.didReorderItemEvent, object: this._owner, itemIndex: originalIndexPath.row, groupIndex: originalIndexPath.section,
+            data: { targetIndex: targetIndexPath.row, targetGroupIndex: targetIndexPath.section }
+        };
         this._owner.notify(args);
     };
     TKListViewDelegateImpl.prototype.listViewShouldSwipeCellAtIndexPath = function (listView, cell, indexPath) {
-        if (!indexPath) {
-            return;
+        if (!indexPath || !this._owner.hasListeners(commonModule.ListView.shouldSwipeCellEvent)) {
+            return true;
         }
         var args = { eventName: commonModule.ListView.shouldSwipeCellEvent, object: this._owner, itemIndex: indexPath.row, groupIndex: indexPath.section, returnValue: true };
         this._owner.notify(args);
+        if (args.returnValue) {
+            var args = { eventName: commonModule.ListView.startSwipeCellEvent, object: this._owner, itemIndex: indexPath.row, groupIndex: indexPath.section, data: { swipeLimits: this.swipeLimits } };
+            this._owner.notify(args);
+            var swipeLimits = args.data.swipeLimits;
+            if (swipeLimits) {
+                this._owner.ios.cellSwipeLimits = UIEdgeInsetsFromString("{" + swipeLimits.top + ", " + swipeLimits.left + ", " + swipeLimits.bottom + ", " + swipeLimits.right + "}");
+                this._owner.ios.cellSwipeTreshold = swipeLimits.threshold;
+            }
+        }
         return args.returnValue;
     };
     TKListViewDelegateImpl.prototype.listViewDidSwipeCellAtIndexPathWithOffset = function (listView, cell, indexPath, offset) {
         if (!indexPath) {
             return;
         }
-        var args = { eventName: commonModule.ListView.didSwipeCellEvent, object: this._owner, itemIndex: indexPath.row, groupIndex: indexPath.section, data: offset };
+        var swipeOffset = { x: offset.x, y: offset.y, swipeLimits: this.swipeLimits };
+        var args = { eventName: commonModule.ListView.didSwipeCellEvent, object: this._owner, itemIndex: indexPath.row, groupIndex: indexPath.section, data: swipeOffset };
         this._owner.notify(args);
     };
     TKListViewDelegateImpl.prototype.listViewDidFinishSwipeCellAtIndexPathWithOffset = function (listView, cell, indexPath, offset) {
-        if (!indexPath) {
+        if (!indexPath || !this._owner.hasListeners(commonModule.ListView.didFinishSwipeCellEvent)) {
             return;
         }
-        var args = { eventName: commonModule.ListView.didFinishSwipeCellEvent, object: this._owner, itemIndex: indexPath.row, groupIndex: indexPath.section, data: offset };
+        var swipeOffset = { x: offset.x, y: offset.y, swipeLimits: this.swipeLimits };
+        var args = { eventName: commonModule.ListView.didFinishSwipeCellEvent, object: this._owner, itemIndex: indexPath.row, groupIndex: indexPath.section, data: swipeOffset };
         this._owner.notify(args);
+        // var swipeLimits = args.data.swipeLimits;
+        // if (swipeLimits) {
+        //     var insetValue = "{" + swipeLimits.top + ", " + swipeLimits.left + ", " + swipeLimits.bottom + ", " + swipeLimits.right + "}";
+        //     this._owner.ios.cellSwipeLimits = UIEdgeInsetsFromString(insetValue);
+        //     this._owner.ios.cellSwipeTreshold = swipeLimits.threshold;
+        // }
     };
     TKListViewDelegateImpl.prototype.listViewDidPullWithOffset = function (listView, offset) {
         var args = { eventName: commonModule.ListView.didPullEvent, object: this._owner, data: offset };
@@ -338,6 +373,8 @@ var TKListViewDelegateImpl = (function (_super) {
     TKListViewDelegateImpl.ObjCProtocols = [TKListViewDelegate];
     return TKListViewDelegateImpl;
 })(NSObject);
+/////////////////////////////////////////////////////////////
+// TKListViewDataSourceImpl
 var TKListViewDataSourceImpl = (function (_super) {
     __extends(TKListViewDataSourceImpl, _super);
     function TKListViewDataSourceImpl() {
@@ -351,27 +388,25 @@ var TKListViewDataSourceImpl = (function (_super) {
         return this;
     };
     TKListViewDataSourceImpl.prototype.listViewNumberOfItemsInSection = function (listView, section) {
-        return this._owner.items ? this._owner.items.length : 0;
+        return this._owner.items ? this._owner.items.length : 0; //todo: update to support custom DataSource object from owner
     };
     TKListViewDataSourceImpl.prototype.listViewCellForItemAtIndexPath = function (listView, indexPath) {
         var cell = listView.dequeueReusableCellWithReuseIdentifierForIndexPath(NSString.stringWithCString("defaultCell"), indexPath);
-        this._owner.prepareCell(cell, indexPath);
+        //prepare cell view with bindigns
+        var dimensions = this._owner.prepareCell(cell, indexPath);
         var cellView = cell.view.itemView;
         if (cellView) {
-            var cellWidth = this._owner.listViewLayout.itemWidth ? this._owner.listViewLayout.itemWidth : utilsModule.layout.getMeasureSpecSize(this._owner.getMeasuredWidth());
-            var cellHeight = this._owner.listViewLayout.itemHeight ? this._owner.listViewLayout.itemHeight : this._owner.getHeightForCell(indexPath.row);
-            viewModule.View.layoutChild(this._owner, cellView, 0, 0, cellWidth, cellHeight);
+            viewModule.View.layoutChild(this._owner, cellView, 0, 0, dimensions.regularViewMeasuredSize.measuredWidth, dimensions.regularViewMeasuredSize.measuredHeight);
         }
         var backgroundView = cell.view.itemSwipeView;
         if (backgroundView) {
-            var cellWidth = this._owner.listViewLayout.itemWidth ? this._owner.listViewLayout.itemWidth : utilsModule.layout.getMeasureSpecSize(this._owner.getMeasuredWidth());
-            var cellHeight = this._owner.listViewLayout.itemHeight ? this._owner.listViewLayout.itemHeight : this._owner.getHeightForCell(indexPath.row);
-            viewModule.View.layoutChild(this._owner, backgroundView, 0, 0, cellWidth, cellHeight);
+            viewModule.View.layoutChild(this._owner, backgroundView, 0, 0, dimensions.swipeViewMeasuredSize.measuredWidth, dimensions.swipeViewMeasuredSize.measuredHeight);
         }
         return cell;
     };
     TKListViewDataSourceImpl.prototype.numberOfSectionsInListView = function (listView) {
-        return 1;
+        //todo: calll event handler from public interface
+        return 1; //todo: here we should get value from datasource
     };
     TKListViewDataSourceImpl.prototype.listViewViewForSupplementaryElementOfKindAtIndexPath = function (listView, kind, indexPath) {
         return null;
@@ -379,34 +414,37 @@ var TKListViewDataSourceImpl = (function (_super) {
     TKListViewDataSourceImpl.ObjCProtocols = [TKListViewDataSource];
     return TKListViewDataSourceImpl;
 })(NSObject);
+/////////////////////////////////////////////////////////////
+// ListViewCell
 var ListViewCell = (function (_super) {
     __extends(ListViewCell, _super);
     function ListViewCell() {
         _super.apply(this, arguments);
     }
     ListViewCell.new = function () {
-        return _super.new.call(this);
+        var instance = _super.new.call(this);
+        return instance;
     };
     ListViewCell.class = function () {
         return ListViewCell;
     };
     return ListViewCell;
 })(TKListViewCell);
+/////////////////////////////////////////////////////////////
+// ListView
 var ListView = (function (_super) {
     __extends(ListView, _super);
     function ListView() {
         _super.call(this);
-        this._preparingCell = false;
-        this.widthMeasureSpec = 0;
         console.log("ListView::constructor");
         this._heights = new Array();
         this._ios = TKListView.new();
         this._ios.autoresizingMask = UIViewAutoresizing.UIViewAutoresizingFlexibleWidth | UIViewAutoresizing.UIViewAutoresizingFlexibleHeight;
-        this._ios.cellSwipeLimits = UIEdgeInsetsFromString("{0, 60, 0, 180}");
-        this._ios.cellSwipeTreshold = 30;
+        this._ios.cellSwipeTreshold = 30; //the treshold after which the cell will autoswipe to the end and will not jump back to the center.
         this._delegate = TKListViewDelegateImpl.new().initWithOwner(this);
-        this._dataSource = TKListViewDataSourceImpl.new().initWithOwner(this);
+        this._dataSource = TKListViewDataSourceImpl.new().initWithOwner(this); //weak ref
         this._ios.dataSource = this._dataSource;
+        this._ios.pullToRefreshView.backgroundColor = (new colorModule.Color("White")).ios;
         this._ios.registerClassForCellWithReuseIdentifier(ListViewCell.class(), "defaultCell");
     }
     Object.defineProperty(ListView.prototype, "ios", {
@@ -424,6 +462,10 @@ var ListView = (function (_super) {
     };
     ListView.prototype.onListViewLayoutChanged = function (data) {
         this.ios.layout = data.newValue.ios;
+        var newLayout = data.newValue;
+        if (newLayout) {
+            this._ios.cellSwipeLimits = (newLayout.scrollDirection === "Horizontal") ? UIEdgeInsetsFromString("{60, 0, 60, 0}") : UIEdgeInsetsFromString("{0, 60, 0, 60}");
+        }
     };
     ListView.prototype.onItemTemplateChanged = function (data) {
         if (!data.newValue) {
@@ -444,6 +486,7 @@ var ListView = (function (_super) {
     ListView.prototype.onSwipeCellsChanged = function (data) {
         this.ios.allowsCellSwipe = (data.newValue ? true : false);
         ;
+        console.log("Cell swipe: " + this.ios.allowsCellSwipe);
     };
     ListView.prototype.onPullToRefreshChanged = function (data) {
         this.ios.allowsPullToRefresh = (data.newValue ? true : false);
@@ -479,7 +522,7 @@ var ListView = (function (_super) {
         }
     };
     ListView.prototype.getDataItem = function (index) {
-        return this.items.getItem ? this.items.getItem(index) : this.items[index];
+        return this.items.getItem ? this.items.getItem(index) : this.items[index]; //todo: conside usage of DataSource instance here
     };
     ListView.prototype.prepareItem = function (item, index) {
         if (item) {
@@ -489,14 +532,10 @@ var ListView = (function (_super) {
     };
     ListView.prototype.onLoaded = function () {
         _super.prototype.onLoaded.call(this);
-        if (this._isDataDirty) {
-            this.refresh();
-        }
         this._ios.delegate = this._delegate;
     };
     ListView.prototype.onUnloaded = function () {
         this._ios.delegate = null;
-        _super.prototype.onUnloaded.call(this);
     };
     ListView.prototype.scrollToIndex = function (index) {
         if (this._ios) {
@@ -507,28 +546,36 @@ var ListView = (function (_super) {
         this.ios.didRefreshOnPull();
     };
     ListView.prototype.refresh = function () {
-        if (this.isLoaded) {
-            this._ios.reloadData();
-            this.requestLayout();
-            this._isDataDirty = false;
-        }
-        else {
-            this._isDataDirty = true;
-        }
-    };
-    ListView.prototype.requestLayout = function () {
-        if (!this._preparingCell) {
-            _super.prototype.requestLayout.call(this);
-        }
+        this._ios.reloadData();
     };
     ListView.prototype._layoutCell = function (cellView, indexPath) {
         if (cellView) {
-            var measuredSize = viewModule.View.measureChild(this, cellView, this.widthMeasureSpec, infinity);
-            var height = measuredSize.measuredHeight;
-            this.setHeightForCell(indexPath.row, height);
-            return height;
+            var itemWidth = isNaN(this.listViewLayout.itemWidth) ? undefined : this.listViewLayout.itemWidth;
+            var itemHeight = isNaN(this.listViewLayout.itemHeight) ? undefined : this.listViewLayout.itemHeight;
+            var heightSpec, widthSpec;
+            if (this.listViewLayout.scrollDirection === "Vertical") {
+                itemWidth = (itemWidth === undefined) ? this.getMeasuredWidth() : itemWidth;
+                if (itemHeight === undefined) {
+                    heightSpec = utilsModule.layout.makeMeasureSpec(0, utilsModule.layout.UNSPECIFIED);
+                }
+                else {
+                    heightSpec = utilsModule.layout.makeMeasureSpec(itemHeight, utilsModule.layout.EXACTLY);
+                }
+                widthSpec = utilsModule.layout.makeMeasureSpec(itemWidth, utilsModule.layout.EXACTLY);
+            }
+            else {
+                itemHeight = (itemHeight === undefined) ? this.getMeasuredHeight() : itemHeight;
+                if (itemWidth === undefined) {
+                    widthSpec = utilsModule.layout.makeMeasureSpec(0, utilsModule.layout.UNSPECIFIED);
+                }
+                else {
+                    widthSpec = utilsModule.layout.makeMeasureSpec(itemWidth, utilsModule.layout.EXACTLY);
+                }
+                heightSpec = utilsModule.layout.makeMeasureSpec(itemHeight, utilsModule.layout.EXACTLY);
+            }
+            return viewModule.View.measureChild(this, cellView, widthSpec, heightSpec);
         }
-        return 0;
+        return undefined;
     };
     ListView.prototype.getItemTemplateContent = function () {
         var cellViews = new Object();
@@ -542,45 +589,38 @@ var ListView = (function (_super) {
     };
     ListView.prototype.prepareCell = function (tableCell, indexPath) {
         var cell = tableCell;
-        var cellHeight = 20;
-        try {
-            this._preparingCell = true;
-            cell.view = this.getItemTemplateContent();
-            var args = { eventName: commonModule.ListView.itemLoadingEvent, object: this, index: indexPath.row, view: cell.view, ios: cell, android: undefined };
-            this.notify(args);
-            cell.view = args.view;
-            if (cell.view.itemView && !cell.view.itemView.parent) {
-                if (cell.myContentView) {
-                    cell.myContentView.ios.removeFromSuperview();
-                    cell.myContentView = null;
-                }
-                cell.myContentView = cell.view.itemView;
-                if (cell.contentView.subviews && cell.contentView.subviews.count > 0) {
-                    cell.contentView.insertSubviewBelowSubview(cell.view.itemView.ios, cell.contentView.subviews.objectAtIndex(0));
-                }
-                else {
-                    cell.contentView.addSubview(cell.view.itemView.ios);
-                }
-                this._addView(cell.view.itemView);
+        cell.view = this.getItemTemplateContent();
+        if (cell.view.itemView && !cell.view.itemView.parent) {
+            if (cell.myContentView) {
+                cell.myContentView.ios.removeFromSuperview();
+                cell.myContentView = null;
             }
-            this.prepareItem(cell.view.itemView, indexPath.row);
-            cellHeight = this._layoutCell(cell.view.itemView, indexPath);
-            if (cell.view.itemSwipeView && !cell.view.itemSwipeView.parent) {
-                if (cell.myBackgroundView) {
-                    cell.myBackgroundView.ios.removeFromSuperview();
-                    cell.myBackgroundView = null;
-                }
-                cell.myBackgroundView = cell.view.itemSwipeView;
-                cell.swipeBackgroundView.addSubview(cell.view.itemSwipeView.ios);
-                this._addView(cell.view.itemSwipeView);
+            cell.myContentView = cell.view.itemView;
+            if (cell.contentView.subviews && cell.contentView.subviews.count > 0) {
+                cell.contentView.insertSubviewBelowSubview(cell.view.itemView.ios, cell.contentView.subviews.objectAtIndex(0));
             }
-            this.prepareItem(cell.view.itemSwipeView, indexPath.row);
-            cellHeight = this._layoutCell(cell.view.itemSwipeView, indexPath);
+            else {
+                cell.contentView.addSubview(cell.view.itemView.ios);
+            }
+            this._addView(cell.view.itemView);
         }
-        finally {
-            this._preparingCell = false;
+        this.prepareItem(cell.view.itemView, indexPath.row);
+        var regularViewDesiredSize = this._layoutCell(cell.view.itemView, indexPath);
+        if (cell.view.itemSwipeView && !cell.view.itemSwipeView.parent) {
+            if (cell.myBackgroundView) {
+                cell.myBackgroundView.ios.removeFromSuperview();
+                cell.myBackgroundView = null;
+            }
+            cell.myBackgroundView = cell.view.itemSwipeView;
+            cell.swipeBackgroundView.addSubview(cell.view.itemSwipeView.ios);
+            this._addView(cell.view.itemSwipeView);
         }
-        return cellHeight;
+        this.prepareItem(cell.view.itemSwipeView, indexPath.row);
+        var swipeViewDesiredSize = this._layoutCell(cell.view.itemSwipeView, indexPath);
+        return {
+            swipeViewMeasuredSize: swipeViewDesiredSize,
+            regularViewMeasuredSize: regularViewDesiredSize
+        };
     };
     return ListView;
 })(commonModule.ListView);

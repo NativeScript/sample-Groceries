@@ -121,6 +121,10 @@ function GroceryListViewModel(items) {
 
 	viewModel.delete = function(index) {
 		var item = viewModel.getItem(index);
+		viewModel.splice(index, 1);
+		item.done = false;
+		item.deleted = true;
+		history.push(item);
 
 		return fetch(config.apiUrl + "Groceries/" + item.id, {
 			method: "PUT",
@@ -132,17 +136,13 @@ function GroceryListViewModel(items) {
 				"Content-Type": "application/json"
 			}
 		})
-		.then(handleErrors)
-		.then(function() {
-			viewModel.splice(index, 1);
-			item.done = false;
-			history.push(item);
-		});
+		.then(handleErrors);
 	};
 
 	viewModel.toggleDone = function(index) {
 		var item = viewModel.getItem(index);
 		item.done = !item.done;
+		viewModel.setItem(index, item);
 
 		return fetch(config.apiUrl + "Groceries/" + item.id, {
 			method: "PUT",
@@ -154,15 +154,7 @@ function GroceryListViewModel(items) {
 				"Content-Type": "application/json"
 			}
 		})
-		.then(handleErrors)
-		.then(function() {
-			viewModel.setItem(index, {
-				name: item.name,
-				id: item.id,
-				deleted: item.deleted,
-				done: item.done
-			});
-		});
+		.then(handleErrors);
 	};
 
 	return viewModel;

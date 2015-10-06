@@ -1,9 +1,11 @@
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    __.prototype = b.prototype;
+    d.prototype = new __();
 };
 var dependencyObservable = require('ui/core/dependency-observable');
+var observableArray = require("data/observable-array");
 var listViewCommonModule = require('./listview-common');
 var proxyModule = require('ui/core/proxy');
 var builder = require('ui/builder');
@@ -12,6 +14,9 @@ var knownTemplates;
     knownTemplates.itemTemplate = "itemTemplate";
     knownTemplates.itemSwipeTemplate = "itemSwipeTemplate";
 })(knownTemplates = exports.knownTemplates || (exports.knownTemplates = {}));
+// We need this class because it is the point where we plug-in into the listView
+// and use the defined itemTemplate to create the native Android item views and
+// pass it to the control.
 var ListViewAdapter = (function (_super) {
     __extends(ListViewAdapter, _super);
     function ListViewAdapter(items, listView) {
@@ -22,8 +27,6 @@ var ListViewAdapter = (function (_super) {
     ListViewAdapter.prototype.onCreateItemViewHolder = function (parent, viewType) {
         var view = builder.parse(this.ownerLv.itemTemplate);
         this.ownerLv._addView(view);
-        var id = parent.getContext().getResources().getIdentifier("selectable_item_background", "drawable", "org.nativescript.devenv");
-        view.android.setBackgroundResource(id);
         var holder = new com.telerik.widget.list.ListViewHolder(view.android);
         holder.nsView = view;
         return holder;
@@ -40,6 +43,28 @@ var ListViewAdapter = (function (_super) {
     };
     ListViewAdapter.prototype.onBindSwipeContentHolder = function (holder, position) {
         holder.nsView.bindingContext = JSON.parse(this.getItem(position));
+    };
+    ListViewAdapter.prototype.canSwipe = function (position) {
+        var args = {
+            eventName: listViewCommonModule.ListView.shouldSwipeCellEvent,
+            object: this.ownerLv,
+            itemIndex: position,
+            groupIndex: -1,
+            returnValue: true
+        };
+        this.ownerLv.notify(args);
+        return args.returnValue;
+    };
+    ListViewAdapter.prototype.canSelect = function (position) {
+        var args = {
+            eventName: listViewCommonModule.ListView.shouldSelectItemEvent,
+            object: this.ownerLv,
+            itemIndex: position,
+            groupIndex: -1,
+            returnValue: true
+        };
+        this.ownerLv.notify(args);
+        return args.returnValue;
     };
     return ListViewAdapter;
 })(com.telerik.widget.list.ListViewDataSourceAdapter);
@@ -61,6 +86,20 @@ var ListView = (function (_super) {
             this.updateLoadOnDemandBehavior();
             this.updatePullToRefreshBehavior();
             this.updateSwipeToExecuteBehavior();
+            var that = new WeakRef(this);
+            this._android.addItemClickListener(new com.telerik.widget.list.RadListView.ItemClickListener({
+                onItemClick: function (itemPosition, motionEvent) {
+                    var args = {
+                        eventName: listViewCommonModule.ListView.itemTapEvent,
+                        object: that.get(),
+                        itemIndex: itemPosition,
+                        groupIndex: -1
+                    };
+                    that.get().notify(args);
+                },
+                onItemLongClick: function (itemPosition, motionEvent) {
+                }
+            }));
         }
     };
     Object.defineProperty(ListView.prototype, "android", {
@@ -82,7 +121,7 @@ var ListView = (function (_super) {
         }
     };
     ListView.prototype.onItemTemplateChanged = function (data) {
-        _super.prototype.onItemTemplateChanged.call(this, data);
+        _super.prototype.onItemTemplateChanged.call(this, data); //todo: update current template with the new one
         this.loadData();
     };
     ListView.prototype.itemSwipeTemplateChanged = function (data) {
@@ -122,8 +161,40 @@ var ListView = (function (_super) {
         _super.prototype.onItemsChanged.call(this, data);
         this.loadData();
     };
-    ListView.prototype.refresh = function () {
-        this.loadData();
+    ListView.prototype.onSourceCollectionChanged = function (data) {
+        if (data.action === observableArray.ChangeType.Update) {
+            this._android.getAdapter().remove(data.index);
+            this._android.getAdapter().add(data.index, JSON.stringify(this.items.getItem(data.index)));
+        }
+        else if (data.action === observableArray.ChangeType.Delete) {
+            this._android.getAdapter().remove(data.index);
+        }
+        else if (data.action === observableArray.ChangeType.Add) {
+            for (var i = 0; i < data.addedCount; i++) {
+                this._android.getAdapter().add(JSON.stringify(this.items.getItem(data.index + i)));
+            }
+        }
+        else if (data.action === observableArray.ChangeType.Splice) {
+            if (data.removed && (data.removed.length > 0)) {
+                for (var i = 0; i < data.removed.length; i++) {
+                    this._android.getAdapter().remove(data.index + i);
+                }
+            }
+            else {
+                for (var i = 0; i < data.addedCount; i++) {
+                    this._android.getAdapter().add(data.index + i, JSON.stringify(this.items.getItem(data.index + i)));
+                }
+            }
+        }
+    };
+    ListView.prototype.didRefreshOnPull = function () {
+        if (!this._pullToRefreshBehavior) {
+            return;
+        }
+        if (!this._android) {
+            return;
+        }
+        this._android.getAdapter().notifyRefreshFinished();
     };
     ListView.prototype.scrollToIndex = function (index) {
         console.log("TODO: impelment scroll to position");
@@ -136,6 +207,64 @@ var ListView = (function (_super) {
             if (!this._swipeExecuteBehavior) {
                 this._swipeExecuteBehavior = new com.telerik.widget.list.SwipeExecuteBehavior();
                 this._android.addBehavior(this._swipeExecuteBehavior);
+                var that = new WeakRef(this);
+                this._swipeExecuteBehavior.addListener(new com.telerik.widget.list.SwipeExecuteBehavior.SwipeExecuteListener({
+                    swipeLimits: (that.get().listViewLayout.scrollDirection === "Vertical") ?
+                        { left: 60, top: 0, right: 60, bottom: 0, threshold: 30 } :
+                        { left: 0, top: 60, right: 0, bottom: 60, threshold: 30 },
+                    onSwipeStarted: function (position) {
+                        var args = {
+                            eventName: listViewCommonModule.ListView.startSwipeCellEvent,
+                            object: that.get(),
+                            itemIndex: position,
+                            groupIndex: -1,
+                            data: { swipeLimits: this.swipeLimits }
+                        };
+                        that.get().notify(args);
+                    },
+                    onSwipeProgressChanged: function (position, currentOffset, swipeContent) {
+                        var args = {
+                            eventName: listViewCommonModule.ListView.didSwipeCellEvent,
+                            object: that.get(),
+                            itemIndex: position,
+                            data: { x: currentOffset, y: 0, swipeLimits: this.swipeLimits },
+                            returnValue: undefined
+                        };
+                        that.get().notify(args);
+                    },
+                    onSwipeEnded: function (position, finalOffset) {
+                        var args = {
+                            eventName: listViewCommonModule.ListView.didFinishSwipeCellEvent,
+                            object: that.get(),
+                            itemIndex: position,
+                            data: { x: finalOffset, y: 0, swipeLimits: this.swipeLimits },
+                            returnValue: undefined
+                        };
+                        that.get().notify(args);
+                        if (args.data.swipeLimits) {
+                            if (Math.abs(finalOffset) > args.data.swipeLimits.threshold) {
+                                if (finalOffset < 0) {
+                                    if (that.get().listViewLayout.scrollDirection === "Horizontal") {
+                                        that.get()._swipeExecuteBehavior.setSwipeOffset(-args.data.swipeLimits.bottom);
+                                    }
+                                    else if (that.get().listViewLayout.scrollDirection === "Vertical") {
+                                        that.get()._swipeExecuteBehavior.setSwipeOffset(-args.data.swipeLimits.right);
+                                    }
+                                }
+                                else if (finalOffset > 0) {
+                                    if (that.get().listViewLayout.scrollDirection === "Horizontal") {
+                                        that.get()._swipeExecuteBehavior.setSwipeOffset(args.data.swipeLimits.top);
+                                    }
+                                    else if (that.get().listViewLayout.scrollDirection === "Vertical") {
+                                        that.get()._swipeExecuteBehavior.setSwipeOffset(args.data.swipeLimits.left);
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    onExecuteFinished: function (position) {
+                    }
+                }));
             }
         }
         else {
@@ -153,11 +282,22 @@ var ListView = (function (_super) {
             if (!this._pullToRefreshBehavior) {
                 this._pullToRefreshBehavior = new com.telerik.widget.list.SwipeRefreshBehavior();
                 this._android.addBehavior(this._pullToRefreshBehavior);
+                var that = new WeakRef(this);
+                this._pullToRefreshBehavior.addListener(new com.telerik.widget.list.SwipeRefreshBehavior.SwipeRefreshListener({
+                    onRefreshRequested: function () {
+                        var args = {
+                            eventName: listViewCommonModule.ListView.shouldRefreshOnPullEvent,
+                            object: that.get()._owner,
+                            returnValue: true
+                        };
+                        that.get().notify(args);
+                    }
+                }));
             }
         }
         else {
             if (this._pullToRefreshBehavior) {
-                this._android.addBehavior(this._pullToRefreshBehavior);
+                this._android.removeBehavior(this._pullToRefreshBehavior);
                 this._pullToRefreshBehavior = null;
             }
         }
@@ -169,6 +309,19 @@ var ListView = (function (_super) {
         if (!this._loadOnDemandBehavior) {
             this._loadOnDemandBehavior = new com.telerik.widget.list.LoadOnDemandBehavior();
             this._android.addBehavior(this._loadOnDemandBehavior);
+            var that = new WeakRef(this);
+            this._loadOnDemandBehavior.addListener(new com.telerik.widget.list.LoadOnDemandBehavior.LoadOnDemandListener({
+                onLoadStarted: function () {
+                    var args = {
+                        eventName: listViewCommonModule.ListView.shouldLoadMoreDataEvent,
+                        object: that.get(),
+                        returnValue: true
+                    };
+                    that.get().notify(args);
+                },
+                onLoadFinished: function () {
+                }
+            }));
         }
         if (!isNaN(this.loadOnDemandBufferSize)) {
             this._loadOnDemandBehavior.setMaxRemainingItems(this.loadOnDemandBufferSize);
@@ -195,6 +348,23 @@ var ListView = (function (_super) {
             if (!this._reorderBehavior) {
                 this._reorderBehavior = new com.telerik.widget.list.ItemReorderBehavior();
                 this._android.addBehavior(this._reorderBehavior);
+                var that = new WeakRef(this);
+                this._reorderBehavior.addListener(new com.telerik.widget.list.ItemReorderBehavior.ItemReorderListener({
+                    onReorderStarted: function (position) {
+                    },
+                    onReorderItem: function (fromIndex, toIndex) {
+                        var args = {
+                            eventName: listViewCommonModule.ListView.didReorderItemEvent,
+                            object: that.get(),
+                            itemIndex: fromIndex,
+                            groupIndex: -1,
+                            data: { targetIndex: toIndex, targetGroupIndex: -1 }
+                        };
+                        that.get().notify(args);
+                    },
+                    onReorderFinished: function () {
+                    }
+                }));
             }
         }
         else {
@@ -211,6 +381,22 @@ var ListView = (function (_super) {
         if (!this._selectionBehavior) {
             this._selectionBehavior = new com.telerik.widget.list.SelectionBehavior();
             this._android.addBehavior(this._selectionBehavior);
+            var that = new WeakRef(this);
+            this._selectionBehavior.addListener(new com.telerik.widget.list.SelectionBehavior.SelectionChangedListener({
+                onSelectionStarted: function () {
+                },
+                onItemIsSelectedChanged: function (position, newValue) {
+                    var args = {
+                        eventName: listViewCommonModule.ListView.itemTapEvent,
+                        object: that.get(),
+                        itemIndex: position,
+                        groupIndex: -1
+                    };
+                    that.get().notify(args);
+                },
+                onSelectionEnded: function () {
+                }
+            }));
         }
         if (this.multipleSelection === true) {
             this._selectionBehavior.setSelectionMode(com.telerik.widget.list.SelectionBehavior.SelectionMode.MULTIPLE);
@@ -218,7 +404,6 @@ var ListView = (function (_super) {
         else {
             this._selectionBehavior.setSelectionMode(com.telerik.widget.list.SelectionBehavior.SelectionMode.SINGLE);
         }
-        console.log("selection behavior: ", this.selectionBehavior);
         switch (this.selectionBehavior) {
             case listViewCommonModule.ListViewSelectionBehavior.None:
                 this._android.removeBehavior(this._selectionBehavior);
@@ -255,7 +440,6 @@ var AndroidLVLayoutBase = (function (_super) {
     }
     AndroidLVLayoutBase.prototype._init = function (owner) {
         this._owner = owner;
-        console.log("==>> Init called");
     };
     AndroidLVLayoutBase.prototype._reset = function () {
     };
@@ -365,6 +549,7 @@ var ListViewGridLayout = (function (_super) {
         var sc = (this.spanCount ? this.spanCount : 2);
         return new android.support.v7.widget.GridLayoutManager(this._owner._context, sc);
     };
+    //note: this property should be defined in common module, but inheritence will not be possible then
     ListViewGridLayout.spanCountProperty = new dependencyObservable.Property("spanCount", "ListViewGridLayout", new proxyModule.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsLayout, ListViewGridLayout.onSpanCountPropertyChanged));
     return ListViewGridLayout;
 })(ListViewLinearLayout);
