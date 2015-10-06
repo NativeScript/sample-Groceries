@@ -2,6 +2,9 @@
 	margin: 5;
 	opacity: 0;
 }
+TextField {
+	background-color: white;
+}
 Label {
 	margin: 10;
 	horizontal-align: left;
