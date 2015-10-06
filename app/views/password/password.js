@@ -21,7 +21,7 @@ function disableForm() {
 	user.set("authenticating", true);
 }
 function enableForm() {
-	email.editable = true;
+	// email.editable = true;
 	user.set("authenticating", false);
 }
 

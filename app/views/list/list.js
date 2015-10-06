@@ -130,6 +130,9 @@ function hidePageLoadingIndicator() {
 exports.shouldSwipeCell = function(args) {
 	args.returnValue = true;
 
+	console.log("in here");
+	console.log(args.data);
+
 	// Why is args.data undefined?
 	return;
 	args.data.swipeLimits.left = 60;
@@ -167,16 +170,20 @@ exports.toggleDone = function(args) {
 function DrawerCallbacksModel() {}
 DrawerCallbacksModel.prototype = new dependencyObservableModule.DependencyObservable();
 DrawerCallbacksModel.prototype.onDrawerOpening = function () {
-	mainContentElement.animate({
-		duration: 250,
-		opacity: 0.5
-	});
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 0.5
+		});
+	}
 };
 DrawerCallbacksModel.prototype.onDrawerOpened = function () {};
 DrawerCallbacksModel.prototype.onDrawerClosing = function () {
-	mainContentElement.animate({
-		duration: 250,
-		opacity: 1
-	});
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 1
+		});
+	}
 };
 DrawerCallbacksModel.prototype.onDrawerClosed = function () {};

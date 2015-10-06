@@ -2,8 +2,8 @@
 	<Page.actionBar>
 		<ActionBar title="Groceries">
 			<ActionBar.actionItems>
-				<ActionItem text="Sign out" tap="signOut" ios.position="left" />
-				<ActionItem android.text="Share" tap="share" icon="res://share" ios.position="right" />
+				<ActionItem text="Sign out" tap="signOut" ios.position="left" android:icon="res://ic_logout" />
+				<ActionItem android.text="Share" tap="share" ios:icon="res://share" android:icon="res://ic_share" ios.position="right" />
 			</ActionBar.actionItems>
 		</ActionBar>
 	</Page.actionBar>
@@ -16,7 +16,7 @@
 			<GridLayout rows="auto, *" id="mainContent">
 				<GridLayout cssClass="topSection" row="0" columns="*, auto">
 					<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" col="0" />
-					<Image src="res://history" tap="history" col="1" />
+					<Image ios:src="res://history" android:src="res://ic_recent" tap="history" col="1" />
 				</GridLayout>
  
 				<lv:ListView
