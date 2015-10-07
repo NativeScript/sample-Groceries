@@ -12,9 +12,10 @@
 		<drawer:SideDrawer.drawerTransition>
 			<drawer:PushTransition />
 		</drawer:SideDrawer.drawerTransition>
+
 		<drawer:SideDrawer.mainContent>
 			<GridLayout rows="auto, *" id="mainContent">
-				<GridLayout cssClass="topSection" row="0" columns="*, auto">
+				<GridLayout row="0" columns="*, auto" cssClass="mainColor">
 					<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" col="0" />
 					<Image ios:src="res://history" android:src="res://ic_recent" tap="history" col="1" />
 				</GridLayout>
@@ -30,16 +31,16 @@
 					itemTap="itemTap"
 					row="1">
 					<lv:ListView.listViewLayout>
-						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" itemWidth="500" />
+						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" />
 					</lv:ListView.listViewLayout>
 					<lv:ListView.itemTemplate>
-						<GridLayout columns="auto, *">
+						<GridLayout columns="auto, *" backgroundColor="white">
 							<Image src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
 							<Label text="{{ name }}" col="1" />
 						</GridLayout>
 					</lv:ListView.itemTemplate>
 					<lv:ListView.itemSwipeTemplate>
-						<GridLayout columns="60, *, 180">
+						<GridLayout columns="auto, *, auto">
 							<StackLayout cssClass="swipeImageContainer doneButtonContainer" col="0">
 								<Image ios:src="res://done" android:src="res://ic_done" tap="swipeDone" cssClass="swipeButton" />
 							</StackLayout>
@@ -54,6 +55,7 @@
 				<ActivityIndicator busy="{{ isLoading }}" rowSpan="2" />
 			</GridLayout>
 		</drawer:SideDrawer.mainContent>
+
 		<drawer:SideDrawer.drawerContent>
 			<GridLayout rows="auto, *, auto" id="drawerContent">
 				<Label text="Add recent items" cssClass="heading" row="0" />
@@ -72,10 +74,11 @@
 						</StackLayout>
 					</lv:ListView.itemTemplate>
 				</lv:ListView>
-				<Button text="Add to the groceries list" tap="addFromHistory" cssClass="addAllButton" row="2" />
+				<Button text="Add to the groceries list" tap="addFromHistory" cssClass="mainColor addAllButton" row="2" />
 				<ActivityIndicator busy="{{ isHistoryLoading }}"
 					rowSpan="3" />
 			</GridLayout>
 		</drawer:SideDrawer.drawerContent>
+
 	</drawer:SideDrawer>
 </Page>

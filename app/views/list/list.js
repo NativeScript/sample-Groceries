@@ -44,6 +44,9 @@ exports.loaded = function(args) {
 			});
 		}
 	}
+	if (page.android) {
+		groceryListElement._swipeExecuteBehavior.setAutoDissolve(false);
+	}
 
 	groceryList.empty();
 
@@ -124,8 +127,8 @@ function hidePageLoadingIndicator() {
 }
 
 exports.startSwipeCell = function(args) {
-	args.data.swipeLimits.left = 60;
-	args.data.swipeLimits.right = 60;
+	args.data.swipeLimits.left = 120;
+	args.data.swipeLimits.right = 120;
 };
 exports.swipeDone = function(args) {
 	var item = args.view.bindingContext;
