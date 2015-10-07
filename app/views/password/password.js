@@ -16,12 +16,11 @@ exports.loaded = function(args) {
 };
 
 function disableForm() {
-	// TODO: Why does this crash Android?
-	// email.editable = false;
+	email.isEnabled = false;
 	user.set("authenticating", true);
 }
 function enableForm() {
-	// email.editable = true;
+	email.isEnabled = true;
 	user.set("authenticating", false);
 }
 
