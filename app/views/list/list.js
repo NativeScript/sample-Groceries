@@ -127,8 +127,8 @@ function hidePageLoadingIndicator() {
 }
 
 exports.startSwipeCell = function(args) {
-	args.data.swipeLimits.left = 120;
-	args.data.swipeLimits.right = 120;
+	args.data.swipeLimits.left = page.ios ? 60 : 180;
+	args.data.swipeLimits.right = page.ios ? 60 : 180;
 };
 exports.swipeDone = function(args) {
 	var item = args.view.bindingContext;
