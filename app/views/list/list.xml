@@ -14,10 +14,10 @@
 		</drawer:SideDrawer.drawerTransition>
 
 		<drawer:SideDrawer.mainContent>
-			<GridLayout rows="auto, *" id="mainContent">
+			<GridLayout rows="auto, *, auto" id="mainContent">
 				<GridLayout row="0" columns="*, auto" cssClass="mainColor">
 					<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" col="0" />
-					<Image ios:src="res://history" android:src="res://ic_recent" tap="history" col="1" />
+					<Image ios:src="res://history" android:visibility="collapsed" tap="history" col="1" />
 				</GridLayout>
  
 				<lv:ListView
@@ -52,7 +52,11 @@
 					</lv:ListView.itemSwipeTemplate>
 				</lv:ListView>
 
-				<ActivityIndicator busy="{{ isLoading }}" rowSpan="2" />
+				<AbsoluteLayout row="2" cssClass="fabContainer" ios:visibility="collapsed">
+					<Image src="res://fab" tap="history" />
+				</AbsoluteLayout>
+
+				<ActivityIndicator busy="{{ isLoading }}" rowSpan="3" />
 			</GridLayout>
 		</drawer:SideDrawer.mainContent>
 

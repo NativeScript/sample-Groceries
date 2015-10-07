@@ -53,3 +53,7 @@ Image {
 	color: white;
 	border-width: 0;
 }
+
+.fabContainer {
+	horizontal-align: right;
+}
