@@ -48,8 +48,6 @@ exports.loaded = function(args) {
 		groceryListElement._swipeExecuteBehavior.setAutoDissolve(false);
 	}
 
-	groceryList.empty();
-
 	showPageLoadingIndicator();
 	groceryList.load().then(function() {
 		hidePageLoadingIndicator();

@@ -30,12 +30,8 @@ function GroceryListViewModel(items) {
 	};
 
 	viewModel.empty = function() {
-		while (viewModel.length) {
-			viewModel.pop();
-		}
-		while (history.length) {
-			history.pop();
-		}
+		viewModel.length = 0;
+		history.length = 0;
 	};
 
 	viewModel.history = function() {
