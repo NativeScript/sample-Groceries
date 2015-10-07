@@ -29,7 +29,8 @@
 					swipeCells="true"
 					startSwipeCell="startSwipeCell"
 					itemTap="itemTap"
-					row="1">
+					row="1"
+					rowSpan="2">
 					<lv:ListView.listViewLayout>
 						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" />
 					</lv:ListView.listViewLayout>
