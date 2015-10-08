@@ -1,3 +1,16 @@
-<Page>
-    <Label text="hello world" />
+<Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Sign in"></ActionBar>
+    </Page.actionBar>
+    <StackLayout orientation="vertical">
+
+        <Image src="res://logo" stretch="none" horizontalAlignment="center" />
+
+        <TextField id="email_address" text="{{ email }}" hint="Email Address" keyboardType="email" />
+        <TextField secure="true" text="{{ password }}" hint="Password" />
+
+        <Button text="Sign in" tap="signIn" />
+        <Button text="Sign up for Groceries" cssClass="link" tap="register" />
+
+    </StackLayout>
 </Page>

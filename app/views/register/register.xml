@@ -1,4 +1,7 @@
 <Page loaded="loaded">
+    <Page.actionBar>
+        <ActionBar title="Sign up"></ActionBar>
+    </Page.actionBar>
     <StackLayout>
         <Image src="res://logo" stretch="none" horizontalAlignment="center"/>
 
