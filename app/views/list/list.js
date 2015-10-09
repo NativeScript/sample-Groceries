@@ -12,7 +12,7 @@ var drawerElement;
 var groceryListElement;
 var mainContentElement;
 
-var firstTime = true;
+var attachedListeners = false;
 var groceryList = new GroceryListViewModel([]);
 var history = groceryList.history();
 var pageData = new observableModule.Observable({
@@ -30,19 +30,12 @@ exports.loaded = function(args) {
 	groceryListElement = page.getViewById("groceryList");
 	mainContentElement = page.getViewById("mainContent");
 
+	attachListeners();
+
 	if (page.ios) {
 		// Hide the Back arrow
 		var controller = frameModule.topmost().ios.controller;
 		controller.visibleViewController.navigationItem.setHidesBackButtonAnimated(true, false);
-
-		// Add listeners
-		if (firstTime) {
-			applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", function() {
-				if (pageData.get("grocery").trim() !== "") {
-					add();
-				}
-			});
-		}
 	}
 	if (page.android) {
 		groceryListElement._swipeExecuteBehavior.setAutoDissolve(false);
@@ -58,11 +51,40 @@ exports.loaded = function(args) {
 			duration: 1000
 		});
 	});
-
-	firstTime = false;
 };
 
+function attachListeners() {
+	if (attachedListeners) {
+		return;
+	}
+
+	// Add listeners (replace with returnKey in {N} 1.4)
+	if (page.ios) {
+		applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", function() {
+			add();
+		});
+	}
+	if (page.android) {
+		var editorActionListener = new android.widget.TextView.OnEditorActionListener({
+			onEditorAction: function (textView, actionId, event) {
+				if (actionId === android.view.inputmethod.EditorInfo.IME_ACTION_UNSPECIFIED ||
+					actionId === android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
+					add();
+				}
+				return false;
+			}
+		});
+		page.getViewById("grocery").android.setOnEditorActionListener(editorActionListener);
+	}
+
+	attachedListeners = true;
+}
+
 function add() {
+	if (pageData.get("grocery").trim() === "") {
+		return;
+	}
+
 	showPageLoadingIndicator();
 	page.getViewById("grocery").dismissSoftInput();
 	groceryList.add(pageData.get("grocery"))
