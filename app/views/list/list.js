@@ -58,7 +58,7 @@ function attachListeners() {
 		return;
 	}
 
-	// Add listeners (replace with returnKey in {N} 1.4)
+	// TODO: Replace with returnKey in {N} 1.4
 	if (page.ios) {
 		applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", function() {
 			add();
