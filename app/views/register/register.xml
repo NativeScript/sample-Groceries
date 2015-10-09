@@ -12,7 +12,7 @@
 				<ActivityIndicator busy="{{ authenticating }}" rowSpan="2" />
 			</GridLayout>
 
-			<Button text="Sign Up" tap="register" />
+			<Button text="Sign Up" id="signUpButton" tap="register" />
 		</StackLayout>
 	</ScrollView>
 </Page>

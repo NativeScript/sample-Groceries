@@ -6,6 +6,7 @@ var UserViewModel = require("../../shared/view-models/user-view-model");
 var user = new UserViewModel({ authenticating: false });
 var email;
 var password;
+var signUpButton;
 
 exports.loaded = function(args) {
 	var page = args.object;
@@ -16,26 +17,25 @@ exports.loaded = function(args) {
 
 	email = page.getViewById("email");
 	password = page.getViewById("password");
+	signUpButton = page.getViewById("signUpButton");
+
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
 
 function disableForm() {
 	email.isEnabled = false;
 	password.isEnabled = false;
+	signUpButton.isEnabled = false;
 	user.set("authenticating", true);
 }
 function enableForm() {
 	email.isEnabled = true;
 	password.isEnabled = true;
+	signUpButton.isEnabled = true;
 	user.set("authenticating", false);
 }
 
 function completeRegistration() {
-	// Don't send off multiple requests at the same time
-	if (user.get("authenticating")) {
-		return;
-	}
-
 	disableForm();
 	user.register()
 		.then(function() {

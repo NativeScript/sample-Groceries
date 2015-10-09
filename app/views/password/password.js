@@ -4,6 +4,7 @@ var UserViewModel = require("../../shared/view-models/user-view-model");
 
 var user = new UserViewModel({ authenticating: false });
 var email;
+var resetButton;
 
 exports.loaded = function(args) {
 	var page = args.object;
@@ -12,44 +13,44 @@ exports.loaded = function(args) {
 	user.set("email", "");
 
 	email = page.getViewById("email");
+	resetButton = page.getViewById("resetButton");
+
 	formUtil.hideKeyboardOnBlur(page, [email]);
 };
 
 function disableForm() {
 	email.isEnabled = false;
+	resetButton.isEnabled = false;
 	user.set("authenticating", true);
 }
 function enableForm() {
 	email.isEnabled = true;
+	resetButton.isEnabled = true;
 	user.set("authenticating", false);
 }
 
 exports.reset = function() {
-	// Don't send off multiple requests at the same time
-	if (user.get("authenticating")) {
-		return;
-	}
-
-	if (user.isValidEmail()) {
-		disableForm();
-		user.resetPassword()
-			.then(function() {
-				dialogsModule.alert({
-					message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
-					okButtonText: "OK"
-				});
-			})
-			.catch(function() {
-				dialogsModule.alert({
-					message: "Unfortunately, an error occurred resetting your password.",
-					okButtonText: "OK"
-				});
-			})
-			.then(enableForm);
-	} else {
+	if (!user.isValidEmail()) {
 		dialogsModule.alert({
 			message: "Enter a valid email address.",
 			okButtonText: "OK"
 		});
+		return;
 	}
+
+	disableForm();
+	user.resetPassword()
+		.then(function() {
+			dialogsModule.alert({
+				message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
+				okButtonText: "OK"
+			});
+		})
+		.catch(function() {
+			dialogsModule.alert({
+				message: "Unfortunately, an error occurred resetting your password.",
+				okButtonText: "OK"
+			});
+		})
+		.then(enableForm);
 };

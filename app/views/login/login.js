@@ -11,6 +11,7 @@ var user = new UserViewModel({
 
 var email;
 var password;
+var signInButton;
 
 exports.loaded = function(args) {
 	var page = args.object;
@@ -30,26 +31,25 @@ exports.loaded = function(args) {
 
 	email = page.getViewById("email");
 	password = page.getViewById("password");
+	signInButton = page.getViewById("signInButton");
+
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
 
 function disableForm() {
 	email.isEnabled = false;
 	password.isEnabled = false;
+	signInButton.isEnabled = false;
 	user.set("authenticating", true);
 }
 function enableForm() {
 	email.isEnabled = true;
 	password.isEnabled = true;
+	signInButton.isEnabled = true;
 	user.set("authenticating", false);
 }
 
 exports.signIn = function() {
-	// Don't send off multiple requests at the same time
-	if (user.get("authenticating")) {
-		return;
-	}
-
 	disableForm();
 	user.login()
 		.then(function() {
