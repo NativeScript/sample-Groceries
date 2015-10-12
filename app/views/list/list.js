@@ -58,24 +58,7 @@ function attachListeners() {
 		return;
 	}
 
-	// TODO: Replace with returnKey in {N} 1.4
-	if (page.ios) {
-		applicationModule.ios.addNotificationObserver("UITextFieldTextDidEndEditingNotification", function() {
-			add();
-		});
-	}
-	if (page.android) {
-		var editorActionListener = new android.widget.TextView.OnEditorActionListener({
-			onEditorAction: function (textView, actionId, event) {
-				if (actionId === android.view.inputmethod.EditorInfo.IME_ACTION_UNSPECIFIED ||
-					actionId === android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
-					add();
-				}
-				return false;
-			}
-		});
-		page.getViewById("grocery").android.setOnEditorActionListener(editorActionListener);
-	}
+	page.getViewById("grocery").addEventListener("returnPress", add);
 
 	attachedListeners = true;
 }
