@@ -21,7 +21,7 @@
 		"gulp-jshint": "^1.11.0"
 	},
 	"nativescript": {
-		"id": "com.tjvantoll.groceries",
+		"id": "com.tjvantoll.samplegroceries",
 		"tns-android": {
 			"version": "1.4.0"
 		},
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"email-validator": "^1.0.2",
 		"nativescript-iqkeyboardmanager": "^1.0.0",
-		"nativescript-social-share": "^1.1.0",
+		"nativescript-social-share": "^1.1.1",
 		"nativescript-telerik-ui": "file:nativescript-ui-stable-dev.tgz",
 		"tns-core-modules": "1.4.0"
 	}
