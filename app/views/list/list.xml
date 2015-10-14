@@ -25,10 +25,9 @@
 					id="groceryList"
 					pullToRefresh="true"
 					shouldRefreshOnPull="shouldRefreshOnPull"
-					selectionBehavior="Press"
+					selectionBehavior="None"
 					swipeCells="true"
 					startSwipeCell="startSwipeCell"
-					itemTap="itemTap"
 					row="1"
 					rowSpan="2">
 					<lv:ListView.listViewLayout>
@@ -36,7 +35,7 @@
 					</lv:ListView.listViewLayout>
 					<lv:ListView.itemTemplate>
 						<GridLayout columns="auto, *" backgroundColor="white">
-							<Image src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
+							<Image tap="toggleDone" src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
 							<Label text="{{ name }}" col="1" />
 						</GridLayout>
 					</lv:ListView.itemTemplate>

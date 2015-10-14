@@ -133,6 +133,7 @@ exports.startSwipeCell = function(args) {
 	args.data.swipeLimits.left = page.ios ? 60 : 180;
 	args.data.swipeLimits.right = page.ios ? 60 : 180;
 };
+
 exports.swipeDone = function(args) {
 	var item = args.view.bindingContext;
 	performToggleDone(groceryList.indexOf(item));
@@ -153,8 +154,9 @@ function performToggleDone(index) {
 		.then(hidePageLoadingIndicator);
 }
 
-exports.itemTap = function(args) {
-	performToggleDone(args.itemIndex);
+exports.toggleDone = function(args) {
+	var item = args.view.bindingContext;
+	performToggleDone(groceryList.indexOf(item));
 };
 
 exports.shouldRefreshOnPull = function(args) {
