@@ -1,4 +1,4 @@
-<Page loaded="loaded" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="component/listview">
+<Page loaded="loaded" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
 	<Page.actionBar>
 		<ActionBar title="Groceries">
 			<ActionBar.actionItems>
@@ -8,19 +8,19 @@
 		</ActionBar>
 	</Page.actionBar>
 
-	<drawer:SideDrawer id="drawer" drawerLocation="Right">
-		<drawer:SideDrawer.drawerTransition>
+	<drawer:RadSideDrawer id="drawer" drawerLocation="Right">
+		<drawer:RadSideDrawer.drawerTransition>
 			<drawer:PushTransition />
-		</drawer:SideDrawer.drawerTransition>
+		</drawer:RadSideDrawer.drawerTransition>
 
-		<drawer:SideDrawer.mainContent>
+		<drawer:RadSideDrawer.mainContent>
 			<GridLayout rows="auto, *, auto" id="mainContent">
 				<GridLayout row="0" columns="*, auto" cssClass="mainColor">
 					<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" col="0" />
 					<Image ios:src="res://history" android:visibility="collapsed" tap="history" col="1" />
 				</GridLayout>
  
-				<lv:ListView
+				<lv:RadListView
 					items="{{ groceryList }}"
 					id="groceryList"
 					pullToRefresh="true"
@@ -30,16 +30,16 @@
 					startSwipeCell="startSwipeCell"
 					row="1"
 					rowSpan="2">
-					<lv:ListView.listViewLayout>
+					<lv:RadListView.listViewLayout>
 						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" />
-					</lv:ListView.listViewLayout>
-					<lv:ListView.itemTemplate>
+					</lv:RadListView.listViewLayout>
+					<lv:RadListView.itemTemplate>
 						<GridLayout columns="auto, *" backgroundColor="white">
 							<Image tap="toggleDone" src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
 							<Label text="{{ name }}" col="1" />
 						</GridLayout>
-					</lv:ListView.itemTemplate>
-					<lv:ListView.itemSwipeTemplate>
+					</lv:RadListView.itemTemplate>
+					<lv:RadListView.itemSwipeTemplate>
 						<GridLayout columns="auto, *, auto">
 							<StackLayout cssClass="swipeImageContainer doneButtonContainer" col="0">
 								<Image ios:src="res://done" android:src="res://ic_done" tap="swipeDone" cssClass="swipeButton" />
@@ -49,8 +49,8 @@
 								<Image ios:src="res://delete" android:src="res://ic_delete" tap="swipeDelete" cssClass="swipeButton" col="2" />
 							</StackLayout>
 						</GridLayout>
-					</lv:ListView.itemSwipeTemplate>
-				</lv:ListView>
+					</lv:RadListView.itemSwipeTemplate>
+				</lv:RadListView>
 
 				<AbsoluteLayout row="2" cssClass="fabContainer" ios:visibility="collapsed">
 					<Image src="res://fab" tap="history" />
@@ -58,31 +58,31 @@
 
 				<ActivityIndicator busy="{{ isLoading }}" rowSpan="3" />
 			</GridLayout>
-		</drawer:SideDrawer.mainContent>
+		</drawer:RadSideDrawer.mainContent>
 
-		<drawer:SideDrawer.drawerContent>
+		<drawer:RadSideDrawer.drawerContent>
 			<GridLayout rows="auto, *, auto" id="drawerContent">
 				<Label text="Add recent items" cssClass="heading" row="0" />
-				<lv:ListView
+				<lv:RadListView
 					id="history"
 					items="{{ history }}"
 					itemTap="toggleHistory"
 					row="1">
-					<lv:ListView.listViewLayout>
+					<lv:RadListView.listViewLayout>
 						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
-					</lv:ListView.listViewLayout>
-					<lv:ListView.itemTemplate>
+					</lv:RadListView.listViewLayout>
+					<lv:RadListView.itemTemplate>
 						<StackLayout orientation="horizontal">
 							<Image src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" cssClass="addButton" />
 							<Label text="{{ name }}" />
 						</StackLayout>
-					</lv:ListView.itemTemplate>
-				</lv:ListView>
+					</lv:RadListView.itemTemplate>
+				</lv:RadListView>
 				<Button text="Add to the groceries list" tap="addFromHistory" cssClass="mainColor addAllButton" row="2" />
 				<ActivityIndicator busy="{{ isHistoryLoading }}"
 					rowSpan="3" />
 			</GridLayout>
-		</drawer:SideDrawer.drawerContent>
+		</drawer:RadSideDrawer.drawerContent>
 
-	</drawer:SideDrawer>
+	</drawer:RadSideDrawer>
 </Page>
