@@ -7,8 +7,8 @@
 			<Image src="res://logo" stretch="none" horizontalAlignment="center" />
 
 			<GridLayout rows="auto, auto">
-				<TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" returnKeyType="next" autocorrect="false" autocapitalizationType="none" row="0" />
-				<TextField text="{{ password }}" id="password" secure="true" hint="Password" returnKeyType="done" row="1" />
+				<TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
+				<TextField text="{{ password }}" id="password" secure="true" hint="Password" returnKeyType="done" returnPress="register" row="1" />
 				<ActivityIndicator busy="{{ authenticating }}" rowSpan="2" />
 			</GridLayout>
 

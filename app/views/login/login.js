@@ -20,11 +20,7 @@ exports.loaded = function(args) {
 	email = page.getViewById("email");
 	password = page.getViewById("password");
 	signInButton = page.getViewById("signInButton");
-
-	email.addEventListener("returnPress", function() {
-		password.focus();
-	});
-	password.addEventListener("returnPress", signIn);
+	formUtil.hideKeyboardOnBlur(page, [email, password]);
 
 	// Change the color and style of the iOS UINavigationBar
 	if (page.ios) {
@@ -43,8 +39,10 @@ exports.loaded = function(args) {
 		layout.setFocusable(true);
 		email.android.clearFocus();
 	}
+};
 
-	formUtil.hideKeyboardOnBlur(page, [email, password]);
+exports.focusPassword = function() {
+	password.focus();
 };
 
 function disableForm() {
@@ -60,7 +58,7 @@ function enableForm() {
 	user.set("authenticating", false);
 }
 
-function signIn() {
+exports.signIn = function() {
 	disableForm();
 	user.login()
 		.then(function() {
@@ -74,9 +72,7 @@ function signIn() {
 			});
 		})
 		.then(enableForm);
-}
-
-exports.signIn = signIn;
+};
 
 exports.register = function() {
 	var topmost = frameModule.topmost();

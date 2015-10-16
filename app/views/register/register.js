@@ -18,13 +18,11 @@ exports.loaded = function(args) {
 	email = page.getViewById("email");
 	password = page.getViewById("password");
 	signUpButton = page.getViewById("signUpButton");
-
-	email.addEventListener("returnPress", function() {
-		password.focus();
-	});
-	password.addEventListener("returnPress", register);
-
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
+};
+
+exports.focusPassword = function() {
+	password.focus();
 };
 
 function disableForm() {
@@ -58,7 +56,7 @@ function completeRegistration() {
 		}).then(enableForm);
 }
 
-function register() {
+exports.register = function() {
 	if (user.isValidEmail()) {
 		completeRegistration();
 	} else {
@@ -67,6 +65,4 @@ function register() {
 			okButtonText: "OK"
 		});
 	}
-}
-
-exports.register = register;
+};

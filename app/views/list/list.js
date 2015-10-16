@@ -1,4 +1,3 @@
-var applicationModule = require("application");
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var observableModule = require("data/observable");
@@ -12,7 +11,6 @@ var drawerElement;
 var groceryListElement;
 var mainContentElement;
 
-var attachedListeners = false;
 var groceryList = new GroceryListViewModel([]);
 var history = groceryList.history();
 var pageData = new observableModule.Observable({
@@ -49,8 +47,6 @@ exports.loaded = function(args) {
 	groceryListElement = page.getViewById("groceryList");
 	mainContentElement = page.getViewById("mainContent");
 
-	attachListeners();
-
 	if (page.ios) {
 		// Hide the Back arrow
 		var controller = frameModule.topmost().ios.controller;
@@ -72,15 +68,7 @@ exports.loaded = function(args) {
 	});
 };
 
-function attachListeners() {
-	if (attachedListeners) {
-		return;
-	}
-	page.getViewById("grocery").addEventListener("returnPress", add);
-	attachedListeners = true;
-}
-
-function add() {
+exports.add = function() {
 	if (pageData.get("grocery").trim() === "") {
 		return;
 	}
@@ -99,7 +87,7 @@ function add() {
 
 	// Clear the textfield
 	pageData.set("grocery", "");
-}
+};
 
 exports.signOut = function() {
 	frameModule.topmost().goBack();
