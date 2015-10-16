@@ -32,10 +32,9 @@ function GroceryListViewModel(items) {
 					name: grocery.Name,
 					id: grocery.Id,
 					deleted: grocery.Deleted,
-					done: grocery.Done || false
+					done: destination === history ? false : (grocery.Done || false)
 				});
 			});
-			viewModel.resetHistory();
 		});
 	};
 
@@ -58,16 +57,6 @@ function GroceryListViewModel(items) {
 			id: item.id,
 			deleted: true,
 			done: !item.done
-		});
-	};
-	viewModel.resetHistory = function() {
-		history.forEach(function(item, index) {
-			history.setItem(index, {
-				name: item.name,
-				id: item.id,
-				deleted: true,
-				done: false
-			});
 		});
 	};
 
