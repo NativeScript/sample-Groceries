@@ -35,6 +35,15 @@ exports.loaded = function(args) {
 		navigationBar.tintColor = UIColor.whiteColor();
 	}
 
+	// Prevent the first textfield from receiving focus on Android
+	// See http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus
+	if (page.android) {
+		var layout = page.getViewById("layout").android;
+		layout.setFocusableInTouchMode(true);
+		layout.setFocusable(true);
+		email.android.clearFocus();
+	}
+
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
 

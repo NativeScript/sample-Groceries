@@ -3,7 +3,7 @@
 		<ActionBar title="Sign in"></ActionBar>
 	</Page.actionBar>
 	<ScrollView>
-		<StackLayout>
+		<StackLayout id="layout">
 			<Image src="res://logo" stretch="none" horizontalAlignment="center" />
 
 			<GridLayout rows="auto, auto">
