@@ -19,6 +19,11 @@ exports.loaded = function(args) {
 	password = page.getViewById("password");
 	signUpButton = page.getViewById("signUpButton");
 
+	email.addEventListener("returnPress", function() {
+		password.focus();
+	});
+	password.addEventListener("returnPress", register);
+
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
 
@@ -53,7 +58,7 @@ function completeRegistration() {
 		}).then(enableForm);
 }
 
-exports.register = function() {
+function register() {
 	if (user.isValidEmail()) {
 		completeRegistration();
 	} else {
@@ -62,4 +67,6 @@ exports.register = function() {
 			okButtonText: "OK"
 		});
 	}
-};
+}
+
+exports.register = register;

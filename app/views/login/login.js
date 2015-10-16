@@ -17,6 +17,15 @@ exports.loaded = function(args) {
 	var page = args.object;
 	page.bindingContext = user;
 
+	email = page.getViewById("email");
+	password = page.getViewById("password");
+	signInButton = page.getViewById("signInButton");
+
+	email.addEventListener("returnPress", function() {
+		password.focus();
+	});
+	password.addEventListener("returnPress", signIn);
+
 	// Change the color and style of the iOS UINavigationBar
 	if (page.ios) {
 		var navigationBar = frameModule.topmost().ios.controller.navigationBar;
@@ -24,14 +33,7 @@ exports.loaded = function(args) {
 		navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
 		navigationBar.barStyle = 1;
 		navigationBar.tintColor = UIColor.whiteColor();
-
-		// Enable IQKeyboardManager from the NativeScript-IQKeyboardManager plugin
-		IQKeyboardManager.sharedManager().enable = true;
 	}
-
-	email = page.getViewById("email");
-	password = page.getViewById("password");
-	signInButton = page.getViewById("signInButton");
 
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
@@ -49,7 +51,7 @@ function enableForm() {
 	user.set("authenticating", false);
 }
 
-exports.signIn = function() {
+function signIn() {
 	disableForm();
 	user.login()
 		.then(function() {
@@ -63,7 +65,9 @@ exports.signIn = function() {
 			});
 		})
 		.then(enableForm);
-};
+}
+
+exports.signIn = signIn;
 
 exports.register = function() {
 	var topmost = frameModule.topmost();

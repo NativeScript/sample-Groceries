@@ -76,9 +76,7 @@ function attachListeners() {
 	if (attachedListeners) {
 		return;
 	}
-
 	page.getViewById("grocery").addEventListener("returnPress", add);
-
 	attachedListeners = true;
 }
 

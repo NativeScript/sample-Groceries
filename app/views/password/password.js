@@ -14,6 +14,7 @@ exports.loaded = function(args) {
 
 	email = page.getViewById("email");
 	resetButton = page.getViewById("resetButton");
+	email.addEventListener("returnPress", reset);
 
 	formUtil.hideKeyboardOnBlur(page, [email]);
 };
@@ -29,7 +30,7 @@ function enableForm() {
 	user.set("authenticating", false);
 }
 
-exports.reset = function() {
+function reset() {
 	if (!user.isValidEmail()) {
 		dialogsModule.alert({
 			message: "Enter a valid email address.",
@@ -53,4 +54,6 @@ exports.reset = function() {
 			});
 		})
 		.then(enableForm);
-};
+}
+
+exports.reset = reset;
