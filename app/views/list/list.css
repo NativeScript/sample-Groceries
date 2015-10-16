@@ -1,17 +1,58 @@
-ListView {
+#groceryList {
 	margin: 5;
 	opacity: 0;
+}
+TextField {
+	background-color: white;
 }
 Label {
 	margin: 10;
 	horizontal-align: left;
 	vertical-align: center;
 }
-TextField {
-	border-width: 5;
-	border-style: solid;
-	border-color: #034793;
-}
 Image {
 	margin: 10;
+}
+.checkbox {
+	margin-right: 0;
+	margin-top: 5;
+	height: 35;
+}
+
+.swipeImageContainer {
+	height: 50;
+	width: 60;
+}
+.swipeButton {
+	border-width: 0;
+	margin-top: 15;
+	height: 20;
+}
+.deleteButtonContainer {
+	background-color: red;
+}
+.doneButtonContainer {
+	background-color: green;
+}
+
+#drawerContent {
+	background-color: white;
+	border-width: 1;
+	border-color: #eee;
+}
+.heading {
+	font-weight: bold;
+	text-size: 14;
+}
+.addButton {
+	height: 30;
+	margin-right: 0;
+}
+.addAllButton {
+	color: white;
+	border-width: 0;
+}
+
+.fabContainer {
+	horizontal-align: right;
 }

@@ -1,68 +1,127 @@
+var applicationModule = require("application");
 var dialogsModule = require("ui/dialogs");
+var frameModule = require("ui/frame");
 var observableModule = require("data/observable");
+var dependencyObservableModule = require("ui/core/dependency-observable");
 
 var socialShare = require("nativescript-social-share");
-var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
+var drawerElement;
+var groceryListElement;
+var mainContentElement;
+
+var attachedListeners = false;
 var groceryList = new GroceryListViewModel([]);
+var history = groceryList.history();
 var pageData = new observableModule.Observable({
 	grocery: "",
-	groceryList: groceryList
+	groceryList: groceryList,
+	history: history,
+
+	// TODO: Move this out of the data model
+	// See https://github.com/telerik/nativescript-ui/issues/72
+	toggleDone: function(args) {
+		var item = args.view.bindingContext;
+		performToggleDone(groceryList.indexOf(item));
+	},
+	swipeDone: function(args) {
+		var item = args.view.bindingContext;
+		performToggleDone(groceryList.indexOf(item));
+	},
+	swipeDelete: function(args) {
+		var item = args.view.bindingContext;
+		var index = groceryList.indexOf(item);
+		showPageLoadingIndicator();
+		groceryList.delete(index)
+			.catch(handleAddError)
+			.then(hidePageLoadingIndicator);
+	}
 });
 
 exports.loaded = function(args) {
 	page = args.object;
-
-	if (page.ios) {
-		var listView = page.getViewById("groceryList");
-		swipeDelete.enable(listView, function(index) {
-			performDelete(index);
-		});
-	}
-
 	page.bindingContext = pageData;
 
-	groceryList.empty();
+	drawerElement = page.getViewById("drawer");
+	drawerElement.delegate = new DrawerCallbacksModel();
+	groceryListElement = page.getViewById("groceryList");
+	mainContentElement = page.getViewById("mainContent");
 
-	pageData.set("isLoading", true);
+	attachListeners();
+
+	if (page.ios) {
+		// Hide the Back arrow
+		var controller = frameModule.topmost().ios.controller;
+		controller.visibleViewController.navigationItem.setHidesBackButtonAnimated(true, false);
+	}
+	if (page.android) {
+		groceryListElement._swipeExecuteBehavior.setAutoDissolve(false);
+	}
+
+	showPageLoadingIndicator();
 	groceryList.load().then(function() {
-		pageData.set("isLoading", false);
+		hidePageLoadingIndicator();
 
 		// Fade in the ListView over 1 second
-		page.getViewById("groceryList").animate({
+		groceryListElement.animate({
 			opacity: 1,
 			duration: 1000
 		});
 	});
 };
 
-exports.add = function() {
-	// Check for empty submission
-	if (pageData.get("grocery").trim() !== "") {
-		pageData.set("isLoading", true);
-		page.getViewById("grocery").dismissSoftInput();
-		groceryList.add(pageData.get("grocery"))
-			.catch(function(error) {
-				console.log(error);
-				dialogsModule.alert({
-					message: "An error occurred while adding an item to your list.",
-					okButtonText: "OK"
-				});
-			})
-			.then(function() {
-				pageData.set("isLoading", false);
-			});
-
-		// Clear the textfield
-		pageData.set("grocery", "");
-	} else {
-		dialogsModule.alert({
-			message: "Enter a grocery item",
-			okButtonText: "OK"
-		});
+function attachListeners() {
+	if (attachedListeners) {
+		return;
 	}
+
+	page.getViewById("grocery").addEventListener("returnPress", add);
+
+	attachedListeners = true;
+}
+
+function add() {
+	if (pageData.get("grocery").trim() === "") {
+		return;
+	}
+
+	showPageLoadingIndicator();
+	page.getViewById("grocery").dismissSoftInput();
+	groceryList.add(pageData.get("grocery"))
+		.catch(function(error) {
+			console.log(error);
+			dialogsModule.alert({
+				message: "An error occurred while adding an item to your list.",
+				okButtonText: "OK"
+			});
+		})
+		.then(hidePageLoadingIndicator);
+
+	// Clear the textfield
+	pageData.set("grocery", "");
+}
+
+exports.signOut = function() {
+	frameModule.topmost().goBack();
+};
+
+exports.history = function() {
+	drawerElement.toggleDrawerState();
+};
+
+exports.toggleHistory = function(args) {
+	groceryList.toggleDoneHistory(args.itemIndex);
+};
+
+exports.addFromHistory = function() {
+	pageData.set("isHistoryLoading", true);
+	groceryList.restore()
+		.catch(handleAddError)
+		.then(function() {
+			pageData.set("isHistoryLoading", false);
+		});
 };
 
 exports.share = function() {
@@ -74,22 +133,57 @@ exports.share = function() {
 	socialShare.shareText(listString);
 };
 
-function performDelete(index) {
-	pageData.set("isLoading", true);
-	groceryList.delete(index)
-		.catch(function(error) {
-			console.log(error);
-			dialogsModule.alert({
-				message: "An error occurred while adding an item to your list.",
-				okButtonText: "OK"
-			});
-		})
-		.then(function() {
-			pageData.set("isLoading", false);
-		});
+function handleAddError(error) {
+	console.log(error);
+	dialogsModule.alert({
+		message: "An error occurred while adding an item to your list.",
+		okButtonText: "OK"
+	});
 }
 
-exports.delete = function(args) {
-	var item = args.view.bindingContext;
-	performDelete(groceryList.indexOf(item));
+function showPageLoadingIndicator() {
+	pageData.set("isLoading", true);
+}
+function hidePageLoadingIndicator() {
+	pageData.set("isLoading", false);
+}
+
+exports.startSwipeCell = function(args) {
+	args.data.swipeLimits.left = page.ios ? 60 : 180;
+	args.data.swipeLimits.right = page.ios ? 60 : 180;
 };
+
+function performToggleDone(index) {
+	showPageLoadingIndicator();
+	groceryList.toggleDone(index)
+		.catch(handleAddError)
+		.then(hidePageLoadingIndicator);
+}
+
+exports.shouldRefreshOnPull = function(args) {
+	args.returnValue = true;
+	groceryList.load().then(function() {
+		groceryListElement.didRefreshOnPull();
+	});
+};
+
+function DrawerCallbacksModel() {}
+DrawerCallbacksModel.prototype = new dependencyObservableModule.DependencyObservable();
+DrawerCallbacksModel.prototype.onDrawerOpening = function () {
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 0.5
+		});
+	}
+};
+DrawerCallbacksModel.prototype.onDrawerOpened = function () {};
+DrawerCallbacksModel.prototype.onDrawerClosing = function () {
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 1
+		});
+	}
+};
+DrawerCallbacksModel.prototype.onDrawerClosed = function () {};

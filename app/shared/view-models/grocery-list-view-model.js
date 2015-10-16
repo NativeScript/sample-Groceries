@@ -3,6 +3,17 @@ var observableArrayModule = require("data/observable-array");
 
 function GroceryListViewModel(items) {
 	var viewModel = new observableArrayModule.ObservableArray(items);
+	var history = new observableArrayModule.ObservableArray([]);
+
+	viewModel.indexOf = function(item) {
+		var match = -1;
+		viewModel.forEach(function(loopItem, index) {
+			if (loopItem.id === item.id) {
+				match = index;
+			}
+		});
+		return match;
+	};
 
 	viewModel.load = function() {
 		return fetch(config.apiUrl + "Groceries", {
@@ -14,12 +25,17 @@ function GroceryListViewModel(items) {
 		.then(function(response) {
 			return response.json();
 		}).then(function(data) {
+			viewModel.empty();
 			data.Result.forEach(function(grocery) {
-				viewModel.push({
+				var destination = grocery.Deleted ? history : viewModel;
+				destination.push({
 					name: grocery.Name,
-					id: grocery.Id
+					id: grocery.Id,
+					deleted: grocery.Deleted,
+					done: grocery.Done || false
 				});
 			});
+			viewModel.resetHistory();
 		});
 	};
 
@@ -27,6 +43,32 @@ function GroceryListViewModel(items) {
 		while (viewModel.length) {
 			viewModel.pop();
 		}
+		while (history.length) {
+			history.pop();
+		}
+	};
+
+	viewModel.history = function() {
+		return history;
+	};
+	viewModel.toggleDoneHistory = function(index) {
+		var item = history.getItem(index);
+		history.setItem(index, {
+			name: item.name,
+			id: item.id,
+			deleted: true,
+			done: !item.done
+		});
+	};
+	viewModel.resetHistory = function() {
+		history.forEach(function(item, index) {
+			history.setItem(index, {
+				name: item.name,
+				id: item.id,
+				deleted: true,
+				done: false
+			});
+		});
 	};
 
 	viewModel.add = function(grocery) {
@@ -49,18 +91,80 @@ function GroceryListViewModel(items) {
 		});
 	};
 
+	viewModel.restore = function() {
+		var indeces = [];
+		var matches = [];
+		history.forEach(function(item) {
+			if (item.deleted && item.done) {
+				indeces.push(item.id);
+				matches.push(item);
+			}
+		});
+
+		return fetch(config.apiUrl + "Groceries", {
+			method: "PUT",
+			body: JSON.stringify({
+				Deleted: false,
+				Done: false
+			}),
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json",
+				"X-Everlive-Filter": JSON.stringify({
+					"Id": {
+						"$in": indeces
+					}
+				})
+			}
+		})
+		.then(handleErrors)
+		.then(function() {
+			matches.forEach(function(match) {
+				var index = history.indexOf(match);
+				match.deleted = false;
+				match.done = false;
+				history.splice(index, 1);
+				viewModel.push(match);
+			});
+		});
+	};
+
 	viewModel.delete = function(index) {
-		return fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
-			method: "DELETE",
+		var item = viewModel.getItem(index);
+		viewModel.splice(index, 1);
+		item.done = false;
+		item.deleted = true;
+		history.push(item);
+
+		return fetch(config.apiUrl + "Groceries/" + item.id, {
+			method: "PUT",
+			body: JSON.stringify({
+				Deleted: true
+			}),
 			headers: {
 				"Authorization": "Bearer " + config.token,
 				"Content-Type": "application/json"
 			}
 		})
-		.then(handleErrors)
-		.then(function() {
-			viewModel.splice(index, 1);
-		});
+		.then(handleErrors);
+	};
+
+	viewModel.toggleDone = function(index) {
+		var item = viewModel.getItem(index);
+		item.done = !item.done;
+		viewModel.setItem(index, item);
+
+		return fetch(config.apiUrl + "Groceries/" + item.id, {
+			method: "PUT",
+			body: JSON.stringify({
+				Done: item.done
+			}),
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors);
 	};
 
 	return viewModel;

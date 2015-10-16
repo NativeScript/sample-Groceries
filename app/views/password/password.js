@@ -1,48 +1,56 @@
 var dialogsModule = require("ui/dialogs");
-var gesturesModule = require("ui/gestures");
-
+var formUtil = require("../../shared/utils/form-util");
 var UserViewModel = require("../../shared/view-models/user-view-model");
+
 var user = new UserViewModel({ authenticating: false });
+var email;
+var resetButton;
 
 exports.loaded = function(args) {
 	var page = args.object;
 	page.bindingContext = user;
 
-	// Dismiss the keyboard when the user taps outside textfield
-	var email = page.getViewById("email");
-	page.observe(gesturesModule.GestureTypes.tap, function() {
-		email.dismissSoftInput();
-	});
+	user.set("email", "");
+
+	email = page.getViewById("email");
+	resetButton = page.getViewById("resetButton");
+
+	formUtil.hideKeyboardOnBlur(page, [email]);
 };
 
-exports.reset = function() {
-	// Don't send off multiple requests at the same time
-	if (user.get("authenticating")) {
-		return;
-	}
+function disableForm() {
+	email.isEnabled = false;
+	resetButton.isEnabled = false;
+	user.set("authenticating", true);
+}
+function enableForm() {
+	email.isEnabled = true;
+	resetButton.isEnabled = true;
+	user.set("authenticating", false);
+}
 
-	if (user.isValidEmail()) {
-		user.set("authenticating", true);
-		user.resetPassword()
-			.then(function() {
-				dialogsModule.alert({
-					message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
-					okButtonText: "OK"
-				});
-			})
-			.catch(function() {
-				dialogsModule.alert({
-					message: "Unfortunately, an error occurred resetting your password.",
-					okButtonText: "OK"
-				});
-			})
-			.then(function() {
-				user.set("authenticating", false);
-			});
-	} else {
+exports.reset = function() {
+	if (!user.isValidEmail()) {
 		dialogsModule.alert({
 			message: "Enter a valid email address.",
 			okButtonText: "OK"
 		});
+		return;
 	}
+
+	disableForm();
+	user.resetPassword()
+		.then(function() {
+			dialogsModule.alert({
+				message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
+				okButtonText: "OK"
+			});
+		})
+		.catch(function() {
+			dialogsModule.alert({
+				message: "Unfortunately, an error occurred resetting your password.",
+				okButtonText: "OK"
+			});
+		})
+		.then(enableForm);
 };

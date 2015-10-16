@@ -1,6 +1,6 @@
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var gesturesModule = require("ui/gestures");
+var formUtil = require("../../shared/utils/form-util");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 
 var user = new UserViewModel({
@@ -9,8 +9,13 @@ var user = new UserViewModel({
 	authenticating: false
 });
 
+var email;
+var password;
+var signInButton;
+
 exports.loaded = function(args) {
 	var page = args.object;
+	page.bindingContext = user;
 
 	// Change the color and style of the iOS UINavigationBar
 	if (page.ios) {
@@ -24,24 +29,28 @@ exports.loaded = function(args) {
 		IQKeyboardManager.sharedManager().enable = true;
 	}
 
-	// Dismiss the keyboard when the user taps outside of the two textfields
-	var email = page.getViewById("email_address");
-	var password = page.getViewById("password");
-	page.observe(gesturesModule.GestureTypes.tap, function() {
-		email.dismissSoftInput();
-		password.dismissSoftInput();
-	});
+	email = page.getViewById("email");
+	password = page.getViewById("password");
+	signInButton = page.getViewById("signInButton");
 
-	page.bindingContext = user;
+	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
 
-exports.signIn = function() {
-	// Don't send off multiple requests at the same time
-	if (user.get("authenticating")) {
-		return;
-	}
-
+function disableForm() {
+	email.isEnabled = false;
+	password.isEnabled = false;
+	signInButton.isEnabled = false;
 	user.set("authenticating", true);
+}
+function enableForm() {
+	email.isEnabled = true;
+	password.isEnabled = true;
+	signInButton.isEnabled = true;
+	user.set("authenticating", false);
+}
+
+exports.signIn = function() {
+	disableForm();
 	user.login()
 		.then(function() {
 			frameModule.topmost().navigate("views/list/list");
@@ -53,9 +62,7 @@ exports.signIn = function() {
 				okButtonText: "OK"
 			});
 		})
-		.then(function() {
-			user.set("authenticating", false);
-		});
+		.then(enableForm);
 };
 
 exports.register = function() {

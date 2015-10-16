@@ -1,3 +1,9 @@
+page {
+	color: black;
+}
 .link {
 	background-color: transparent;
+}
+.mainColor {
+	background-color: #2E6DAD;
 }
