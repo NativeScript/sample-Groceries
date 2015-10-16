@@ -42,7 +42,7 @@
 					<lv:RadListView.itemSwipeTemplate>
 						<GridLayout columns="auto, *, auto">
 							<StackLayout cssClass="swipeImageContainer doneButtonContainer" col="0">
-								<Image ios:src="res://done" android:src="res://ic_done" tap="{{ swipeDone }}" cssClass="swipeButton" />
+								<Image ios:src="res://done" android:src="res://ic_done" tap="{{ toggleDone }}" cssClass="swipeButton" />
 							</StackLayout>
 							<Placeholder col="1" />
 							<StackLayout cssClass="swipeImageContainer deleteButtonContainer" col="2">
@@ -66,14 +66,13 @@
 				<lv:RadListView
 					id="history"
 					items="{{ history }}"
-					itemTap="toggleHistory"
 					row="1">
 					<lv:RadListView.listViewLayout>
 						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
 					</lv:RadListView.listViewLayout>
 					<lv:RadListView.itemTemplate>
 						<StackLayout orientation="horizontal">
-							<Image src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" cssClass="addButton" />
+							<Image tap="{{ toggleHistory }}" src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" cssClass="addButton" />
 							<Label text="{{ name }}" />
 						</StackLayout>
 					</lv:RadListView.itemTemplate>

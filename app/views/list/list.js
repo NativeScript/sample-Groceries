@@ -24,17 +24,16 @@ var pageData = new observableModule.Observable({
 		var item = args.view.bindingContext;
 		performToggleDone(groceryList.indexOf(item));
 	},
-	swipeDone: function(args) {
-		var item = args.view.bindingContext;
-		performToggleDone(groceryList.indexOf(item));
-	},
 	swipeDelete: function(args) {
 		var item = args.view.bindingContext;
-		var index = groceryList.indexOf(item);
 		showPageLoadingIndicator();
-		groceryList.delete(index)
+		groceryList.delete(groceryList.indexOf(item))
 			.catch(handleAddError)
 			.then(hidePageLoadingIndicator);
+	},
+	toggleHistory: function(args) {
+		var item = args.view.bindingContext;
+		groceryList.toggleDoneHistory(history.indexOf(item));
 	}
 });
 
@@ -95,10 +94,6 @@ exports.signOut = function() {
 
 exports.history = function() {
 	drawerElement.toggleDrawerState();
-};
-
-exports.toggleHistory = function(args) {
-	groceryList.toggleDoneHistory(args.itemIndex);
 };
 
 exports.addFromHistory = function() {
