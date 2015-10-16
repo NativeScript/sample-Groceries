@@ -5,6 +5,16 @@ function GroceryListViewModel(items) {
 	var viewModel = new observableArrayModule.ObservableArray(items);
 	var history = new observableArrayModule.ObservableArray([]);
 
+	viewModel.indexOf = function(item) {
+		var match = -1;
+		viewModel.forEach(function(loopItem, index) {
+			if (loopItem.id === item.id) {
+				match = index;
+			}
+		});
+		return match;
+	};
+
 	viewModel.load = function() {
 		return fetch(config.apiUrl + "Groceries", {
 			headers: {

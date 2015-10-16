@@ -18,7 +18,26 @@ var history = groceryList.history();
 var pageData = new observableModule.Observable({
 	grocery: "",
 	groceryList: groceryList,
-	history: history
+	history: history,
+
+	// TODO: Move this out of the data model
+	// See https://github.com/telerik/nativescript-ui/issues/72
+	toggleDone: function(args) {
+		var item = args.view.bindingContext;
+		performToggleDone(groceryList.indexOf(item));
+	},
+	swipeDone: function(args) {
+		var item = args.view.bindingContext;
+		performToggleDone(groceryList.indexOf(item));
+	},
+	swipeDelete: function(args) {
+		var item = args.view.bindingContext;
+		var index = groceryList.indexOf(item);
+		showPageLoadingIndicator();
+		groceryList.delete(index)
+			.catch(handleAddError)
+			.then(hidePageLoadingIndicator);
+	}
 });
 
 exports.loaded = function(args) {
@@ -134,30 +153,12 @@ exports.startSwipeCell = function(args) {
 	args.data.swipeLimits.right = page.ios ? 60 : 180;
 };
 
-exports.swipeDone = function(args) {
-	var item = args.view.bindingContext;
-	performToggleDone(groceryList.indexOf(item));
-};
-exports.swipeDelete = function(args) {
-	var item = args.view.bindingContext;
-	var index = groceryList.indexOf(item);
-	showPageLoadingIndicator();
-	groceryList.delete(index)
-		.catch(handleAddError)
-		.then(hidePageLoadingIndicator);
-};
-
 function performToggleDone(index) {
 	showPageLoadingIndicator();
 	groceryList.toggleDone(index)
 		.catch(handleAddError)
 		.then(hidePageLoadingIndicator);
 }
-
-exports.toggleDone = function(args) {
-	var item = args.view.bindingContext;
-	performToggleDone(groceryList.indexOf(item));
-};
 
 exports.shouldRefreshOnPull = function(args) {
 	args.returnValue = true;

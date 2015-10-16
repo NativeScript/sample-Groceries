@@ -35,18 +35,18 @@
 					</lv:RadListView.listViewLayout>
 					<lv:RadListView.itemTemplate>
 						<GridLayout columns="auto, *" backgroundColor="white">
-							<Image tap="toggleDone" src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
+							<Image tap="{{ toggleDone }}" src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
 							<Label text="{{ name }}" col="1" />
 						</GridLayout>
 					</lv:RadListView.itemTemplate>
 					<lv:RadListView.itemSwipeTemplate>
 						<GridLayout columns="auto, *, auto">
 							<StackLayout cssClass="swipeImageContainer doneButtonContainer" col="0">
-								<Image ios:src="res://done" android:src="res://ic_done" tap="swipeDone" cssClass="swipeButton" />
+								<Image ios:src="res://done" android:src="res://ic_done" tap="{{ swipeDone }}" cssClass="swipeButton" />
 							</StackLayout>
 							<Placeholder col="1" />
 							<StackLayout cssClass="swipeImageContainer deleteButtonContainer" col="2">
-								<Image ios:src="res://delete" android:src="res://ic_delete" tap="swipeDelete" cssClass="swipeButton" col="2" />
+								<Image ios:src="res://delete" android:src="res://ic_delete" tap="{{ swipeDelete }}" cssClass="swipeButton" col="2" />
 							</StackLayout>
 						</GridLayout>
 					</lv:RadListView.itemSwipeTemplate>
