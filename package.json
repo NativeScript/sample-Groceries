@@ -33,7 +33,7 @@
     "email-validator": "^1.0.2",
     "nativescript-iqkeyboardmanager": "^1.0.0",
     "nativescript-social-share": "^1.1.1",
-    "nativescript-telerik-ui": "file:nativescript-ui-stable-dev.tgz",
+    "nativescript-telerik-ui": "^0.1.0",
     "tns-core-modules": "1.4.0"
   }
 }
