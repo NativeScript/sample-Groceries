@@ -1,6 +1,6 @@
 var config = require("../../shared/config");
 var observableModule = require("data/observable");
-var validator = require("email-validator/index");
+var validator = require("email-validator");
 
 function User(info) {
 	info = info || {};

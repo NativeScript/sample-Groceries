@@ -30,7 +30,7 @@
     }
   },
   "dependencies": {
-    "email-validator": "^1.0.2",
+    "email-validator": "^1.0.3",
     "nativescript-iqkeyboardmanager": "^1.0.0",
     "nativescript-social-share": "^1.1.1",
     "nativescript-telerik-ui": "file:nativescript-ui-stable-dev.tgz",
