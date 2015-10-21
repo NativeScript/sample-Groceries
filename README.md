@@ -37,6 +37,12 @@ Next, install the app's iOS and Android runtimes, as well as the app's npm depen
 $ tns install
 ```
 
+Open your app's `platforms/android/build.gradle` file and add the following line of code below the two existing `compile "com.android.support"` lines. (Note, this manual step is going away with the NativeScript 1.5 release.)
+
+```
+compile "com.android.support:recyclerview-v7:$suppotVer"
+```
+
 From there you can use the `run` command to run Groceries on iOS:
 
 ```
