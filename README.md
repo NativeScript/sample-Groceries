@@ -4,9 +4,9 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
 
 ## Download
 
-<!--<a href="https://itunes.apple.com/us/app/city-search-geography-challenge/id954908040?mt=8">
+<<a href="https://itunes.apple.com/us/app/groceries-simple-grocery-lists/id1041129105?mt=8">
 	<img src="assets/app-store-icons/ios-app-store.png" style="height: 59px;">
-</a>-->
+</a>
 
 <a href="https://play.google.com/store/apps/details?id=org.nativescript.groceries&hl=en">
 	<img src="assets/app-store-icons/google-play.png" style="height: 59px;">
