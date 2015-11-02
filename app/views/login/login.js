@@ -1,6 +1,7 @@
 var dialogsModule = require("ui/dialogs");
-var frameModule = require("ui/frame");
+var actionBarUtil = require("../../shared/utils/action-bar-util");
 var formUtil = require("../../shared/utils/form-util");
+var navigation = require("../../shared/navigation");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 
 var user = new UserViewModel({
@@ -22,14 +23,8 @@ exports.loaded = function(args) {
 	signInButton = page.getViewById("sign-in-button");
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 
-	// Change the color and style of the iOS UINavigationBar
-	if (page.ios) {
-		var navigationBar = frameModule.topmost().ios.controller.navigationBar;
-		navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
-		navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
-		navigationBar.barStyle = 1;
-		navigationBar.tintColor = UIColor.whiteColor();
-	}
+	actionBarUtil.hideiOSBackButton();
+	actionBarUtil.styleActionBar();
 
 	// Prevent the first textfield from receiving focus on Android
 	// See http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus
@@ -61,9 +56,7 @@ function enableForm() {
 exports.signIn = function() {
 	disableForm();
 	user.login()
-		.then(function() {
-			frameModule.topmost().navigate("views/list/list");
-		})
+		.then(navigation.goToListPage)
 		.catch(function(error) {
 			console.log(error);
 			dialogsModule.alert({
@@ -74,12 +67,5 @@ exports.signIn = function() {
 		.then(enableForm);
 };
 
-exports.register = function() {
-	var topmost = frameModule.topmost();
-	topmost.navigate("views/register/register");
-};
-
-exports.forgotPassword = function() {
-	var topmost = frameModule.topmost();
-	topmost.navigate("views/password/password");
-};
+exports.register = navigation.goToRegisterPage;
+exports.forgotPassword = navigation.goToPasswordPage;

@@ -1,5 +1,6 @@
 var config = require("../../shared/config");
 var ObservableArray = require("data/observable-array").ObservableArray;
+var navigation = require("../navigation");
 
 function indexOf(item) {
 	var match = -1;
@@ -165,6 +166,11 @@ function GroceryListViewModel(items) {
 function handleErrors(response) {
 	if (!response.ok) {
 		console.log(JSON.stringify(response));
+
+		if (response.status === 403) {
+			navigation.signOut();
+		}
+
 		throw Error(response.statusText);
 	}
 	return response;
