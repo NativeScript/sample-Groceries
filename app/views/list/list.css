@@ -53,6 +53,8 @@ Image {
 	border-width: 0;
 }
 
-.fabContainer {
+.fabButton {
+	height: 70;
 	horizontal-align: right;
+	vertical-align: bottom;
 }

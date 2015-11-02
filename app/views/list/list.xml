@@ -14,7 +14,7 @@
 		</drawer:RadSideDrawer.drawerTransition>
 
 		<drawer:RadSideDrawer.mainContent>
-			<GridLayout rows="auto, *, auto" id="mainContent">
+			<GridLayout rows="auto, *" id="mainContent">
 				<GridLayout row="0" columns="*, auto" cssClass="mainColor">
 					<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" returnPress="add" col="0" />
 					<Image ios:src="res://history" android:visibility="collapsed" tap="history" col="1" />
@@ -52,11 +52,11 @@
 					</lv:RadListView.itemSwipeTemplate>
 				</lv:RadListView>
 
-				<AbsoluteLayout row="2" cssClass="fabContainer" ios:visibility="collapsed">
-					<Image src="res://fab" tap="history" />
-				</AbsoluteLayout>
+				<Android>
+					<Image row="1" src="res://fab" tap="history" class="fabButton" />
+				</Android>
 
-				<ActivityIndicator busy="{{ isLoading }}" rowSpan="3" />
+				<ActivityIndicator busy="{{ isLoading }}" rowSpan="2" />
 			</GridLayout>
 		</drawer:RadSideDrawer.mainContent>
 
