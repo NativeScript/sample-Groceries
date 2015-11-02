@@ -1,5 +1,5 @@
 var config = require("../../shared/config");
-var observableArrayModule = require("data/observable-array");
+var ObservableArray = require("data/observable-array").ObservableArray;
 
 function indexOf(item) {
 	var match = -1;
@@ -12,8 +12,8 @@ function indexOf(item) {
 }
 
 function GroceryListViewModel(items) {
-	var viewModel = new observableArrayModule.ObservableArray(items);
-	var history = new observableArrayModule.ObservableArray([]);
+	var viewModel = new ObservableArray(items);
+	var history = new ObservableArray([]);
 
 	viewModel.indexOf = indexOf;
 	history.indexOf = indexOf;

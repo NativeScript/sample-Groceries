@@ -1,7 +1,7 @@
 var dialogsModule = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var observableModule = require("data/observable");
-var dependencyObservableModule = require("ui/core/dependency-observable");
+var Observable = require("data/observable").Observable;
+var DependencyObservable = require("ui/core/dependency-observable").DependencyObservable;
 
 var socialShare = require("nativescript-social-share");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
@@ -13,7 +13,7 @@ var mainContentElement;
 
 var groceryList = new GroceryListViewModel([]);
 var history = groceryList.history();
-var pageData = new observableModule.Observable({
+var pageData = new Observable({
 	grocery: "",
 	groceryList: groceryList,
 	history: history,
@@ -149,7 +149,7 @@ exports.shouldRefreshOnPull = function(args) {
 };
 
 function DrawerCallbacksModel() {}
-DrawerCallbacksModel.prototype = new dependencyObservableModule.DependencyObservable();
+DrawerCallbacksModel.prototype = new DependencyObservable();
 DrawerCallbacksModel.prototype.onDrawerOpening = function () {
 	if (page.ios) {
 		mainContentElement.animate({
