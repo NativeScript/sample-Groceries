@@ -12,9 +12,9 @@
 				<activity-indicator busy="{{ authenticating }}" rowSpan="2" />
 			</grid-layout>
 
-			<Button text="Sign in" id="sign-in-button" tap="signIn" />
-			<Button text="Sign up for Groceries" tap="register" class="link" />
-			<Button text="Forgot password?" tap="forgotPassword" class="link" />
+			<button text="Sign in" id="sign-in-button" tap="signIn" />
+			<button text="Sign up for Groceries" tap="register" class="link" />
+			<button text="Forgot password?" tap="forgotPassword" class="link" />
 		</stack-layout>
 	</scroll-view>
 </page>
