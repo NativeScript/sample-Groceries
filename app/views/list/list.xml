@@ -1,28 +1,28 @@
-<Page loaded="loaded" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
-	<Page.actionBar>
-		<ActionBar title="Groceries">
-			<ActionBar.actionItems>
-				<ActionItem text="Sign out" tap="signOut" ios.position="left" android:icon="res://ic_logout" />
-				<ActionItem android.text="Share" tap="share" ios:icon="res://share" android:icon="res://ic_share" ios.position="right" />
-			</ActionBar.actionItems>
-		</ActionBar>
-	</Page.actionBar>
+<page loaded="loaded" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
+	<page.actionBar>
+		<action-bar title="Groceries">
+			<action-bar.actionItems>
+				<action-item text="Sign out" tap="signOut" ios.position="left" android:icon="res://ic_logout" />
+				<action-item android.text="Share" tap="share" ios:icon="res://share" android:icon="res://ic_share" ios.position="right" />
+			</action-bar.actionItems>
+		</action-bar>
+	</page.actionBar>
 
-	<drawer:RadSideDrawer id="drawer" drawerLocation="Right">
-		<drawer:RadSideDrawer.drawerTransition>
+	<drawer:rad-side-drawer id="drawer" drawerLocation="Right">
+		<drawer:rad-side-drawer.drawerTransition>
 			<drawer:PushTransition />
-		</drawer:RadSideDrawer.drawerTransition>
+		</drawer:rad-side-drawer.drawerTransition>
 
-		<drawer:RadSideDrawer.mainContent>
-			<GridLayout rows="auto, *" id="mainContent">
-				<GridLayout row="0" columns="*, auto" cssClass="mainColor">
-					<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" returnPress="add" col="0" />
+		<drawer:rad-side-drawer.mainContent>
+			<grid-layout rows="auto, *" id="main-content">
+				<grid-layout row="0" columns="*, auto" class="main-color">
+					<text-field id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" returnPress="add" col="0" />
 					<Image ios:src="res://history" android:visibility="collapsed" tap="history" col="1" />
-				</GridLayout>
+				</grid-layout>
  
-				<lv:RadListView
+				<lv:rad-list-view
 					items="{{ groceryList }}"
-					id="groceryList"
+					id="grocery-list"
 					pullToRefresh="true"
 					shouldRefreshOnPull="shouldRefreshOnPull"
 					selectionBehavior="None"
@@ -30,58 +30,58 @@
 					startSwipeCell="startSwipeCell"
 					row="1"
 					rowSpan="2">
-					<lv:RadListView.listViewLayout>
+					<lv:rad-list-view.listViewLayout>
 						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" />
-					</lv:RadListView.listViewLayout>
-					<lv:RadListView.itemTemplate>
-						<GridLayout columns="auto, *" backgroundColor="white">
-							<Image tap="{{ toggleDone }}" src="{{ done ? 'res://checked' : 'res://unchecked' }}" cssClass="checkbox" col="0" />
-							<Label text="{{ name }}" col="1" />
-						</GridLayout>
-					</lv:RadListView.itemTemplate>
-					<lv:RadListView.itemSwipeTemplate>
-						<GridLayout columns="auto, *, auto">
-							<StackLayout cssClass="swipeImageContainer doneButtonContainer" col="0">
-								<Image ios:src="res://done" android:src="res://ic_done" tap="{{ toggleDone }}" cssClass="swipeButton" />
-							</StackLayout>
+					</lv:rad-list-view.listViewLayout>
+					<lv:rad-list-view.itemTemplate>
+						<grid-layout columns="auto, *" backgroundColor="white">
+							<image tap="{{ toggleDone }}" src="{{ done ? 'res://checked' : 'res://unchecked' }}" class="checkbox" col="0" />
+							<label text="{{ name }}" col="1" />
+						</grid-layout>
+					</lv:rad-list-view.itemTemplate>
+					<lv:rad-list-view.itemSwipeTemplate>
+						<grid-layout columns="auto, *, auto">
+							<stack-layout class="swipe-image-container done-button-container" col="0">
+								<image ios:src="res://done" android:src="res://ic_done" tap="{{ toggleDone }}" class="swipe-button" />
+							</stack-layout>
 							<Placeholder col="1" />
-							<StackLayout cssClass="swipeImageContainer deleteButtonContainer" col="2">
-								<Image ios:src="res://delete" android:src="res://ic_delete" tap="{{ swipeDelete }}" cssClass="swipeButton" col="2" />
-							</StackLayout>
-						</GridLayout>
-					</lv:RadListView.itemSwipeTemplate>
-				</lv:RadListView>
+							<stack-layout class="swipe-image-container delete-button-container" col="2">
+								<image ios:src="res://delete" android:src="res://ic_delete" tap="{{ swipeDelete }}" class="swipe-button" col="2" />
+							</stack-layout>
+						</grid-layout>
+					</lv:rad-list-view.itemSwipeTemplate>
+				</lv:rad-list-view>
 
-				<Android>
-					<Image row="1" src="res://fab" tap="history" class="fabButton" />
-				</Android>
+				<android>
+					<image row="1" src="res://fab" tap="history" class="fab-button" />
+				</android>
 
-				<ActivityIndicator busy="{{ isLoading }}" rowSpan="2" />
-			</GridLayout>
-		</drawer:RadSideDrawer.mainContent>
+				<activity-indicator busy="{{ isLoading }}" rowSpan="2" />
+			</grid-layout>
+		</drawer:rad-side-drawer.mainContent>
 
-		<drawer:RadSideDrawer.drawerContent>
-			<GridLayout rows="auto, *, auto" id="drawerContent">
-				<Label text="Add recent items" cssClass="heading" row="0" />
-				<lv:RadListView
+		<drawer:rad-side-drawer.drawerContent>
+			<grid-layout rows="auto, *, auto" id="drawer-content">
+				<label text="Add recent items" class="heading" row="0" />
+				<lv:rad-list-view
 					id="history"
 					items="{{ history }}"
 					row="1">
-					<lv:RadListView.listViewLayout>
+					<lv:rad-list-view.listViewLayout>
 						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
-					</lv:RadListView.listViewLayout>
-					<lv:RadListView.itemTemplate>
-						<StackLayout orientation="horizontal">
-							<Image tap="{{ toggleHistory }}" src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" cssClass="addButton" />
-							<Label text="{{ name }}" />
-						</StackLayout>
-					</lv:RadListView.itemTemplate>
-				</lv:RadListView>
-				<Button text="Add to the groceries list" tap="addFromHistory" cssClass="mainColor addAllButton" row="2" />
-				<ActivityIndicator busy="{{ isHistoryLoading }}"
+					</lv:rad-list-view.listViewLayout>
+					<lv:rad-list-view.itemTemplate>
+						<stack-layout orientation="horizontal">
+							<Image tap="{{ toggleHistory }}" src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" class="add-button" />
+							<label text="{{ name }}" />
+						</stack-layout>
+					</lv:rad-list-view.itemTemplate>
+				</lv:rad-list-view>
+				<button text="Add to the groceries list" tap="addFromHistory" class="main-color add-all-button" row="2" />
+				<activity-indicator busy="{{ isHistoryLoading }}"
 					rowSpan="3" />
-			</GridLayout>
-		</drawer:RadSideDrawer.drawerContent>
+			</grid-layout>
+		</drawer:rad-side-drawer.drawerContent>
 
-	</drawer:RadSideDrawer>
-</Page>
+	</drawer:rad-side-drawer>
+</page>

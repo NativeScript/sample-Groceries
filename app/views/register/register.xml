@@ -1,18 +1,18 @@
-<Page loaded="loaded">
-	<Page.actionBar>
-		<ActionBar title="Sign up"></ActionBar>
-	</Page.actionBar>
-	<ScrollView>
-		<StackLayout>
-			<Image src="res://logo" stretch="none" horizontalAlignment="center" />
+<page loaded="loaded">
+	<page.actionBar>
+		<action-bar title="Sign up" />
+	</page.actionBar>
+	<scroll-view>
+		<stack-layout>
+			<image src="res://logo" stretch="none" horizontalAlignment="center" />
 
-			<GridLayout rows="auto, auto">
-				<TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
-				<TextField text="{{ password }}" id="password" secure="true" hint="Password" returnKeyType="done" returnPress="register" row="1" />
-				<ActivityIndicator busy="{{ authenticating }}" rowSpan="2" />
-			</GridLayout>
+			<grid-layout rows="auto, auto">
+				<text-field text="{{ email }}" id="email" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
+				<text-field text="{{ password }}" id="password" secure="true" hint="Password" returnKeyType="done" returnPress="register" row="1" />
+				<activity-indicator busy="{{ authenticating }}" rowSpan="2" />
+			</grid-layout>
 
-			<Button text="Sign Up" id="signUpButton" tap="register" />
-		</StackLayout>
-	</ScrollView>
-</Page>
+			<Button text="Sign Up" id="sign-up-button" tap="register" />
+		</stack-layout>
+	</scroll-view>
+</page>

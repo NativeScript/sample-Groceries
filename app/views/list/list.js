@@ -43,8 +43,8 @@ exports.loaded = function(args) {
 
 	drawerElement = page.getViewById("drawer");
 	drawerElement.delegate = new DrawerCallbacksModel();
-	groceryListElement = page.getViewById("groceryList");
-	mainContentElement = page.getViewById("mainContent");
+	groceryListElement = page.getViewById("grocery-list");
+	mainContentElement = page.getViewById("main-content");
 
 	if (page.ios) {
 		// Hide the Back arrow

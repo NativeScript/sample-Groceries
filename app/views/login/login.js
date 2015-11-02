@@ -19,7 +19,7 @@ exports.loaded = function(args) {
 
 	email = page.getViewById("email");
 	password = page.getViewById("password");
-	signInButton = page.getViewById("signInButton");
+	signInButton = page.getViewById("sign-in-button");
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 
 	// Change the color and style of the iOS UINavigationBar

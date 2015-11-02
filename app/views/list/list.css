@@ -19,23 +19,23 @@ Image {
 	height: 35;
 }
 
-.swipeImageContainer {
+.swipe-image-container {
 	height: 50;
 	width: 60;
 }
-.swipeButton {
+.swipe-button {
 	border-width: 0;
 	margin-top: 15;
 	height: 20;
 }
-.deleteButtonContainer {
+.delete-button-container {
 	background-color: red;
 }
-.doneButtonContainer {
+.done-button-container {
 	background-color: green;
 }
 
-#drawerContent {
+#drawer-content {
 	background-color: white;
 	border-width: 1;
 	border-color: #eee;
@@ -44,16 +44,15 @@ Image {
 	font-weight: bold;
 	text-size: 14;
 }
-.addButton {
+.add-button {
 	height: 30;
 	margin-right: 0;
 }
-.addAllButton {
+.add-all-button {
 	color: white;
 	border-width: 0;
 }
-
-.fabButton {
+.fab-button {
 	height: 70;
 	horizontal-align: right;
 	vertical-align: bottom;

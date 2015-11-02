@@ -13,7 +13,7 @@ exports.loaded = function(args) {
 	user.set("email", "");
 
 	email = page.getViewById("email");
-	resetButton = page.getViewById("resetButton");
+	resetButton = page.getViewById("reset-button");
 	formUtil.hideKeyboardOnBlur(page, [email]);
 };
 

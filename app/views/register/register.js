@@ -17,7 +17,7 @@ exports.loaded = function(args) {
 
 	email = page.getViewById("email");
 	password = page.getViewById("password");
-	signUpButton = page.getViewById("signUpButton");
+	signUpButton = page.getViewById("sign-up-button");
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 };
 

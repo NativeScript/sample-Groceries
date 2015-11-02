@@ -1,20 +1,20 @@
-<Page loaded="loaded">
-	<Page.actionBar>
-		<ActionBar title="Sign in"></ActionBar>
-	</Page.actionBar>
-	<ScrollView>
-		<StackLayout id="layout">
-			<Image src="res://logo" stretch="none" horizontalAlignment="center" />
+<page loaded="loaded">
+	<page.actionBar>
+		<action-bar title="Sign in" />
+	</page.actionBar>
+	<scroll-view>
+		<stack-layout id="layout">
+			<image src="res://logo" stretch="none" horizontalAlignment="center" />
 
-			<GridLayout rows="auto, auto">
-				<TextField id="email" text="{{ email }}" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
-				<TextField id="password" secure="true" text="{{ password }}" hint="Password" returnKeyType="done" returnPress="signIn" row="1" />
-				<ActivityIndicator busy="{{ authenticating }}" rowSpan="2" />
-			</GridLayout>
+			<grid-layout rows="auto, auto">
+				<text-field id="email" text="{{ email }}" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
+				<text-field id="password" secure="true" text="{{ password }}" hint="Password" returnKeyType="done" returnPress="signIn" row="1" />
+				<activity-indicator busy="{{ authenticating }}" rowSpan="2" />
+			</grid-layout>
 
-			<Button text="Sign in" id="signInButton" tap="signIn" />
-			<Button text="Sign up for Groceries" tap="register" cssClass="link" />
-			<Button text="Forgot password?" tap="forgotPassword" cssClass="link" />
-		</StackLayout>
-	</ScrollView>
-</Page>
+			<Button text="Sign in" id="sign-in-button" tap="signIn" />
+			<Button text="Sign up for Groceries" tap="register" class="link" />
+			<Button text="Forgot password?" tap="forgotPassword" class="link" />
+		</stack-layout>
+	</scroll-view>
+</page>
