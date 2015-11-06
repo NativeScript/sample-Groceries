@@ -56,6 +56,13 @@ exports.loaded = function(args) {
 	showPageLoadingIndicator();
 	groceryList
 		.load()
+		.catch(function(error) {
+			console.log(error);
+			dialogsModule.alert({
+				message: "An error occurred while loading your grocery list.",
+				okButtonText: "OK"
+			});
+		})
 		.then(function() {
 			hidePageLoadingIndicator();
 
@@ -63,13 +70,6 @@ exports.loaded = function(args) {
 			groceryListElement.animate({
 				opacity: 1,
 				duration: 1000
-			});
-		})
-		.catch(function(error) {
-			console.log(error);
-			dialogsModule.alert({
-				message: "An error occurred while loading your grocery list.",
-				okButtonText: "OK"
 			});
 		});
 };
@@ -81,7 +81,8 @@ exports.add = function() {
 
 	showPageLoadingIndicator();
 	page.getViewById("grocery").dismissSoftInput();
-	groceryList.add(pageData.get("grocery"))
+	groceryList
+		.add(pageData.get("grocery"))
 		.catch(function(error) {
 			console.log(error);
 			dialogsModule.alert({

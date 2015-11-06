@@ -56,15 +56,14 @@ function enableForm() {
 exports.signIn = function() {
 	disableForm();
 	user.login()
-		.then(navigation.goToListPage)
 		.catch(function(error) {
-			console.log(error);
 			dialogsModule.alert({
 				message: "Unfortunately we could not find your account.",
 				okButtonText: "OK"
 			});
 		})
-		.then(enableForm);
+		.then(enableForm)
+		.then(navigation.goToListPage);
 };
 
 exports.register = navigation.goToRegisterPage;
