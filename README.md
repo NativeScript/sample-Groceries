@@ -2,6 +2,8 @@
 
 Groceries is a NativeScript-built iOS and Android app for managing grocery lists. You can learn how to build a version of this app from scratch in the [NativeScript getting started guide](http://docs.nativescript.org/getting-started).
 
+<a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
+
 ## Download
 
 <a href="https://itunes.apple.com/us/app/groceries-simple-grocery-lists/id1041129105?mt=8">
