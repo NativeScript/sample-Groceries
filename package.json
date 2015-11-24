@@ -18,15 +18,15 @@
 	"nativescript": {
 		"id": "org.nativescript.groceries",
 		"tns-android": {
-			"version": "1.4.0"
+			"version": "1.5.0"
 		},
 		"tns-ios": {
-			"version": "1.4.0"
+			"version": "1.5.0"
 		}
 	},
 	"dependencies": {
 		"email-validator": "^1.0.3",
 		"nativescript-social-share": "^1.1.0",
-		"tns-core-modules": "1.4"
+		"tns-core-modules": "1.5"
 	}
 }
