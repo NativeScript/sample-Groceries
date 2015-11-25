@@ -23,7 +23,6 @@ exports.loaded = function(args) {
 	signInButton = page.getViewById("sign-in-button");
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 
-	actionBarUtil.hideiOSBackButton();
 	actionBarUtil.styleActionBar();
 
 	// Prevent the first textfield from receiving focus on Android

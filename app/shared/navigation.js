@@ -21,7 +21,8 @@ module.exports = {
 		config.invalidateToken();
 		frameModule.topmost().navigate({
 			moduleName: "views/login/login",
-			animated: false
+			animated: false,
+			clearHistory: true
 		});
 	},
 	startingPage: function() {

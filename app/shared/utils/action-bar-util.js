@@ -8,12 +8,3 @@ exports.styleActionBar = function() {
 		navigationBar.barStyle = 1;
 	}
 };
-
-exports.hideiOSBackButton = function() {
-	var topmost = frameModule.topmost();
-	if (topmost.ios) {
-		// Hide the Back arrow
-		var controller = topmost.ios.controller;
-		controller.visibleViewController.navigationItem.setHidesBackButtonAnimated(true, false);
-	}
-};

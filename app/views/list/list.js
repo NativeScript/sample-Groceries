@@ -42,7 +42,6 @@ exports.loaded = function(args) {
 	page = args.object;
 	page.bindingContext = pageData;
 	actionBarUtil.styleActionBar();
-	actionBarUtil.hideiOSBackButton();
 
 	drawerElement = page.getViewById("drawer");
 	drawerElement.delegate = new DrawerCallbacksModel();
