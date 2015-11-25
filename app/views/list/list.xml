@@ -1,4 +1,4 @@
-<page loaded="loaded" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
+<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
 	<page.actionBar>
 		<action-bar title="Groceries">
 			<action-bar.actionItems>
