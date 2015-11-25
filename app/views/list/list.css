@@ -2,15 +2,15 @@
 	margin: 5;
 	opacity: 0;
 }
-TextField {
+text-field {
 	background-color: white;
 }
-Label {
+label {
 	margin: 10;
 	horizontal-align: left;
 	vertical-align: center;
 }
-Image {
+image {
 	margin: 10;
 }
 .checkbox {
