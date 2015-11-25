@@ -1,10 +1,6 @@
-action-bar {
-	color: white;
-	background-color: #2E6DAD;
-}
 .link {
 	background-color: transparent;
 }
-.main-color {
+action-bar, .main-color {
 	background-color: #2E6DAD;
 }

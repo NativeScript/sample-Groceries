@@ -4,6 +4,9 @@ page {
 	background-color: white;
 	font-size: 17;
 }
+action-bar {
+	color: white;
+}
 text-field {
 	margin: 10;
 	padding: 10;
