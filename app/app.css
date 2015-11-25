@@ -7,6 +7,9 @@ page {
 action-bar {
 	color: white;
 }
+action-bar, .main-color {
+	background-color: #2E6DAD;
+}
 text-field {
 	margin: 10;
 	padding: 10;

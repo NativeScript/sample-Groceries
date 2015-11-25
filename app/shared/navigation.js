@@ -12,7 +12,10 @@ module.exports = {
 		frameModule.topmost().navigate("views/password/password");
 	},
 	goToListPage: function() {
-		frameModule.topmost().navigate("views/list/list");
+		frameModule.topmost().navigate({
+			moduleName: "views/list/list",
+			clearHistory: true
+		});
 	},
 	signOut: function() {
 		config.invalidateToken();
