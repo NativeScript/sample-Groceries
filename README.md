@@ -72,3 +72,4 @@ Groceries uses [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for co
 ```
 $ gulp lint
 ```
+![](https://ga-beacon.appspot.com/UA-111455-24/nativescript/sample-groceries?pixel) 
