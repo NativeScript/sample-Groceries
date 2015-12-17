@@ -1,1 +1,1 @@
-This branch contains the completed code for the [NativeScript getting started guide](http://docs.nativescript.org/getting-started).
+This branch is a fork of the [NativeScript getting started guide](http://docs.nativescript.org/getting-started)'s 'end' branch. Use it to learn how to integrate NativeScript with Firebase.
