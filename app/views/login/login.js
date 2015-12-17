@@ -16,6 +16,8 @@ exports.loaded = function(args) {
     }
 
     page.bindingContext = user;
+
+    user.init()
 };
 
 exports.signIn = function() {
@@ -23,9 +25,8 @@ exports.signIn = function() {
         .then(function() {
             frameModule.topmost().navigate("views/list/list");
         }).catch(function(error) {
-            console.log(error);
             dialogsModule.alert({
-                message: "Unfortunately we could not find your account.",
+                message: error,
                 okButtonText: "OK"
             });
         });

@@ -5,6 +5,7 @@ var viewModule = require("ui/core/view");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
+var frameModule = require("ui/frame");
 var page;
 
 var groceryList = new GroceryListViewModel([]);
@@ -21,6 +22,14 @@ exports.loaded = function(args) {
         swipeDelete.enable(listView, function(index) {
             groceryList.delete(index);
         });
+        var navigationBar = frameModule.topmost().ios.controller.navigationBar;
+        navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
+        navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
+        navigationBar.barStyle = 1;
+        navigationBar.tintColor = UIColor.whiteColor();
+
+        frameModule.topmost().ios.navBarVisibility = "never";
+
     }
     
     page.bindingContext = pageData;

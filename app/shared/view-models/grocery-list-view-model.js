@@ -1,28 +1,57 @@
 var config = require("../../shared/config");
-var fetchModule = require("fetch");
+var firebase = require("nativescript-plugin-firebase");
 var observableArrayModule = require("data/observable-array");
 
-function GroceryListViewModel(items) {
-    var viewModel = new observableArrayModule.ObservableArray(items);
+function indexOf(item) {
+    var match = -1;
+    this.forEach(function(loopItem, index) {
+        if (loopItem.id === item.key) {
+            match = index;
+        }
+    });
+    return match;
+}
 
-    viewModel.load = function() {
-        return fetch(config.apiUrl + "Groceries", {
-            headers: {
-                "Authorization": "Bearer " + config.token
+function GroceryListViewModel(items) {
+
+    var viewModel = new observableArrayModule.ObservableArray(items);
+    viewModel.indexOf = indexOf;
+
+    viewModel.load = function () {
+        
+        var onChildEvent = function(result) {
+        var matches = [];
+
+            if (result.type === "ChildAdded") {            
+                if(result.value.UID === config.uid){
+                  viewModel.push({
+                    name: result.value.Name,
+                    id: result.key
+                  });
+                }
             }
-        })
-        .then(handleErrors)
-        .then(function(response) {
-            return response.json();
-        }).then(function(data) {
-            data.Result.forEach(function(grocery) {
-                viewModel.push({
-                    name: grocery.Name,
-                    id: grocery.Id
+
+            else if (result.type === "ChildRemoved") {
+
+                matches.push(result);
+                        
+                matches.forEach(function(match) {
+                    var index = viewModel.indexOf(match);
+                    viewModel.splice(index, 1);                                     
                 });
-            });
-        });
-    };
+
+            }
+
+        };
+        return firebase.addChildEventListener(onChildEvent, "/Groceries").then(
+            function () {
+              console.log("firebase.addChildEventListener added");
+            },
+            function (error) {
+              console.log("firebase.addChildEventListener error: " + error);
+            }
+        )   
+      };
 
     viewModel.empty = function() {
         while (viewModel.length) {
@@ -31,48 +60,20 @@ function GroceryListViewModel(items) {
     };
 
     viewModel.add = function(grocery) {
-        return fetch(config.apiUrl + "Groceries", {
-            method: "POST",
-            body: JSON.stringify({
-                Name: grocery
-            }),
-            headers: {
-                "Authorization": "Bearer " + config.token,
-                "Content-Type": "application/json"
-            }
-        })
-        .then(handleErrors)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            viewModel.push({ name: grocery, id: data.Result.Id });
-        });
+        return firebase.push(
+          '/Groceries',
+          {'Name': grocery,
+           'UID': config.uid
+           }
+        );
     };
 
     viewModel.delete = function(index) {
-        return fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + config.token,
-                "Content-Type": "application/json"
-            }
-        })
-        .then(handleErrors)
-        .then(function() {
-            viewModel.splice(index, 1);
-        });
+        var id = viewModel.getItem(index).id;
+        return firebase.remove("/Groceries/"+id+"");
     };
 
     return viewModel;
-}
-
-function handleErrors(response) {
-    if (!response.ok) {
-        console.log(JSON.stringify(response));
-        throw Error(response.statusText);
-    }
-    return response;
 }
 
 module.exports = GroceryListViewModel;
