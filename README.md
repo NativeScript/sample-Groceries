@@ -96,3 +96,5 @@ $ gulp lint
 <h3 id="unit testing">Unit Testing</h3>
 
 Coming soon!
+
+![](https://ga-beacon.appspot.com/UA-111455-24/nativescript/sample-groceries?pixel) 
