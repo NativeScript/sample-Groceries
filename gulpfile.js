@@ -5,8 +5,7 @@ var jshint = require("gulp-jshint");
 var filesToLint = [
 	"app/**/*.js",
 
-	// Exclude libraries, node modules, and NativeScript modules from linting
-	"!app/lib/**/*.js",
+	// Exclude node modules from linting
 	"!app/node_modules/**/*.js"
 ];
 
