@@ -15,9 +15,9 @@ var pageData = new observableModule.Observable({
 
 exports.loaded = function(args) {
     page = args.object;
+    var listView = page.getViewById("groceryList");
 
     if (page.ios) {
-        var listView = viewModule.getViewById(page, "groceryList");
         swipeDelete.enable(listView, function(index) {
             groceryList.delete(index);
         });
@@ -29,6 +29,10 @@ exports.loaded = function(args) {
     pageData.set("isLoading", true);
     groceryList.load().then(function() {
         pageData.set("isLoading", false);
+        listView.animate({
+            opacity: 1,
+            duration: 1000
+        });
     });
 };
 

@@ -18,3 +18,7 @@ Button {
     margin: 10;
     padding: 10;
 }
+ActionBar {
+    color: white;
+    background-color: #2E6DAD;
+}

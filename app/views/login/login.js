@@ -9,10 +9,7 @@ exports.loaded = function(args) {
 
     if (page.ios) {
         var navigationBar = frameModule.topmost().ios.controller.navigationBar;
-        navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
-        navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
         navigationBar.barStyle = 1;
-        navigationBar.tintColor = UIColor.whiteColor();
     }
 
     page.bindingContext = user;

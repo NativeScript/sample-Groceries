@@ -27,6 +27,6 @@
 	"dependencies": {
 		"email-validator": "^1.0.3",
 		"nativescript-social-share": "^1.1.0",
-		"tns-core-modules": "1.5"
+		"tns-core-modules": "1.5.1"
 	}
 }
