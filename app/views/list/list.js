@@ -1,7 +1,6 @@
 var dialogsModule = require("ui/dialogs");
 var observableModule = require("data/observable");
 var observableArrayModule = require("data/observable-array");
-var viewModule = require("ui/core/view");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
@@ -40,7 +39,7 @@ exports.add = function() {
     // Check for empty submissions
     if (pageData.get("grocery").trim() !== "") {
         // Dismiss the keyboard
-        viewModule.getViewById(page, "grocery").dismissSoftInput();
+        page.getViewById("grocery").dismissSoftInput();
         groceryList.add(pageData.get("grocery"))
             .catch(function() {
                 dialogsModule.alert({
