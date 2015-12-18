@@ -6,6 +6,7 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
 * [Branches](#branches)
 * [Screenshots](#screenshots)
 * [Development](#development)
+    * [Telerik AppBuilder](#telerik-appbuilder)
     * [Linting](#linting)
     * [Unit testing](#unit-testing)
 
@@ -19,10 +20,6 @@ The latest version of Groceries is available on the iOS App Store as well as Goo
 <a href="https://play.google.com/store/apps/details?id=org.nativescript.groceries&hl=en">
 	<img src="assets/app-store-icons/google-play.png">
 </a>
-
-If you’d like to try developing Groceries without going through the full setup, you may be interested in loading the app through [Telerik AppBuilder](http://www.telerik.com/platform/appbuilder):
-
-<a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
 
 <h2 id="branches">Branches</h2>
 
@@ -84,6 +81,12 @@ $ tns livesync ios --emulator --watch
 ```
 $ tns livesync android --emulator --watch
 ```
+
+<h3 id="telerik-appbuilder">Telerik AppBuilder</h3>
+
+If you’d like to try developing Groceries without going through the full setup, you may be interested in loading the app through [Telerik AppBuilder](http://www.telerik.com/platform/appbuilder):
+
+<a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
 
 <h3 id="linting">Linting</h3>
 
