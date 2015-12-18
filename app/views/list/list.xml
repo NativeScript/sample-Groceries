@@ -1,4 +1,4 @@
-<Page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd">
+<Page loaded="loaded">
     <Page.actionBar>
         <ActionBar title="Groceries">
             <ActionBar.actionItems>
