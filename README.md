@@ -90,10 +90,10 @@ If you’d like to try developing Groceries without going through the full setup
 
 <h3 id="linting">Linting</h3>
 
-Groceries uses [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for code linting. To kick off both, use the app's `gulp lint` command:
+Groceries uses [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for code linting. To kick off both, use the app's `npm run lint` command:
 
 ```
-$ gulp lint
+$ npm run lint
 ```
 
 <h3 id="unit testing">Unit Testing</h3>
