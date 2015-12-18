@@ -38,7 +38,7 @@
   "dependencies": {
     "email-validator": "^1.0.3",
     "nativescript-iqkeyboardmanager": "^1.0.0",
-    "nativescript-social-share": "^1.1.1",
+    "nativescript-social-share": "^1.1.2",
     "nativescript-telerik-ui": "file:nativescript-ui-stable-dev.tgz",
     "nativescript-unit-test-runner": "^0.2.8",
     "tns-core-modules": "1.5.0"
