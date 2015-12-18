@@ -1,39 +1,46 @@
 {
-	"name": "Groceries",
-	"version": "2.1.0",
-	"description": "A NativeScript-built iOS and Android app for managing grocery lists",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/nativescript/sample-Groceries.git"
-	},
-	"keywords": [
-		"NativeScript"
-	],
-	"author": "TJ VanToll <tj.vantoll@gmail.com> (http://tjvantoll.com/)",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/nativescript/sample-Groceries/issues"
-	},
-	"homepage": "https://github.com/nativescript/sample-Groceries/groceries",
-	"devDependencies": {
-		"gulp": "^3.9.0",
-		"gulp-jscs": "^1.6.0",
-		"gulp-jshint": "^1.11.0"
-	},
-	"nativescript": {
-		"id": "com.tjvantoll.groceries",
-		"tns-android": {
-			"version": "1.5.0"
-		},
-		"tns-ios": {
-			"version": "1.5.0"
-		}
-	},
-	"dependencies": {
-		"email-validator": "^1.0.3",
-		"nativescript-iqkeyboardmanager": "^1.0.0",
-		"nativescript-social-share": "^1.1.1",
-		"nativescript-telerik-ui": "file:nativescript-ui-stable-dev.tgz",
-		"tns-core-modules": "1.5.0"
-	}
+  "name": "Groceries",
+  "version": "2.1.0",
+  "description": "A NativeScript-built iOS and Android app for managing grocery lists",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nativescript/sample-Groceries.git"
+  },
+  "keywords": [
+    "NativeScript"
+  ],
+  "author": "TJ VanToll <tj.vantoll@gmail.com> (http://tjvantoll.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nativescript/sample-Groceries/issues"
+  },
+  "homepage": "https://github.com/nativescript/sample-Groceries/groceries",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "gulp": "^3.9.0",
+    "gulp-jscs": "^1.6.0",
+    "gulp-jshint": "^1.11.0",
+    "karma": "^0.13.15",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.1",
+    "karma-nativescript-launcher": "^0.3.1",
+    "mocha": "^2.3.4"
+  },
+  "nativescript": {
+    "id": "com.tjvantoll.groceries",
+    "tns-android": {
+      "version": "1.5.0"
+    },
+    "tns-ios": {
+      "version": "1.5.0"
+    }
+  },
+  "dependencies": {
+    "email-validator": "^1.0.3",
+    "nativescript-iqkeyboardmanager": "^1.0.0",
+    "nativescript-social-share": "^1.1.1",
+    "nativescript-telerik-ui": "file:nativescript-ui-stable-dev.tgz",
+    "nativescript-unit-test-runner": "^0.2.8",
+    "tns-core-modules": "1.5.0"
+  }
 }

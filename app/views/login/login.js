@@ -55,7 +55,7 @@ function enableForm() {
 exports.signIn = function() {
 	disableForm();
 	user.login()
-		.catch(function(error) {
+		.catch(function() {
 			dialogsModule.alert({
 				message: "Unfortunately we could not find your account.",
 				okButtonText: "OK"
