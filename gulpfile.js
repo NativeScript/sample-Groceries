@@ -7,8 +7,7 @@ var filesToLint = [
 
 	// Exclude libraries, node modules, and NativeScript modules from linting
 	"!app/lib/**/*.js",
-	"!app/node_modules/**/*.js",
-	"!app/tns_modules/**/*.js"
+	"!app/node_modules/**/*.js"
 ];
 
 gulp.task("jscs", function() {
