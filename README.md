@@ -2,7 +2,7 @@ This branch is a fork of the [NativeScript getting started guide](http://docs.na
 
 Firebase is a backend service that pairs well with NativeScript on the client side for mobile apps.
 
-1. Create an account and an app project in [Firebase](http://www.firebase.com) and replace the URL of the Firebase app in this branch's config file. 
+1. Create an account and an app project in [Firebase](http://www.firebase.com) and replace the URL of the Firebase app in [this branch's config file](https://github.com/NativeScript/sample-Groceries/blob/firebase/app/shared/config.js). 
 
 2. Fork this repo to your local computer and install the Firebase plugin by navigating to the root of the app and typing `npm install` in the command line.
 
