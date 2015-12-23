@@ -101,11 +101,11 @@ $ npm run lint
 Groceries uses NativeScript’s [integrated unit test runner](http://docs.nativescript.org/core-concepts/testing) and [Mocha](https://mochajs.org/) with [Chai](http://chaijs.com/) for assertions. To run the tests for yourself use the `tns test` command:
 
 ```
-tns test ios --emulator
+$ tns test ios --emulator
 ```
 
 ```
-tns test android --emulator
+$ tns test android --emulator
 ```
 
 For more information on unit testing NativeScript apps, refer to the [NativeScript docs on the topic](http://docs.nativescript.org/core-concepts/testing).
