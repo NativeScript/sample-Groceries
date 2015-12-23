@@ -1,13 +1,13 @@
 var config = require("../../shared/config");
 var fetchModule = require("fetch");
-var observableModule = require("data/observable");
+var Observable = require("data/observable").Observable;
 var validator = require("email-validator");
 
 function User(info) {
     info = info || {};
 
     // You can add properties to observables on creation
-    var viewModel = new observableModule.Observable({
+    var viewModel = new Observable({
         email: info.email || "",
         password: info.password || ""
     });
