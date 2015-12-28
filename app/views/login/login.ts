@@ -1,15 +1,24 @@
 import {nativeScriptBootstrap} from "nativescript-angular/application";
 import {Component} from "angular2/core";
+import {RouteConfig} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import * as frameModule from "ui/frame";
 import * as observableModule from "data/observable";
 import {UserViewModel} from "../../shared/view-models/user-view-model";
 
+import {RegisterPage} from "../register/register";
+
 @Component({
     selector: "login",
     templateUrl: "views/login/login.html"
 })
-class LoginPage {
+@RouteConfig([
+    { path: '/', component: LoginPage, as: "Login" },
+    { path: '/register', component: RegisterPage, as: "Register" }
+])
+export class LoginPage {
+    user: UserViewModel;
+
     constructor() {
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",

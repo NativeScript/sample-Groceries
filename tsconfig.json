@@ -9,6 +9,7 @@
     "app/app.ts",
     "app/shared/view-models/user-view-model.ts",
     "app/views/login/login.ts",
+    "app/views/register/register.ts",
     "node_modules/tns-core-modules/tns-core-modules.d.ts"
   ],
   "filesGlob": [
