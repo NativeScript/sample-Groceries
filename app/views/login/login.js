@@ -9,7 +9,7 @@ exports.loaded = function(args) {
 
     if (page.ios) {
         var navigationBar = frameModule.topmost().ios.controller.navigationBar;
-        navigationBar.barStyle = 1;
+        navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;
     }
 
     page.bindingContext = user;
