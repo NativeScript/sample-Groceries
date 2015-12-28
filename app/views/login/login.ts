@@ -3,15 +3,15 @@ import {Component} from "angular2/core";
 import * as dialogsModule from "ui/dialogs";
 import * as frameModule from "ui/frame";
 import * as observableModule from "data/observable";
-import {User} from "../../shared/view-models/user-view-model";
+import {UserViewModel} from "../../shared/view-models/user-view-model";
 
 @Component({
     selector: "login",
-    templateUrl: "views/tempLogin/login.html"
+    templateUrl: "views/login/login.html"
 })
 class LoginPage {
     constructor() {
-        this.user = new User({
+        this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
             password: "password"
         });

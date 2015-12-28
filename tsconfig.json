@@ -8,7 +8,7 @@
   "files": [
     "app/app.ts",
     "app/shared/view-models/user-view-model.ts",
-    "app/views/tempLogin/login.ts",
+    "app/views/login/login.ts",
     "node_modules/tns-core-modules/tns-core-modules.d.ts"
   ],
   "filesGlob": [

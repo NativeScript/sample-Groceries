@@ -1,3 +1,3 @@
 import application = require("application");
-application.mainModule = "views/tempLogin/login";
+application.mainModule = "views/login/login";
 application.start();
