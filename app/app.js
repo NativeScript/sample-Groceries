@@ -1,3 +1,4 @@
-var applicationModule = require("application");
-applicationModule.mainModule = "views/login/login";
-applicationModule.start();
+var application = require("application");
+application.mainModule = "views/tempLogin/login";
+application.start();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXBwLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiYXBwLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLElBQU8sV0FBVyxXQUFXLGFBQWEsQ0FBQyxDQUFDO0FBQzVDLFdBQVcsQ0FBQyxVQUFVLEdBQUcsdUJBQXVCLENBQUM7QUFDakQsV0FBVyxDQUFDLEtBQUssRUFBRSxDQUFDIn0=

@@ -1,1 +1,1 @@
-This branch contains the completed code for the [NativeScript getting started guide](http://docs.nativescript.org/getting-started).
+This branch shows how to build Groceries using [NativeScript’s Angular 2 integration](http://angularjs.blogspot.com/2015/12/building-mobile-apps-with-angular-2-and.html).
