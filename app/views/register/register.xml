@@ -1,8 +1,0 @@
-<Page>
-    <Page.actionBar>
-        <ActionBar title="Sign up"></ActionBar>
-    </Page.actionBar>
-    <StackLayout>
-        <Label text="Loading..." />
-    </StackLayout>
-</Page>
