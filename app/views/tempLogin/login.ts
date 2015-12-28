@@ -1,16 +1,17 @@
 import {nativeScriptBootstrap} from "nativescript-angular/application";
 import {Component} from "angular2/core";
+import * as frameModule from "ui/frame";
+import * as observableModule from "data/observable";
 
 @Component({
-    selector: "main",
-    template: `
-        <Label text="Hello world 2!"></Label>
-    `
+    selector: "login",
+    templateUrl: "views/tempLogin/login.html"
 })
-class MainPage {
+class LoginPage {
     //...
 }
 
-export function loaded(args) {
-    nativeScriptBootstrap(MainPage, []);
+export function loaded(args: observableModule.EventData) {
+    let page = args.object;
+    nativeScriptBootstrap(LoginPage, []);
 }
