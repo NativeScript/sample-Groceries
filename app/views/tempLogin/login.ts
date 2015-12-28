@@ -13,5 +13,9 @@ class LoginPage {
 
 export function loaded(args: observableModule.EventData) {
     let page = args.object;
+    if (page.ios) {
+        let navigationBar = frameModule.topmost().ios.controller.navigationBar;
+        navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;
+    }
     nativeScriptBootstrap(LoginPage, []);
 }
