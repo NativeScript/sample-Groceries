@@ -5,7 +5,7 @@ var navigation = require("../../shared/navigation");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 
 var user = new UserViewModel({
-	email: "tj.vantoll@gmail.com",
+	email: "nativescriptrocks@telerik.com",
 	password: "password",
 	authenticating: false
 });
