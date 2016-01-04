@@ -3,11 +3,13 @@
     "module": "commonjs",
     "target": "es5",
     "inlineSourceMap": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
   "files": [
     "app/app-page.ts",
     "app/app.ts",
+    "app/compat.d.ts",
     "app/ns-location-strategy.ts",
     "app/shared/view-models/user-view-model.ts",
     "app/views/login/login.ts",
