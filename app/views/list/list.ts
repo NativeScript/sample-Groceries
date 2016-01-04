@@ -102,9 +102,7 @@ export class ListPage {
         socialShare.shareText(listString);
     }
 
-    delete(args) {
-        var item = args.view.bindingContext;
-        var index = this.groceryList.indexOf(item);
+    delete(index) {
         this.groceryList.delete(index);
     }
 }
