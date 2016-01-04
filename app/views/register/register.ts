@@ -5,6 +5,7 @@ import * as frameModule from "ui/frame";
 import {ActionItem, ActionItems} from "ui/action-bar";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
+import {ActionBarUtil} from "../../shared/utils/action-bar-util";
 import {Config} from "../../shared/config";
 
 @Component({
@@ -16,15 +17,15 @@ export class RegisterPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
-        var actionBar = Config.page.actionBar;
-        actionBar.title = "Sign Up";
+        ActionBarUtil.setTitle("Sign Up");
+        ActionBarUtil.emptyActionBarItems();
 
         var cancelButton = new ActionItem();
         cancelButton.text = "Cancel";
         cancelButton.on("tap", () => {
             this.router.navigate(["Login"]);
         });
-        actionBar.actionItems.addItem(cancelButton);
+        Config.page.actionBar.actionItems.addItem(cancelButton);
 
         this.user = new UserViewModel({});
     }

@@ -5,7 +5,7 @@ import * as frameModule from "ui/frame";
 import {ActionItems} from "ui/action-bar";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
-import {Config} from "../../shared/config";
+import {ActionBarUtil} from "../../shared/utils/action-bar-util";
 
 @Component({
     selector: "login",
@@ -15,8 +15,8 @@ export class LoginPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
-        var actionBar = Config.page.actionBar;
-        actionBar.title = "Sign In";
+        ActionBarUtil.setTitle("Sign In");
+        ActionBarUtil.emptyActionBarItems();
 
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
