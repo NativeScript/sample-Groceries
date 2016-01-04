@@ -1,7 +1,6 @@
 import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
-import * as frameModule from "ui/frame";
 import {ActionItems} from "ui/action-bar";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";

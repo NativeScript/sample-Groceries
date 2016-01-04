@@ -1,0 +1,13 @@
+<GridLayout rows="auto, *" columns="2*, *">
+    <TextField id="grocery" [text]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
+    <Button text="Add" tap="add" row="0" col="1"></Button>
+    <ListView [items]="groceryList" id="groceryList" row="1" colSpan="2">
+        <ListView.itemTemplate>
+            <GridLayout columns="*, auto">
+                <Label [text]="name"></Label>
+                <Image src="res://ic_menu_delete" ios:visibility="collapsed" col="1" tap="delete"></Image>
+            </GridLayout>
+        </ListView.itemTemplate>
+    </ListView>
+    <ActivityIndicator [busy]="isLoading" rowSpan="2" colSpan="2"></ActivityIndicator>
+</GridLayout>

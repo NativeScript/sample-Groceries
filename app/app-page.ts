@@ -8,6 +8,7 @@ import {NSLocationStrategy} from "./ns-location-strategy";
 
 import {LoginPage} from "./views/login/login";
 import {RegisterPage} from "./views/register/register";
+import {ListPage} from "./views/list/list";
 import {Config} from "./shared/config";
 
 declare var UIBarStyle: any;
@@ -18,8 +19,9 @@ declare var UIBarStyle: any;
     template: "<router-outlet></router-outlet>"
 })
 @RouteConfig([
-    { path: '/', component: LoginPage, as: "Login" },
-    { path: '/Register', component: RegisterPage, as: "Register" }
+    { path: "/", component: LoginPage, as: "Login" },
+    { path: "/Register", component: RegisterPage, as: "Register" },
+    { path: "/List", component: ListPage, as: "List" }
 ])
 class AppComponent {}
 
