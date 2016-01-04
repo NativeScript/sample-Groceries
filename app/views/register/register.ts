@@ -13,7 +13,8 @@ export class RegisterPage {
     user: UserViewModel;
 
     constructor() {
-        this.user = new UserViewModel();
+        //HACK: pass {} to make the compiler happy
+        this.user = new UserViewModel({});
     }
     register() {
         if (this.user.isValidEmail()) {

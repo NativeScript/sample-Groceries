@@ -1,7 +1,10 @@
-import * as config from "../../shared/config";
-import * as fetchModule from "fetch";
+//import * as config from "../../shared/config";
 import * as observableModule from "data/observable";
-import * as validator from "email-validator";
+//import * as validator from "email-validator";
+
+//HACK: make the compiler happy (we don't have those modules)
+var config: any = {};
+var validator: any = {};
 
 export class UserViewModel extends observableModule.Observable {
     email: string;
@@ -15,7 +18,7 @@ export class UserViewModel extends observableModule.Observable {
     }
 
     login() {
-        return fetchModule.fetch(config.apiUrl + "oauth/token", {
+        return fetch(config.apiUrl + "oauth/token", {
             method: "POST",
             body: JSON.stringify({
                 username: this.get("email"),
@@ -36,7 +39,7 @@ export class UserViewModel extends observableModule.Observable {
     }
 
     register() {
-        return fetchModule.fetch(config.apiUrl + "Users", {
+        return fetch(config.apiUrl + "Users", {
             method: "POST",
             body: JSON.stringify({
                 Username: this.get("email"),
