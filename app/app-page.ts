@@ -8,6 +8,7 @@ import {NSLocationStrategy} from "./ns-location-strategy";
 
 import {LoginPage} from "./views/login/login";
 import {RegisterPage} from "./views/register/register";
+import {Config} from "./shared/config";
 
 declare var UIBarStyle: any;
 
@@ -24,6 +25,8 @@ class AppComponent {}
 
 export function loaded(args: EventData) {
     let page = <any>args.object;
+    Config.page = page;
+
     if (page.ios) {
         let navigationBar = topmost().ios.controller.navigationBar;
         navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;

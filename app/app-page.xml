@@ -1,6 +1,6 @@
 <Page loaded="loaded">
     <Page.actionBar>
-        <ActionBar title="Sign in"></ActionBar>
+        <ActionBar title="Groceries"></ActionBar>
     </Page.actionBar>
     <StackLayout>
         <Label text="Loading..." />

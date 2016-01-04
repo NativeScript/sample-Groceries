@@ -1,6 +1,6 @@
 import {Observable} from "data/observable";
+import {Config} from "../../shared/config";
 
-var config = require("../../shared/config");
 var validator = require("email-validator");
 
 export class UserViewModel extends Observable {
@@ -15,7 +15,7 @@ export class UserViewModel extends Observable {
     }
 
     login() {
-        return fetch(config.apiUrl + "oauth/token", {
+        return fetch(Config.apiUrl + "oauth/token", {
             method: "POST",
             body: JSON.stringify({
                 username: this.get("email"),
@@ -31,12 +31,12 @@ export class UserViewModel extends Observable {
             return response.json();
         })
         .then(function(data) {
-            config.token = data.Result.access_token;
+            Config.token = data.Result.access_token;
         });
     }
 
     register() {
-        return fetch(config.apiUrl + "Users", {
+        return fetch(Config.apiUrl + "Users", {
             method: "POST",
             body: JSON.stringify({
                 Username: this.get("email"),

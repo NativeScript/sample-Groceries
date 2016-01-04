@@ -11,6 +11,7 @@
     "app/app.ts",
     "app/compat.d.ts",
     "app/ns-location-strategy.ts",
+    "app/shared/config.ts",
     "app/shared/view-models/user-view-model.ts",
     "app/views/login/login.ts",
     "app/views/register/register.ts",

@@ -2,8 +2,10 @@ import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import * as frameModule from "ui/frame";
+import {ActionItems} from "ui/action-bar";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
+import {Config} from "../../shared/config";
 
 @Component({
     selector: "login",
@@ -13,6 +15,9 @@ export class LoginPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
+        var actionBar = Config.page.actionBar;
+        actionBar.title = "Sign In";
+
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
             password: "password"
