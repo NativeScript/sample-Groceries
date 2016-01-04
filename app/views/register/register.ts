@@ -2,6 +2,7 @@ import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import {ActionItem} from "ui/action-bar";
+import {TextField} from "ui/text-field";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
@@ -29,6 +30,12 @@ export class RegisterPage {
         this.user = new UserViewModel({});
     }
     register() {
+        // Need to manually set these until 2-way data binding is supported
+        var emailTextField = <TextField>Config.page.getViewById("email");
+        var passwordTextField = <TextField>Config.page.getViewById("password");
+        this.user.email = emailTextField.text;
+        this.user.password = passwordTextField.text;
+
         if (this.user.isValidEmail()) {
             this.completeRegistration();
         } else {
@@ -40,14 +47,14 @@ export class RegisterPage {
     }
     completeRegistration() {
         this.user.register()
-            .catch(function() {
+            .catch(() => {
                 dialogsModule
                     .alert({
                         message: "Unfortunately we were unable to create your account.",
                         okButtonText: "OK"
                     });
             })
-            .then(function() {
+            .then(() => {
                 dialogsModule
                     .alert("Your account was successfully created.")
                     .then(() => {

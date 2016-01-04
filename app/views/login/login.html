@@ -1,9 +1,8 @@
 <StackLayout>
     <Image src="res://logo" stretch="none" horizontalAlignment="center"></Image>
 
-    <TextField id="email" [text]="user.email" hint="Email Address"
-        keyboardType="email" autocorrect="false" autocapitalizationType="none"></TextField>
-    <TextField secure="true" [text]="user.password" hint="Password"></TextField>
+    <TextField [text]="user.email" id="email" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none"></TextField>
+    <TextField [text]="user.password" id="password" secure="true"  hint="Password"></TextField>
 
     <Button text="Sign in" (tap)="signIn()"></Button>
     <Button text="Sign up for Groceries" class="link" (tap)="register()"></Button>
