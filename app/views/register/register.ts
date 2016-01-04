@@ -1,7 +1,7 @@
 import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
-import {ActionItem, ActionItems} from "ui/action-bar";
+import {ActionItem} from "ui/action-bar";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
@@ -24,7 +24,7 @@ export class RegisterPage {
         cancelButton.on("tap", () => {
             this.router.navigate(["Login"]);
         });
-        Config.page.actionBar.actionItems.addItem(cancelButton);
+        ActionBarUtil.addButton(cancelButton);
 
         this.user = new UserViewModel({});
     }

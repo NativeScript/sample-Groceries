@@ -2,6 +2,7 @@ import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import {Observable} from "data/observable";
+import {ActionItem} from "ui/action-bar";
 
 import {GroceryListViewModel} from "../../shared/view-models/grocery-list-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
@@ -25,8 +26,7 @@ export class ListPage {
         this.grocery = "";
         this.isLoading = true;
 
-        ActionBarUtil.setTitle("Groceries");
-        ActionBarUtil.emptyActionBarItems();
+        this.configureActionBar();
 
         var page = Config.page;
         var listView = page.getViewById("groceryList");
@@ -45,6 +45,24 @@ export class ListPage {
                 duration: 1000
             });
         });
+    }
+
+    configureActionBar() {
+        ActionBarUtil.setTitle("Groceries");
+        ActionBarUtil.emptyActionBarItems();
+
+        var logoutButton = new ActionItem();
+        logoutButton.text = "Logout";
+        logoutButton.on("tap", () => {
+            this.router.navigate(["Login"]);
+        });
+        ActionBarUtil.addButton(logoutButton);
+
+        var shareButton = new ActionItem();
+        shareButton.text = "Share";
+        shareButton.ios.position = "right";
+        shareButton.on("tap", () => { this.share() });
+        ActionBarUtil.addButton(shareButton);
     }
 
     add() {
