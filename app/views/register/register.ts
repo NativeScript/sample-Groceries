@@ -1,4 +1,5 @@
 import {Component} from "angular2/core";
+import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import * as frameModule from "ui/frame";
 
@@ -12,8 +13,7 @@ import {UserViewModel} from "../../shared/view-models/user-view-model";
 export class RegisterPage {
     user: UserViewModel;
 
-    constructor() {
-        //HACK: pass {} to make the compiler happy
+    constructor(private router: Router) {
         this.user = new UserViewModel({});
     }
     register() {
@@ -38,8 +38,8 @@ export class RegisterPage {
             .then(function() {
                 dialogsModule
                     .alert("Your account was successfully created.")
-                    .then(function() {
-                        frameModule.topmost().navigate("views/login/login");
+                    .then(() => {
+                        this.router.navigate(["Login"]);
                     });
             });
     }

@@ -13,7 +13,6 @@ export class LoginPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
-        console.log('ROUTER: ' + this.router);
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
             password: "password"
@@ -28,12 +27,10 @@ export class LoginPage {
                 });
             })
             .then(() => {
-                frameModule.topmost().navigate("views/list/list");
+                this.router.navigate(["List"]);
             });
     }
     register() {
-        console.log('REGISTER');
-        //frameModule.topmost().navigate("views/register/register");
-        this.router.navigate(['Register']);
+        this.router.navigate(["Register"]);
     }
 }

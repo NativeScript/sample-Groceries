@@ -1,12 +1,9 @@
-//import * as config from "../../shared/config";
-import * as observableModule from "data/observable";
-//import * as validator from "email-validator";
+import {Observable} from "data/observable";
 
-//HACK: make the compiler happy (we don't have those modules)
-var config: any = {};
-var validator: any = {};
+var config = require("../../shared/config");
+var validator = require("email-validator");
 
-export class UserViewModel extends observableModule.Observable {
+export class UserViewModel extends Observable {
     email: string;
     password: string;
 

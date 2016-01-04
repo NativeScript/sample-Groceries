@@ -1,8 +1,8 @@
 <StackLayout>
-    <Image src="res://logo" stretch="none" horizontalAlignment="center"/>
+    <Image src="res://logo" stretch="none" horizontalAlignment="center"></Image>
 
-    <TextField text="{{ email }}" id="email" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
-    <TextField text="{{ password }}" secure="true" hint="Password" />
+    <TextField [text]="user.email" id="email" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none"></TextField>
+    <TextField [text]="user.password" secure="true" hint="Password"></TextField>
 
-    <Button text="Sign Up" (tap)="register()" />
+    <Button text="Sign Up" (tap)="register()"></Button>
 </StackLayout>
