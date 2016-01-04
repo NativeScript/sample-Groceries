@@ -3,6 +3,7 @@ import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import {Observable} from "data/observable";
 import {ActionItem} from "ui/action-bar";
+import {TextField} from "ui/text-field";
 
 import {GroceryListViewModel} from "../../shared/view-models/grocery-list-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
@@ -67,7 +68,8 @@ export class ListPage {
 
     add() {
         // Check for empty submissions
-        if (this.grocery.trim() === "") {
+        var groceryTextField = <TextField>Config.page.getViewById("grocery");
+        if (groceryTextField.text.trim() === "") {
             dialogsModule.alert({
                 message: "Enter a grocery item",
                 okButtonText: "OK"
@@ -76,14 +78,16 @@ export class ListPage {
         }
 
         // Dismiss the keyboard
-        Config.page.getViewById("grocery").dismissSoftInput();
-        this.groceryList.add(this.grocery)
+        groceryTextField.dismissSoftInput();
+
+        this.groceryList.add(groceryTextField.text)
             .catch(function() {
                 dialogsModule.alert({
                     message: "An error occurred while adding an item to your list.",
                     okButtonText: "OK"
                 });
             });
+
         // Empty the input field
         this.grocery = "";
     }

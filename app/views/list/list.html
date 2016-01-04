@@ -1,6 +1,6 @@
 <GridLayout rows="auto, *" columns="2*, *">
     <TextField id="grocery" [text]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
-    <Button text="Add" tap="add" row="0" col="1"></Button>
+    <Button text="Add" (tap)="add()" row="0" col="1"></Button>
     <ListView [items]="groceryList" id="groceryList" row="1" colSpan="2">
         <ListView.itemTemplate>
             <GridLayout columns="*, auto">
