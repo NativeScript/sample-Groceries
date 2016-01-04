@@ -12,7 +12,8 @@ import {UserViewModel} from "../../shared/view-models/user-view-model";
 export class LoginPage {
     user: UserViewModel;
 
-    constructor() {
+    constructor(private router: Router) {
+        console.log('ROUTER: ' + this.router);
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
             password: "password"
@@ -31,6 +32,8 @@ export class LoginPage {
             });
     }
     register() {
-        frameModule.topmost().navigate("views/register/register");
+        console.log('REGISTER');
+        //frameModule.topmost().navigate("views/register/register");
+        this.router.navigate(['Register']);
     }
 }
