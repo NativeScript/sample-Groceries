@@ -60,6 +60,8 @@ exports.signIn = function() {
 				message: "Unfortunately we could not find your account.",
 				okButtonText: "OK"
 			});
+			enableForm();
+			return Promise.reject();
 		})
 		.then(enableForm)
 		.then(navigation.goToListPage);
