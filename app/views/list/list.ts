@@ -29,7 +29,12 @@ export class ListPage {
 
         this.configureActionBar();
 
-        var page = Config.page;
+        this.groceryList.empty();
+        this.groceryList.load().then(() => {
+            this.isLoading = false;
+        })
+
+        /*var page = Config.page;
         var listView = page.getViewById("groceryList");
 
         if (page.ios) {
@@ -45,7 +50,7 @@ export class ListPage {
                 opacity: 1,
                 duration: 1000
             });
-        });
+        });*/
     }
 
     configureActionBar() {
@@ -89,7 +94,7 @@ export class ListPage {
             });
 
         // Empty the input field
-        this.grocery = "";
+        groceryTextField.text = "";
     }
 
     share() {
