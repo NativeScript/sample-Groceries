@@ -50,6 +50,9 @@ exports.loaded = function(args) {
 
 	if (page.android) {
 		groceryListElement._swipeExecuteBehavior.setAutoDissolve(false);
+
+		// See https://github.com/NativeScript/NativeScript/issues/1275
+		page.actionBarHidden = false;
 	}
 
 	showPageLoadingIndicator();
