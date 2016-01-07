@@ -1,1 +1,1 @@
-This branch shows how to build Groceries using [NativeScript’s Angular 2 integration](http://angularjs.blogspot.com/2015/12/building-mobile-apps-with-angular-2-and.html).
+This branch shows how to build Groceries using [NativeScript’s Angular 2 integration](http://angularjs.blogspot.com/2015/12/building-mobile-apps-with-angular-2-and.html). Refer to [this repo’s master branch](https://github.com/NativeScript/sample-Groceries#development) for details on how to run this app.
