@@ -149,10 +149,9 @@ function performToggleDone(index) {
 		.then(hidePageLoadingIndicator);
 }
 
-exports.shouldRefreshOnPull = function(args) {
-	args.returnValue = true;
+exports.pullToRefreshInitiated = function(args) {
 	groceryList.load().then(function() {
-		groceryListElement.didRefreshOnPull();
+		groceryListElement.notifyPullToRefreshFinished();
 	});
 };
 

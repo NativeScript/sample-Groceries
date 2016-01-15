@@ -24,7 +24,7 @@
 					items="{{ groceryList }}"
 					id="grocery-list"
 					pullToRefresh="true"
-					shouldRefreshOnPull="shouldRefreshOnPull"
+					pullToRefreshInitiated="pullToRefreshInitiated"
 					selectionBehavior="None"
 					swipeCells="true"
 					startSwipeCell="startSwipeCell"
