@@ -1,4 +1,4 @@
-<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
+<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" xmlns:FabButton="nativescript-floatingactionbutton/fab">
 	<page.actionBar>
 		<action-bar title="Groceries">
 			<action-bar.actionItems>
@@ -53,7 +53,7 @@
 				</lv:rad-list-view>
 
 				<android>
-					<image row="1" src="res://fab" tap="history" class="fab-button" />
+                    <FabButton:fab row="1" tap="history" icon="ic_history" backColor="#336699" rippleColor="#999" class="fab-button" margin="15" />
 				</android>
 
 				<activity-indicator busy="{{ isLoading }}" rowSpan="2" />
