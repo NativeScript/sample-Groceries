@@ -66,7 +66,9 @@ export class ListPage {
 
         var shareButton = new ActionItem();
         shareButton.text = "Share";
-        shareButton.ios.position = "right";
+        if (shareButton.ios) {
+            shareButton.ios.position = "right";
+        }
         shareButton.on("tap", () => { this.share() });
         ActionBarUtil.addButton(shareButton);
     }

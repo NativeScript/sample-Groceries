@@ -1,12 +1,14 @@
-<GridLayout rows="auto, *" columns="2*, *">
-    <TextField id="grocery" [text]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
-    <Button text="Add" (tap)="add()" row="0" col="1"></Button>
+<GridLayout>
+    <!--<TextField id="grocery" [text]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
+    <Button text="Add" (tap)="add()" row="0" col="1"></Button>-->
 
-    <StackLayout row="1" colSpan="2">
-        <StackLayout *ngFor="#grocery of groceryList._array" class="list-item">
-            <Label [text]="grocery.name"></Label>
-        </StackLayout>
-    </StackLayout>
+    <ListView [items]="groceryList">
+        <item-template>
+            <template #item="grocery">
+                <Label [text]="grocery.name"></Label>          
+            </template>
+        </item-template>
+    </ListView>
 
-    <ActivityIndicator [busy]="isLoading" rowSpan="2" colSpan="2"></ActivityIndicator>
+    <!--<ActivityIndicator [busy]="isLoading" rowSpan="2" colSpan="2"></ActivityIndicator>-->
 </GridLayout>
