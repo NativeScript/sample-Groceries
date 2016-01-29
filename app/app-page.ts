@@ -16,7 +16,7 @@ declare var UIBarStyle: any;
 @Component({
     selector: "main",
     directives: [ROUTER_DIRECTIVES],
-    template: "<router-outlet></router-outlet>"
+    template: "<StackLayout><router-outlet></router-outlet></StackLayout>"
 })
 @RouteConfig([
     { path: "/", component: LoginPage, as: "Login" },
