@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {nativeScriptBootstrap} from "nativescript-angular/application";
+import {bootstrap} from "nativescript-angular/application";
 import {Component, bind} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, LocationStrategy} from "angular2/router";
 import {EventData} from "data/observable";
@@ -34,7 +34,8 @@ export function loaded(args: EventData) {
         navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;
     }
     
-    nativeScriptBootstrap(AppComponent, [
+    //TODO: move to app.ts, use nativeScriptBootstrap
+    bootstrap(AppComponent, [
         ROUTER_PROVIDERS, bind(LocationStrategy).toClass(NSLocationStrategy)
     ])
 }
