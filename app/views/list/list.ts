@@ -18,20 +18,24 @@ var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 })
 
 export class ListPage {
-    groceryList: GroceryListViewModel;
+    model: GroceryListViewModel;
+    groceryList = [];
     grocery: string;
     isLoading: boolean;
 
     constructor(private router: Router) {
-        this.groceryList = new GroceryListViewModel([]);
+        console.log('ListPage');
+        this.model = new GroceryListViewModel();
         this.grocery = "";
         this.isLoading = true;
 
         this.configureActionBar();
 
-        this.groceryList.empty();
-        this.groceryList.load().then(() => {
+        this.model.empty();
+        this.model.load().then(() => {
             this.isLoading = false;
+            console.log('items: ' + this.model.items.length);
+            this.groceryList = this.model.items;
         })
 
         /*var page = Config.page;
@@ -87,7 +91,7 @@ export class ListPage {
         // Dismiss the keyboard
         groceryTextField.dismissSoftInput();
 
-        this.groceryList.add(groceryTextField.text)
+        this.model.add(groceryTextField.text)
             .catch(function() {
                 dialogsModule.alert({
                     message: "An error occurred while adding an item to your list.",
@@ -100,16 +104,10 @@ export class ListPage {
     }
 
     share() {
-        var list = [];
-        var finalList = "";
-        for (var i = 0, size = this.groceryList.length; i < size ; i++) {
-            list.push(this.groceryList.getItem(i).name);
-        }
-        var listString = list.join(", ").trim();
-        socialShare.shareText(listString);
+        console.log('SHARE');
     }
 
     delete(index) {
-        this.groceryList.delete(index);
+        console.log('DELETE');
     }
 }

@@ -1,11 +1,12 @@
-<GridLayout>
+<GridLayout rows="auto, *">
     <!--<TextField id="grocery" [text]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
     <Button text="Add" (tap)="add()" row="0" col="1"></Button>-->
 
-    <ListView [items]="groceryList">
+    <Label text="LIST" row="0"></Label>
+    <ListView [items]="groceryList" row="1">
         <item-template>
-            <template #item="grocery">
-                <Label [text]="grocery.name"></Label>          
+            <template #item="item">
+                <Label [text]="name"></Label>          
             </template>
         </item-template>
     </ListView>
