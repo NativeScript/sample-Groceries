@@ -1,7 +1,8 @@
-import {ObservableArray} from "data/observable-array";
 import {Config} from "../../shared/config";
 
-export class GroceryListViewModel extends ObservableArray<any> {
+export class GroceryListViewModel {
+    public items = [];
+
     load() {
         return fetch(Config.apiUrl + "Groceries", {
             headers: {
@@ -13,7 +14,7 @@ export class GroceryListViewModel extends ObservableArray<any> {
             return response.json();
         }).then((data) => {
             data.Result.forEach((grocery) => {
-                this.push({
+                this.items.push({
                     name: grocery.Name,
                     id: grocery.Id
                 });
@@ -22,8 +23,8 @@ export class GroceryListViewModel extends ObservableArray<any> {
     }
 
     empty() {
-        while (this.length) {
-            this.pop();
+        while (this.items.length) {
+            this.items.pop();
         }
     }
 
@@ -43,7 +44,7 @@ export class GroceryListViewModel extends ObservableArray<any> {
             return response.json();
         })
         .then((data) => {
-            this.push({ name: grocery, id: data.Result.Id });
+            this.items.push({ name: grocery, id: data.Result.Id });
         });
     }
 
@@ -57,7 +58,7 @@ export class GroceryListViewModel extends ObservableArray<any> {
         })
         .then(handleErrors)
         .then(() => {
-            this.splice(index, 1);
+            this.items.splice(index, 1);
         });
     }
 }

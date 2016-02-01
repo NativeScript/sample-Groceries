@@ -1,14 +1,9 @@
 <GridLayout>
-    <!--<TextField id="grocery" [text]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
-    <Button text="Add" (tap)="add()" row="0" col="1"></Button>-->
-
     <ListView [items]="groceryList">
         <item-template>
-            <template #item="grocery">
-                <Label [text]="grocery.name"></Label>          
+            <template #item="item">
+                <Label [text]="name"></Label>          
             </template>
         </item-template>
     </ListView>
-
-    <!--<ActivityIndicator [busy]="isLoading" rowSpan="2" colSpan="2"></ActivityIndicator>-->
 </GridLayout>

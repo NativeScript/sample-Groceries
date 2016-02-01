@@ -18,39 +18,23 @@ var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 })
 
 export class ListPage {
-    groceryList: GroceryListViewModel;
+    model: GroceryListViewModel;
+    groceryList = [];
     grocery: string;
     isLoading: boolean;
 
     constructor(private router: Router) {
-        this.groceryList = new GroceryListViewModel([]);
+        this.model = new GroceryListViewModel();
         this.grocery = "";
         this.isLoading = true;
 
         this.configureActionBar();
 
-        this.groceryList.empty();
-        this.groceryList.load().then(() => {
+        this.model.empty();
+        this.model.load().then(() => {
             this.isLoading = false;
-        })
-
-        /*var page = Config.page;
-        var listView = page.getViewById("groceryList");
-
-        if (page.ios) {
-            swipeDelete.enable(listView, (index) => {
-                this.delete(index);
-            });
-        }
-        
-        this.groceryList.empty();
-        this.groceryList.load().then(() => {
-            this.isLoading = false;
-            listView.animate({
-                opacity: 1,
-                duration: 1000
-            });
-        });*/
+            this.groceryList = this.model.items;
+        });
     }
 
     configureActionBar() {
@@ -87,7 +71,7 @@ export class ListPage {
         // Dismiss the keyboard
         groceryTextField.dismissSoftInput();
 
-        this.groceryList.add(groceryTextField.text)
+        this.model.add(groceryTextField.text)
             .catch(function() {
                 dialogsModule.alert({
                     message: "An error occurred while adding an item to your list.",
@@ -102,14 +86,14 @@ export class ListPage {
     share() {
         var list = [];
         var finalList = "";
-        for (var i = 0, size = this.groceryList.length; i < size ; i++) {
-            list.push(this.groceryList.getItem(i).name);
+        for (var i = 0, size = this.model.items.length; i < size ; i++) {
+            list.push(this.model.items[i].name);
         }
         var listString = list.join(", ").trim();
         socialShare.shareText(listString);
     }
 
     delete(index) {
-        this.groceryList.delete(index);
+        this.model.delete(index);
     }
 }
