@@ -58,6 +58,9 @@ export class ListPage {
     }
 
     add() {
+        // TODO: Implement
+        return;
+
         // Check for empty submissions
         var groceryTextField = <TextField>Config.page.getViewById("grocery");
         if (groceryTextField.text.trim() === "") {

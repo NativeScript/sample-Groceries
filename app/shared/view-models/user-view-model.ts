@@ -1,15 +1,12 @@
-import {Observable} from "data/observable";
 import {Config} from "../../shared/config";
 
 var validator = require("email-validator");
 
-export class UserViewModel extends Observable {
+export class UserViewModel {
     email: string;
     password: string;
 
     constructor(info) {
-        super();
-
         this.email = info.email || "";
         this.password = info.password || "";
     }
@@ -18,8 +15,8 @@ export class UserViewModel extends Observable {
         return fetch(Config.apiUrl + "oauth/token", {
             method: "POST",
             body: JSON.stringify({
-                username: this.get("email"),
-                password: this.get("password"),
+                username: this.email,
+                password: this.password,
                 grant_type: "password"
             }),
             headers: {
@@ -39,9 +36,9 @@ export class UserViewModel extends Observable {
         return fetch(Config.apiUrl + "Users", {
             method: "POST",
             body: JSON.stringify({
-                Username: this.get("email"),
-                Email: this.get("email"),
-                Password: this.get("password")
+                Username: this.email,
+                Email: this.email,
+                Password: this.password
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -50,7 +47,7 @@ export class UserViewModel extends Observable {
     }
 
     isValidEmail() {
-        return validator.validate(this.get("email"));
+        return validator.validate(this.email);
     };
 }
 

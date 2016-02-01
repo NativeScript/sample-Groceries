@@ -1,8 +1,10 @@
-<GridLayout>
-    <ListView [items]="groceryList">
+<GridLayout rows="auto, *" columns="2*, *">
+    <TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" row="0" col="0"></TextField>
+    <Button text="Add" [tap]="add()" row="0" col="1"></Button>
+    <ListView [items]="groceryList" row="1" colSpan="2">
         <item-template>
             <template #item="item">
-                <Label [text]="name"></Label>          
+                <Label [text]="name"></Label>
             </template>
         </item-template>
     </ListView>

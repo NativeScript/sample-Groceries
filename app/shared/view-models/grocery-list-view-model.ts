@@ -49,7 +49,7 @@ export class GroceryListViewModel {
     }
 
     delete(index) {
-        return fetch(Config.apiUrl + "Groceries/" + this.getItem(index).id, {
+        return fetch(Config.apiUrl + "Groceries/" + this.items[index].id, {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + Config.token,
