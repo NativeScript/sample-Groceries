@@ -8,7 +8,7 @@
     },
     "files": [
         "app/app-page.ts",
-        "app/app.ts",
+        "app/main.ts",
         "app/compat.d.ts",
         "app/ns-location-strategy.ts",
         "app/shared/config.ts",
