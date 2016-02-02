@@ -23,6 +23,7 @@ exports.signIn = function() {
                 message: "Unfortunately we could not find your account.",
                 okButtonText: "OK"
             });
+            return Promise.reject();
         })
         .then(function() {
             frameModule.topmost().navigate("views/list/list");

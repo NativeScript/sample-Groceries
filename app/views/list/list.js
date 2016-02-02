@@ -40,7 +40,8 @@ exports.add = function() {
         // Dismiss the keyboard
         page.getViewById("grocery").dismissSoftInput();
         groceryList.add(pageData.get("grocery"))
-            .catch(function() {
+            .catch(function(error) {
+                console.log(error);
                 dialogsModule.alert({
                     message: "An error occurred while adding an item to your list.",
                     okButtonText: "OK"
