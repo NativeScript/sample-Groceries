@@ -1,19 +1,27 @@
+import {topmost} from "ui/frame";
 import {ActionItem} from "ui/action-bar";
-import {Config} from "../config";
+
+declare var UIBarStyle: any;
 
 export module ActionBarUtil {
     export function setTitle(title: string) {
-        var actionBar = Config.page.actionBar;
+        var actionBar = topmost().currentPage.actionBar;
         actionBar.title = title;
     }
     export function addButton(button: ActionItem) {
-        Config.page.actionBar.actionItems.addItem(button);
+        topmost().currentPage.actionBar.actionItems.addItem(button);
     }
     export function emptyActionBarItems() {
-        var actionBar = Config.page.actionBar;
+        var actionBar = topmost().currentPage.actionBar;
         var actionItems = actionBar.actionItems.getItems();
         actionItems.forEach((item) => {
             actionBar.actionItems.removeItem(item);
         });
+    }
+    export function customizeStatusBar() {
+        if (topmost().ios) {
+            let navigationBar = topmost().ios.controller.navigationBar;
+            navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;
+        }
     }
 }

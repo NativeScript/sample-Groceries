@@ -2,17 +2,14 @@ import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import {ActionItem} from "ui/action-bar";
-import {TextField} from "ui/text-field";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
-import {Config} from "../../shared/config";
 
 @Component({
     selector: "register",
     templateUrl: "views/register/register.html"
 })
-
 export class RegisterPage {
     user: UserViewModel;
 
@@ -30,12 +27,6 @@ export class RegisterPage {
         this.user = new UserViewModel({});
     }
     register() {
-        // Need to manually set these until 2-way data binding is supported
-        var emailTextField = <TextField>Config.page.getViewById("email");
-        var passwordTextField = <TextField>Config.page.getViewById("password");
-        this.user.email = emailTextField.text;
-        this.user.password = passwordTextField.text;
-
         if (this.user.isValidEmail()) {
             this.completeRegistration();
         } else {

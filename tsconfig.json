@@ -7,7 +7,7 @@
         "experimentalDecorators": true
     },
     "files": [
-        "app/app-page.ts",
+        "app/app-component.ts",
         "app/main.ts",
         "app/compat.d.ts",
         "app/ns-location-strategy.ts",

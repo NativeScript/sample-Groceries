@@ -14,6 +14,7 @@ export class LoginPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
+        ActionBarUtil.customizeStatusBar();
         ActionBarUtil.setTitle("Sign In");
         ActionBarUtil.emptyActionBarItems();
         this.user = new UserViewModel({

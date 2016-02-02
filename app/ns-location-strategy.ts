@@ -18,16 +18,16 @@ export class NSLocationStrategy extends LocationStrategy {
         super();
         
         this.ngZone = zone;
-        if(application.android){
-            application.android.on("activityBackPressed", (args: application.AndroidActivityBackPressedEventData) => {
-                this.ngZone.run( () => {
-                    if(this.states.length > 1){
-                        this.back();
-                        args.cancel = true;
-                    }
-                });
-            })
-        }
+        //if(application.android){
+            //application.android.on("activityBackPressed", (args: application.AndroidActivityBackPressedEventData) => {
+                //this.ngZone.run( () => {
+                    //if(this.states.length > 1){
+                        //this.back();
+                        //args.cancel = true;
+                    //}
+                //});
+            //})
+        //}
     }
     
     path(): string {
@@ -83,6 +83,7 @@ export class NSLocationStrategy extends LocationStrategy {
     private callPopState(state:LocationState, pop: boolean = true){
        var change = { url: state.url, pop: pop};
         for(var fn of this.popStateCallbacks){
+            console.log('pop state callback: ' + fn);
             fn(change);
         }
     }
