@@ -6,8 +6,6 @@ import {LoginPage} from "./views/login/login";
 import {RegisterPage} from "./views/register/register";
 import {ListPage} from "./views/list/list";
 
-declare var UIBarStyle: any;
-
 @Component({
     selector: "main",
     directives: [ROUTER_DIRECTIVES],
