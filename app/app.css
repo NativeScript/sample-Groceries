@@ -22,3 +22,9 @@ ActionBar {
     color: white;
     background-color: #2E6DAD;
 }
+.small-spacing {
+    margin: 5;
+}
+.medium-spacing {
+    margin: 10;
+}

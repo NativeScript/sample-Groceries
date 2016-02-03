@@ -4,10 +4,10 @@ import * as dialogsModule from "ui/dialogs";
 import {Observable} from "data/observable";
 import {ActionItem} from "ui/action-bar";
 import {TextField} from "ui/text-field";
+import {topmost} from "ui/frame";
 
 import {GroceryListViewModel} from "../../shared/view-models/grocery-list-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
-import {Config} from "../../shared/config";
 
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
@@ -58,12 +58,9 @@ export class ListPage {
     }
 
     add() {
-        // TODO: Implement
-        return;
-
         // Check for empty submissions
-        var groceryTextField = <TextField>Config.page.getViewById("grocery");
-        if (groceryTextField.text.trim() === "") {
+        var groceryTextField = <TextField>topmost().currentPage.getViewById("grocery");
+        if (this.grocery.trim() === "") {
             dialogsModule.alert({
                 message: "Enter a grocery item",
                 okButtonText: "OK"
@@ -74,8 +71,8 @@ export class ListPage {
         // Dismiss the keyboard
         groceryTextField.dismissSoftInput();
 
-        this.model.add(groceryTextField.text)
-            .catch(function() {
+        this.model.add(this.grocery)
+            .catch(() => {
                 dialogsModule.alert({
                     message: "An error occurred while adding an item to your list.",
                     okButtonText: "OK"
@@ -83,7 +80,7 @@ export class ListPage {
             });
 
         // Empty the input field
-        groceryTextField.text = "";
+        this.grocery = "";
     }
 
     share() {
