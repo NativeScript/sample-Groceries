@@ -7,7 +7,7 @@
         "experimentalDecorators": true
     },
     "files": [
-        "app/app-component.ts",
+        "app/app.component.ts",
         "app/main.ts",
         "app/compat.d.ts",
         "app/ns-location-strategy.ts",
@@ -15,6 +15,7 @@
         "app/shared/utils/action-bar-util.ts",
         "app/shared/view-models/user-view-model.ts",
         "app/views/list/list.ts",
+        "app/views/list/grocery-list.ts",
         "app/views/login/login.ts",
         "app/views/register/register.ts",
         "node_modules/tns-core-modules/tns-core-modules.d.ts"
