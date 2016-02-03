@@ -1,7 +1,24 @@
+import {Observable} from "rxjs/Observable";
+import {WrappedValue} from "data/observable";
 import {Config} from "../../shared/config";
 
-export class GroceryListViewModel {
-    public items = [];
+export class Grocery {
+    constructor(public id: number, public name: string) {}
+}
+
+export class GroceryList {
+    public items: Observable<Array<Grocery>>;
+
+    private _items: Array<Grocery>;
+    private subscr;
+
+    constructor() {
+        this._items = [];
+        this.items = Observable.create(subscriber => {
+            this.subscr = subscriber;
+            subscriber.next(WrappedValue.wrap(this._items));
+        });
+    }
 
     load() {
         return fetch(Config.apiUrl + "Groceries", {
@@ -14,17 +31,15 @@ export class GroceryListViewModel {
             return response.json();
         }).then((data) => {
             data.Result.forEach((grocery) => {
-                this.items.push({
-                    name: grocery.Name,
-                    id: grocery.Id
-                });
+                this._items.push(new Grocery(grocery.Id, grocery.Name));
+                this.subscr.next(WrappedValue.wrap(this._items));
             });
         });
     }
 
     empty() {
-        while (this.items.length) {
-            this.items.pop();
+        while (this._items.length) {
+            this._items.pop();
         }
     }
 
@@ -44,7 +59,8 @@ export class GroceryListViewModel {
             return response.json();
         })
         .then((data) => {
-            this.items.push({ name: grocery, id: data.Result.Id });
+            this._items.push(new Grocery(data.Result.Id, grocery));
+            this.subscr.next(WrappedValue.wrap(this._items));
         });
     }
 
@@ -58,7 +74,8 @@ export class GroceryListViewModel {
         })
         .then(handleErrors)
         .then(() => {
-            this.items.splice(index, 1);
+            this._items.splice(index, 1);
+            this.subscr.next(WrappedValue.wrap(this._items));
         });
     }
 }

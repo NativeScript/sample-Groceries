@@ -13,7 +13,6 @@
         "app/ns-location-strategy.ts",
         "app/shared/config.ts",
         "app/shared/utils/action-bar-util.ts",
-        "app/shared/view-models/grocery-list-view-model.ts",
         "app/shared/view-models/user-view-model.ts",
         "app/views/list/list.ts",
         "app/views/login/login.ts",
