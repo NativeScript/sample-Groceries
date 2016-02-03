@@ -14,6 +14,11 @@ export class RegisterPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
+        // this.configureActionBar();
+        this.user = new UserViewModel({});
+    }
+
+    configureActionBar() {
         ActionBarUtil.setTitle("Sign Up");
         ActionBarUtil.emptyActionBarItems();
 
@@ -23,9 +28,8 @@ export class RegisterPage {
             this.router.navigate(["Login"]);
         });
         ActionBarUtil.addButton(cancelButton);
-
-        this.user = new UserViewModel({});
     }
+
     register() {
         if (this.user.isValidEmail()) {
             this.completeRegistration();
@@ -36,6 +40,7 @@ export class RegisterPage {
             });
         }
     }
+
     completeRegistration() {
         this.user.register()
             .catch(() => {

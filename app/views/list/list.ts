@@ -28,7 +28,7 @@ export class ListPage {
         this.grocery = "";
         this.isLoading = true;
 
-        this.configureActionBar();
+        // this.configureActionBar();
 
         this.model.empty();
         this.model.load().then(() => {

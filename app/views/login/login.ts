@@ -14,14 +14,19 @@ export class LoginPage {
     user: UserViewModel;
 
     constructor(private router: Router) {
-        ActionBarUtil.customizeStatusBar();
-        ActionBarUtil.setTitle("Sign In");
-        ActionBarUtil.emptyActionBarItems();
+        // this.configureActionBar();
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
             password: "password"
         });
     }
+
+    configureActionBar() {
+        ActionBarUtil.customizeStatusBar();
+        ActionBarUtil.setTitle("Sign In");
+        ActionBarUtil.emptyActionBarItems();
+    }
+
     signIn() {
         this.user.login()
             .then(() => {
