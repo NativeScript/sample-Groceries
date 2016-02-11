@@ -1,7 +1,6 @@
 import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
-import {TextField} from "ui/text-field";
 
 import {UserViewModel} from "../../shared/view-models/user-view-model";
 import {ActionBarUtil} from "../../shared/utils/action-bar-util";
@@ -13,7 +12,7 @@ import {ActionBarUtil} from "../../shared/utils/action-bar-util";
 export class LoginPage {
     user: UserViewModel;
 
-    constructor(private router: Router) {
+    constructor(private _router: Router) {
         // this.configureActionBar();
         this.user = new UserViewModel({
             email: "nativescriptrocks@telerik.com",
@@ -30,7 +29,7 @@ export class LoginPage {
     signIn() {
         this.user.login()
             .then(() => {
-                this.router.navigate(["List"]);
+                this._router.navigate(["List"]);
             })
             .catch((error) => {
                 dialogsModule.alert({
@@ -40,6 +39,6 @@ export class LoginPage {
             });
     }
     register() {
-        this.router.navigate(["Register"]);
+        this._router.navigate(["Register"]);
     }
 }
