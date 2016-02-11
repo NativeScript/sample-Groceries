@@ -16,7 +16,7 @@ export class GroceryList {
         this._items = [];
         this.items = Observable.create(subscriber => {
             this.subscr = subscriber;
-            subscriber.next(WrappedValue.wrap(this._items));
+            subscriber.next(this._items);
         });
     }
 
