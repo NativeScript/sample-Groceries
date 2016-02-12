@@ -5,15 +5,13 @@ import {ActionItem} from "ui/action-bar";
 import {TextField} from "ui/text-field";
 import {topmost} from "ui/frame";
 
-import {Grocery, GroceryList} from "./grocery-list";
-import {ActionBarUtil} from "../../shared/utils/action-bar-util";
+import {Grocery, GroceryList} from "../../shared/view-models/grocery-list";
 
 var socialShare = require("nativescript-social-share");
-var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 
 @Component({
     selector: "list",
-    templateUrl: "views/list/list.html",
+    templateUrl: "pages/list/list.html",
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListPage {
@@ -30,26 +28,6 @@ export class ListPage {
         this.groceryList.load().then(() => {
             this.isLoading = false;
         });
-    }
-
-    configureActionBar() {
-        ActionBarUtil.setTitle("Groceries");
-        ActionBarUtil.emptyActionBarItems();
-
-        var logoutButton = new ActionItem();
-        logoutButton.text = "Logout";
-        logoutButton.on("tap", () => {
-            this.router.navigate(["Login"]);
-        });
-        ActionBarUtil.addButton(logoutButton);
-
-        var shareButton = new ActionItem();
-        shareButton.text = "Share";
-        if (shareButton.ios) {
-            shareButton.ios.position = "right";
-        }
-        shareButton.on("tap", () => { this.share() });
-        ActionBarUtil.addButton(shareButton);
     }
 
     add() {

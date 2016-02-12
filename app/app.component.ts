@@ -3,9 +3,9 @@ import {Component} from "angular2/core";
 import {RouteConfig} from "angular2/router";
 import {NS_ROUTER_DIRECTIVES} from "nativescript-angular/router/ns-router";
 
-import {LoginPage} from "./views/login/login";
-import {RegisterPage} from "./views/register/register";
-import {ListPage} from "./views/list/list";
+import {LoginPage} from "./pages/login/login.component";
+import {RegisterPage} from "./pages/register/register.component";
+import {ListPage} from "./pages/list/list.component";
 
 @Component({
     selector: "main",
