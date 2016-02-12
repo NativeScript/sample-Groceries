@@ -22,7 +22,10 @@ export class UserService {
       { headers: headers }
     )
     .map(res => res.json())
-    .map(data => Config.token = data.Result.access_token);
+    .map(data => {
+      data = JSON.parse(data);
+      Config.token = data.Result.access_token;
+    });
   }
 
   register(user: User) {
