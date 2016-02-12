@@ -1,7 +1,5 @@
 import {nativeScriptBootstrap} from "nativescript-angular/application";
-import {provide} from "angular2/core";
-import {ROUTER_PROVIDERS, LocationStrategy} from "angular2/router";
-import {NSLocationStrategy} from "./ns-location-strategy";
+import {NS_ROUTER_PROVIDERS} from "nativescript-angular/router/ns-router";
 import {AppComponent} from "./app.component";
 
-nativeScriptBootstrap(AppComponent, [ROUTER_PROVIDERS, provide(LocationStrategy, { useClass: NSLocationStrategy })]);
+nativeScriptBootstrap(AppComponent, [NS_ROUTER_PROVIDERS]);
