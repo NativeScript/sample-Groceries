@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/NativeScript/sample-Groceries.svg?branch=master)](https://travis-ci.org/NativeScript/sample-Groceries)
-
-# Groceries
+# Groceries [![Build Status](https://travis-ci.org/NativeScript/sample-Groceries.svg?branch=master)](https://travis-ci.org/NativeScript/sample-Groceries)
 
 Groceries is a NativeScript-built iOS and Android app for managing grocery lists. You can learn how to build a version of this app from scratch in the [official NativeScript getting started guide](http://docs.nativescript.org/start/getting-started).
 
