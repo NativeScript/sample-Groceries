@@ -23,7 +23,9 @@ export class UserService {
     )
     .map(res => res.json())
     .map(data => {
+      // TODO: This shouldn’t be necessary
       data = JSON.parse(data);
+
       Config.token = data.Result.access_token;
     });
   }
