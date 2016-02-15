@@ -9,6 +9,7 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
     * [Telerik AppBuilder](#telerik-appbuilder)
     * [Linting](#linting)
     * [Unit testing](#unit-testing)
+    * [Travis CI](#travis)
 
 <h2 id="download">Download</h2>
 
@@ -91,7 +92,7 @@ Groceries uses [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for co
 $ npm run lint
 ```
 
-<h3 id="unit testing">Unit Testing</h3>
+<h3 id="unit-testing">Unit Testing</h3>
 
 Groceries uses NativeScript’s [integrated unit test runner](http://docs.nativescript.org/core-concepts/testing) and [Mocha](https://mochajs.org/) with [Chai](http://chaijs.com/) for assertions. To run the tests for yourself use the `tns test` command:
 
@@ -104,5 +105,9 @@ $ tns test android --emulator
 ```
 
 For more information on unit testing NativeScript apps, refer to the [NativeScript docs on the topic](http://docs.nativescript.org/core-concepts/testing).
+
+<h3 id="travis">Travis CI</h3>
+
+Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on each commit. Refer to the [`.travis.yml` configuration file](https://github.com/NativeScript/sample-Groceries/blob/master/.travis.yml) for details.
 
 ![](https://ga-beacon.appspot.com/UA-111455-24/nativescript/sample-groceries?pixel)
