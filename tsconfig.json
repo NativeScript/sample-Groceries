@@ -15,8 +15,6 @@
         "app/shared/grocery/grocery-list.service.ts",
         "app/shared/user/user.ts",
         "app/shared/user/user.service.ts",
-        "app/shared/view-models/grocery-list.ts",
-        "app/shared/view-models/user-view-model.ts",
         "app/pages/list/list.component.ts",
         "app/pages/login/login.component.ts",
         "app/pages/register/register.component.ts",

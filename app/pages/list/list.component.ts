@@ -84,11 +84,11 @@ export class ListPage implements OnInit {
     this.subscr.next(WrappedValue.wrap(this.items));
   }
 
-  delete(grocery) {
-    this._groceryListService.delete(grocery.id)
-      .subscribe(() => {
-        var index = this.groceryList.indexOf(grocery);
-        this.groceryList.splice(index, 1);
-      });
-  }
+  //delete(grocery) {
+    //this._groceryListService.delete(grocery.id)
+      //.subscribe(() => {
+        //var index = this.groceryList.indexOf(grocery);
+        //this.groceryList.splice(index, 1);
+      //});
+  //}
 }
