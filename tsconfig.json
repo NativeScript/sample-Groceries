@@ -1,29 +1,15 @@
 {
     "compilerOptions": {
+        "outDir": "app",
+        "rootDir": "app",
         "module": "commonjs",
         "target": "es5",
         "inlineSourceMap": true,
+        "experimentalDecorators": true,
+        "removeComments": false,
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
+        "noEmitOnError": true
     },
-    "files": [
-        "app/app.component.ts",
-        "app/main.ts",
-        "app/compat.d.ts",
-        "app/shared/config.ts",
-        "app/shared/grocery/grocery.ts",
-        "app/shared/grocery/grocery-list.service.ts",
-        "app/shared/user/user.ts",
-        "app/shared/user/user.service.ts",
-        "app/pages/list/list.component.ts",
-        "app/pages/login/login.component.ts",
-        "app/pages/register/register.component.ts",
-        "node_modules/tns-core-modules/tns-core-modules.base.d.ts"
-    ],
-    "filesGlob": [
-        "node_modules/tns-core-modules/tns-core-modules.base.d.ts",
-        "app/**/*.ts"
-    ],
     "exclude": [
         "node_modules",
         "platforms"
