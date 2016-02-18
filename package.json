@@ -39,7 +39,7 @@
 		"zone.js": "0.5.14"
 	},
 	"devDependencies": {
-		"nativescript-dev-typescript": "^0.2.2",
+		"nativescript-dev-typescript": "^0.3.0",
 		"shelljs": "^0.5.3",
 		"typescript": "^1.7.5"
 	}
