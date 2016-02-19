@@ -1,4 +1,4 @@
-<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" xmlns:FabButton="nativescript-floatingactionbutton/fab">
+<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" xmlns:FAB="nativescript-floatingactionbutton">
 	<page.actionBar>
 		<action-bar title="Groceries">
 			<action-bar.actionItems>
@@ -19,7 +19,7 @@
 					<text-field id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" returnPress="add" col="0" />
 					<Image ios:src="res://history" android:visibility="collapsed" tap="history" col="1" />
 				</grid-layout>
- 
+
 				<lv:rad-list-view
 					items="{{ groceryList }}"
 					id="grocery-list"
@@ -52,9 +52,10 @@
 					</lv:rad-list-view.itemSwipeTemplate>
 				</lv:rad-list-view>
 
-				<android>
-					<FabButton:fab row="1" tap="history" icon="ic_history" backColor="#336699" rippleColor="#999" class="fab-button" />
-				</android>
+				<!-- Why doesn’t this work? -->
+				<!--<android>
+					<FAB:fab row="1" tap="history" icon="ic_history" backColor="#336699" rippleColor="#999" class="fab-button" />
+				</android>-->
 
 				<activity-indicator busy="{{ isLoading }}" rowSpan="2" />
 			</grid-layout>

@@ -14,7 +14,8 @@ module.exports = {
 	goToListPage: function() {
 		frameModule.topmost().navigate({
 			moduleName: "views/list/list",
-			clearHistory: true
+			// Workaround for https://github.com/NativeScript/NativeScript/issues/1569
+			// clearHistory: true
 		});
 	},
 	signOut: function() {
@@ -22,7 +23,8 @@ module.exports = {
 		frameModule.topmost().navigate({
 			moduleName: "views/login/login",
 			animated: false,
-			clearHistory: true
+			// Workaround for https://github.com/NativeScript/NativeScript/issues/1569
+			// clearHistory: true
 		});
 	},
 	startingPage: function() {
