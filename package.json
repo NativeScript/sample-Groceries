@@ -39,7 +39,7 @@
 		"email-validator": "^1.0.3",
 		"nativescript-iqkeyboardmanager": "^1.0.0",
 		"nativescript-social-share": "^1.1.2",
-		"nativescript-floatingactionbutton": "^0.1.9",
+		"nativescript-floatingactionbutton": "^0.2.0",
 		"nativescript-telerik-ui": "0.2.4",
 		"nativescript-unit-test-runner": "^0.2.8",
 		"tns-core-modules": "1.6.0"

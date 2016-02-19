@@ -52,10 +52,9 @@
 					</lv:rad-list-view.itemSwipeTemplate>
 				</lv:rad-list-view>
 
-				<!-- Why doesn’t this work? -->
-				<!--<android>
-					<FAB:fab row="1" tap="history" icon="ic_history" backColor="#336699" rippleColor="#999" class="fab-button" />
-				</android>-->
+				<android>
+					<FAB:fab row="1" tap="history" icon="res://ic_history" backColor="#336699" rippleColor="#999" class="fab-button" />
+				</android>
 
 				<activity-indicator busy="{{ isLoading }}" rowSpan="2" />
 			</grid-layout>
