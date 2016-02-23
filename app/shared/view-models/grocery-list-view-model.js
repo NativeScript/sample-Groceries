@@ -145,7 +145,10 @@ function GroceryListViewModel(items) {
 	viewModel.toggleDone = function(index) {
 		var item = viewModel.getItem(index);
 		item.done = !item.done;
-		viewModel.setItem(index, item);
+
+		// Use Object.assign to clone the object to ensure NativeScript
+		// detects the change and updates the UI accordingly
+		viewModel.setItem(index, Object.assign({}, item));
 
 		return fetch(config.apiUrl + "Groceries/" + item.id, {
 			method: "PUT",
