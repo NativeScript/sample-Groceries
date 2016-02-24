@@ -1,0 +1,17 @@
+#!/bin/sh
+
+ctags -R \
+    --exclude=node_modules \
+    --exclude=platforms \
+    --exclude='*.js'
+
+add_ctags() {
+    LOCATION=$1
+    PATTERN=${2:-*.d.ts}
+    find "$LOCATION" -iname "$PATTERN" -exec ctags -a \{\} \;
+}
+
+add_ctags "node_modules/angular2"
+add_ctags "node_modules/tns-core-modules"
+
+sed -r -i '/^(if|for|forEach|while|switch|super|function|return)\b/d' tags
