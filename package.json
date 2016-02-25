@@ -27,7 +27,7 @@
 		"mocha": "^2.3.4"
 	},
 	"nativescript": {
-		"id": "com.tjvantoll.groceries",
+		"id": "com.tjvantoll.sampleGroceries",
 		"tns-ios": {
 			"version": "1.6.0"
 		},
