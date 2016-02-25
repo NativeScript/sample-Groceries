@@ -16,9 +16,9 @@
 	},
 	"homepage": "https://github.com/nativescript/sample-Groceries/groceries",
 	"nativescript": {
-		"id": "org.nativescript.groceries",
+		"id": "org.nativescript.sampleGroceries",
 		"tns-android": {
-			"version": "1.6.1"
+			"version": "1.6.2"
 		},
 		"tns-ios": {
 			"version": "1.6.0"
@@ -27,6 +27,6 @@
 	"dependencies": {
 		"email-validator": "^1.0.3",
 		"nativescript-social-share": "^1.1.2",
-		"tns-core-modules": "1.6.0"
+		"tns-core-modules": "1.6.2"
 	}
 }
