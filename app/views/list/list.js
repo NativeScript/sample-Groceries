@@ -48,13 +48,6 @@ exports.loaded = function(args) {
 	groceryListElement = page.getViewById("grocery-list");
 	mainContentElement = page.getViewById("main-content");
 
-	if (page.android) {
-		groceryListElement._swipeExecuteBehavior.setAutoDissolve(false);
-
-		// See https://github.com/NativeScript/NativeScript/issues/1275
-		page.actionBarHidden = false;
-	}
-
 	showPageLoadingIndicator();
 	groceryList
 		.load()
@@ -136,11 +129,6 @@ function showPageLoadingIndicator() {
 function hidePageLoadingIndicator() {
 	pageData.set("isLoading", false);
 }
-
-exports.startSwipeCell = function(args) {
-	args.data.swipeLimits.left = page.ios ? 60 : 180;
-	args.data.swipeLimits.right = page.ios ? 60 : 180;
-};
 
 function performToggleDone(index) {
 	showPageLoadingIndicator();

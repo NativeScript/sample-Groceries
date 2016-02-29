@@ -27,7 +27,6 @@
 					pullToRefreshInitiated="pullToRefreshInitiated"
 					selectionBehavior="None"
 					swipeCells="true"
-					startSwipeCell="startSwipeCell"
 					row="1"
 					rowSpan="2">
 					<lv:rad-list-view.listViewLayout>
