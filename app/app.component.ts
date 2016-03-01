@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import {Component} from "angular2/core";
 import {RouteConfig} from "angular2/router";
 import {NS_ROUTER_DIRECTIVES} from "nativescript-angular/router";
