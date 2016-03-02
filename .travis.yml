@@ -30,4 +30,4 @@ before_script:
     - android-wait-for-emulator
 
 script:
-    - tns test android --emulator
+    - tns test android --emulator --justlaunch
