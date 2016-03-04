@@ -27,7 +27,7 @@ export class LoginPage {
     this._userService.login(this.user)
       .subscribe(
         () => this._router.navigate(["List"]),
-        (error) => alert(error)
+        (error) => alert("Unfortunately we could not find your account.")
       );
   }
 
