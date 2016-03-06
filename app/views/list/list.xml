@@ -40,12 +40,12 @@
 					</lv:rad-list-view.itemTemplate>
 					<lv:rad-list-view.itemSwipeTemplate>
 						<grid-layout columns="auto, *, auto">
-							<stack-layout class="swipe-image-container done-button-container" col="0">
-								<image ios:src="res://done" android:src="res://ic_done" tap="{{ toggleDone }}" class="swipe-button" />
+							<stack-layout class="swipe-image-container done-button-container" col="0" tap="{{ toggleDone }}">
+								<image ios:src="res://done" android:src="res://ic_done" class="swipe-button" />
 							</stack-layout>
 							<Placeholder col="1" />
-							<stack-layout class="swipe-image-container delete-button-container" col="2">
-								<image ios:src="res://delete" android:src="res://ic_delete" tap="{{ swipeDelete }}" class="swipe-button" col="2" />
+							<stack-layout class="swipe-image-container delete-button-container" col="2" tap="{{ swipeDelete }}">
+								<image ios:src="res://delete" android:src="res://ic_delete" class="swipe-button" col="2" />
 							</stack-layout>
 						</grid-layout>
 					</lv:rad-list-view.itemSwipeTemplate>
