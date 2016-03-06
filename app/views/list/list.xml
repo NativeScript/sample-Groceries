@@ -3,7 +3,7 @@
 		<action-bar title="Groceries">
 			<action-bar.actionItems>
 				<action-item text="Sign out" tap="signOut" ios.position="left" android:icon="res://ic_logout" />
-				<action-item android.text="Share" tap="share" ios:icon="res://share" android:icon="res://ic_share" ios.position="right" />
+				<action-item android.text="Share" tap="share" ios.systemIcon="9" android.systemIcon="ic_menu_share" ios.position="right" />
 			</action-bar.actionItems>
 		</action-bar>
 	</page.actionBar>
