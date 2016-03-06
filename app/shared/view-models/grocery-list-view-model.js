@@ -142,6 +142,20 @@ function GroceryListViewModel(items) {
 		.then(handleErrors);
 	};
 
+	viewModel.completelyDelete = function(index) {
+		var item = history.getItem(index);
+		history.splice(index, 1);
+		return fetch(config.apiUrl + "Groceries/" + item.id, {
+			method: "DELETE",
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		})
+		.then(handleErrors);
+	};
+
+
 	viewModel.toggleDone = function(index) {
 		var item = viewModel.getItem(index);
 		item.done = !item.done;

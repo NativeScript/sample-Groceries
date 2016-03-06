@@ -45,7 +45,7 @@
 							</stack-layout>
 							<Placeholder col="1" />
 							<stack-layout class="swipe-image-container delete-button-container" col="2" tap="{{ swipeDelete }}">
-								<image ios:src="res://delete" android:src="res://ic_delete" class="swipe-button" col="2" />
+								<image ios:src="res://delete" android:src="res://ic_delete" class="swipe-button" />
 							</stack-layout>
 						</grid-layout>
 					</lv:rad-list-view.itemSwipeTemplate>
@@ -67,13 +67,16 @@
 					items="{{ history }}"
 					row="1">
 					<lv:rad-list-view.listViewLayout>
-						<lv:ListViewLinearLayout itemHeight="50" itemWidth="500" />
+						<lv:ListViewLinearLayout itemHeight="50" />
 					</lv:rad-list-view.listViewLayout>
 					<lv:rad-list-view.itemTemplate>
-						<stack-layout orientation="horizontal">
-							<Image tap="{{ toggleHistory }}" src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" class="add-button" />
-							<label text="{{ name }}" />
-						</stack-layout>
+						<grid-layout columns="auto, *, auto">
+							<Image tap="{{ toggleHistory }}" src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" class="add-button" col="0" />
+							<label text="{{ name }}" col="1" />
+							<stack-layout col="2" class="history-delete-container" tap="{{ deleteHistory }}">
+								<image ios:src="res://delete" android:src="res://ic_delete" />
+							</stack-layout>
+						</grid-layout>
 					</lv:rad-list-view.itemTemplate>
 				</lv:rad-list-view>
 				<button text="Add to the groceries list" tap="addFromHistory" class="main-color add-all-button" row="2" />

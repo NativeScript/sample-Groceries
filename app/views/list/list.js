@@ -35,6 +35,13 @@ var pageData = new Observable({
 	toggleHistory: function(args) {
 		var item = args.view.bindingContext;
 		groceryList.toggleDoneHistory(history.indexOf(item));
+	},
+	deleteHistory: function(args) {
+		var item = args.view.bindingContext;
+		showPageLoadingIndicator();
+		groceryList.completelyDelete(history.indexOf(item))
+			.catch(handleAddError)
+			.then(hidePageLoadingIndicator);
 	}
 });
 

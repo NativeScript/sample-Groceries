@@ -35,6 +35,13 @@ image {
 	background-color: green;
 }
 
+.history-delete-container {
+	background-color: red;
+	height: 30;
+	border-radius: 15;
+	margin-right: 5;
+}
+
 #drawer-content {
 	background-color: white;
 	border-width: 1;
