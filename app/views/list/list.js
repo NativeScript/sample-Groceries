@@ -38,10 +38,12 @@ var pageData = new Observable({
 	},
 	deleteHistory: function(args) {
 		var item = args.view.bindingContext;
-		showPageLoadingIndicator();
+		pageData.set("isHistoryLoading", true);
 		groceryList.completelyDelete(history.indexOf(item))
 			.catch(handleAddError)
-			.then(hidePageLoadingIndicator);
+			.then(function() {
+				pageData.set("isHistoryLoading", false);
+			});
 	}
 });
 
