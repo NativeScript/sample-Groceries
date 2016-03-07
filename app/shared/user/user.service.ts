@@ -1,7 +1,9 @@
 import {Injectable} from "angular2/core";
-import {Http, Headers} from "angular2/http";
+import {Http, Headers, Response} from "angular2/http";
 import {User} from "./user";
 import {Config} from "../config";
+import {Observable} from "rxjs/Rx";
+import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 
 @Injectable()
@@ -21,10 +23,11 @@ export class UserService {
       }),
       { headers: headers }
     )
-    .map(res => res.json())
-    .map(data => {
+    .map(response => response.json())
+    .do(data => {
       Config.token = data.Result.access_token;
-    });
+    })
+    .catch(this.handleErrors);
   }
 
   register(user: User) {
@@ -39,6 +42,12 @@ export class UserService {
         Password: user.password
       }),
       { headers: headers }
-    );
+    )
+    .catch(this.handleErrors);
+  }
+
+  handleErrors(error: Response) {
+    console.log(JSON.stringify(error.json()));
+    return Observable.throw(error);
   }
 }

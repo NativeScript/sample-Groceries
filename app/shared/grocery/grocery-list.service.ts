@@ -2,6 +2,8 @@ import {Injectable} from "angular2/core";
 import {Http, Headers} from "angular2/http";
 import {Config} from "../config";
 import {Grocery} from "./grocery";
+import {Observable} from "rxjs/Rx";
+import "rxjs/add/operator/map";
 
 @Injectable()
 export class GroceryListService {
@@ -20,8 +22,9 @@ export class GroceryListService {
       data.Result.forEach((grocery) => {
         groceryList.push(new Grocery(grocery.Id, grocery.Name));
       });
-      return groceryList
-    });
+      return groceryList;
+    })
+    .catch(this.handleErrors);
   }
 
   add(name: string) {
@@ -37,7 +40,8 @@ export class GroceryListService {
     .map(res => res.json())
     .map(data => {
       return new Grocery(data.Result.Id, name);
-    });
+    })
+    .catch(this.handleErrors);
   }
   
   delete(id: string) {
@@ -49,6 +53,12 @@ export class GroceryListService {
       Config.apiUrl + "Groceries/" + id,
       { headers: headers }
     )
-    .map(res => res.json());
+    .map(res => res.json())
+    .catch(this.handleErrors);
+  }
+
+  handleErrors(error: Response) {
+    console.log(JSON.stringify(error.json()));
+    return Observable.throw(error);
   }
 }
