@@ -19,12 +19,12 @@ import {GroceryListService} from "../../shared/grocery/grocery-list.service";
   providers: [GroceryListService]
 })
 export class ListPage implements OnInit {
-  groceryList: Observable<Array<Grocery>>;
+  groceryList: Observable<Grocery[]>;
   grocery: string;
   isLoading: boolean;
 
   private subscr;
-  private items: Array<Grocery>;
+  private items: Grocery[];
 
   constructor(
     private _groceryListService: GroceryListService,
