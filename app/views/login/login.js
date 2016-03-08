@@ -1,38 +1,54 @@
 var dialogsModule = require("ui/dialogs");
-var actionBarUtil = require("../../shared/utils/action-bar-util");
+var Observable = require("data/observable").Observable;
+
+var statusBarUtil = require("../../shared/utils/status-bar-util");
 var formUtil = require("../../shared/utils/form-util");
 var navigation = require("../../shared/navigation");
 var UserViewModel = require("../../shared/view-models/user-view-model");
 
-var user = new UserViewModel({
-	email: "nativescriptrocks@telerik.com",
-	password: "password",
-	authenticating: false
-});
-
+var pageData;
+var user;
+var page;
 var email;
 var password;
-var signInButton;
+var submitButton;
+var container;
 
 exports.loaded = function(args) {
-	var page = args.object;
-	page.bindingContext = user;
+	page = args.object;
+
+	user = new UserViewModel({
+		email: "nativescriptrocks@telerik.com",
+		password: "password",
+	});
+	pageData = new Observable({
+		user: user,
+		authenticating: false,
+		isLogin: true
+	});
+	page.bindingContext = pageData;
+	statusBarUtil.configure();
 
 	email = page.getViewById("email");
 	password = page.getViewById("password");
-	signInButton = page.getViewById("sign-in-button");
+	submitButton = page.getViewById("submit-button");
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
-
-	actionBarUtil.styleActionBar();
 
 	// Prevent the first textfield from receiving focus on Android
 	// See http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus
 	if (page.android) {
-		var layout = page.getViewById("layout").android;
-		layout.setFocusableInTouchMode(true);
-		layout.setFocusable(true);
+		container = page.getViewById("container");
+		container.android.setFocusableInTouchMode(true);
+		container.android.setFocusable(true);
 		email.android.clearFocus();
 	}
+
+	// Zoom the background in, and then set of the full set of animations
+	var background = page.getViewById("background");
+	background.animate({ scale: { x: 1.4, y: 1.4 }, duration: 0 })
+		.then(function() {
+			background.animate({ scale: { x: 1, y: 1 }, duration: 8000 })
+		});
 };
 
 exports.focusPassword = function() {
@@ -42,18 +58,35 @@ exports.focusPassword = function() {
 function disableForm() {
 	email.isEnabled = false;
 	password.isEnabled = false;
-	signInButton.isEnabled = false;
-	user.set("authenticating", true);
+	submitButton.isEnabled = false;
+	pageData.set("authenticating", true);
 }
 function enableForm() {
 	email.isEnabled = true;
 	password.isEnabled = true;
-	signInButton.isEnabled = true;
-	user.set("authenticating", false);
+	submitButton.isEnabled = true;
+	pageData.set("authenticating", false);
 }
 
-exports.signIn = function() {
+exports.submit = function() {
+	if (!user.isValidEmail()) {
+		dialogsModule.alert({
+			message: "Enter a valid email address.",
+			okButtonText: "OK"
+		});
+		return;
+	}
+
 	disableForm();
+
+	if (pageData.get("isLogin")) {
+		login();
+	} else {
+		register();
+	}
+};
+
+function login() {
 	user.login()
 		.catch(function() {
 			dialogsModule.alert({
@@ -65,7 +98,41 @@ exports.signIn = function() {
 		})
 		.then(enableForm)
 		.then(navigation.goToListPage);
-};
+}
 
-exports.register = navigation.goToRegisterPage;
-exports.forgotPassword = navigation.goToPasswordPage;
+function register() {
+	user.register()
+		.then(function() {
+			dialogsModule
+				.alert("Your account was successfully created.")
+				.then(function() {
+					pageData.set("isLogin", true);
+					enableForm();
+				});
+		}).catch(function() {
+			dialogsModule
+				.alert({
+					message: "Unfortunately we were unable to create your account.",
+					okButtonText: "OK"
+				});
+		}).then(enableForm);
+}
+
+exports.forgotPassword = function() {
+	if (!pageData.get("isLogin")) {
+		return;
+	}
+	navigation.goToPasswordPage();
+}
+
+exports.toggleDisplay = function() {
+	var isLogin = !pageData.get("isLogin");
+
+	if (email.android) {
+		var color = android.graphics.Color.parseColor(isLogin ? "#858585" : "#483437");
+		email.android.setHintTextColor(color);
+		password.android.setHintTextColor(color);
+	}
+
+	pageData.set("isLogin", !pageData.get("isLogin"));
+};

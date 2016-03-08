@@ -1,20 +1,37 @@
-<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd">
-	<page.actionBar>
-		<action-bar title="Sign in" />
-	</page.actionBar>
-	<scroll-view>
-		<stack-layout id="layout">
-			<image src="res://logo" stretch="none" horizontalAlignment="center" />
+<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true">
+	<grid-layout>
+
+		<!-- The parallax background -->
+		<grid-layout id="background"></grid-layout>
+
+		<stack-layout id="container" backgroundColor="{{ isLogin ? 'white' : '#301217' }}">
+			<label text="GROCERIES" id="main-label" color="{{ isLogin ? 'black' : 'white' }}" />
 
 			<grid-layout rows="auto, auto">
-				<text-field id="email" text="{{ email }}" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
-				<text-field id="password" secure="true" text="{{ password }}" hint="Password" returnKeyType="done" returnPress="signIn" row="1" />
+				<text-field
+						id="email" text="{{ user.email }}" hint="Email Address" keyboardType="email"
+						returnKeyType="next" returnPress="focusPassword"
+						autocorrect="false" autocapitalizationType="none"
+						row="0"
+						color="{{ isLogin ? 'black' : 'white' }}" />
+				<text-field id="password" secure="true" text="{{ user.password }}" hint="Password"
+					returnKeyType="done" returnPress="signIn"
+					row="1"
+					color="{{ isLogin ? 'black' : 'white' }}" />
 				<activity-indicator busy="{{ authenticating }}" rowSpan="2" />
 			</grid-layout>
 
-			<button text="Sign in" id="sign-in-button" tap="signIn" />
-			<button text="Sign up for Groceries" tap="register" class="link" />
-			<button text="Forgot password?" tap="forgotPassword" class="link" />
+			<button text="{{ isLogin ? 'Login' : 'Sign up' }}" id="submit-button" tap="submit" />
+
+			<label id="forgot-password-label" android:text="FORGOT PASSWORD?" ios:text="Forgot password?" tap="forgotPassword" opacity="{{ isLogin ? 1 : 0 }}" />
+
+			<stack-layout id="sign-up-stack" tap="toggleDisplay">
+				<label id="sign-up-label" android:text="{{ isLogin ? 'SIGN UP HERE' : 'BACK TO LOGIN' }}" ios:text="{{ isLogin ? 'Sign up here' : 'Back to login' }}" />
+			</stack-layout>
 		</stack-layout>
-	</scroll-view>
+
+		<absolute-layout horizontalAlignment="center">
+			<image top="100" src="{{ isLogin ? 'res://logo_login' : 'res://logo_signup' }}" stretch="none" />
+		</absolute-layout>
+	</grid-layout>
 </page>

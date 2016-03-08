@@ -5,9 +5,6 @@ module.exports = {
 	goToLoginPage: function() {
 		frameModule.topmost().navigate("views/login/login");
 	},
-	goToRegisterPage: function() {
-		frameModule.topmost().navigate("views/register/register");
-	},
 	goToPasswordPage: function() {
 		frameModule.topmost().navigate("views/password/password");
 	},

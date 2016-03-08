@@ -1,0 +1,52 @@
+#background {
+  background-image: url("~/images/sample_bg_login.jpg");
+}
+
+#container {
+  margin: 30;
+  height: 349;
+  width: 275;
+  background-color: white;
+}
+
+button, text-field {
+  margin-left: 16;
+  margin-right: 16;
+}
+text-field {
+  margin-bottom: 10;
+  padding: 10;
+  font-size: 13;
+  color: red;
+}
+
+#main-label {
+  font-size: 28;
+  horizontal-align: center;
+  margin-top: 32;
+  margin-bottom: 32;
+  color: black;
+}
+#submit-button {
+  background-color: #CB1D00;
+  font-size: 15;
+  color: white;
+  margin-bottom: 15;
+
+}
+#forgot-password-label {
+  font-size: 13;
+  margin-left: 20;
+  margin-bottom: 30;
+  color: black;
+}
+#sign-up-stack {
+  background-color: #311217;
+}
+#sign-up-label {
+  color: white;
+  horizontal-align: center;
+  padding-top: 10;
+  font-size: 15;
+  height: 44;
+}

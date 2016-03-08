@@ -1,67 +1,69 @@
-#groceryList {
-	margin: 5;
-	opacity: 0;
+#main-content {
+	background-image: url("~/images/sample_bg_inner.jpg");
 }
-text-field {
-	background-color: white;
+
+#action-bar-custom {
+	color: white;
+	padding-top: 26;
+	padding-bottom: 16;
+	padding-left: 44;
+	padding-right: 16;
 }
-label {
-	margin: 10;
-	horizontal-align: left;
+#action-bar-label {
+	font-size: 21;
+	font-weight: bold;
+}
+
+#add-bar {
+	background-color: #CB1D00;
+	padding-left: 16;
+	padding-right: 16;
+	height: 50;
+}
+#add-bar-image {
+	height: 15;
+	margin-right: 11;
 	vertical-align: center;
 }
-image {
-	margin: 10;
+#grocery {
+	margin-right: 20;
+	horizontal-align: left;
 }
-.checkbox {
-	margin-right: 0;
-	margin-top: 5;
-	height: 35;
+#add-bar-recent-label {
+	vertical-align: center;
+	color: #311217;
 }
-
-.swipe-image-container {
-	height: 50;
-	width: 60;
-}
-.swipe-button {
-	border-width: 0;
-	margin-top: 15;
-	height: 20;
-}
-.delete-button-container {
-	background-color: red;
-}
-.done-button-container {
-	background-color: green;
+#add-bar-recent-toggle {
+	vertical-align: center;
+	color: #311217;
 }
 
-.history-delete-container {
-	background-color: red;
-	height: 30;
-	border-radius: 15;
-	margin-right: 5;
+.grocery-list-item-container {
+	padding-top: 10;
+	padding-bottom: 10;
+	padding-left: 16;
+	background-color: white;
+	margin-top: 1;
+}
+.grocery-list-item-container-done {
+	opacity: 0.8;
+}
+.grocery-list-check-box {
+	margin-right: 10;
+}
+#grocery-list-swipe-button {
+	margin-top: 10;
+	margin-right: 16;
+}
+.line-through {
+	text-decoration: line-through;
 }
 
 #drawer-content {
-	background-color: white;
-	border-width: 1;
-	border-color: #eee;
-}
-.heading {
-	font-weight: bold;
-	text-size: 14;
-}
-.add-button {
-	height: 30;
-	margin-right: 0;
-}
-.add-all-button {
+	background-color: #311217;
 	color: white;
-	border-width: 0;
 }
-.fab-button {
-	height: 70;
-	horizontal-align: right;
-	vertical-align: bottom;
-	margin: 15;
+.drawer-content-label {
+	margin: 16;
+	font-weight: bold;
 }

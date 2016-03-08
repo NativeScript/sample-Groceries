@@ -1,25 +1,33 @@
-<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" xmlns:FAB="nativescript-floatingactionbutton">
-	<page.actionBar>
-		<action-bar title="Groceries">
-			<action-bar.actionItems>
-				<action-item text="Sign out" tap="signOut" ios.position="left" android:icon="res://ic_logout" />
-				<action-item android.text="Share" tap="share" ios.systemIcon="9" android.systemIcon="ic_menu_share_holo_dark" ios.position="right" />
-			</action-bar.actionItems>
-		</action-bar>
-	</page.actionBar>
+<page loaded="loaded" actionBarHidden="true" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
 
-	<drawer:rad-side-drawer id="drawer" drawerLocation="Right">
-		<drawer:rad-side-drawer.drawerTransition>
-			<drawer:PushTransition />
-		</drawer:rad-side-drawer.drawerTransition>
+	<!-- A drawer is used to show the options menu -->
+	<drawer:rad-side-drawer
+		id="drawer" drawerLocation="Bottom" drawerContentSize="160">
 
+		<!-- The main content of the page -->
 		<drawer:rad-side-drawer.mainContent>
-			<grid-layout rows="auto, *" id="main-content">
-				<grid-layout row="0" columns="*, auto" class="main-color">
-					<text-field id="grocery" text="{{ grocery }}" hint="Enter a grocery item" returnKeyType="done" returnPress="add" col="0" />
-					<Image ios:src="res://history" android:visibility="collapsed" tap="history" col="1" />
+			<grid-layout rows="auto, auto, *" id="main-content">
+
+				<!-- Row 1: The custom action bar -->
+				<grid-layout row="0" columns="*, auto" id="action-bar-custom">
+					<label col="0" text="Groceries" id="action-bar-label" />
+					<image col="1" android:src="res://ic_menu" tap="menu" />
 				</grid-layout>
 
+				<!-- Row 2: The text field to add groceries, and recent button -->
+				<grid-layout row="1" columns="auto, *, auto" id="add-bar"
+					backgroundColor="{{ isShowingRecent ? '#BBC169' : '#CB1D00' }}">
+					<image android:src="{{ isShowingRecent? 'res://ic_recent' : 'res://ic_add' }}" col="0" id="add-bar-image" tap="add" />
+
+					<!-- Show a text field in add mode -->
+					<text-field id="grocery" text="{{ grocery }}" hint="ADD A GROCERY" returnKeyType="done" returnPress="add" col="1" visibility="{{ isShowingRecent ? 'collapsed' : 'visible' }}" />
+					<!-- Show a label in history mode -->
+					<label text="Recent items" col="1" visibility="{{ isShowingRecent ? 'visible' : 'collapsed' }}" id="add-bar-recent-label" />
+
+					<label text="{{ isShowingRecent ? 'DONE' : 'RECENT' }}" tap="history" col="2" id="add-bar-recent-toggle" tap="toggleRecent" />
+				</grid-layout>
+
+				<!-- Row 3: The main grocery list view -->
 				<lv:rad-list-view
 					items="{{ groceryList }}"
 					id="grocery-list"
@@ -27,62 +35,62 @@
 					pullToRefreshInitiated="pullToRefreshInitiated"
 					selectionBehavior="None"
 					swipeCells="true"
-					row="1"
-					rowSpan="2">
+					itemSwipeProgressStarted="itemSwipeProgressStarted"
+					itemSwipeProgressEnded="itemSwipeProgressEnded"
+					visibility="{{ isShowingRecent ? 'collapsed' : 'visible' }}"
+					row="2">
 					<lv:rad-list-view.listViewLayout>
-						<lv:ListViewLinearLayout scrollDirection="Vertical" itemHeight="50" />
+						<lv:ListViewLinearLayout scrollDirection="Vertical" />
 					</lv:rad-list-view.listViewLayout>
 					<lv:rad-list-view.itemTemplate>
-						<grid-layout columns="auto, *" backgroundColor="white">
-							<image tap="{{ toggleDone }}" src="{{ done ? 'res://checked' : 'res://unchecked' }}" class="checkbox" col="0" />
-							<label text="{{ name }}" col="1" />
+
+						<!-- The template for each item in the grocery list -->
+						<grid-layout columns="auto, *" class="{{ done ? 'grocery-list-item-container grocery-list-item-container-done' : 'grocery-list-item-container' }}">
+							<image tap="{{ toggleDone }}" android:src="{{ done ? 'res://ic_checked' : 'res://ic_unchecked' }}" col="0" class="grocery-list-check-box" />
+							<label text="{{ name }}" col="1" class="{{ done ? 'line-through' : '' }}" />
 						</grid-layout>
+
 					</lv:rad-list-view.itemTemplate>
 					<lv:rad-list-view.itemSwipeTemplate>
-						<grid-layout columns="auto, *, auto">
-							<stack-layout class="swipe-image-container done-button-container" col="0" tap="{{ toggleDone }}">
-								<image ios:src="res://done" android:src="res://ic_done" class="swipe-button" />
-							</stack-layout>
-							<Placeholder col="1" />
-							<stack-layout class="swipe-image-container delete-button-container" col="2" tap="{{ swipeDelete }}">
-								<image ios:src="res://delete" android:src="res://ic_delete" class="swipe-button" />
+
+						<!-- The template shown when you swipe an item in the list -->
+						<grid-layout columns="*, auto">
+							<Placeholder col="0" />
+							<stack-layout col="1" tap="{{ swipeDelete }}">
+								<image ios:src="res://delete" android:src="res://ic_delete" stretch="none" id="grocery-list-swipe-button" />
 							</stack-layout>
 						</grid-layout>
+
 					</lv:rad-list-view.itemSwipeTemplate>
 				</lv:rad-list-view>
 
-				<android>
-					<FAB:fab row="1" tap="history" icon="res://ic_history" backColor="#336699" rippleColor="#999" class="fab-button" />
-				</android>
-
-				<activity-indicator busy="{{ isLoading }}" rowSpan="2" />
-			</grid-layout>
-		</drawer:rad-side-drawer.mainContent>
-
-		<drawer:rad-side-drawer.drawerContent>
-			<grid-layout rows="auto, *, auto" id="drawer-content">
-				<label text="Add recent items" class="heading" row="0" />
+				<!-- Row 3 (initially hidden): The recently deleted grocery list -->
 				<lv:rad-list-view
-					id="history"
+					id="recent-list"
 					items="{{ history }}"
-					row="1">
+					visibility="{{ isShowingRecent ? 'visible' : 'collapsed' }}"
+					row="2">
 					<lv:rad-list-view.listViewLayout>
-						<lv:ListViewLinearLayout itemHeight="50" />
+						<lv:ListViewLinearLayout />
 					</lv:rad-list-view.listViewLayout>
 					<lv:rad-list-view.itemTemplate>
-						<grid-layout columns="auto, *, auto">
-							<Image tap="{{ toggleHistory }}" src="{{ done ? 'res://selected' : 'res://add_to_groceries' }}" class="add-button" col="0" />
+						<grid-layout columns="auto, *" class="grocery-list-item-container">
+							<image tap="{{ toggleHistory }}" android:src="{{ done ? 'res://ic_selected' : 'res://ic_nonselected' }}" col="0" class="grocery-list-check-box" />
 							<label text="{{ name }}" col="1" />
-							<stack-layout col="2" class="history-delete-container" tap="{{ deleteHistory }}">
-								<image ios:src="res://delete" android:src="res://ic_delete" />
-							</stack-layout>
 						</grid-layout>
 					</lv:rad-list-view.itemTemplate>
 				</lv:rad-list-view>
-				<button text="Add to the groceries list" tap="addFromHistory" class="main-color add-all-button" row="2" />
-				<activity-indicator busy="{{ isHistoryLoading }}"
-					rowSpan="3" />
+
+				<activity-indicator busy="{{ isLoading }}" row="2" />
 			</grid-layout>
+		</drawer:rad-side-drawer.mainContent>
+
+		<!-- The drawer content—aka the options menu -->
+		<drawer:rad-side-drawer.drawerContent>
+			<stack-layout id="drawer-content">
+				<label text="Share" tap="share" class="drawer-content-label" />
+				<label text="Sign out" tap="signOut" class="drawer-content-label" />
+			</stack-layout>
 		</drawer:rad-side-drawer.drawerContent>
 
 	</drawer:rad-side-drawer>
