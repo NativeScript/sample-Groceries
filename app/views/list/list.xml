@@ -2,7 +2,7 @@
 
 	<!-- A drawer is used to show the options menu -->
 	<drawer:rad-side-drawer
-		id="drawer" drawerLocation="Bottom" drawerContentSize="160">
+		id="drawer" drawerLocation="Bottom" android:drawerContentSize="160" ios:drawerContentSize="110">
 
 		<!-- The main content of the page -->
 		<drawer:rad-side-drawer.mainContent>
@@ -46,7 +46,7 @@
 
 						<!-- The template for each item in the grocery list -->
 						<grid-layout columns="auto, *" class="{{ done ? 'grocery-list-item-container grocery-list-item-container-done' : 'grocery-list-item-container' }}">
-							<image tap="{{ toggleDone }}" android:src="{{ done ? 'res://ic_checked' : 'res://ic_unchecked' }}" col="0" class="grocery-list-check-box" />
+							<image tap="{{ toggleDone }}" android:src="{{ done ? 'res://ic_checked' : 'res://ic_unchecked' }}" ios:src="{{ done ? 'res://checked' : 'res://unchecked' }}" col="0" class="grocery-list-check-box" />
 							<label text="{{ name }}" col="1" class="{{ done ? 'line-through' : '' }}" />
 						</grid-layout>
 
@@ -75,7 +75,7 @@
 					</lv:rad-list-view.listViewLayout>
 					<lv:rad-list-view.itemTemplate>
 						<grid-layout columns="auto, *" class="grocery-list-item-container">
-							<image tap="{{ toggleHistory }}" android:src="{{ done ? 'res://ic_selected' : 'res://ic_nonselected' }}" col="0" class="grocery-list-check-box" />
+							<image tap="{{ toggleHistory }}" android:src="{{ done ? 'res://ic_selected' : 'res://ic_nonselected' }}" ios:src="{{ done ? 'res://selected' : 'res://nonselected' }}" col="0" class="grocery-list-check-box" />
 							<label text="{{ name }}" col="1" />
 						</grid-layout>
 					</lv:rad-list-view.itemTemplate>
