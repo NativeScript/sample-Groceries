@@ -1,1 +1,7 @@
 @import url("~/views/list/list-common.css");
+
+text-field {
+  background-color: transparent;
+  border-width: 0;
+  color: white;
+}

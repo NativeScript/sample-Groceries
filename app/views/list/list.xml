@@ -17,14 +17,14 @@
 				<!-- Row 2: The text field to add groceries, and recent button -->
 				<grid-layout row="1" columns="auto, *, auto" id="add-bar"
 					backgroundColor="{{ isShowingRecent ? '#BBC169' : '#CB1D00' }}">
-					<image android:src="{{ isShowingRecent? 'res://ic_recent' : 'res://ic_add' }}" col="0" id="add-bar-image" tap="add" />
+					<image android:src="{{ isShowingRecent? 'res://ic_recent' : 'res://ic_add' }}" ios:src="{{ isShowingRecent? 'res://recent' : 'res://add' }}" col="0" id="add-bar-image" tap="add" />
 
 					<!-- Show a text field in add mode -->
-					<text-field id="grocery" text="{{ grocery }}" hint="ADD A GROCERY" returnKeyType="done" returnPress="add" col="1" visibility="{{ isShowingRecent ? 'collapsed' : 'visible' }}" />
+					<text-field id="grocery" text="{{ grocery }}" android:hint="ADD A GROCERY" ios:hint="Add grocery item" returnKeyType="done" returnPress="add" col="1" visibility="{{ isShowingRecent ? 'collapsed' : 'visible' }}" />
 					<!-- Show a label in history mode -->
 					<label text="Recent items" col="1" visibility="{{ isShowingRecent ? 'visible' : 'collapsed' }}" id="add-bar-recent-label" />
 
-					<label text="{{ isShowingRecent ? 'DONE' : 'RECENT' }}" tap="history" col="2" id="add-bar-recent-toggle" tap="toggleRecent" />
+					<label android:text="{{ isShowingRecent ? 'DONE' : 'RECENT' }}" ios:text="{{ isShowingRecent ? 'Done' : 'Recent' }}" tap="history" col="2" id="add-bar-recent-toggle" tap="toggleRecent" />
 				</grid-layout>
 
 				<!-- Row 3: The main grocery list view -->

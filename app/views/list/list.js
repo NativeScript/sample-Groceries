@@ -55,6 +55,13 @@ exports.loaded = function(args) {
 		groceryElement.android.setHintTextColor(color);
 	}
 
+	// Set the hint color for iOS
+	if (groceryElement.ios) {
+		groceryElement.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
+			groceryElement.hint,
+			new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]));
+	}
+
 	showPageLoadingIndicator();
 	groceryList
 		.load()
