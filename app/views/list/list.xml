@@ -1,4 +1,4 @@
-<page loaded="loaded" actionBarHidden="true" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview">
+<page loaded="loaded" actionBarHidden="true" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" backgroundSpanUnderStatusBar="true">
 
 	<!-- A drawer is used to show the options menu -->
 	<drawer:rad-side-drawer
@@ -11,7 +11,7 @@
 				<!-- Row 1: The custom action bar -->
 				<grid-layout row="0" columns="*, auto" id="action-bar-custom">
 					<label col="0" text="Groceries" id="action-bar-label" />
-					<image col="1" android:src="res://ic_menu" tap="menu" />
+					<image col="1" android:src="res://ic_menu" ios:src="res://menu" tap="menu" />
 				</grid-layout>
 
 				<!-- Row 2: The text field to add groceries, and recent button -->
