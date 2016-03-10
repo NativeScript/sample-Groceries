@@ -3,14 +3,6 @@ var frameModule = require("ui/frame");
 var platform = require("platform");
 
 exports.configure = function() {
-	var topmost = frameModule.topmost();
-	if (topmost.ios) {
-		// Make the iOS status bar use white text
-		// Yes, UIBarStyleBlack = white text, because logic
-		var navigationBar = topmost.ios.controller.navigationBar;
-		navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;
-	}
-
 	// Make the Android status bar transparent.
 	// See http://bradmartin.net/2016/03/10/fullscreen-and-navigation-bar-color-in-a-nativescript-android-app/
 	if (applicationModule.android && platform.device.sdkVersion >= "21") {

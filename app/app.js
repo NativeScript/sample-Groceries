@@ -3,8 +3,9 @@ var navigation = require("./shared/navigation");
 
 var AppDelegate = UIResponder.extend({
 	applicationDidFinishLaunchingWithOptions: function () {
-		// Set the status bar to light content
-		UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
+		// TODO: Switch to UIStatusBarStyle.LightContent after figuring out where
+		// that white background is coming from
+		UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default;
 		return true;
 	}
 }, {
