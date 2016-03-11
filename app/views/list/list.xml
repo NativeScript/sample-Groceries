@@ -1,4 +1,4 @@
-<page loaded="loaded" actionBarHidden="true" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" backgroundSpanUnderStatusBar="true">
+<page loaded="loaded" actionBarHidden="true" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" backgroundSpanUnderStatusBar="true" id="list-page">
 
 	<!-- A drawer is used to show the options menu -->
 	<drawer:rad-side-drawer id="drawer" drawerLocation="Bottom"

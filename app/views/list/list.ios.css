@@ -1,5 +1,9 @@
 @import url("~/views/list/list-common.css");
 
+#action-bar-custom {
+  padding-top: 12;
+}
+
 text-field {
   background-color: transparent;
   border-width: 0;

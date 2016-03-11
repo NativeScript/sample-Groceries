@@ -1,4 +1,4 @@
-<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" id="login-page">
+<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" id="login-page" backgroundSpanUnderStatusBar="true">
 	<grid-layout>
 
 		<!-- The parallax background -->
