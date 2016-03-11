@@ -1,8 +1,9 @@
 <page loaded="loaded" actionBarHidden="true" xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" xmlns:lv="nativescript-telerik-ui/listview" backgroundSpanUnderStatusBar="true">
 
 	<!-- A drawer is used to show the options menu -->
-	<drawer:rad-side-drawer
-		id="drawer" drawerLocation="Bottom" android:drawerContentSize="160" ios:drawerContentSize="110">
+	<drawer:rad-side-drawer id="drawer" drawerLocation="Bottom"
+		drawerOpening="drawerOpening" drawerClosing="drawerClosing"
+		android:drawerContentSize="160" ios:drawerContentSize="110">
 
 		<!-- The main content of the page -->
 		<drawer:rad-side-drawer.mainContent>

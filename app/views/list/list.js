@@ -132,6 +132,22 @@ function addFromHistory() {
 exports.menu = function() {
 	drawerElement.toggleDrawerState();
 };
+exports.drawerOpening = function () {
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 0.5
+		});
+	}
+};
+exports.drawerClosing = function () {
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 1
+		});
+	}
+};
 
 exports.share = function() {
 	var list = [];
