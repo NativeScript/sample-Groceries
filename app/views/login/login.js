@@ -43,12 +43,12 @@ exports.loaded = function(args) {
 		email.android.clearFocus();
 	}
 
-	// Zoom the background in, and then set of the full set of animations
-	var background = page.getViewById("background");
+	// Add a parallax effect to the background
+	/* var background = page.getViewById("background");
 	background.animate({ scale: { x: 1.4, y: 1.4 }, duration: 0 })
 		.then(function() {
 			background.animate({ scale: { x: 1, y: 1 }, duration: 8000 })
-		});
+		}); */
 };
 
 exports.focusPassword = function() {
@@ -134,5 +134,20 @@ exports.toggleDisplay = function() {
 		password.android.setHintTextColor(color);
 	}
 
-	pageData.set("isLogin", !pageData.get("isLogin"));
+	pageData.set("isLogin", isLogin);
+
+	// Update the UIButton text without an animation.
+	// See http://stackoverflow.com/questions/18946490/how-to-stop-unwanted-uibutton-animation-on-title-change#answer-22101732
+	if (submitButton.ios) {
+		UIView.performWithoutAnimation(function() {
+			updateSubmitButtonText();
+			submitButton.ios.layoutIfNeeded();
+		});
+	} else {
+		updateSubmitButtonText();
+	}
 };
+
+function updateSubmitButtonText() {
+	submitButton.text = pageData.get("isLogin") ? "Login" : "Sign up";
+}
