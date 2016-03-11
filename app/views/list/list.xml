@@ -10,9 +10,12 @@
 			<grid-layout rows="auto, auto, *" id="main-content">
 
 				<!-- Row 1: The custom action bar -->
-				<grid-layout row="0" columns="*, auto" id="action-bar-custom">
-					<label col="0" text="Groceries" id="action-bar-label" />
-					<image col="1" android:src="res://ic_menu" ios:src="res://menu" tap="menu" />
+				<grid-layout row="0" columns="44, *, 44" id="action-bar-custom">
+					<label col="1" android:text="Groceries" ios:text="GROCERIES" id="action-bar-label" />
+					<!-- Wrap the image in a stack-layout to give it a bigger tap target -->
+					<stack-layout col="2" tap="menu">
+						<image android:src="res://ic_menu" ios:src="res://menu" stretch="none" id="action-bar-menu-image" />
+					</stack-layout>
 				</grid-layout>
 
 				<!-- Row 2: The text field to add groceries, and recent button -->

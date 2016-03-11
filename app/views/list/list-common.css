@@ -6,12 +6,13 @@
 	color: white;
 	padding-top: 26;
 	padding-bottom: 16;
-	padding-left: 44;
-	padding-right: 16;
 }
 #action-bar-label {
 	font-size: 21;
 	font-weight: bold;
+}
+#action-bar-menu-image {
+	vertical-align: center;
 }
 
 #add-bar {
@@ -22,7 +23,6 @@
 }
 #add-bar-image {
 	height: 15;
-	margin-right: 11;
 	vertical-align: center;
 }
 #grocery {
