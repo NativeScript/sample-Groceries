@@ -1,1 +1,9 @@
-@import url("~/views/list/list-common.css");
+@import url("~/views/login/login-common.css");
+
+#container {
+  height: 349;
+}
+
+#sign-up-label {
+  padding-top: 10;
+}

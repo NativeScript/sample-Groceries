@@ -1,5 +1,14 @@
 @import url("~/views/login/login-common.css");
 
+#container {
+  height: 329;
+}
+
+text-field {
+  border-width: 1;
+  border-color: #6E595C;
+}
+
 #main-label {
   color: #311217;
 }

@@ -4,7 +4,6 @@
 
 #container {
   margin: 30;
-  height: 349;
   width: 275;
   background-color: white;
 }
@@ -17,7 +16,6 @@ text-field {
   margin-bottom: 10;
   padding: 10;
   font-size: 13;
-  color: red;
 }
 
 #main-label {
@@ -46,7 +44,6 @@ text-field {
 #sign-up-label {
   color: white;
   horizontal-align: center;
-  padding-top: 10;
   font-size: 15;
   height: 44;
 }
