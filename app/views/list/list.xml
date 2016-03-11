@@ -54,9 +54,9 @@
 					<lv:rad-list-view.itemSwipeTemplate>
 
 						<!-- The template shown when you swipe an item in the list -->
-						<grid-layout columns="*, auto">
+						<grid-layout columns="*, 50">
 							<Placeholder col="0" />
-							<stack-layout col="1" tap="{{ swipeDelete }}">
+							<stack-layout col="1" tap="{{ swipeDelete }}" backgroundColor="#311217">
 								<image ios:src="res://delete" android:src="res://ic_delete" stretch="none" id="grocery-list-swipe-button" />
 							</stack-layout>
 						</grid-layout>

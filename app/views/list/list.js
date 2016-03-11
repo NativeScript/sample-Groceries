@@ -146,12 +146,15 @@ exports.signOut = navigation.signOut;
 
 exports.itemSwipeProgressStarted = function(args) {
 	var swipeLimits = args.data.swipeLimits;
-	swipeLimits.threshold = 100 * utilsModule.layout.getDisplayDensity();
-	swipeLimits.left = 150 * utilsModule.layout.getDisplayDensity();
-	swipeLimits.right = 0;
+	swipeLimits.threshold = 50 * utilsModule.layout.getDisplayDensity();
+
+	// Workaround https://github.com/telerik/nativescript-ui/issues/277
+	var swipeDistance = 50 * utilsModule.layout.getDisplayDensity();
+	swipeLimits.left = page.android ? swipeDistance : 0;
+	swipeLimits.right = page.android ? 0 : swipeDistance;
 };
 exports.itemSwipeProgressEnded = function(args) {
-	if (args.data.x < -250) {
+	if (args.data.x <= -(50 * utilsModule.layout.getDisplayDensity())) {
 		swipeDelete(args.itemIndex);
 	}
 };

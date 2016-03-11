@@ -53,7 +53,7 @@
 }
 #grocery-list-swipe-button {
 	margin-top: 10;
-	margin-right: 16;
+	horizontal-align: center;
 }
 .line-through {
 	text-decoration: line-through;
