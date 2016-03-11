@@ -1,8 +1,9 @@
 <page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" id="login-page" backgroundSpanUnderStatusBar="true">
 	<grid-layout>
 
-		<!-- The parallax background -->
-		<!-- <grid-layout id="background"></grid-layout> -->
+		<!-- The parallax background. Give the background a negative margin-top to overlay  -->
+		<!-- the iOS status bar. -->
+		<grid-layout id="background" ios:marginTop="-20" scaleX="1.4" scaleY="1.4"></grid-layout>
 
 		<stack-layout id="container" backgroundColor="{{ isLogin ? 'white' : '#301217' }}">
 			<label text="GROCERIES" id="main-label" color="{{ isLogin ? 'black' : 'white' }}" />

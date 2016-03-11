@@ -44,11 +44,8 @@ exports.loaded = function(args) {
 	}
 
 	// Add a parallax effect to the background
-	/* var background = page.getViewById("background");
-	background.animate({ scale: { x: 1.4, y: 1.4 }, duration: 0 })
-		.then(function() {
-			background.animate({ scale: { x: 1, y: 1 }, duration: 8000 })
-		}); */
+	var background = page.getViewById("background");
+	background.animate({ scale: { x: 1, y: 1 }, duration: 8000 });
 };
 
 exports.focusPassword = function() {
