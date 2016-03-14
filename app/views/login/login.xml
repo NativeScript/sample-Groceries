@@ -4,7 +4,9 @@
 		<!-- The parallax background. Give the background a negative margin-top to overlay  -->
 		<!-- the iOS status bar. -->
 		<grid-layout id="background" ios:marginTop="-20" scaleX="1.6" scaleY="1.6">
-			<image src="res://bg_login.jpg" />
+			<ios>
+				<image src="res://bg_login.jpg" />
+			</ios>
 		</grid-layout>
 
 		<!-- The initial content that displays when the page loads -->
@@ -23,7 +25,7 @@
 
 			<grid-layout rows="auto, auto">
 				<text-field
-						id="email" text="{{ user.email }}" hint="Email Address" keyboardType="email"
+						id="email" text="{{ user.email }}" hint="Email" keyboardType="email"
 						returnKeyType="next" returnPress="focusPassword"
 						autocorrect="false" autocapitalizationType="none"
 						row="0"

@@ -1,5 +1,9 @@
 @import url("~/views/login/login-common.css");
 
+#background {
+  background-image: url("res://bg_login");
+}
+
 #container {
   height: 349;
   width: 275;
