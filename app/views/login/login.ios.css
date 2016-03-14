@@ -1,5 +1,9 @@
 @import url("~/views/login/login-common.css");
 
+#initial-label {
+  font-size: 40;
+}
+
 #container {
   height: 430;
   width: 300;
