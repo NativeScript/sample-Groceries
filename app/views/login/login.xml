@@ -5,6 +5,16 @@
 		<!-- the iOS status bar. -->
 		<grid-layout id="background" ios:marginTop="-20" scaleX="1.4" scaleY="1.4"></grid-layout>
 
+		<!--<stack-layout>
+			<image src="res://pear" id="pear" stretch="none" />
+			<image src="res://apple" id="apple" stretch="none" />
+			<image src="res://banana" id="banana" stretch="none" />
+
+			<label text="GROCERIES" id="initial-label" />
+			<button text="Login" id="initial-button" />
+		</stack-layout>-->
+
+		<!-- The main container that contains the actual login & sign up form -->
 		<stack-layout id="container" backgroundColor="{{ isLogin ? 'white' : '#301217' }}">
 			<label text="GROCERIES" id="main-label" color="{{ isLogin ? 'black' : 'white' }}" />
 
@@ -31,10 +41,10 @@
 			</stack-layout>
 		</stack-layout>
 
-		<!-- The fruit logo -->
+		<!-- The fruit logo that appears within the container -->
 		<!-- A height of zero ensures that the absolute-layout container doesn’t steal taps
 		<!-- from the various button and text field controls that sit behind it. -->
-		<absolute-layout horizontalAlignment="center" ios:height="0">
+		<absolute-layout horizontalAlignment="center" ios:height="0" id="container-logo">
 			<image android:top="100" ios:top="-210" src="{{ isLogin ? 'res://logo_login' : 'res://logo_signup' }}" stretch="none" />
 		</absolute-layout>
 	</grid-layout>
