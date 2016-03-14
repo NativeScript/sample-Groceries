@@ -48,7 +48,7 @@
 		<!-- A height of zero ensures that the absolute-layout container doesn’t steal taps
 		<!-- from the various button and text field controls that sit behind it. -->
 		<absolute-layout horizontalAlignment="center" ios:height="0" id="container-logo">
-			<image android:top="100" ios:top="-210" src="{{ isLogin ? 'res://logo_login' : 'res://logo_signup' }}" stretch="none" />
+			<image android:top="100" ios:top="-248" src="{{ isLogin ? 'res://logo_login' : 'res://logo_signup' }}" stretch="none" />
 		</absolute-layout>
 	</grid-layout>
 </page>

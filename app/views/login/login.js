@@ -18,8 +18,8 @@ exports.loaded = function(args) {
 	page = args.object;
 
 	user = new UserViewModel({
-		email: "nativescriptrocks@telerik.com",
-		password: "password",
+		// email: "nativescriptrocks@telerik.com",
+		// password: "password",
 	});
 	pageData = new Observable({
 		user: user,
