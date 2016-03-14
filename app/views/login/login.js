@@ -13,7 +13,6 @@ var page;
 var email;
 var password;
 var submitButton;
-var container;
 
 exports.loaded = function(args) {
 	page = args.object;
@@ -35,21 +34,36 @@ exports.loaded = function(args) {
 	submitButton = page.getViewById("submit-button");
 	formUtil.hideKeyboardOnBlur(page, [email, password]);
 
-	// Prevent the first textfield from receiving focus on Android
-	// See http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus
-	if (page.android) {
-		container = page.getViewById("container");
+	handleAndroidFocus();
+	addLetterSpacing();
+	runAnimations();
+};
+
+// Prevent the first textfield from receiving focus on Android
+// See http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus
+function handleAndroidFocus() {
+	var container = page.getViewById("container");
+	if (container.android) {
 		container.android.setFocusableInTouchMode(true);
 		container.android.setFocusable(true);
 		email.android.clearFocus();
 	}
+}
 
-	// Add letter spacing
+function addLetterSpacing() {
 	var mainLabel = page.getViewById("main-label");
-	if (mainLabel.android) {
+	if (mainLabel.android && mainLabel.android.setLetterSpacing) {
 		mainLabel.android.setLetterSpacing(0.3);
 	}
+	if (mainLabel.ios) {
+		var text = mainLabel.ios.text;
+		var attributedString = NSMutableAttributedString.alloc().initWithString(text);
+		attributedString.addAttributeValueRange(NSKernAttributeName, 5.0, NSMakeRange(0, text.length));
+		mainLabel.ios.attributedText = attributedString;
+	}
+}
 
+function runAnimations() {
 	// Start defining animations
 	var definitions = [];
 
@@ -77,7 +91,7 @@ exports.loaded = function(args) {
 		.catch(function (e) {
 			console.log(e.message);
 		});
-};
+}
 
 exports.focusPassword = function() {
 	password.focus();
