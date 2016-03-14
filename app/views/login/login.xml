@@ -3,16 +3,19 @@
 
 		<!-- The parallax background. Give the background a negative margin-top to overlay  -->
 		<!-- the iOS status bar. -->
-		<grid-layout id="background" ios:marginTop="-20" scaleX="1.4" scaleY="1.4"></grid-layout>
+		<grid-layout id="background" ios:marginTop="-20" scaleX="1.6" scaleY="1.6">
+			<image src="res://bg_login.jpg" />
+		</grid-layout>
 
-		<!--<stack-layout>
-			<image src="res://pear" id="pear" stretch="none" />
-			<image src="res://apple" id="apple" stretch="none" />
-			<image src="res://banana" id="banana" stretch="none" />
+		<!-- The initial content that displays when the page loads -->
+		<stack-layout id="initial-container">
+			<image src="res://logo_login" stretch="none" id="initial-logo" />
 
 			<label text="GROCERIES" id="initial-label" />
-			<button text="Login" id="initial-button" />
-		</stack-layout>-->
+			<stack-layout id="initial-button" tap="showMainContent">
+				<label text="Login" id="initial-button-label" />
+			</stack-layout>
+		</stack-layout>
 
 		<!-- The main container that contains the actual login & sign up form -->
 		<stack-layout id="container" backgroundColor="{{ isLogin ? 'white' : '#301217' }}">

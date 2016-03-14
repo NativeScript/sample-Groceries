@@ -1,21 +1,36 @@
 /* Hide a bunch of things to setup the initial animation */
-/* #container, #container-logo {
+#container, #container-logo {
   visibility: collapse;
-} */
-
-#background {
-  background-image: url("res://bg_login.jpg");
+  opacity: 0;
 }
 
+#background {
+  /*background-image: url("res://bg_login.jpg");*/
+}
+
+#initial-container {
+  margin-top: 170;
+}
+#initial-logo {
+  horizontal-align: center;
+  margin-bottom: 10;
+}
 #initial-label {
   color: white;
   horizontal-align: center;
   font-size: 35;
-  margin-bottom: 50;
+  margin-bottom: 80;
 }
 #initial-button {
   background-color: white;
   color: #CB1D00;
+  height: 40;
+  width: 275;
+  vertical-align: center;
+}
+#initial-button-label {
+  horizontal-align: center;
+  font-weight: bold;
 }
 
 #container {

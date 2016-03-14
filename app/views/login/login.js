@@ -52,14 +52,19 @@ function handleAndroidFocus() {
 
 function addLetterSpacing() {
 	var mainLabel = page.getViewById("main-label");
+	var initialLabel = page.getViewById("initial-label");
+	var androidLetterSpacing = 0.3;
+
 	if (mainLabel.android && mainLabel.android.setLetterSpacing) {
-		mainLabel.android.setLetterSpacing(0.3);
+		mainLabel.android.setLetterSpacing(androidLetterSpacing);
+		initialLabel.android.setLetterSpacing(androidLetterSpacing);
 	}
 	if (mainLabel.ios) {
 		var text = mainLabel.ios.text;
 		var attributedString = NSMutableAttributedString.alloc().initWithString(text);
 		attributedString.addAttributeValueRange(NSKernAttributeName, 5.0, NSMakeRange(0, text.length));
 		mainLabel.ios.attributedText = attributedString;
+		initialLabel.ios.attributedText = attributedString;
 	}
 }
 
@@ -69,28 +74,9 @@ function runAnimations() {
 
 	// Parallax background
 	var background = page.getViewById("background");
-	definitions.push({ target: background, scale: { x: 1, y: 1 }, duration: 8000 });
+	definitions.push({ target: background, scale: { x: 1.2, y: 1.2 }, duration: 8000 });
 
-	// Pear
-	// definitions.push({ target: pear, opacity: 1, delay: 500, duration: 500 });
-	// definitions.push({ target: pear, rotate: 360, delay: 750, duration: 2000 });
-
-	// Apple
-	// definitions.push({ target: apple, opacity: 1, delay: 1000, duration: 1000 });
-	// definitions.push({ target: apple, rotate: 360, delay: 750, duration: 2000 });
-
-	// Banana
-	// definitions.push({ target: banana, opacity: 1, delay: 1000, duration: 500 });
-	// definitions.push({ target: banana, scale: { x: 1.6, y: 1.6 }, delay: 1500, duration: 500 });
-	// definitions.push({ target: banana, scale: { x: 1, y: 1 }, delay: 2000, duration: 500 });
-	// definitions.push({ target: banana, scale: { x: 1.6, y: 1.6 }, delay: 2500, duration: 500 });
-	// definitions.push({ target: banana, scale: { x: 1, y: 1 }, delay: 3000, duration: 500 });
-
-	new animationModule.Animation(definitions, false)
-		.play()
-		.catch(function (e) {
-			console.log(e.message);
-		});
+	new animationModule.Animation(definitions, false).play();
 }
 
 exports.focusPassword = function() {
@@ -193,3 +179,23 @@ exports.toggleDisplay = function() {
 function updateSubmitButtonText() {
 	submitButton.text = pageData.get("isLogin") ? "Login" : "Sign up";
 }
+
+exports.showMainContent = function() {
+	var initialContainer = page.getViewById("initial-container");
+	var mainContainer = page.getViewById("container");
+	var containerLogo = page.getViewById("container-logo");
+	var definitions = [];
+
+	initialContainer.animate({
+		opacity: 0,
+		duration: 500
+	}).then(function() {
+		initialContainer.style.visibility = "collapsed";
+		mainContainer.style.visibility = "visible";
+		containerLogo.style.visibility = "visible";
+
+		definitions.push({ target: mainContainer, opacity: 1, duration: 500 });
+		definitions.push({ target: containerLogo, opacity: 1, duration: 500 });
+		new animationModule.Animation(definitions, false).play();
+	});
+};
