@@ -42,11 +42,15 @@ exports.loaded = function(args) {
 		container.android.setFocusableInTouchMode(true);
 		container.android.setFocusable(true);
 		email.android.clearFocus();
-
-		var initialLabel = page.getViewById("initial-label");
-		initialLabel.android.setLetterSpacing(0.3);
 	}
 
+	// Add letter spacing
+	var mainLabel = page.getViewById("main-label");
+	if (mainLabel.android) {
+		mainLabel.android.setLetterSpacing(0.3);
+	}
+
+	// Start defining animations
 	var definitions = [];
 
 	// Parallax background
