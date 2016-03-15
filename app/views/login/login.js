@@ -36,7 +36,12 @@ exports.loaded = function(args) {
 
 	handleAndroidFocus();
 	addLetterSpacing();
-	runAnimations();
+
+	// Create the parallax background effect by scaling the background image
+	page.getViewById("background").animate({
+		scale: { x: 1.2, y: 1.2 },
+		duration: 8000
+	});
 };
 
 // Prevent the first textfield from receiving focus on Android
@@ -53,7 +58,7 @@ function handleAndroidFocus() {
 function addLetterSpacing() {
 	var mainLabel = page.getViewById("main-label");
 	var initialLabel = page.getViewById("initial-label");
-	var androidLetterSpacing = 0.3;
+	var androidLetterSpacing = 0.2;
 
 	if (mainLabel.android && mainLabel.android.setLetterSpacing) {
 		mainLabel.android.setLetterSpacing(androidLetterSpacing);
@@ -66,17 +71,6 @@ function addLetterSpacing() {
 		mainLabel.ios.attributedText = attributedString;
 		initialLabel.ios.attributedText = attributedString;
 	}
-}
-
-function runAnimations() {
-	// Start defining animations
-	var definitions = [];
-
-	// Parallax background
-	var background = page.getViewById("background");
-	definitions.push({ target: background, scale: { x: 1.2, y: 1.2 }, duration: 8000 });
-
-	new Animation(definitions, false).play();
 }
 
 exports.focusPassword = function() {
