@@ -37,6 +37,7 @@ exports.loaded = function(args) {
 
 	handleAndroidFocus();
 	addLetterSpacing();
+	setHintColors();
 
 	// Create the parallax background effect by scaling the background image
 	page.getViewById("background").animate({
