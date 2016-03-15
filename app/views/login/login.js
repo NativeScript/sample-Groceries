@@ -1,4 +1,5 @@
 var Animation = require("ui/animation").Animation;
+var Color = require("color").Color;
 var dialogsModule = require("ui/dialogs");
 var Observable = require("data/observable").Observable;
 
@@ -149,11 +150,19 @@ exports.forgotPassword = function() {
 
 exports.toggleDisplay = function() {
 	var isLogin = !pageData.get("isLogin");
+	var placeHolderColor = isLogin ? "#858585" : "#483437";
 
 	if (email.android) {
-		var color = android.graphics.Color.parseColor(isLogin ? "#858585" : "#483437");
+		var color = android.graphics.Color.parseColor(placeHolderColor);
 		email.android.setHintTextColor(color);
 		password.android.setHintTextColor(color);
+	}
+	if (email.ios) {
+		var dictionary = new NSDictionary([new Color(placeHolderColor).ios], [NSForegroundColorAttributeName]);
+		email.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
+			email.hint, dictionary);
+		password.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
+			password.hint, dictionary);
 	}
 
 	pageData.set("isLogin", isLogin);
