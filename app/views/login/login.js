@@ -74,6 +74,23 @@ function addLetterSpacing() {
 	}
 }
 
+function setHintColors() {
+	var placeHolderColor = pageData.get("isLogin") ? "#ACA6A7" : "#C4AFB4";
+
+	if (email.android) {
+		var color = android.graphics.Color.parseColor(placeHolderColor);
+		email.android.setHintTextColor(color);
+		password.android.setHintTextColor(color);
+	}
+	if (email.ios) {
+		var dictionary = new NSDictionary([new Color(placeHolderColor).ios], [NSForegroundColorAttributeName]);
+		email.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
+			email.hint, dictionary);
+		password.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
+			password.hint, dictionary);
+	}
+}
+
 exports.focusPassword = function() {
 	password.focus();
 };
@@ -150,29 +167,20 @@ exports.forgotPassword = function() {
 
 exports.toggleDisplay = function() {
 	var isLogin = !pageData.get("isLogin");
-	var placeHolderColor = isLogin ? "#858585" : "#483437";
-
-	if (email.android) {
-		var color = android.graphics.Color.parseColor(placeHolderColor);
-		email.android.setHintTextColor(color);
-		password.android.setHintTextColor(color);
-	}
-	if (email.ios) {
-		var dictionary = new NSDictionary([new Color(placeHolderColor).ios], [NSForegroundColorAttributeName]);
-		email.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
-			email.hint, dictionary);
-		password.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
-			password.hint, dictionary);
-	}
-
 	pageData.set("isLogin", isLogin);
+
+	setHintColors();
 
 	// Animate the background color of the main container
 	var container = page.getViewById("container");
-	container.animate({
-		backgroundColor: isLogin ? "white" : "#301217",
-		duration: 200
-	});
+	if (container.android) {
+		container.style.backgroundColor = isLogin ? "white" : "#301217";
+	} else {
+		container.animate({
+			backgroundColor: isLogin ? "white" : "#301217",
+			duration: 200
+		});
+	}
 
 	// Update the UIButton text without an animation.
 	// See http://stackoverflow.com/questions/18946490/how-to-stop-unwanted-uibutton-animation-on-title-change#answer-22101732
