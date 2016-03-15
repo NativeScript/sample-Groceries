@@ -1,4 +1,4 @@
-var animationModule = require("ui/animation");
+var Animation = require("ui/animation").Animation;
 var dialogsModule = require("ui/dialogs");
 var Observable = require("data/observable").Observable;
 
@@ -76,7 +76,7 @@ function runAnimations() {
 	var background = page.getViewById("background");
 	definitions.push({ target: background, scale: { x: 1.2, y: 1.2 }, duration: 8000 });
 
-	new animationModule.Animation(definitions, false).play();
+	new Animation(definitions, false).play();
 }
 
 exports.focusPassword = function() {
@@ -196,6 +196,6 @@ exports.showMainContent = function() {
 
 		definitions.push({ target: mainContainer, opacity: 1, duration: 500 });
 		definitions.push({ target: containerLogo, opacity: 1, duration: 500 });
-		new animationModule.Animation(definitions, false).play();
+		new Animation(definitions, false).play();
 	});
 };
