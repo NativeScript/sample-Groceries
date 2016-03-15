@@ -9,7 +9,7 @@
 }
 
 #container {
-  height: 349;
+  height: 365;
   width: 275;
 }
 text-field {
@@ -26,5 +26,4 @@ text-field {
 }
 #forgot-password-label {
   font-size: 13;
-  margin-bottom: 30;
 }

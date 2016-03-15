@@ -164,6 +164,13 @@ exports.toggleDisplay = function() {
 
 	pageData.set("isLogin", isLogin);
 
+	// Animate the background color of the main container
+	var container = page.getViewById("container");
+	container.animate({
+		backgroundColor: isLogin ? "white" : "#301217",
+		duration: 200
+	});
+
 	// Update the UIButton text without an animation.
 	// See http://stackoverflow.com/questions/18946490/how-to-stop-unwanted-uibutton-animation-on-title-change#answer-22101732
 	if (submitButton.ios) {
@@ -184,18 +191,31 @@ exports.showMainContent = function() {
 	var initialContainer = page.getViewById("initial-container");
 	var mainContainer = page.getViewById("container");
 	var containerLogo = page.getViewById("container-logo");
-	var definitions = [];
+	var formControls = page.getViewById("form-controls");
+	var signUpStack = page.getViewById("sign-up-stack");
+	var animations = [];
 
+	// Fade out the initial content over one half second.
 	initialContainer.animate({
 		opacity: 0,
 		duration: 500
 	}).then(function() {
+		// After the animation completes, hide the initial container and
+		// show the main container and logo. The main container and logo will
+		// not immediately appear because their opacity is set to 0 in CSS.
 		initialContainer.style.visibility = "collapsed";
 		mainContainer.style.visibility = "visible";
 		containerLogo.style.visibility = "visible";
 
-		definitions.push({ target: mainContainer, opacity: 1, duration: 500 });
-		definitions.push({ target: containerLogo, opacity: 1, duration: 500 });
-		new Animation(definitions, false).play();
+		// Fade in the main container and logo over one half second.
+		animations.push({ target: mainContainer, opacity: 1, duration: 500 });
+		animations.push({ target: containerLogo, opacity: 1, duration: 500 });
+
+		// Slide up the form controls and sign up container.
+		animations.push({ target: signUpStack, translate: { x: 0, y: 0 }, opacity: 1, delay: 500, duration: 150 });
+		animations.push({ target: formControls, translate: { x: 0, y: 0 }, opacity: 1, delay: 650, duration: 150 });
+
+		// Kick off the animation queue
+		new Animation(animations, false).play();
 	});
 };

@@ -1,6 +1,9 @@
-/* Hide a bunch of things to setup the initial animation */
+/* Hide a bunch of things to setup the initial animations */
 #container, #container-logo {
   visibility: collapse;
+  opacity: 0;
+}
+#form-controls, #sign-up-stack {
   opacity: 0;
 }
 
@@ -56,6 +59,7 @@ text-field {
 #forgot-password-label {
   font-size: 13;
   margin-left: 20;
+  margin-bottom: 45;
   color: black;
 }
 #sign-up-stack {
