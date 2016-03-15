@@ -174,11 +174,13 @@ exports.toggleDisplay = function() {
 
 	// Animate the background color of the main container
 	var container = page.getViewById("container");
+	var backgroundColor = isLogin ? "white" : "#301217";
+	// Workaround https://github.com/NativeScript/NativeScript/issues/1770
 	if (container.android) {
-		container.style.backgroundColor = isLogin ? "white" : "#301217";
+		container.style.backgroundColor = backgroundColor;
 	} else {
 		container.animate({
-			backgroundColor: isLogin ? "white" : "#301217",
+			backgroundColor: backgroundColor,
 			duration: 200
 		});
 	}
