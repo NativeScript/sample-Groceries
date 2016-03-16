@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy, OnInit} from "angular2/core";
 import {Router} from "angular2/router";
-
-import * as dialogsModule from "ui/dialogs";
+import {alert} from "ui/dialogs";
 import {TextField} from "ui/text-field";
 import {topmost} from "ui/frame";
 
@@ -39,7 +38,7 @@ export class ListPage implements OnInit {
     // Check for empty submissions
     var groceryTextField = <TextField>topmost().currentPage.getViewById("grocery");
     if (this.grocery.trim() === "") {
-      dialogsModule.alert({
+      alert({
         message: "Enter a grocery item",
         okButtonText: "OK"
       });
@@ -56,7 +55,7 @@ export class ListPage implements OnInit {
           this.grocery = "";
         },
         () => {
-          dialogsModule.alert({
+          alert({
             message: "An error occurred while adding an item to your list.",
             okButtonText: "OK"
           });
