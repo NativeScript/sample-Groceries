@@ -3,7 +3,7 @@
   <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
   <Button text="Add" (tap)="add()" row="0" col="1"></Button>
 
-  <ListView [items]="groceryList | async" row="1" colSpan="2" class="small-spacing">
+  <ListView [items]="groceryList" row="1" colSpan="2" class="small-spacing">
     <template #item="item">
       <Label [text]="item.name" class="medium-spacing"></Label>
     </template>
