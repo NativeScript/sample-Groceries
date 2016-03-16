@@ -19,12 +19,12 @@ import {GroceryListService} from "../../shared/grocery/grocery-list.service";
   providers: [GroceryListService]
 })
 export class ListPage implements OnInit {
-  groceryList: Observable<Grocery[]>;
+  groceryList: Observable<Array<Grocery>>;
   grocery: string;
   isLoading: boolean;
 
   private subscr;
-  private items: Grocery[];
+  private items: Array<Grocery> = [];
 
   constructor(
     private _groceryListService: GroceryListService,
@@ -42,8 +42,8 @@ export class ListPage implements OnInit {
 
   ngOnInit() {
     this._groceryListService.load()
-      .subscribe(groceryList => {
-        this.items = groceryList;
+      .subscribe(loadedGroceries => {
+        this.items = loadedGroceries;
         this.updateList();
       });
   }
@@ -79,9 +79,8 @@ export class ListPage implements OnInit {
       )
   }
 
-  // TODO: Why is this a thing? Shouldn’t the list, like, update itself?
   updateList() {
-    this.subscr.next(WrappedValue.wrap(this.items));
+    this.subscr.next(this.items);
   }
 
   //delete(grocery) {
