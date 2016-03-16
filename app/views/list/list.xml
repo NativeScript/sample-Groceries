@@ -39,6 +39,7 @@
 					pullToRefreshInitiated="pullToRefreshInitiated"
 					selectionBehavior="None"
 					swipeCells="true"
+					ios:itemInsertAnimation="Slide"
 					itemSwipeProgressStarted="itemSwipeProgressStarted"
 					itemSwipeProgressEnded="itemSwipeProgressEnded"
 					visibility="{{ isShowingRecent ? 'collapsed' : 'visible' }}"

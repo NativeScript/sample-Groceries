@@ -29,10 +29,10 @@
 	"nativescript": {
 		"id": "com.tjvantoll.sampleGroceries",
 		"tns-ios": {
-			"version": "1.6.0"
+			"version": "1.7.0"
 		},
 		"tns-android": {
-			"version": "1.6.3"
+			"version": "1.7.0"
 		}
 	},
 	"dependencies": {
@@ -41,7 +41,7 @@
 		"nativescript-social-share": "^1.1.2",
 		"nativescript-telerik-ui": "file:nativescript-ui-debug-dev.tgz",
 		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "1.6.2"
+		"tns-core-modules": "1.7.0"
 	},
 	"scripts": {
 		"lint:jscs": "jscs app",
