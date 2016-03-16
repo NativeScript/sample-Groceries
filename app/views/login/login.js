@@ -174,16 +174,10 @@ exports.toggleDisplay = function() {
 
 	// Animate the background color of the main container
 	var container = page.getViewById("container");
-	var backgroundColor = isLogin ? "white" : "#301217";
-	// Workaround https://github.com/NativeScript/NativeScript/issues/1770
-	if (container.android) {
-		container.style.backgroundColor = backgroundColor;
-	} else {
-		container.animate({
-			backgroundColor: backgroundColor,
-			duration: 200
-		});
-	}
+	container.animate({
+		backgroundColor: isLogin ? new Color("white") : new Color("#301217"),
+		duration: 200
+	});
 
 	// Update the UIButton text without an animation.
 	// See http://stackoverflow.com/questions/18946490/how-to-stop-unwanted-uibutton-animation-on-title-change#answer-22101732
