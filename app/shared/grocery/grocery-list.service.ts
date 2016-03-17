@@ -1,6 +1,6 @@
 import {Injectable} from "angular2/core";
 import {Http, Headers} from "angular2/http";
-import {Config} from "../config";
+import * as Config from "../config";
 import {Grocery} from "./grocery";
 import {Observable} from "rxjs/Rx";
 import "rxjs/add/operator/map";
