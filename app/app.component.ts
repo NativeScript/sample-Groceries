@@ -3,7 +3,6 @@ import {RouteConfig} from "angular2/router";
 import {NS_ROUTER_DIRECTIVES} from "nativescript-angular/router";
 
 import {LoginPage} from "./pages/login/login.component";
-import {RegisterPage} from "./pages/register/register.component";
 import {ListPage} from "./pages/list/list.component";
 
 @Component({
@@ -13,7 +12,6 @@ import {ListPage} from "./pages/list/list.component";
 })
 @RouteConfig([
   { path: "/", component: LoginPage, as: "Login" },
-  { path: "/Register", component: RegisterPage, as: "Register" },
   { path: "/List", component: ListPage, as: "List" }
 ])
 export class AppComponent {}
