@@ -7,6 +7,8 @@ import {topmost} from "ui/frame";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
 
+var socialShare = require("nativescript-social-share");
+
 @Component({
   selector: "list",
   templateUrl: "pages/list/list.html",
@@ -65,7 +67,6 @@ export class ListPage implements OnInit {
   }
 
   share() {
-    var socialShare = require("nativescript-social-share");
     var list = [];
     for (var i = 0, size = this.groceryList.length; i < size ; i++) {
       list.push(this.groceryList[i].name);

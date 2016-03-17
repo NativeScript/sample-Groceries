@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"email-validator": "^1.0.4",
-		"nativescript-social-share": "^1.1.2",
+		"nativescript-social-share": "^1.1.3",
 		"tns-core-modules": "^1.7.0",
 		"angular2": "2.0.0-beta.9",
 		"nativescript-angular": "0.0.36",
