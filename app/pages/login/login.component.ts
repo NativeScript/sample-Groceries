@@ -1,5 +1,6 @@
 import {Component, OnInit} from "angular2/core";
 import {Router} from "angular2/router";
+import {Color} from "color";
 import {alert} from "ui/dialogs";
 import {topmost} from "ui/frame";
 import {Page} from "ui/page";
@@ -14,6 +15,8 @@ import {UserService} from "../../shared/user/user.service";
 })
 export class LoginPage implements OnInit {
   user: User;
+  isLoggingIn = true;
+  page: Page;
 
   constructor(
     private _router: Router,
@@ -27,11 +30,19 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    var page = <Page>topmost().currentPage;
-    page.actionBarHidden = true;
+    this.page = <Page>topmost().currentPage;
+    this.page.actionBarHidden = true;
   }
 
-  signIn() {
+  submit() {
+    if (this.isLoggingIn) {
+      this.login();
+    } else {
+      this.signUp();
+    }
+  }
+
+  login() {
     this._userService.login(this.user)
       .subscribe(
         () => this._router.navigate(["List"]),
@@ -39,7 +50,22 @@ export class LoginPage implements OnInit {
       );
   }
 
-  register() {
-    this._router.navigate(["Register"]);
+  signUp() {
+    this._userService.register(this.user)
+      .subscribe(
+        () => {
+          alert("Your account was successfully created.")
+            .then(() => this.toggleDisplay());
+        },
+        () => alert("Unfortunately we were unable to create your account.")
+      );
+  }
+
+  toggleDisplay() {
+    this.isLoggingIn = !this.isLoggingIn;
+    this.page.getViewById("container").animate({
+      backgroundColor: this.isLoggingIn ? new Color("white") : new Color("#301217"),
+      duration: 200
+    });
   }
 }
