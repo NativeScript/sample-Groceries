@@ -23,8 +23,8 @@ export class ListPage implements OnInit {
 
     this.grocery = "";
     this.isLoading = true;
-  }
 
+  }
   ngOnInit() {
     this._groceryListService.load()
       .subscribe(loadedGroceries => {
@@ -62,5 +62,15 @@ export class ListPage implements OnInit {
           this.grocery = "";
         }
       )
+  }
+
+  share() {
+    var socialShare = require("nativescript-social-share");
+    var list = [];
+    for (var i = 0, size = this.groceryList.length; i < size ; i++) {
+      list.push(this.groceryList[i].name);
+    }
+    var listString = list.join(", ").trim();
+    socialShare.shareText(listString);
   }
 }

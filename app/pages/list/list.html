@@ -1,3 +1,7 @@
+<ActionBar title="Groceries" backgroundColor="black" color="white">
+  <ActionItem color="white" text="Share" (tap)="share()"></ActionItem>
+</ActionBar>
+
 <GridLayout rows="auto, *" columns="2*, *">
 
   <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
@@ -8,4 +12,5 @@
       <Label [text]="item.name" class="medium-spacing"></Label>
     </template>
   </ListView>
+
 </GridLayout>
