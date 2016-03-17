@@ -17,11 +17,14 @@ cache:
         - .nvm
         - $HOME/.gradle/caches/
         - $HOME/.gradle/wrapper/
+        - node_modules
 
 install:
     - nvm install 4
     - npm install -g nativescript --ignore-scripts
+    - npm install
     - tns usage-reporting disable
+    - tns error-reporting disable
     - tns platform add android
 
 before_script:
