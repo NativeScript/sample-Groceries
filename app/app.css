@@ -1,6 +1,12 @@
+@import url("~/platform.css");
+
 Page {
   background-color: white;
   font-size: 15;
+}
+TextField {
+  padding: 10;
+  font-size: 13;
 }
 .small-spacing {
   margin: 5;
@@ -10,20 +16,24 @@ Page {
 }
 
 #container {
-  margin: 30;
+  margin-top: 130;
+  margin-left: 30;
+  margin-right: 30;
   padding-bottom: 15;
-  border-color: black;
-  border-width: 1;
+  background-color: white;
+}
+#logo {
+  margin-top: 5;
+  margin-bottom: 20;
 }
 Button, TextField {
   margin-left: 16;
   margin-right: 16;
+  margin-bottom: 10;
 }
-TextField {
-  padding: 10;
-  font-size: 13;
-}
+
 #submit-button {
   background-color: #CB1D00;
   color: white;
+  margin-top: 20;
 }
