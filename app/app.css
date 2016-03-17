@@ -1,10 +1,29 @@
 Page {
-    background-color: white;
-    font-size: 15;
+  background-color: white;
+  font-size: 15;
 }
 .small-spacing {
-    margin: 5;
+  margin: 5;
 }
 .medium-spacing {
-    margin: 10;
+  margin: 10;
+}
+
+#container {
+  margin: 30;
+  padding-bottom: 15;
+  border-color: black;
+  border-width: 1;
+}
+Button, TextField {
+  margin-left: 16;
+  margin-right: 16;
+}
+TextField {
+  padding: 10;
+  font-size: 13;
+}
+#submit-button {
+  background-color: #CB1D00;
+  color: white;
 }
