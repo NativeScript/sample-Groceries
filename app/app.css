@@ -26,12 +26,11 @@ TextField {
   margin-top: 5;
   margin-bottom: 20;
 }
-Button, TextField {
+.login-spacing {
   margin-left: 16;
   margin-right: 16;
   margin-bottom: 10;
 }
-
 #submit-button {
   background-color: #CB1D00;
   color: white;

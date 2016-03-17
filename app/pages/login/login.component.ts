@@ -31,8 +31,8 @@ export class LoginPage implements OnInit {
     this.user = new User();
 
     // Hardcode a few values to make testing easy
-    // this.user.email = "nativescriptrocks@telerik.com";
-    // this.user.password = "password";
+    this.user.email = "nativescriptrocks@telerik.com";
+    this.user.password = "password";
   }
 
   ngOnInit() {
