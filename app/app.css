@@ -19,7 +19,7 @@ TextField {
   margin: 10;
 }
 
-/* Login */
+/* Login page */
 #container {
   margin-top: 130;
   margin-left: 30;
@@ -42,4 +42,14 @@ TextField {
   margin-top: 20;
 }
 
-/* List */
+/* List page */
+#add-bar {
+  background-color: #CB1D00;
+  padding: 5 10;
+}
+#add-image {
+  height: 15;
+  vertical-align: center;
+  margin-left: 10;
+  margin-right: 5;
+}

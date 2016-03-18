@@ -2,12 +2,14 @@
   <ActionItem color="white" text="Share" (tap)="share()"></ActionItem>
 </ActionBar>
 
-<GridLayout rows="auto, *" columns="2*, *">
+<GridLayout rows="auto, *">
 
-  <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
-  <Button text="Add" (tap)="add()" row="0" col="1"></Button>
+  <GridLayout row="0" columns="*, auto" id="add-bar">
+    <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" col="0"></TextField>
+    <Image src="res://add" id="add-image" (tap)="add()" col="1"></Image>
+  </GridLayout>
 
-  <ListView [items]="groceryList" row="1" colSpan="2" class="small-spacing">
+  <ListView [items]="groceryList" row="1" class="small-spacing">
     <template #item="item">
       <Label [text]="item.name" class="medium-spacing"></Label>
     </template>
