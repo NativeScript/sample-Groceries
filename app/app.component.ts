@@ -14,7 +14,7 @@ var startOnList = !!Config.token;
   template: "<StackLayout><page-router-outlet></page-router-outlet></StackLayout>"
 })
 @RouteConfig([
-  { path: "/", component: LoginPage, as: "Login", useAsDefault: !startOnList },
+  { path: "/Login", component: LoginPage, as: "Login", useAsDefault: !startOnList },
   { path: "/List", component: ListPage, as: "List", useAsDefault: startOnList }
 ])
 export class AppComponent {}
