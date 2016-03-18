@@ -3,11 +3,7 @@
 
 		<!-- The parallax background. Give the background a negative margin-top to overlay  -->
 		<!-- the iOS status bar. -->
-		<grid-layout id="background" ios:marginTop="-20" scaleX="1.6" scaleY="1.6">
-			<ios>
-				<image src="res://bg_login.jpg" />
-			</ios>
-		</grid-layout>
+		<grid-layout id="background" ios:marginTop="-20" scaleX="1.6" scaleY="1.6"></grid-layout>
 
 		<!-- The initial content that displays when the page loads -->
 		<stack-layout id="initial-container">
