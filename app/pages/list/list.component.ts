@@ -14,7 +14,8 @@ var socialShare = require("nativescript-social-share");
 @Component({
   selector: "list",
   templateUrl: "pages/list/list.html",
-  providers: [GroceryListService]
+  providers: [GroceryListService],
+  styleUrls: ["pages/list/list-common.css", "pages/list/list.css"]
 })
 export class ListPage implements OnInit {
   groceryList: Array<Grocery> = [];

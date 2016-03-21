@@ -1,0 +1,7 @@
+TextField {
+  border-width: 1;
+  border-color: black;
+}
+Button {
+  height: 40;
+}

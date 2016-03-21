@@ -1,17 +1,3 @@
 Page {
   margin-top: -20;
 }
-
-/* Login */
-TextField.login-spacing {
-  border-width: 1;
-  border-color: black;
-}
-Button.login-spacing {
-  height: 40;
-}
-
-/* List */
-#add-bar {
-  margin-top: 20;
-}

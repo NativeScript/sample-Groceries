@@ -1,6 +1,5 @@
 @import url("~/platform.css");
 
-/* All pages */
 Page {
   background-color: white;
   font-size: 15;
@@ -18,42 +17,4 @@ TextField {
 }
 .medium-spacing {
   margin: 10;
-}
-
-/* Login page */
-#container {
-  margin-top: 130;
-  margin-left: 30;
-  margin-right: 30;
-  padding-bottom: 15;
-  background-color: white;
-}
-#logo {
-  margin-top: 5;
-  margin-bottom: 20;
-}
-.login-spacing {
-  margin-left: 16;
-  margin-right: 16;
-  margin-bottom: 10;
-}
-#submit-button {
-  background-color: #CB1D00;
-  color: white;
-  margin-top: 20;
-}
-
-/* List page */
-#add-bar {
-  background-color: #CB1D00;
-  padding: 5 10;
-}
-#add-image {
-  height: 15;
-  vertical-align: center;
-  margin-left: 10;
-  margin-right: 5;
-}
-#grocery {
-  color: white;
 }
