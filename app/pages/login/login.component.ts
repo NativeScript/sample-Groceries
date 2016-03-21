@@ -4,6 +4,7 @@ import {Color} from "color";
 import {alert} from "ui/dialogs";
 import {topmost} from "ui/frame";
 import {Page} from "ui/page";
+import {TextField} from "ui/text-field";
 
 import {User} from "../../shared/user/user";
 import {UserService} from "../../shared/user/user.service";
@@ -74,8 +75,10 @@ export class LoginPage implements OnInit {
   }
 
   setHintColors() {
-    var placeHolderColor = this.isLoggingIn ? "#ACA6A7" : "#C4AFB4";
-    setHintColor("email", placeHolderColor);
-    setHintColor("password", placeHolderColor);
+    var hintColor = this.isLoggingIn ? "#ACA6A7" : "#C4AFB4";
+    var email = <TextField>this.page.getViewById("email");
+    var password = <TextField>this.page.getViewById("password");
+    setHintColor({ view: email, color: hintColor });
+    setHintColor({ view: password, color: hintColor });
   }
 }

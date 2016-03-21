@@ -5,7 +5,7 @@
 <GridLayout rows="auto, *">
 
   <GridLayout row="0" columns="*, auto" id="add-bar">
-    <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" col="0"></TextField>
+    <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" col="0" (loaded)="setHintColor($event)"></TextField>
     <Image src="res://add" id="add-image" (tap)="add()" col="1"></Image>
   </GridLayout>
 

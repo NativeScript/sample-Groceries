@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, OnInit} from "angular2/core";
 import {Router} from "angular2/router";
+import {EventData} from "data/observable";
 import {alert} from "ui/dialogs";
 import {TextField} from "ui/text-field";
 import {topmost} from "ui/frame";
@@ -26,16 +27,20 @@ export class ListPage implements OnInit {
 
     this.grocery = "";
     this.isLoading = true;
-
   }
+
   ngOnInit() {
-    setHintColor("grocery", "white");
     this._groceryListService.load()
       .subscribe(loadedGroceries => {
         loadedGroceries.forEach((groceryObject) => {
           this.groceryList.unshift(groceryObject);
         });
       });
+  }
+
+  setHintColor(args: EventData) {
+    var grocery = <TextField>args.object;
+    setHintColor({ view: grocery, color: "#FFFFFF" });
   }
 
   add() {
