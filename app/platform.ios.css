@@ -1,4 +1,14 @@
-TextField {
+Page {
+  margin-top: -20;
+}
+
+/* Login */
+TextField.login-spacing {
   border-width: 1;
   border-color: black;
+}
+
+/* List */
+#add-bar {
+  margin-top: 20;
 }

@@ -1,7 +1,6 @@
 import {Component} from "angular2/core";
 import {RouteConfig} from "angular2/router";
 import {NS_ROUTER_DIRECTIVES} from "nativescript-angular/router";
-import * as application from "application";
 
 import {LoginPage} from "./pages/login/login.component";
 import {ListPage} from "./pages/list/list.component";

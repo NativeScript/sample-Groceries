@@ -14,6 +14,8 @@ declare var NSAttributedString: any;
 declare var NSDictionary: any;
 declare var NSForegroundColorAttributeName: any;
 
+declare var UIBarStyle: any;
+
 @Component({
   selector: "login",
   templateUrl: "pages/login/login.html",
