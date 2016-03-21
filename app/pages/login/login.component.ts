@@ -4,17 +4,10 @@ import {Color} from "color";
 import {alert} from "ui/dialogs";
 import {topmost} from "ui/frame";
 import {Page} from "ui/page";
-import {TextField} from "ui/text-field";
 
 import {User} from "../../shared/user/user";
 import {UserService} from "../../shared/user/user.service";
-
-declare var android: any;
-declare var NSAttributedString: any;
-declare var NSDictionary: any;
-declare var NSForegroundColorAttributeName: any;
-
-declare var UIBarStyle: any;
+import {setHintColor} from "../../utils/hint-util";
 
 @Component({
   selector: "login",
@@ -82,20 +75,7 @@ export class LoginPage implements OnInit {
 
   setHintColors() {
     var placeHolderColor = this.isLoggingIn ? "#ACA6A7" : "#C4AFB4";
-    var email = <TextField>this.page.getViewById("email");
-    var password = <TextField>this.page.getViewById("password");
-
-    if (email.android) {
-      var color = android.graphics.Color.parseColor(placeHolderColor);
-      email.android.setHintTextColor(color);
-      password.android.setHintTextColor(color);
-    }
-    if (email.ios) {
-      var dictionary = new NSDictionary([new Color(placeHolderColor).ios], [NSForegroundColorAttributeName]);
-      email.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
-        email.hint, dictionary);
-      password.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
-        password.hint, dictionary);
-    }
+    setHintColor("email", placeHolderColor);
+    setHintColor("password", placeHolderColor);
   }
 }

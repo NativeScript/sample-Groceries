@@ -6,6 +6,7 @@ import {topmost} from "ui/frame";
 
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
+import {setHintColor} from "../../utils/hint-util";
 
 var socialShare = require("nativescript-social-share");
 
@@ -28,6 +29,7 @@ export class ListPage implements OnInit {
 
   }
   ngOnInit() {
+    setHintColor("grocery", "white");
     this._groceryListService.load()
       .subscribe(loadedGroceries => {
         loadedGroceries.forEach((groceryObject) => {

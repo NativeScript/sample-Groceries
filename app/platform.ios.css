@@ -7,6 +7,9 @@ TextField.login-spacing {
   border-width: 1;
   border-color: black;
 }
+Button.login-spacing {
+  height: 40;
+}
 
 /* List */
 #add-bar {
