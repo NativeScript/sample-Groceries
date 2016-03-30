@@ -32,7 +32,7 @@
 			"version": "1.7.0"
 		},
 		"tns-android": {
-			"version": "1.7.0"
+			"version": "1.7.1"
 		}
 	},
 	"dependencies": {
@@ -42,7 +42,7 @@
 		"nativescript-floatingactionbutton": "^0.1.9",
 		"nativescript-telerik-ui": "0.2.4",
 		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "1.7.0"
+		"tns-core-modules": "1.7.1"
 	},
 	"scripts": {
 		"lint:jscs": "jscs app",
