@@ -1,0 +1,13 @@
+@import url("~/views/list/list-common.css");
+
+#list-page {
+  background-image: url("res://bg_inner");
+}
+
+#action-bar-menu-image {
+  margin-top: 15;
+  margin-left: 10;
+}
+#add-bar-image {
+  margin-right: 11;
+}

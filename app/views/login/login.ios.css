@@ -1,0 +1,32 @@
+@import url("~/views/login/login-common.css");
+
+#background {
+  background-image: url("res://bg_login.jpg");
+}
+
+#initial-label {
+  font-size: 40;
+}
+
+#container {
+  height: 430;
+  width: 300;
+}
+text-field {
+  border-width: 1;
+  border-color: #6E595C;
+  margin-bottom: 20;
+}
+#main-label {
+  color: #311217;
+  font-size: 32;
+  margin-top: 45;
+  margin-bottom: 52;
+}
+#submit-button {
+  height: 40;
+  margin-top: 15;
+}
+#sign-up-label {
+  height: 48;
+}

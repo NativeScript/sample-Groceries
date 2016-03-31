@@ -32,15 +32,14 @@
 			"version": "1.7.0"
 		},
 		"tns-android": {
-			"version": "1.7.0"
+			"version": "1.7.1"
 		}
 	},
 	"dependencies": {
 		"email-validator": "^1.0.4",
-		"nativescript-iqkeyboardmanager": "^1.0.0",
+		"nativescript-iqkeyboardmanager": "^1.0.1",
 		"nativescript-social-share": "^1.1.2",
-		"nativescript-floatingactionbutton": "^0.1.9",
-		"nativescript-telerik-ui": "0.2.4",
+		"nativescript-telerik-ui": "^1.0.0",
 		"nativescript-unit-test-runner": "^0.3.3",
 		"tns-core-modules": "1.7.0"
 	},

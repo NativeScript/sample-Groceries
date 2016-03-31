@@ -1,10 +1,10 @@
 var dialogsModule = require("ui/dialogs");
 var Observable = require("data/observable").Observable;
-var DependencyObservable = require("ui/core/dependency-observable").DependencyObservable;
+var utilsModule = require("utils/utils");
 
 var socialShare = require("nativescript-social-share");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
-var actionBarUtil = require("../../shared/utils/action-bar-util");
+var statusBarUtil = require("../../shared/utils/status-bar-util");
 var navigation = require("../../shared/navigation");
 
 var page;
@@ -18,44 +18,49 @@ var pageData = new Observable({
 	grocery: "",
 	groceryList: groceryList,
 	history: history,
-
-	// TODO: Move this out of the data model
-	// See https://github.com/telerik/nativescript-ui/issues/72
+	isShowingRecent: false,
 	toggleDone: function(args) {
 		var item = args.view.bindingContext;
-		performToggleDone(groceryList.indexOf(item));
-	},
-	swipeDelete: function(args) {
-		var item = args.view.bindingContext;
+		var parent = args.view.parent;
+
 		showPageLoadingIndicator();
-		groceryList.delete(groceryList.indexOf(item))
+		groceryList.toggleDone(groceryList.indexOf(item))
 			.catch(handleAddError)
-			.then(hidePageLoadingIndicator);
+			.then(function() {
+				hidePageLoadingIndicator();
+				parent.animate({
+					opacity: item.done ? 0.8 : 1
+				});
+			});
 	},
 	toggleHistory: function(args) {
 		var item = args.view.bindingContext;
 		groceryList.toggleDoneHistory(history.indexOf(item));
-	},
-	deleteHistory: function(args) {
-		var item = args.view.bindingContext;
-		pageData.set("isHistoryLoading", true);
-		groceryList.completelyDelete(history.indexOf(item))
-			.catch(handleAddError)
-			.then(function() {
-				pageData.set("isHistoryLoading", false);
-			});
 	}
 });
 
 exports.loaded = function(args) {
 	page = args.object;
 	page.bindingContext = pageData;
-	actionBarUtil.styleActionBar();
+	statusBarUtil.configure();
 
 	drawerElement = page.getViewById("drawer");
-	drawerElement.delegate = new DrawerCallbacksModel();
 	groceryListElement = page.getViewById("grocery-list");
 	mainContentElement = page.getViewById("main-content");
+
+	// Set the hint color for Android
+	var groceryElement = page.getViewById("grocery");
+	if (groceryElement.android) {
+		var color = android.graphics.Color.parseColor("#FFFFFF");
+		groceryElement.android.setHintTextColor(color);
+	}
+
+	// Set the hint color for iOS
+	if (groceryElement.ios) {
+		groceryElement.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
+			groceryElement.hint,
+			new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]));
+	}
 
 	showPageLoadingIndicator();
 	groceryList
@@ -79,7 +84,15 @@ exports.loaded = function(args) {
 };
 
 exports.add = function() {
+	if (pageData.get("isShowingRecent")) {
+		return;
+	}
+
 	if (pageData.get("grocery").trim() === "") {
+		dialogsModule.alert({
+			message: "Enter a grocery item.",
+			okButtonText: "OK"
+		});
 		return;
 	}
 
@@ -100,19 +113,40 @@ exports.add = function() {
 	pageData.set("grocery", "");
 };
 
-exports.signOut = navigation.signOut;
+exports.toggleRecent = function() {
+	var isShowingRecent = !pageData.get("isShowingRecent");
+	pageData.set("isShowingRecent", isShowingRecent);
 
-exports.history = function() {
-	drawerElement.toggleDrawerState();
+	if (!isShowingRecent) {
+		addFromHistory();
+	}
 };
 
-exports.addFromHistory = function() {
-	pageData.set("isHistoryLoading", true);
+function addFromHistory() {
+	showPageLoadingIndicator();
 	groceryList.restore()
 		.catch(handleAddError)
-		.then(function() {
-			pageData.set("isHistoryLoading", false);
+		.then(hidePageLoadingIndicator);
+};
+
+exports.menu = function() {
+	drawerElement.toggleDrawerState();
+};
+exports.drawerOpening = function () {
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 0.5
 		});
+	}
+};
+exports.drawerClosing = function () {
+	if (page.ios) {
+		mainContentElement.animate({
+			duration: 250,
+			opacity: 1
+		});
+	}
 };
 
 exports.share = function() {
@@ -123,6 +157,30 @@ exports.share = function() {
 	var listString = list.join(", ").trim();
 	socialShare.shareText(listString);
 };
+
+exports.signOut = navigation.signOut;
+
+exports.itemSwipeProgressStarted = function(args) {
+	var swipeLimits = args.data.swipeLimits;
+	swipeLimits.threshold = 50 * utilsModule.layout.getDisplayDensity();
+
+	// Workaround https://github.com/telerik/nativescript-ui/issues/277
+	var swipeDistance = 50 * utilsModule.layout.getDisplayDensity();
+	swipeLimits.left = page.android ? swipeDistance : 0;
+	swipeLimits.right = page.android ? 0 : swipeDistance;
+};
+exports.itemSwipeProgressEnded = function(args) {
+	if (args.data.x <= -(50 * utilsModule.layout.getDisplayDensity())) {
+		swipeDelete(args.itemIndex);
+	}
+};
+
+function swipeDelete(index) {
+	showPageLoadingIndicator();
+	groceryList.delete(index)
+		.catch(handleAddError)
+		.then(hidePageLoadingIndicator);
+}
 
 function handleAddError(error) {
 	console.log(error);
@@ -139,36 +197,8 @@ function hidePageLoadingIndicator() {
 	pageData.set("isLoading", false);
 }
 
-function performToggleDone(index) {
-	showPageLoadingIndicator();
-	groceryList.toggleDone(index)
-		.catch(handleAddError)
-		.then(hidePageLoadingIndicator);
-}
-
 exports.pullToRefreshInitiated = function() {
 	groceryList.load().then(function() {
 		groceryListElement.notifyPullToRefreshFinished();
 	});
 };
-
-function DrawerCallbacksModel() {}
-DrawerCallbacksModel.prototype = new DependencyObservable();
-DrawerCallbacksModel.prototype.onDrawerOpening = function () {
-	if (page.ios) {
-		mainContentElement.animate({
-			duration: 250,
-			opacity: 0.5
-		});
-	}
-};
-DrawerCallbacksModel.prototype.onDrawerOpened = function () {};
-DrawerCallbacksModel.prototype.onDrawerClosing = function () {
-	if (page.ios) {
-		mainContentElement.animate({
-			duration: 250,
-			opacity: 1
-		});
-	}
-};
-DrawerCallbacksModel.prototype.onDrawerClosed = function () {};

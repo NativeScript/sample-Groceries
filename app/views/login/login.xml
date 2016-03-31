@@ -1,20 +1,52 @@
-<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd">
-	<page.actionBar>
-		<action-bar title="Sign in" />
-	</page.actionBar>
-	<scroll-view>
-		<stack-layout id="layout">
-			<image src="res://logo" stretch="none" horizontalAlignment="center" />
+<page loaded="loaded" xmlns="http://schemas.nativescript.org/tns.xsd" actionBarHidden="true" backgroundSpanUnderStatusBar="true">
+	<grid-layout>
 
-			<grid-layout rows="auto, auto">
-				<text-field id="email" text="{{ email }}" hint="Email Address" keyboardType="email" returnKeyType="next" returnPress="focusPassword" autocorrect="false" autocapitalizationType="none" row="0" />
-				<text-field id="password" secure="true" text="{{ password }}" hint="Password" returnKeyType="done" returnPress="signIn" row="1" />
+		<!-- The parallax background. Give the background a negative margin-top to overlay  -->
+		<!-- the iOS status bar. -->
+		<grid-layout id="background" ios:marginTop="-20" scaleX="1.6" scaleY="1.6"></grid-layout>
+
+		<!-- The initial content that displays when the page loads -->
+		<stack-layout id="initial-container">
+			<image src="res://logo_login" stretch="none" id="initial-logo" />
+
+			<label text="GROCERIES" id="initial-label" />
+			<stack-layout id="initial-button" tap="showMainContent">
+				<label text="Login" id="initial-button-label" />
+			</stack-layout>
+		</stack-layout>
+
+		<!-- The main container that contains the actual login & sign up form -->
+		<stack-layout id="container">
+			<label text="GROCERIES" id="main-label" color="{{ isLogin ? 'black' : 'white' }}" />
+
+			<grid-layout rows="auto, auto" id="form-controls" translateY="50">
+				<text-field
+						id="email" text="{{ user.email }}" hint="Email" keyboardType="email"
+						returnKeyType="next" returnPress="focusPassword"
+						autocorrect="false" autocapitalizationType="none"
+						row="0"
+						color="{{ isLogin ? 'black' : 'white' }}" />
+				<text-field id="password" secure="true" text="{{ user.password }}" hint="Password"
+					returnKeyType="done" returnPress="signIn"
+					row="1"
+					color="{{ isLogin ? 'black' : 'white' }}" />
 				<activity-indicator busy="{{ authenticating }}" rowSpan="2" />
 			</grid-layout>
 
-			<button text="Sign in" id="sign-in-button" tap="signIn" />
-			<button text="Sign up for Groceries" tap="register" class="link" />
-			<button text="Forgot password?" tap="forgotPassword" class="link" />
+			<button text="Login" id="submit-button" tap="submit" />
+
+			<label id="forgot-password-label" android:text="FORGOT PASSWORD?" ios:text="Forgot password?" tap="forgotPassword" opacity="{{ isLogin ? 1 : 0 }}" />
+
+			<stack-layout id="sign-up-stack" tap="toggleDisplay" translateY="50">
+				<label id="sign-up-label" android:text="{{ isLogin ? 'SIGN UP HERE' : 'BACK TO LOGIN' }}" ios:text="{{ isLogin ? 'Sign up here' : 'Back to login' }}" />
+			</stack-layout>
 		</stack-layout>
-	</scroll-view>
+
+		<!-- The fruit logo that appears within the container -->
+		<!-- A height of zero ensures that the absolute-layout container doesn’t steal taps
+		<!-- from the various button and text field controls that sit behind it. -->
+		<absolute-layout horizontalAlignment="center" ios:height="0" id="container-logo">
+			<image android:top="100" ios:top="-248" src="{{ isLogin ? 'res://logo_login' : 'res://logo_signup' }}" stretch="none" />
+		</absolute-layout>
+	</grid-layout>
 </page>
