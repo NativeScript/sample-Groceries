@@ -41,7 +41,7 @@
 		"nativescript-social-share": "^1.1.2",
 		"nativescript-telerik-ui": "^1.0.0",
 		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "1.7.0"
+		"tns-core-modules": "1.7.1"
 	},
 	"scripts": {
 		"lint:jscs": "jscs app",
