@@ -87,12 +87,7 @@ function GroceryListViewModel(items) {
 		})
 		.then(function(data) {
 			var newGrocery = { name: grocery, id: data.Result.Id };
-			// Workaround https://github.com/telerik/nativescript-ui/issues/266
-			if (application.ios) {
-				viewModel.unshift(newGrocery);
-			} else {
-				viewModel.push(newGrocery);
-			}
+			viewModel.unshift(newGrocery);
 		});
 	};
 

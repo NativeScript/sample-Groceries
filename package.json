@@ -39,7 +39,7 @@
 		"email-validator": "^1.0.4",
 		"nativescript-iqkeyboardmanager": "^1.0.1",
 		"nativescript-social-share": "^1.1.2",
-		"nativescript-telerik-ui": "file:nativescript-ui-debug-dev.tgz",
+		"nativescript-telerik-ui": "^1.0.0",
 		"nativescript-unit-test-runner": "^0.3.3",
 		"tns-core-modules": "1.7.0"
 	},
