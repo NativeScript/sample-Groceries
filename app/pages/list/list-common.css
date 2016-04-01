@@ -1,8 +1,8 @@
-#add-bar {
+.add-bar {
   background-color: #CB1D00;
   padding: 5 10;
 }
-#add-image {
+.add-bar Image {
   height: 15;
   vertical-align: center;
   margin-left: 10;
