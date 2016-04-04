@@ -28,9 +28,9 @@ var pageData = new Observable({
 			.catch(handleAddError)
 			.then(function() {
 				hidePageLoadingIndicator();
-				parent.animate({
+				/*parent.animate({
 					opacity: item.done ? 0.8 : 1
-				});
+				});*/
 			});
 	},
 	toggleHistory: function(args) {

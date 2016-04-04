@@ -49,7 +49,7 @@
 					<lv:rad-list-view.itemTemplate>
 
 						<!-- The template for each item in the grocery list -->
-						<grid-layout columns="auto, *" class="grocery-list-item-container">
+						<grid-layout columns="auto, *" class="grocery-list-item-container" opacity="{{ done ? '0.8' : '1' }}">
 							<image tap="{{ toggleDone }}" android:src="{{ done ? 'res://ic_checked' : 'res://ic_unchecked' }}" ios:src="{{ done ? 'res://checked' : 'res://unchecked' }}" col="0" class="grocery-list-check-box" />
 							<label text="{{ name }}" col="1" class="{{ done ? 'line-through' : '' }}" />
 						</grid-layout>
