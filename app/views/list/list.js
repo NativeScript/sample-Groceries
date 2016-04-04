@@ -107,7 +107,10 @@ exports.add = function() {
 				okButtonText: "OK"
 			});
 		})
-		.then(hidePageLoadingIndicator);
+		.then(function() {
+			groceryListElement.scrollToIndex(0);
+			hidePageLoadingIndicator();
+		});
 
 	// Clear the textfield
 	pageData.set("grocery", "");

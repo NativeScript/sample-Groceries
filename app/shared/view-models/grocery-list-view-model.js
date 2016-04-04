@@ -1,4 +1,3 @@
-var application = require("application");
 var config = require("../../shared/config");
 var ObservableArray = require("data/observable-array").ObservableArray;
 var navigation = require("../navigation");
@@ -19,7 +18,7 @@ function GroceryListViewModel(items) {
 
 	// See http://docs.telerik.com/platform/backend-services/rest/queries/queries-sorting
 	// Workaround https://github.com/telerik/nativescript-ui/issues/266
-	var sortExp = { ModifiedAt: application.ios ? -1 : 1 };
+	var sortExp = { ModifiedAt: -1 };
 
 	viewModel.indexOf = indexOf;
 	history.indexOf = indexOf;
