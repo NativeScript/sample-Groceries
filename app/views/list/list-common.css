@@ -34,6 +34,9 @@
 	color: #311217;
 }
 
+#grocery-list {
+	background-color: transparent;
+}
 .grocery-list-item-container {
 	padding-top: 10;
 	padding-bottom: 10;

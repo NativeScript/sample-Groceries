@@ -83,6 +83,13 @@ exports.loaded = function(args) {
 		});
 };
 
+exports.itemLoading = function(args) {
+	var cell = args.ios;
+	if (cell) {
+		cell.backgroundView.backgroundColor = UIColor.clearColor();
+	}
+}
+
 exports.add = function() {
 	if (pageData.get("isShowingRecent")) {
 		return;

@@ -38,6 +38,7 @@
 					pullToRefresh="true"
 					pullToRefreshInitiated="pullToRefreshInitiated"
 					selectionBehavior="None"
+					itemLoading="itemLoading"
 					itemSwipe="true"
 					itemSwipeProgressStarted="itemSwipeProgressStarted"
 					itemSwipeProgressEnded="itemSwipeProgressEnded"
