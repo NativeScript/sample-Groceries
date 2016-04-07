@@ -2,6 +2,7 @@ var Animation = require("ui/animation").Animation;
 var Color = require("color").Color;
 var dialogsModule = require("ui/dialogs");
 var Observable = require("data/observable").Observable;
+var platform = require("platform");
 
 var statusBarUtil = require("../../shared/utils/status-bar-util");
 var formUtil = require("../../shared/utils/form-util");
@@ -57,12 +58,13 @@ function handleAndroidFocus() {
 	}
 }
 
+// TODO: Replace with letter-spacing in CSS when {N} 2.0 is out.
 function addLetterSpacing() {
 	var mainLabel = page.getViewById("main-label");
 	var initialLabel = page.getViewById("initial-label");
 	var androidLetterSpacing = 0.2;
 
-	if (mainLabel.android && mainLabel.android.setLetterSpacing) {
+	if (mainLabel.android && platform.device.sdkVersion >= "21") {
 		mainLabel.android.setLetterSpacing(androidLetterSpacing);
 		initialLabel.android.setLetterSpacing(androidLetterSpacing);
 	}
