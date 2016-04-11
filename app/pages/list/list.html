@@ -1,0 +1,14 @@
+<GridLayout rows="auto, *">
+
+  <GridLayout row="0" columns="*, auto" class="add-bar">
+    <TextField id="grocery" hint="Enter a grocery item" col="0"></TextField>
+    <Image src="res://add" col="1"></Image>
+  </GridLayout>
+
+  <ListView [items]="groceryList" id="grocery-list" row="1" class="small-spacing">
+    <template #item="item">
+      <Label [text]="item.name" class="medium-spacing"></Label>
+    </template>
+  </ListView>
+
+</GridLayout>
