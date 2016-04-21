@@ -9,7 +9,7 @@
 	"keywords": [
 		"NativeScript"
 	],
-	"author": "TJ VanToll <tj.vantoll@gmail.com> (http://tjvantoll.com/)",
+	"author": "TJ VanToll <tj.vantoll@gmail.com> (https://www.tjvantoll.com/)",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/nativescript/sample-Groceries/issues"
@@ -25,18 +25,25 @@
 		}
 	},
 	"dependencies": {
-		"tns-core-modules": "^2.0.0-angular-0",
 		"angular2": "2.0.0-beta.9",
+		"email-validator": "^1.0.4",
 		"nativescript-angular": "0.0.38",
+		"nativescript-social-share": "^1.1.3",
 		"parse5": "1.4.2",
 		"punycode": "1.3.2",
 		"querystring": "0.2.0",
-		"url": "0.10.3",
 		"reflect-metadata": "0.1.2",
 		"rxjs": "5.0.0-beta.2",
+		"tns-core-modules": "^2.0.0-angular-0",
+		"url": "0.10.3",
 		"zone.js": "0.5.15"
 	},
 	"devDependencies": {
+		"babel-traverse": "6.7.6",
+		"babel-types": "6.7.7",
+		"babylon": "6.7.0",
+		"filewalker": "0.1.2",
+		"lazy": "1.0.11",
 		"nativescript-dev-typescript": "^0.3.1",
 		"shelljs": "^0.5.3",
 		"typescript": "^1.8.2"
