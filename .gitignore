@@ -6,3 +6,5 @@ node_modules/
 platforms/
 tmp/
 typings/
+
+npm-debug.log
