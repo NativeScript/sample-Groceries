@@ -71,8 +71,7 @@ You should give [Genymotion](https://www.genymotion.com) a try! The solution wor
 4. Add and configure a device with the Genymotion graphical user interface.
 5. Start the device.
 6. Verify in the "Genymotion shell" the name of the created device:
-7. 
-    ```sh
+    ```
     devices list
     ```
 6. Start the demo:
