@@ -13,13 +13,13 @@
     <template #item="item">
       <GridLayout columns="*, auto">
         <Label col="0" [text]="item.name" class="medium-spacing"></Label>
-        <StackLayout col="1" class="delete-container">
-          <Image src="res://delete" (tap)="delete(item)"></Image>
+        <StackLayout col="1" class="delete-container" (tap)="delete(item)">
+          <Image src="res://delete"></Image>
         </StackLayout>
       </GridLayout>
     </template>
   </ListView>
 
-  <ActivityIndicator [busy]="isLoading" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
+  <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
 
 </GridLayout>
