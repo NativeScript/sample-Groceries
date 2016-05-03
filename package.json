@@ -18,13 +18,13 @@
 	"nativescript": {
 		"id": "org.nativescript.sampleGroceries",
 		"tns-android": {
-			"version": "1.7.0"
+			"version": "2.0.0"
 		},
 		"tns-ios": {
-			"version": "1.7.0"
+			"version": "2.0.0"
 		}
 	},
 	"dependencies": {
-		"tns-core-modules": "1.7.0"
+		"tns-core-modules": "2.0.0"
 	}
 }
