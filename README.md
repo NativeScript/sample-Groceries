@@ -30,7 +30,7 @@ This repository contains a number of branches intended to show off a number of t
 * The [**end** branch](https://github.com/NativeScript/sample-Groceries/tree/end) contains the finished code for the getting started guide. Refer to it at any point while you’re completing the guide.
 * The [**master** branch](https://github.com/NativeScript/sample-Groceries/) contains the version of Groceries that appears in the iOS App Store and Google Play. The intention of the master branch is to show how to build a robust, real-world app using NativeScript.
 * The [**firebase** branch](https://github.com/NativeScript/sample-Groceries/tree/firebase) contains a version of Groceries that [uses Firebase as its data store](https://www.nativescript.org/blog/ignite-your-app-development-with-nativescript-and-firebase).
-* The [**angular** branch](https://github.com/NativeScript/sample-Groceries/tree/angular) contains a version of Groceries built with [NativeScript’s Angular 2 integration](http://angularjs.blogspot.com/2015/12/building-mobile-apps-with-angular-2-and.html).
+* The [**angular-end** branch](https://github.com/NativeScript/sample-Groceries/tree/angular-end) contains a version of Groceries built with [NativeScript’s Angular 2 integration](http://angularjs.blogspot.com/2015/12/building-mobile-apps-with-angular-2-and.html).
 
 <h2 id="screenshots">Screenshots</h2>
 
