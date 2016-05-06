@@ -44,7 +44,7 @@ This repository contains a number of branches intended to show off a number of t
 
 <h2 id="development">Development</h2>
 
-This app is built with the [NativeScript CLI](https://github.com/NativeScript/nativescript-cli). Once you have the [CLI installed](https://github.com/NativeScript/nativescript-cli#installation), start by cloning the repo:
+This app is built with the NativeScript CLI. Once you have the [CLI installed](http://docs.nativescript.org/angular/tutorial/ng-chapter-0), start by cloning the repo:
 
 ```
 $ git clone https://github.com/NativeScript/sample-Groceries.git
