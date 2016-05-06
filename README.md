@@ -1,16 +1,16 @@
 # Groceries
 
-This branch contains the NativeScript Groceries sample implemented with Angular 2. It is also the completed code for the [NativeScript & Angular 2 Getting Started Guide](https://nativescript.github.io/nativescript-angular-guide/).
+This branch contains the NativeScript Groceries sample implemented with Angular 2. This is also the completed code for the [NativeScript & Angular 2 Getting Started Guide](https://nativescript.github.io/nativescript-angular-guide/).
 
 <h2 id="screenshots">Screenshots</h2>
 
-![](http://docs.nativescript.org/angular/img/cli-getting-started/angular/chapter0/ios/1.png)
-![](http://docs.nativescript.org/angular/img/cli-getting-started/angular/chapter0/ios/2.png)
-![](http://docs.nativescript.org/angular/img/cli-getting-started/angular/chapter0/ios/3.png)
+![](http://i.imgur.com/HAsubGR.png)
+![](http://i.imgur.com/ZAlDH1X.png)
+![](http://i.imgur.com/km4UvQN.png)
 
-![](http://docs.nativescript.org/angular/img/cli-getting-started/angular/chapter0/android/1.png)
-![](http://docs.nativescript.org/angular/img/cli-getting-started/angular/chapter0/android/2.png)
-![](http://docs.nativescript.org/angular/img/cli-getting-started/angular/chapter0/android/3.png)
+![](http://i.imgur.com/DIbEWRy.png)
+![](http://i.imgur.com/jAS7dez.png)
+![](http://i.imgur.com/Ekk4MLq.png)
 
 <h2 id="development">Development</h2>
 
