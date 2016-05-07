@@ -1,6 +1,6 @@
 # Groceries [![Build Status](https://travis-ci.org/NativeScript/sample-Groceries.svg?branch=master)](https://travis-ci.org/NativeScript/sample-Groceries) [![dependency status](https://david-dm.org/nativescript/sample-Groceries.svg)](https://david-dm.org/nativescript/sample-Groceries) [![devDependency Status](https://david-dm.org/nativescript/sample-Groceries/dev-status.svg)](https://david-dm.org/nativescript/sample-Groceries#info=devDependencies)
 
-Groceries is a NativeScript-built iOS and Android app for managing grocery lists. You can learn how to build a version of this app from scratch using either our [JavaScript getting started guide](http://docs.nativescript.org/start/getting-started), or our [TypeScript and Angular 2 getting started guide](http://docs.nativescript.org/angular/tutorial/ng-chapter-0).
+Groceries is a NativeScript-built iOS and Android app for managing grocery lists. You can learn how to build a version of this app from scratch using either our [JavaScript getting started guide](http://docs.nativescript.org/tutorial/chapter-0), or our [TypeScript and Angular 2 getting started guide](http://docs.nativescript.org/angular/tutorial/ng-chapter-0).
 
 * [Download](#download)
 * [Branches](#branches)
@@ -25,7 +25,7 @@ The latest version of Groceries is available on the iOS App Store as well as Goo
 
 <h2 id="branches">Branches</h2>
 
-This repository contains a number of branches intended to show off a number of the ways you can build NativeScript apps:
+This repository contains a number of branches:
 
 * The [**master** branch](https://github.com/NativeScript/sample-Groceries/) contains the version of Groceries that appears in the iOS App Store and Google Play. The intention of the master branch is to show how to build a robust, real-world app using NativeScript.
 * The [**angular** branch](https://github.com/NativeScript/sample-Groceries/tree/angular) contains the a version of Groceries built with TypeScript and Angular 2.
@@ -37,7 +37,7 @@ This repository contains a number of branches intended to show off a number of t
 
 ---
 
-* The [**start** branch](https://github.com/NativeScript/sample-Groceries/tree/start) contains the starting point for the [NativeScript “JavaScript” getting started guide](http://docs.nativescript.org/start/getting-started).
+* The [**start** branch](https://github.com/NativeScript/sample-Groceries/tree/start) contains the starting point for the [NativeScript “JavaScript” getting started guide](http://docs.nativescript.org/tutorial/chapter-0).
 * The [**end** branch](https://github.com/NativeScript/sample-Groceries/tree/end) contains the finished code for the JavaScript getting started guide. Refer to it at any point while you’re completing the guide.
 
 ---
