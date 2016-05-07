@@ -16,7 +16,11 @@
 	},
 	"homepage": "https://github.com/nativescript/sample-Groceries/groceries",
 	"devDependencies": {
+		"babel-traverse": "6.8.0",
+		"babel-types": "6.8.1",
+		"babylon": "6.8.0",
 		"chai": "^3.4.1",
+		"filewalker": "0.1.2",
 		"jscs": "^2.10.1",
 		"jshint": "^2.8.0",
 		"karma": "^0.13.15",
@@ -24,15 +28,16 @@
 		"karma-mocha": "^0.2.1",
 		"karma-mocha-reporter": "^1.1.5",
 		"karma-nativescript-launcher": "^0.3.1",
+		"lazy": "1.0.11",
 		"mocha": "^2.3.4"
 	},
 	"nativescript": {
 		"id": "com.tjvantoll.sampleGroceries",
 		"tns-ios": {
-			"version": "1.7.0"
+			"version": "2.0.0"
 		},
 		"tns-android": {
-			"version": "1.7.1"
+			"version": "2.0.0"
 		}
 	},
 	"dependencies": {
@@ -41,7 +46,7 @@
 		"nativescript-social-share": "^1.1.2",
 		"nativescript-telerik-ui": "^1.0.0",
 		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "1.7.1"
+		"tns-core-modules": "2.0.0"
 	},
 	"scripts": {
 		"lint:jscs": "jscs app",
