@@ -10,7 +10,7 @@
   </GridLayout>
 
   <ListView [items]="groceryList" row="1" class="small-spacing" [class.visible]="listLoaded">
-    <template let-item="item">
+    <template #item="item">
       <GridLayout columns="*, auto">
         <Label col="0" [text]="item.name" class="medium-spacing"></Label>
         <StackLayout col="1" class="delete-container" (tap)="delete(item)">
