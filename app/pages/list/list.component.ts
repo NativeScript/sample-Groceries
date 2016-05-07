@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from "angular2/core";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
