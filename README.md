@@ -111,7 +111,7 @@ For more information on unit testing NativeScript apps, refer to the [NativeScri
 
 Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on each commit. Refer to the [`.travis.yml` configuration file](https://github.com/NativeScript/sample-Groceries/blob/master/.travis.yml) for details.
 
-<h3 id="contributors">Contributors</h3>
+<h2 id="contributors">Contributors</h2>
 
 The following is a list of all the people that have helped build Groceries. Thanks for your contributions!
 
