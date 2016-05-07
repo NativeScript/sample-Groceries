@@ -21,7 +21,7 @@ var pageData = new Observable({
 	isShowingRecent: false,
 	toggleDone: function(args) {
 		var item = args.view.bindingContext;
-		var parent = args.view.parent;
+		// var parent = args.view.parent;
 
 		showPageLoadingIndicator();
 		groceryList.toggleDone(groceryList.indexOf(item))
@@ -88,7 +88,7 @@ exports.itemLoading = function(args) {
 	if (cell) {
 		cell.backgroundView.backgroundColor = UIColor.clearColor();
 	}
-}
+};
 
 exports.add = function() {
 	if (pageData.get("isShowingRecent")) {
@@ -137,7 +137,7 @@ function addFromHistory() {
 	groceryList.restore()
 		.catch(handleAddError)
 		.then(hidePageLoadingIndicator);
-};
+}
 
 exports.menu = function() {
 	drawerElement.toggleDrawerState();

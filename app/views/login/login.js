@@ -166,7 +166,7 @@ exports.forgotPassword = function() {
 		return;
 	}
 	navigation.goToPasswordPage();
-}
+};
 
 exports.toggleDisplay = function() {
 	var isLogin = !pageData.get("isLogin");

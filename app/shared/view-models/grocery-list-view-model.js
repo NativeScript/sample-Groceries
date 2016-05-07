@@ -161,7 +161,6 @@ function GroceryListViewModel(items) {
 		.then(handleErrors);
 	};
 
-
 	viewModel.toggleDone = function(index) {
 		var item = viewModel.getItem(index);
 		item.done = !item.done;
