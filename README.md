@@ -1,6 +1,6 @@
 # Groceries
 
-This branch contains the NativeScript Groceries sample implemented with Angular 2. This is also the completed code for the [NativeScript & Angular 2 Getting Started Guide](https://nativescript.github.io/nativescript-angular-guide/).
+This branch contains the NativeScript Groceries sample implemented with Angular 2.
 
 <h2 id="screenshots">Screenshots</h2>
 
