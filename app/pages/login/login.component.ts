@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild} from "angular2/core";
-import {Router} from "angular2/router";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Router} from "@angular/router-deprecated";
 import {Color} from "color";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";

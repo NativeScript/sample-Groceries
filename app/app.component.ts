@@ -1,14 +1,12 @@
-import {Component} from "angular2/core";
-import {HTTP_PROVIDERS} from "angular2/http";
-import {RouteConfig} from "angular2/router";
-import {NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS} from "nativescript-angular/router";
+import {Component} from "@angular/core";
+import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {NS_ROUTER_DIRECTIVES} from "nativescript-angular/router";
 import {LoginPage} from "./pages/login/login.component";
 import {ListPage} from "./pages/list/list.component";
 
 @Component({
   selector: "main",
-  directives: [NS_ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, NS_ROUTER_PROVIDERS],
+  directives: [ROUTER_DIRECTIVES, NS_ROUTER_DIRECTIVES],
   template: "<page-router-outlet></page-router-outlet>"
 })
 @RouteConfig([
