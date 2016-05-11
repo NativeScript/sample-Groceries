@@ -1,18 +1,39 @@
-.login-background {
+.background {
   background-image: url("res://bg_login");
-  animation-name: scale-down;
-  animation-duration: 10;
 }
-@keyframes scale-down {
-  from { transform: scale(1.6, 1.6); }
-  to { transform: scale(1.2, 1.2); }
+
+.initial-logo {
+  horizontal-align: center;
+  margin-bottom: 10;
 }
-StackLayout {
+.initial-label {
+  color: white;
+  font-size: 32;
+  horizontal-align: center;
+  margin-bottom: 80;
+  letter-spacing: 1.2;
+}
+.initial-button {
+  background-color: white;
+  color: #CB1D00;
+  height: 45;
+  width: 275;
+  vertical-align: center;
+}
+.initial-button-label {
+  horizontal-align: center;
+  font-weight: bold;
+}
+
+.main-container {
+  visibility: collapse;
+  opacity: 0;
   margin-left: 30;
   margin-right: 30;
   padding-bottom: 15;
   background-color: white;
 }
+
 Image {
   margin-top: 5;
   margin-bottom: 20;

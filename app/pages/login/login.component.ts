@@ -19,7 +19,8 @@ export class LoginPage implements OnInit {
   isLoggingIn = true;
   isAuthenticating = false;
 
-  @ViewChild("container") container: ElementRef;
+  @ViewChild("initialContainer") initialContainer: ElementRef;
+  @ViewChild("mainContainer") mainContainer: ElementRef;
   @ViewChild("email") email: ElementRef;
   @ViewChild("password") password: ElementRef;
 
@@ -31,7 +32,6 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.page.actionBarHidden = true;
-    this.page.className = "login";
   }
 
   submit() {
@@ -74,11 +74,36 @@ export class LoginPage implements OnInit {
   toggleDisplay() {
     this.isLoggingIn = !this.isLoggingIn;
     this.setTextFieldColors();
-    let container = <View>this.container.nativeElement;
-    container.animate({
+    let mainContainer = <View>this.mainContainer.nativeElement;
+    mainContainer.animate({
       backgroundColor: this.isLoggingIn ? new Color("white") : new Color("#301217"),
       duration: 200
     });
+  }
+
+  startBackgroundAnimation(background) {
+    background.animate({
+      scale: { x: 1.2, y: 1.2 },
+      duration: 8000
+    });
+  }
+
+  showMainContent() {
+    let initialContainer = <View>this.initialContainer.nativeElement;
+    let mainContainer = <View>this.mainContainer.nativeElement;
+
+    initialContainer.animate({
+      opacity: 0,
+      duration: 500
+    }).then(function() {
+      initialContainer.style.visibility = "collapse";
+      mainContainer.style.visibility = "visible";
+
+      mainContainer.animate({
+        opacity: 1,
+        duration: 500
+      });
+    })
   }
 
   setTextFieldColors() {

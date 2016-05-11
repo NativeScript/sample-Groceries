@@ -1,6 +1,28 @@
-<GridLayout class="login-background"></GridLayout>
+<GridLayout
+  scaleX="1.6"
+  scaleY="1.6"
+  #background
+  class="background"
+  (loaded)="startBackgroundAnimation(background)"></GridLayout>
 
-<StackLayout #container>
+<StackLayout #initialContainer class="initial-container">
+  <Image
+    src="res://logo_login"
+    stretch="none"
+    class="initial-logo"></Image>
+  <Label
+    text="GROCERIES"
+    class="initial-label"></Label>
+  <StackLayout
+    (tap)="showMainContent()"
+    class="initial-button">
+    <Label
+      text="Login"
+      class="initial-button-label"></Label>
+  </StackLayout>
+</StackLayout>
+
+<StackLayout #mainContainer class="main-container">
   <Image
     src="res://logo_login"
     stretch="none"
