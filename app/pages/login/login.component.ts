@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.page.actionBarHidden = true;
-    this.page.backgroundImage = this.page.ios ? "res://bg_login.jpg" : "res://bg_login";
+    this.page.className = "login";
   }
 
   submit() {
