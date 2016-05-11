@@ -1,10 +1,39 @@
 <StackLayout #container>
-  <Image src="res://logo_login" stretch="none" horizontalAlignment="center"></Image>
+  <Image
+    src="res://logo_login"
+    stretch="none"
+    horizontalAlignment="center"></Image>
 
-  <TextField #email hint="Email Address" keyboardType="email" [(ngModel)]="user.email"
-    autocorrect="false" autocapitalizationType="none"></TextField>
-  <TextField #password hint="Password" secure="true" [(ngModel)]="user.password"></TextField>
+  <GridLayout rows="auto, auto">
+    <TextField
+      #email
+      hint="Email Address"
+      keyboardType="email"
+      [(ngModel)]="user.email"
+      [isEnabled]="!isAuthenticating"
+      autocorrect="false"
+      autocapitalizationType="none"
+      row="0"></TextField>
+    <TextField
+      #password
+      hint="Password"
+      secure="true"
+      [(ngModel)]="user.password"
+      [isEnabled]="!isAuthenticating"
+      row="1"></TextField>
 
-  <Button [text]="isLoggingIn ? 'Sign in' : 'Sign up'" class="submit-button" (tap)="submit()"></Button>
-  <Button [text]="isLoggingIn ? 'Sign up' : 'Back to login'" (tap)="toggleDisplay()"></Button>
+    <ActivityIndicator
+      [busy]="isAuthenticating"
+      rowSpan="2"></ActivityIndicator>
+  </GridLayout>
+
+  <Button
+    [text]="isLoggingIn ? 'Sign in' : 'Sign up'"
+    [isEnabled]="!isAuthenticating"
+    class="submit-button"
+    (tap)="submit()"></Button>
+  <Button
+    [text]="isLoggingIn ? 'Sign up' : 'Back to login'"
+    [isEnabled]="!isAuthenticating"
+    (tap)="toggleDisplay()"></Button>
 </StackLayout>

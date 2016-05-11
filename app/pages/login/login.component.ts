@@ -17,6 +17,7 @@ import {setHintColor} from "../../utils/hint-util";
 export class LoginPage implements OnInit {
   user: User;
   isLoggingIn = true;
+  isAuthenticating = false;
 
   @ViewChild("container") container: ElementRef;
   @ViewChild("email") email: ElementRef;
@@ -39,6 +40,7 @@ export class LoginPage implements OnInit {
       return;
     }
 
+    this.isAuthenticating = true;
     if (this.isLoggingIn) {
       this.login();
     } else {
@@ -49,7 +51,10 @@ export class LoginPage implements OnInit {
   login() {
     this._userService.login(this.user)
       .subscribe(
-        () => this._router.navigate(["List"]),
+        () => {
+          this.isAuthenticating = false;
+          this._router.navigate(["List"]);
+        },
         (error) => alert("Unfortunately we could not find your account.")
       );
   }
@@ -59,6 +64,7 @@ export class LoginPage implements OnInit {
       .subscribe(
         () => {
           alert("Your account was successfully created.");
+          this.isAuthenticating = false;
           this.toggleDisplay();
         },
         () => alert("Unfortunately we were unable to create your account.")
