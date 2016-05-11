@@ -4,11 +4,13 @@
 }
 .initial-label {
   font-size: 32;
+  letter-spacing: 1.1;
 }
 .main-label {
   font-size: 28;
   margin-top: 32;
   margin-bottom: 32;
+  letter-spacing: 1.1;
 }
 TextField {
   margin-bottom: 10;
@@ -19,4 +21,7 @@ TextField {
 }
 .forgot-password-label {
   font-size: 13;
+}
+.logo-container Image {
+  top: 85;
 }

@@ -19,7 +19,6 @@
   color: white;
   horizontal-align: center;
   margin-bottom: 80;
-  letter-spacing: 1.1;
 }
 .initial-button {
   background-color: white;
@@ -43,7 +42,6 @@
 .main-label {
   horizontal-align: center;
   color: black;
-  letter-spacing: 1.1;
 }
 
 Image {
@@ -80,7 +78,4 @@ Button, TextField {
   visibility: collapse;
   horizontal-align: center;
   opacity: 0;
-}
-.logo-container Image {
-  top: 85;
 }

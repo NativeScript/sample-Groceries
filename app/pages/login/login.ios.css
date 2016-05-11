@@ -1,20 +1,22 @@
-.initial-label {
-  font-size: 40;
-}
 .main-container {
-  height: 430;
+  height: 425;
   width: 300;
 }
-TextField {
-  border-width: 1;
-  border-color: #6E595C;
-  margin-bottom: 20;
+.initial-label {
+  font-size: 40;
+  letter-spacing: 6.0;
 }
 .main-label {
   color: #311217;
   font-size: 32;
   margin-top: 45;
   margin-bottom: 52;
+  letter-spacing: 6.0;
+}
+TextField {
+  border-width: 1;
+  border-color: #6E595C;
+  margin-bottom: 20;
 }
 .submit-button {
   height: 40;
@@ -22,4 +24,13 @@ TextField {
 }
 .sign-up-label {
   height: 48;
+}
+
+/* A height of zero ensures that the AbsoluteLayout container doesn’t steal taps
+from the various button and text field controls that sit behind it. */
+.logo-container {
+  height: 0;
+}
+.logo-container Image {
+  top: -250;
 }
