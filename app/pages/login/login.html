@@ -38,6 +38,8 @@
       <TextField #email
         hint="Email Address"
         keyboardType="email"
+        returnKeyType="next"
+        (returnPress)="focusPassword()"
         [(ngModel)]="user.email"
         [isEnabled]="!isAuthenticating"
         autocorrect="false"
@@ -46,6 +48,8 @@
       <TextField #password
         hint="Password"
         secure="true"
+        returnKeyType="done"
+        (returnPress)="submit()"
         [(ngModel)]="user.password"
         [isEnabled]="!isAuthenticating"
         row="1"></TextField>

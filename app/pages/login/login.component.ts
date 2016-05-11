@@ -38,6 +38,10 @@ export class LoginPage implements OnInit {
     this.page.actionBarHidden = true;
   }
 
+  focusPassword() {
+    this.password.nativeElement.focus();
+  }
+
   submit() {
     if (!this.user.isValidEmail()) {
       alert("Enter a valid email address.");
