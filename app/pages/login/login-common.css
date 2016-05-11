@@ -1,17 +1,25 @@
+/* Hide a bunch of things to setup the initial animations */
+.form-controls, .sign-up-stack {
+  opacity: 0;
+}
+
 .background {
   background-image: url("res://bg_login");
 }
 
+/* TODO: Assigning explicit heights and applying this margin shouldn’t be necessary. */
+.initial-container {
+  margin-top: 170;
+}
 .initial-logo {
   horizontal-align: center;
   margin-bottom: 10;
 }
 .initial-label {
   color: white;
-  font-size: 32;
   horizontal-align: center;
   margin-bottom: 80;
-  letter-spacing: 1.2;
+  letter-spacing: 1.1;
 }
 .initial-button {
   background-color: white;
@@ -30,8 +38,12 @@
   opacity: 0;
   margin-left: 30;
   margin-right: 30;
-  padding-bottom: 15;
   background-color: white;
+}
+.main-label {
+  horizontal-align: center;
+  color: black;
+  letter-spacing: 1.1;
 }
 
 Image {
@@ -47,4 +59,28 @@ Button, TextField {
   background-color: #CB1D00;
   color: white;
   margin-top: 20;
+}
+
+.forgot-password-label {
+  font-size: 13;
+  margin-left: 20;
+  margin-bottom: 45;
+  color: black;
+}
+.sign-up-stack {
+  background-color: #311217;
+}
+.sign-up-label {
+  color: white;
+  horizontal-align: center;
+  font-size: 15;
+}
+
+.logo-container {
+  visibility: collapse;
+  horizontal-align: center;
+  opacity: 0;
+}
+.logo-container Image {
+  top: 85;
 }

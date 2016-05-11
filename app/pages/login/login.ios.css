@@ -1,6 +1,25 @@
-StackLayout {
-  height: 305;
+.initial-label {
+  font-size: 40;
 }
-Button {
+.main-container {
+  height: 430;
+  width: 300;
+}
+TextField {
+  border-width: 1;
+  border-color: #6E595C;
+  margin-bottom: 20;
+}
+.main-label {
+  color: #311217;
+  font-size: 32;
+  margin-top: 45;
+  margin-bottom: 52;
+}
+.submit-button {
   height: 40;
+  margin-top: 15;
+}
+.sign-up-label {
+  height: 48;
 }

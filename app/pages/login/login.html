@@ -1,11 +1,11 @@
-<GridLayout
+<GridLayout #background
   scaleX="1.6"
   scaleY="1.6"
-  #background
   class="background"
   (loaded)="startBackgroundAnimation(background)"></GridLayout>
 
-<StackLayout #initialContainer class="initial-container">
+<StackLayout #initialContainer
+  class="initial-container">
   <Image
     src="res://logo_login"
     stretch="none"
@@ -22,15 +22,18 @@
   </StackLayout>
 </StackLayout>
 
-<StackLayout #mainContainer class="main-container">
-  <Image
-    src="res://logo_login"
-    stretch="none"
-    horizontalAlignment="center"></Image>
+<StackLayout #mainContainer
+  class="main-container">
+  <Label
+    class="main-label"
+    text="GROCERIES"
+    [color]="isLoggingIn? 'black' : 'white'"></Label>
 
-  <GridLayout rows="auto, auto">
-    <TextField
-      #email
+  <GridLayout #formControls
+    class="form-controls"
+    rows="auto, auto"
+    translateY="50">
+    <TextField #email
       hint="Email Address"
       keyboardType="email"
       [(ngModel)]="user.email"
@@ -38,8 +41,7 @@
       autocorrect="false"
       autocapitalizationType="none"
       row="0"></TextField>
-    <TextField
-      #password
+    <TextField #password
       hint="Password"
       secure="true"
       [(ngModel)]="user.password"
@@ -52,12 +54,30 @@
   </GridLayout>
 
   <Button
-    [text]="isLoggingIn ? 'Sign in' : 'Sign up'"
+    [text]="isLoggingIn ? 'Login' : 'Sign up'"
     [isEnabled]="!isAuthenticating"
     class="submit-button"
     (tap)="submit()"></Button>
-  <Button
-    [text]="isLoggingIn ? 'Sign up' : 'Back to login'"
-    [isEnabled]="!isAuthenticating"
-    (tap)="toggleDisplay()"></Button>
+
+  <Label
+    class="forgot-password-label"
+    text="Forgot password?"
+    (tap)="forgotPassword()"
+    [opacity]="isLoggingIn ? 1 : 0"></Label>
+
+  <StackLayout #signUpStack
+    class="sign-up-stack"
+    (tap)="toggleDisplay()"
+    translateY="50">
+    <Label
+      class="sign-up-label"
+      [text]="isLoggingIn ? 'Sign up here' : 'Back to login'"></Label>
+  </StackLayout>
 </StackLayout>
+
+<AbsoluteLayout #logoContainer
+  class="logo-container">
+  <Image
+    src="res://logo_login"
+    stretch="none"></Image>
+</AbsoluteLayout>

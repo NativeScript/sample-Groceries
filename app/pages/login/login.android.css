@@ -1,3 +1,22 @@
-StackLayout {
-  height: 340;
+.main-container {
+  height: 380;
+  width: 275;
+}
+.initial-label {
+  font-size: 32;
+}
+.main-label {
+  font-size: 28;
+  margin-top: 32;
+  margin-bottom: 32;
+}
+TextField {
+  margin-bottom: 10;
+}
+.sign-up-label {
+  padding-top: 10;
+  height: 200;
+}
+.forgot-password-label {
+  font-size: 13;
 }
