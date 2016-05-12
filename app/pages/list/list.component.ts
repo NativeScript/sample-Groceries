@@ -70,6 +70,10 @@ export class ListPage implements OnInit {
       })
   }
 
+  showMenu() {
+    
+  }
+
   share() {
     let list = [];
     for (let i = 0, size = this.groceryList.length; i < size ; i++) {
