@@ -1,10 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router-deprecated";
-import {alert, action} from "ui/dialogs";
+import {action} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
+import {alert} from "../../utils/dialog-util";
 var socialShare = require("nativescript-social-share");
 
 @Component({
@@ -57,10 +58,7 @@ export class ListPage implements OnInit {
           this.grocery = "";
         },
         () => {
-          alert({
-            message: "An error occurred while adding an item to your list.",
-            okButtonText: "OK"
-          });
+          alert("An error occurred while adding an item to your list.");
           this.grocery = "";
         }
       )

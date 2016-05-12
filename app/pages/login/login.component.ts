@@ -3,12 +3,13 @@ import {Router} from "@angular/router-deprecated";
 import {Color} from "color";
 import {Animation} from "ui/animation";
 import {View} from "ui/core/view";
-import {alert, prompt} from "ui/dialogs";
+import {prompt} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {User} from "../../shared/user/user";
 import {UserService} from "../../shared/user/user.service";
 import {setHintColor} from "../../utils/hint-util";
+import {alert} from "../../utils/dialog-util";
 
 @Component({
   selector: "my-app",
