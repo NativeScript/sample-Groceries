@@ -1,4 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Router} from "@angular/router-deprecated";
+import {alert, action} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
@@ -19,7 +21,9 @@ export class ListPage implements OnInit {
 
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
-  constructor(private _groceryListService: GroceryListService, private page: Page) {}
+  constructor(private _router: Router,
+    private _groceryListService: GroceryListService,
+    private page: Page) {}
 
   ngOnInit() {
     this.page.actionBarHidden = true;
@@ -71,7 +75,17 @@ export class ListPage implements OnInit {
   }
 
   showMenu() {
-    
+    action({
+      message: "What would you like to do?",
+      actions: ["Share", "Log Off"],
+      cancelButtonText: "Cancel"
+    }).then((result) => {
+      if (result == "Share") {
+        this.share();
+      } else if (result == "Log Off") {
+        this._router.navigate(["Login"]);
+      }
+    });
   }
 
   share() {

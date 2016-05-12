@@ -29,7 +29,9 @@ export class LoginPage implements OnInit {
   @ViewChild("email") email: ElementRef;
   @ViewChild("password") password: ElementRef;
 
-  constructor(private _router: Router, private _userService: UserService, private page: Page) {
+  constructor(private _router: Router,
+    private _userService: UserService,
+    private page: Page) {
     this.user = new User();
     this.user.email = "user@nativescript.org";
     this.user.password = "password";
