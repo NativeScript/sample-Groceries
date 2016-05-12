@@ -64,6 +64,18 @@ export class ListPage implements OnInit {
       )
   }
 
+  toggleDone(grocery: Grocery) {
+    this.isLoading = true;
+    this._groceryListService.toggleDone(grocery)
+      .subscribe(() => {
+        grocery.done = !grocery.done;
+        this.isLoading = false;
+      }, () => {
+        alert("An error occurred managing your grocery list.");
+        this.isLoading = false;
+      });
+  }
+
   delete(grocery: Grocery) {
     this._groceryListService.delete(grocery.id)
       .subscribe(() => {

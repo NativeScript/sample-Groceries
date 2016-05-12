@@ -67,7 +67,10 @@ export class LoginPage implements OnInit {
           this.isAuthenticating = false;
           this._router.navigate(["List"]);
         },
-        (error) => alert("Unfortunately we could not find your account.")
+        (error) => {
+          alert("Unfortunately we could not find your account.");
+          this.isAuthenticating = false;
+        }
       );
   }
 
@@ -79,7 +82,10 @@ export class LoginPage implements OnInit {
           this.isAuthenticating = false;
           this.toggleDisplay();
         },
-        () => alert("Unfortunately we were unable to create your account.")
+        () => {
+          alert("Unfortunately we were unable to create your account.");
+          this.isAuthenticating = false;
+        }
       );
   }
 

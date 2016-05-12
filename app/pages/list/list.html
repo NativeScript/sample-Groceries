@@ -48,12 +48,17 @@
     [items]="groceryList"
     [class.visible]="listLoaded">
     <template let-item="item">
-      <GridLayout columns="*, auto" class="grocery-list-item-container">
-        <Label
+      <GridLayout columns="auto, *, auto" class="grocery-list-item-container">
+        <Image
           col="0"
+          [src]="item.done ? 'res://checked' : 'res://unchecked'"
+          class="grocery-list-check-box"
+          (tap)="toggleDone(item)"></Image>
+        <Label
+          col="1"
           [text]="item.name"></Label>
         <StackLayout
-          col="1"
+          col="2"
           class="delete-container"
           (tap)="delete(item)">
           <Image src="res://delete"></Image>

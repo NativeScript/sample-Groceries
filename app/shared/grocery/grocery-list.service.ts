@@ -10,17 +10,16 @@ export class GroceryListService {
   constructor(private _http: Http) {}
 
   load() {
-    let headers = new Headers();
-    headers.append("Authorization", "Bearer " + Config.token);
-
     return this._http.get(Config.apiUrl + "Groceries", {
-      headers: headers
+      headers: this.getHeaders()
     })
     .map(res => res.json())
     .map(data => {
       let groceryList = [];
       data.Result.forEach((grocery) => {
-        groceryList.push(new Grocery(grocery.Id, grocery.Name));
+        groceryList.push(
+          new Grocery(grocery.Id, grocery.Name, grocery.Done || false)
+        );
       });
       return groceryList;
     })
@@ -28,33 +27,42 @@ export class GroceryListService {
   }
 
   add(name: string) {
-    let headers = new Headers();
-    headers.append("Authorization", "Bearer " + Config.token);
-    headers.append("Content-Type", "application/json");
-
     return this._http.post(
       Config.apiUrl + "Groceries",
       JSON.stringify({ Name: name }),
-      { headers: headers }
+      { headers: this.getHeaders() }
     )
     .map(res => res.json())
     .map(data => {
-      return new Grocery(data.Result.Id, name);
+      return new Grocery(data.Result.Id, name, false);
     })
     .catch(this.handleErrors);
   }
 
   delete(id: string) {
-    var headers = new Headers();
-    headers.append("Authorization", "Bearer " + Config.token);
-    headers.append("Content-Type", "application/json");
-
     return this._http.delete(
       Config.apiUrl + "Groceries/" + id,
-      { headers: headers }
+      { headers: this.getHeaders() }
     )
     .map(res => res.json())
     .catch(this.handleErrors);
+  }
+
+  toggleDone(item: Grocery) {
+    console.log(item.id);
+    return this._http.put(
+      Config.apiUrl + "Groceries/" + item.id,
+      JSON.stringify({ Done: !item.done }),
+      { headers: this.getHeaders() }
+    )
+    .catch(this.handleErrors);
+  }
+
+  getHeaders() {
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "Bearer " + Config.token);
+    return headers;
   }
 
   handleErrors(error: Response) {
