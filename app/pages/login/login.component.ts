@@ -3,6 +3,7 @@ import {Router} from "@angular/router-deprecated";
 import {Color} from "color";
 import {Animation} from "ui/animation";
 import {View} from "ui/core/view";
+import {alert, prompt} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {User} from "../../shared/user/user";
@@ -80,7 +81,22 @@ export class LoginPage implements OnInit {
   }
 
   forgotPassword() {
-    // TODO: Implement
+    prompt({
+      title: "Forgot Password",
+      message: "Enter the email address you used to register for Groceries to reset your password.",
+      defaultText: "",
+      okButtonText: "Ok",
+      cancelButtonText: "Cancel"
+    }).then((data) => {
+      if (data.result) {
+        this._userService.resetPassword(data.text.trim())
+          .subscribe(() => {
+            alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
+          }, () => {
+            alert("Unfortunately, an error occurred resetting your password.");
+          });
+      }
+    });
   }
 
   toggleDisplay() {
