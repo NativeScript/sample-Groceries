@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
@@ -18,10 +19,13 @@ export class ListPage implements OnInit {
 
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
-  constructor(private _groceryListService: GroceryListService) {}
+  constructor(private _groceryListService: GroceryListService, private page: Page) {}
 
   ngOnInit() {
+    this.page.actionBarHidden = true;
+    this.page.className = "list-page";
     this.isLoading = true;
+
     this._groceryListService.load()
       .subscribe(loadedGroceries => {
         loadedGroceries.forEach((groceryObject) => {

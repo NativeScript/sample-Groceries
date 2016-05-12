@@ -9,18 +9,74 @@ ListView {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+.action-bar-custom {
+  color: white;
+  padding-top: 26;
+  padding-bottom: 16;
+}
+.action-bar-label {
+  font-size: 21;
+  font-weight: bold;
+}
+.action-bar-menu-image {
+  vertical-align: center;
+}
+
 .add-bar {
   background-color: #CB1D00;
-  padding: 5 10;
+  padding-left: 16;
+  padding-right: 16;
+  height: 50;
 }
 .add-bar Image {
   height: 15;
   vertical-align: center;
-  margin-left: 10;
-  margin-right: 5;
 }
 TextField {
   color: white;
+  margin-right: 20;
+  horizontal-align: left;
+}
+.add-bar-recent-label {
+  vertical-align: center;
+  color: #311217;
+}
+.add-bar-recent-toggle {
+  vertical-align: center;
+  color: #311217;
+}
+
+ListView {
+  background-color: transparent;
+}
+.grocery-list-item-container {
+  padding-top: 10;
+  padding-bottom: 10;
+  padding-left: 16;
+  background-color: white;
+  margin-top: 1;
+}
+.grocery-list-check-box {
+  margin-right: 10;
+}
+#grocery-list-swipe-button {
+  margin-top: 10;
+  horizontal-align: center;
+}
+.line-through {
+  text-decoration: line-through;
+}
+
+.drawer-content {
+  background-color: #311217;
+  color: white;
+}
+.drawer-content-label {
+  margin: 16;
+  font-weight: bold;
+}
+
 }
 .delete-container {
   background-color: #CB1D00;

@@ -4,6 +4,12 @@ Page {
   background-color: white;
   font-size: 15;
 }
+.list-page {
+  background-image: url("res://bg_inner");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 ActionBar {
   background-color: black;
   color: white;
@@ -11,10 +17,4 @@ ActionBar {
 TextField {
   padding: 10;
   font-size: 13;
-}
-.small-spacing {
-  margin: 5;
-}
-.medium-spacing {
-  margin: 10;
 }

@@ -1,25 +1,71 @@
-<ActionBar title="Groceries">
-  <ActionItem text="Share" (tap)="share()" android.systemIcon="ic_menu_share_holo_dark" ios.systemIcon="9" ios.position="right"></ActionItem>
-</ActionBar>
+<GridLayout rows="auto, auto, *" class="main-content">
 
-<GridLayout rows="auto, *">
-
-  <GridLayout row="0" columns="*, auto" class="add-bar">
-    <TextField #groceryTextField [(ngModel)]="grocery" hint="Enter a grocery item" col="0"></TextField>
-    <Image src="res://add" (tap)="add()" col="1"></Image>
+  <!-- Row 1: The custom action bar -->
+  <GridLayout
+    row="0"
+    columns="44, *, 44"
+    class="action-bar-custom">
+    <Label
+      col="1"
+      text="Groceries"
+      class="action-bar-label"></Label>
+    
+    <!-- Wrap the image in a stack-layout to give it a bigger tap target -->
+    <StackLayout
+      col="2"
+      (tap)="showMenu()">
+      <Image
+        src="res://ic_menu"
+        stretch="none"
+        class="action-bar-menu-image"></Image>
+    </StackLayout>
   </GridLayout>
 
-  <ListView [items]="groceryList" row="1" class="small-spacing" [class.visible]="listLoaded">
+  <!-- Row 2: The text field to add groceries, and recent button -->
+  <GridLayout
+    row="1"
+    columns="auto, *, auto"
+    class="add-bar">
+    <Image
+      col="0"
+      src="res://add"
+      (tap)="add()"></Image>
+    <TextField #groceryTextField
+      col="1"
+      [(ngModel)]="grocery"
+      hint="Add a grocery"
+      returnKeyType="done"
+      (returnPress)="add()"></TextField>
+     <Label
+       col="2"
+       text="Recent"
+       class="add-bar-recent-toggle"></Label>
+  </GridLayout>
+
+  <!-- Row 3: The main grocery list view -->
+  <ListView
+    row="2"
+    [items]="groceryList"
+    [class.visible]="listLoaded">
     <template let-item="item">
-      <GridLayout columns="*, auto">
-        <Label col="0" [text]="item.name" class="medium-spacing"></Label>
-        <StackLayout col="1" class="delete-container" (tap)="delete(item)">
+      <GridLayout columns="*, auto" class="grocery-list-item-container">
+        <Label
+          col="0"
+          [text]="item.name"></Label>
+        <StackLayout
+          col="1"
+          class="delete-container"
+          (tap)="delete(item)">
           <Image src="res://delete"></Image>
         </StackLayout>
       </GridLayout>
     </template>
   </ListView>
 
-  <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
+  <ActivityIndicator
+    [busy]="isLoading"
+    row="2"
+    horizontalAlignment="center"
+    verticalAlignment="center"></ActivityIndicator>
 
 </GridLayout>
