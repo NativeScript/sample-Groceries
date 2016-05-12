@@ -77,7 +77,7 @@ export class ListPage implements OnInit {
   }
 
   delete(grocery: Grocery) {
-    this._groceryListService.delete(grocery.id)
+    this._groceryListService.delete(grocery)
       .subscribe(() => {
         var index = this.groceryList.indexOf(grocery);
         this.groceryList.splice(index, 1);

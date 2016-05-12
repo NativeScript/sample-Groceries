@@ -39,9 +39,9 @@ export class GroceryListService {
     .catch(this.handleErrors);
   }
 
-  delete(id: string) {
+  delete(item: Grocery) {
     return this._http.delete(
-      Config.apiUrl + "Groceries/" + id,
+      Config.apiUrl + "Groceries/" + item.id,
       { headers: this.getHeaders() }
     )
     .map(res => res.json())
@@ -49,7 +49,6 @@ export class GroceryListService {
   }
 
   toggleDone(item: Grocery) {
-    console.log(item.id);
     return this._http.put(
       Config.apiUrl + "Groceries/" + item.id,
       JSON.stringify({ Done: !item.done }),
