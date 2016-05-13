@@ -36,13 +36,12 @@
       [(ngModel)]="grocery"
       hint="Add a grocery"
       returnKeyType="done"
-      [visibility]="isShowingRecent ? 'collapse' : 'visible'"
+      *ngIf="!isShowingRecent"
       (returnPress)="add()"></TextField>
-      <!-- Show a label in history mode -->
     <Label
       col="1"
       text="Recent items"
-      [visibility]="isShowingRecent ? 'visible' : 'collapse'"
+      *ngIf="isShowingRecent"
       class="add-bar-recent-label"></Label>
    <Label
      col="2"
@@ -57,7 +56,7 @@
     [items]="groceryList"
     class="main-grocery-list"
     [class.visible]="listLoaded"
-    [visibility]="isShowingRecent ? 'collapse' : 'visible'">
+    *ngIf="!isShowingRecent">
     <template let-item="item">
       <GridLayout columns="auto, *, auto" class="grocery-list-item-container">
         <Image
@@ -82,7 +81,7 @@
   <ListView
     row="2"
     [items]="history"
-    [visibility]="isShowingRecent ? 'visible' : 'collapse'">
+    *ngIf="isShowingRecent">
     <template let-item="item">
       <GridLayout columns="auto, *" class="grocery-list-item-container">
         <Image
