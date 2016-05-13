@@ -15,8 +15,11 @@ var socialShare = require("nativescript-social-share");
   providers: [GroceryListService]
 })
 export class ListPage implements OnInit {
-  groceryList: Array<Grocery> = [];
+  groceryList: Array<Grocery>;
+  history: Array<Grocery>;
   grocery: string = "";
+
+  isShowingRecent = false;
   isLoading = false;
   listLoaded = false;
 
@@ -29,12 +32,22 @@ export class ListPage implements OnInit {
   ngOnInit() {
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
+    this.load();
+  }
+
+  load() {
     this.isLoading = true;
+    this.groceryList = [];
+    this.history = [];
 
     this._groceryListService.load()
       .subscribe(loadedGroceries => {
-        loadedGroceries.forEach((groceryObject) => {
-          this.groceryList.unshift(groceryObject);
+        loadedGroceries.forEach((groceryObject: Grocery) => {
+          if (groceryObject.deleted) {
+            this.history.unshift(groceryObject);
+          } else {
+            this.groceryList.unshift(groceryObject);
+          }
         });
         this.isLoading = false;
         this.listLoaded = true;
@@ -42,6 +55,10 @@ export class ListPage implements OnInit {
   }
 
   add() {
+    if (this.isShowingRecent) {
+      return;
+    }
+
     if (this.grocery.trim() === "") {
       alert("Enter a grocery item");
       return;
@@ -66,7 +83,7 @@ export class ListPage implements OnInit {
 
   toggleDone(grocery: Grocery) {
     this.isLoading = true;
-    this._groceryListService.toggleDone(grocery)
+    this._groceryListService.toggleDoneFlag(grocery)
       .subscribe(() => {
         grocery.done = !grocery.done;
         this.isLoading = false;
@@ -76,12 +93,39 @@ export class ListPage implements OnInit {
       });
   }
 
+  toggleDoneHistory(grocery: Grocery) {
+    grocery.done = !grocery.done;
+  }
+
+  toggleRecent() {
+    let groceriesToRestore = []
+    this.history.forEach((grocery) => {
+      if (grocery.done) {
+        groceriesToRestore.push(grocery);
+      }
+    });
+
+    if (!this.isShowingRecent || groceriesToRestore.length == 0) {
+      this.isShowingRecent = !this.isShowingRecent;
+      return;
+    }
+
+    this.isLoading = true;
+    this._groceryListService.restore(groceriesToRestore)
+      .subscribe(() => {
+        this.isShowingRecent = false;
+        this.load();
+      });
+  }
+
   delete(grocery: Grocery) {
-    this._groceryListService.delete(grocery)
+    this._groceryListService.setDeleteFlag(grocery)
       .subscribe(() => {
         var index = this.groceryList.indexOf(grocery);
+        grocery.deleted = true;
         this.groceryList.splice(index, 1);
-      })
+        this.history.push(grocery);
+      });
   }
 
   showMenu() {

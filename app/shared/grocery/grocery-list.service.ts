@@ -18,7 +18,12 @@ export class GroceryListService {
       let groceryList = [];
       data.Result.forEach((grocery) => {
         groceryList.push(
-          new Grocery(grocery.Id, grocery.Name, grocery.Done || false)
+          new Grocery(
+            grocery.Id,
+            grocery.Name,
+            grocery.Done || false,
+            grocery.Deleted || false
+          )
         );
       });
       return groceryList;
@@ -34,26 +39,58 @@ export class GroceryListService {
     )
     .map(res => res.json())
     .map(data => {
-      return new Grocery(data.Result.Id, name, false);
+      return new Grocery(data.Result.Id, name, false, false);
     })
     .catch(this.handleErrors);
   }
 
-  delete(item: Grocery) {
+  private _put(id: string, data: Object) {
+    return this._http.put(
+      Config.apiUrl + "Groceries/" + id,
+      JSON.stringify(data),
+      { headers: this.getHeaders() }
+    )
+    .catch(this.handleErrors);
+  }
+
+  setDeleteFlag(item: Grocery) {
+    return this._put(item.id, { Deleted: !item.deleted });
+  }
+
+  restore(groceries: Array<Grocery>) {
+    let indeces = [];
+    groceries.forEach((grocery) => {
+      indeces.push(grocery.id);
+    });
+
+    let headers = this.getHeaders();
+    headers.append("X-Everlive-Filter", JSON.stringify({
+      "Id": {
+        "$in": indeces
+      }
+    }));
+
+    return this._http.put(
+      Config.apiUrl + "Groceries",
+      JSON.stringify({
+        Deleted: false,
+        Done: false
+      }),
+      { headers: headers }
+    )
+    .catch(this.handleErrors);
+  }
+
+  toggleDoneFlag(item: Grocery) {
+    return this._put(item.id, { Done: !item.done });
+  }
+
+  deleteForever(item: Grocery) {
     return this._http.delete(
       Config.apiUrl + "Groceries/" + item.id,
       { headers: this.getHeaders() }
     )
     .map(res => res.json())
-    .catch(this.handleErrors);
-  }
-
-  toggleDone(item: Grocery) {
-    return this._http.put(
-      Config.apiUrl + "Groceries/" + item.id,
-      JSON.stringify({ Done: !item.done }),
-      { headers: this.getHeaders() }
-    )
     .catch(this.handleErrors);
   }
 

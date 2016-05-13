@@ -1,15 +1,3 @@
-ListView {
-  opacity: 0;
-}
-.visible {
-  animation-name: show;
-  animation-duration: 1s;
-}
-@keyframes show {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 .action-bar-custom {
   color: white;
   padding-top: 26;
@@ -49,6 +37,17 @@ TextField {
 
 ListView {
   background-color: transparent;
+}
+.main-grocery-list {
+  opacity: 0;
+}
+.visible {
+  animation-name: show;
+  animation-duration: 1s;
+}
+@keyframes show {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 .grocery-list-item-container {
   padding-top: 10;

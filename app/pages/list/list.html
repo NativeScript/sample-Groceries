@@ -1,4 +1,4 @@
-<GridLayout rows="auto, auto, *" class="main-content">
+<GridLayout rows="auto, auto, *">
 
   <!-- Row 1: The custom action bar -->
   <GridLayout
@@ -25,28 +25,39 @@
   <GridLayout
     row="1"
     columns="auto, *, auto"
+    [backgroundColor]="isShowingRecent ? '#BBC169' : '#CB1D00'"
     class="add-bar">
     <Image
       col="0"
-      src="res://add"
+      [src]="isShowingRecent ? 'res://recent' : 'res://add'"
       (tap)="add()"></Image>
     <TextField #groceryTextField
       col="1"
       [(ngModel)]="grocery"
       hint="Add a grocery"
       returnKeyType="done"
+      [visibility]="isShowingRecent ? 'collapse' : 'visible'"
       (returnPress)="add()"></TextField>
-     <!--<Label
-       col="2"
-       text="Recent"
-       class="add-bar-recent-toggle"></Label>-->
+      <!-- Show a label in history mode -->
+    <Label
+      col="1"
+      text="Recent items"
+      [visibility]="isShowingRecent ? 'visible' : 'collapse'"
+      class="add-bar-recent-label"></Label>
+   <Label
+     col="2"
+     class="add-bar-recent-toggle"
+     [text]="isShowingRecent ? 'Done' : 'Recent'"
+     (tap)="toggleRecent()"></Label>
   </GridLayout>
 
   <!-- Row 3: The main grocery list view -->
   <ListView
     row="2"
     [items]="groceryList"
-    [class.visible]="listLoaded">
+    class="main-grocery-list"
+    [class.visible]="listLoaded"
+    [visibility]="isShowingRecent ? 'collapse' : 'visible'">
     <template let-item="item">
       <GridLayout columns="auto, *, auto" class="grocery-list-item-container">
         <Image
@@ -63,6 +74,25 @@
           (tap)="delete(item)">
           <Image src="res://delete"></Image>
         </StackLayout>
+      </GridLayout>
+    </template>
+  </ListView>
+
+  <!-- Row 3 (initially hidden): The recently deleted grocery list -->
+  <ListView
+    row="2"
+    [items]="history"
+    [visibility]="isShowingRecent ? 'visible' : 'collapse'">
+    <template let-item="item">
+      <GridLayout columns="auto, *" class="grocery-list-item-container">
+        <Image
+          col="0"
+          (tap)="toggleDoneHistory(item)"
+          [src]="item.done ? 'res://selected' : 'res://nonselected'"
+          class="grocery-list-check-box"></Image>
+        <Label
+          col="1"
+          [text]="item.name"></Label>
       </GridLayout>
     </template>
   </ListView>
