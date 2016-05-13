@@ -93,7 +93,7 @@ export class ListPage implements OnInit {
       if (result == "Share") {
         this.share();
       } else if (result == "Log Off") {
-        this._router.navigate(["Login"]);
+        this.logoff();
       }
     });
   }
@@ -105,5 +105,9 @@ export class ListPage implements OnInit {
     }
     let listString = list.join(", ").trim();
     socialShare.shareText(listString);
+  }
+
+  logoff() {
+    this._router.navigate(["Login"]);
   }
 }

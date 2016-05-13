@@ -4,6 +4,7 @@ import {RouteConfig} from "@angular/router-deprecated";
 import {NS_ROUTER_DIRECTIVES, NS_ROUTER_PROVIDERS} from "nativescript-angular/router";
 import {LoginPage} from "./pages/login/login.component";
 import {ListPage} from "./pages/list/list.component";
+import {Config} from "./shared/config";
 
 @Component({
   selector: "main",
@@ -12,7 +13,7 @@ import {ListPage} from "./pages/list/list.component";
   template: "<page-router-outlet></page-router-outlet>"
 })
 @RouteConfig([
-  { path: "/Login", component: LoginPage, name: "Login", useAsDefault: true },
-  { path: "/List", component: ListPage, name: "List" }
+  { path: "/Login", component: LoginPage, name: "Login", useAsDefault: !Config.hasActiveToken() },
+  { path: "/List", component: ListPage, name: "List", useAsDefault: Config.hasActiveToken() }
 ])
 export class AppComponent {}
