@@ -1,4 +1,4 @@
-# Groceries
+# Groceries [![Build Status](https://travis-ci.org/NativeScript/sample-Groceries.svg?branch=angular)](https://travis-ci.org/NativeScript/sample-Groceries) [![dependency status](https://david-dm.org/nativescript/sample-Groceries.svg)](https://david-dm.org/nativescript/sample-Groceries) [![devDependency Status](https://david-dm.org/nativescript/sample-Groceries/dev-status.svg)](https://david-dm.org/nativescript/sample-Groceries#info=devDependencies)
 
 This branch contains the NativeScript Groceries sample implemented with Angular 2.
 
@@ -71,7 +71,7 @@ For more information on unit testing NativeScript apps, refer to the [NativeScri
 
 <h3 id="travis">Travis CI</h3>
 
-Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on each commit. Refer to the [`.travis.yml` configuration file](https://github.com/NativeScript/sample-Groceries/blob/master/.travis.yml) for details.
+Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on each commit. Refer to the [`.travis.yml` configuration file](https://github.com/NativeScript/sample-Groceries/blob/angular/.travis.yml) for details.
 
 <h2 id="contributors">Contributors</h2>
 
