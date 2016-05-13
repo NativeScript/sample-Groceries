@@ -56,7 +56,7 @@
     [items]="groceryList"
     class="main-grocery-list"
     [class.visible]="listLoaded"
-    *ngIf="!isShowingRecent">
+    [visibility]="isShowingRecent ? 'collapse' : 'visible'">
     <template let-item="item">
       <GridLayout columns="auto, *, auto" class="grocery-list-item-container">
         <Image
