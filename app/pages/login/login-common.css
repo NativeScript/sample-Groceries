@@ -68,7 +68,7 @@ Button, TextField {
 .sign-up-stack {
   background-color: #311217;
 }
-.sign-up-label {
+.sign-up-stack Label {
   color: white;
   horizontal-align: center;
   font-size: 15;

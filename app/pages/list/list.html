@@ -10,7 +10,7 @@
       text="Groceries"
       class="action-bar-label"></Label>
     
-    <!-- Wrap the image in a stack-layout to give it a bigger tap target -->
+    <!-- Wrap the image in a StackLayout to give it a bigger tap target -->
     <StackLayout
       col="2"
       (tap)="showMenu()">
@@ -34,6 +34,7 @@
     <TextField #groceryTextField
       col="1"
       [(ngModel)]="grocery"
+      (loaded)="setTextFieldHintColor(groceryTextField)"
       hint="Add a grocery"
       returnKeyType="done"
       *ngIf="!isShowingRecent"

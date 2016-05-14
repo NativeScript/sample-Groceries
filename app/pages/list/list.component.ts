@@ -1,11 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router-deprecated";
+import {Color} from "color";
 import {action} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
 import {alert} from "../../utils/dialog-util";
+import {setHintColor} from "../../utils/hint-util";
 var socialShare = require("nativescript-social-share");
 
 @Component({
@@ -33,6 +35,13 @@ export class ListPage implements OnInit {
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
     this.load();
+  }
+
+  setTextFieldHintColor(textField) {
+    setHintColor({
+      view: <TextField>textField,
+      color: new Color("white") 
+    });
   }
 
   load() {

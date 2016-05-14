@@ -13,11 +13,6 @@
 .add-bar Image {
   margin-right: 14;
 }
-TextField {
-  background-color: transparent;
-  border-width: 0;
-  color: white;
-}
 
 .grocery-list-item-container {
   padding-top: 13;

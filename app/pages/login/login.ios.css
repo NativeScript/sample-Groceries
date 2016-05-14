@@ -22,7 +22,7 @@ TextField {
   height: 40;
   margin-top: 15;
 }
-.sign-up-label {
+.sign-up-stack Label {
   height: 48;
 }
 

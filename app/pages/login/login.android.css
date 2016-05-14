@@ -15,12 +15,14 @@
 TextField {
   margin-bottom: 10;
 }
-.sign-up-label {
+.sign-up-stack Label {
   padding-top: 10;
   height: 200;
+  text-transform: uppercase;
 }
 .forgot-password-label {
   font-size: 13;
+  text-transform: uppercase;
 }
 .logo-container Image {
   top: 85;
