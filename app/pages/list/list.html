@@ -59,7 +59,10 @@
     [class.visible]="listLoaded"
     [visibility]="isShowingRecent ? 'collapse' : 'visible'">
     <template let-item="item">
-      <GridLayout columns="auto, *, auto" class="grocery-list-item-container">
+      <GridLayout
+        columns="auto, *, auto"
+        class="grocery-list-item-container"
+        [opacity]="item.done ? '0.8' : '1'">
         <Image
           col="0"
           [src]="item.done ? 'res://checked' : 'res://unchecked'"
@@ -67,7 +70,8 @@
           (tap)="toggleDone(item)"></Image>
         <Label
           col="1"
-          [text]="item.name"></Label>
+          [text]="item.name"
+          [class.line-through]="item.done"></Label>
         <StackLayout
           col="2"
           class="delete-container"
