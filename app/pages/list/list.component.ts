@@ -21,6 +21,7 @@ export class ListPage implements OnInit {
   history: Array<Grocery>;
   grocery: string = "";
 
+  isAndroid;
   isShowingRecent = false;
   isLoading = false;
   listLoaded = false;
@@ -32,6 +33,7 @@ export class ListPage implements OnInit {
     private page: Page) {}
 
   ngOnInit() {
+    this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
     this.load();

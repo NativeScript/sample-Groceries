@@ -35,7 +35,7 @@
       col="1"
       [(ngModel)]="grocery"
       (loaded)="setTextFieldHintColor(groceryTextField)"
-      hint="Add a grocery"
+      [hint]="isAndroid ? 'ADD A GROCERY' : 'Add a grocery'"
       returnKeyType="done"
       *ngIf="!isShowingRecent"
       (returnPress)="add()"></TextField>
