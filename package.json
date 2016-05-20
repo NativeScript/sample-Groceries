@@ -44,9 +44,9 @@
 		"email-validator": "^1.0.4",
 		"nativescript-iqkeyboardmanager": "^1.0.1",
 		"nativescript-social-share": "^1.1.2",
-		"nativescript-telerik-ui": "^1.0.0",
+		"nativescript-telerik-ui": "^1.1.1",
 		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "2.0.0"
+		"tns-core-modules": "2.0.1"
 	},
 	"scripts": {
 		"lint:jscs": "jscs app",

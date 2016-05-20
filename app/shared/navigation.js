@@ -11,8 +11,7 @@ module.exports = {
 	goToListPage: function() {
 		frameModule.topmost().navigate({
 			moduleName: "views/list/list",
-			// Workaround for https://github.com/NativeScript/NativeScript/issues/1569
-			clearHistory: !!frameModule.topmost().ios
+			clearHistory: true
 		});
 	},
 	signOut: function() {
@@ -20,7 +19,7 @@ module.exports = {
 		frameModule.topmost().navigate({
 			moduleName: "views/login/login",
 			animated: false,
-			clearHistory: !!frameModule.topmost().ios
+			clearHistory: true
 		});
 	},
 	startingPage: function() {
