@@ -52,6 +52,16 @@ export class ListPage implements OnInit {
     });
   }
 
+  // Prevent the first textfield from receiving focus on Android
+  // See http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus
+  handleAndroidFocus(textField, container) {
+    if (container.android) {
+      container.android.setFocusableInTouchMode(true);
+      container.android.setFocusable(true);
+      textField.android.clearFocus();
+    }
+  }
+
   // The following trick makes the background color of each cell
   // in the UITableView transparent as it’s created.
   makeBackgroundTransparent(args) {
