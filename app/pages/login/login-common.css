@@ -5,6 +5,9 @@
 
 .background {
   background-image: url("res://bg_login");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 /* TODO: Assigning explicit heights and applying this margin shouldn’t be necessary. */

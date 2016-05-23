@@ -120,8 +120,8 @@ export class LoginPage implements OnInit {
 
   startBackgroundAnimation(background) {
     background.animate({
-      scale: { x: 1.2, y: 1.2 },
-      duration: 8000
+      scale: { x: 1.0, y: 1.0 },
+      duration: 10000
     });
   }
 
