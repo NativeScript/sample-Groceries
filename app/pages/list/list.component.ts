@@ -42,12 +42,18 @@ export class ListPage implements OnInit {
   }
 
   setTextFieldHintColor(textField) {
-    setHintColor({
-      view: <TextField>textField,
-      color: new Color("white") 
+    // TODO: Why is it necessary to defer this code on iOS?
+    // It should work without the setTimeout like it does on Android.
+    setTimeout(() => {
+      setHintColor({
+        view: <TextField>textField,
+        color: new Color("white")
+      });
     });
   }
 
+  // The following trick makes the background color of each cell
+  // in the UITableView transparent as it’s created.
   makeBackgroundTransparent(args) {
     let cell = args.ios;
     if (cell) {
