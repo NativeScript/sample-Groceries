@@ -3,12 +3,11 @@
   <!-- Row 1: The custom action bar -->
   <GridLayout
     row="0"
-    columns="44, *, 44"
+    columns="44, *, auto"
     class="action-bar-custom">
     <Label
       col="1"
-      text="Groceries"
-      class="action-bar-label"></Label>
+      text="Groceries"></Label>
     
     <!-- Wrap the image in a StackLayout to give it a bigger tap target -->
     <StackLayout
@@ -16,8 +15,7 @@
       (tap)="showMenu()">
       <Image
         src="res://menu"
-        stretch="none"
-        class="action-bar-menu-image"></Image>
+        stretch="none"></Image>
     </StackLayout>
   </GridLayout>
 

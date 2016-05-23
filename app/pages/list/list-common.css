@@ -1,14 +1,18 @@
 .action-bar-custom {
   color: white;
-  padding-top: 26;
-  padding-bottom: 16;
+  margin-top: 26;
+  margin-bottom: 16;
 }
-.action-bar-label {
+.action-bar-custom Label {
   font-size: 21;
   font-weight: bold;
 }
-.action-bar-menu-image {
+.action-bar-custom StackLayout {
+  height: 40;
+  padding-left: 15;
+  padding-right: 15;
   vertical-align: center;
+  horizontal-align: center;
 }
 
 .add-bar {
