@@ -10,6 +10,8 @@ import {alert} from "../../utils/dialog-util";
 import {setHintColor} from "../../utils/hint-util";
 var socialShare = require("nativescript-social-share");
 
+declare var UIColor: any;
+
 @Component({
   selector: "list",
   templateUrl: "pages/list/list.html",
@@ -44,6 +46,13 @@ export class ListPage implements OnInit {
       view: <TextField>textField,
       color: new Color("white") 
     });
+  }
+
+  makeBackgroundTransparent(args) {
+    let cell = args.ios;
+    if (cell) {
+      cell.backgroundColor = UIColor.clearColor();
+    }
   }
 
   load() {

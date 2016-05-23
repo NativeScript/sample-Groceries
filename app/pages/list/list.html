@@ -55,6 +55,7 @@
   <ListView
     row="2"
     [items]="groceryList"
+    (itemLoading)="makeBackgroundTransparent($event)"
     class="main-grocery-list"
     [class.visible]="listLoaded"
     [visibility]="isShowingRecent ? 'collapse' : 'visible'">

@@ -77,7 +77,7 @@ ListView {
 }
 
 .delete-container {
-  background-color: #CB1D00;
+  background-color: black;
   padding: 5;
   height: 20;
   margin-right: 15;
