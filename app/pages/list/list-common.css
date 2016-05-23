@@ -20,11 +20,14 @@
 .add-bar Image {
   height: 15;
   vertical-align: center;
+  margin-left: 1;
 }
 TextField {
   color: white;
   background-color: transparent;
   border-width: 0;
+  padding: 0;
+  margin-left: 1;
 }
 .add-bar-recent-label {
   vertical-align: center;
