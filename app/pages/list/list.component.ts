@@ -88,17 +88,20 @@ export class ListPage implements OnInit {
     let textField = <TextField>this.groceryTextField.nativeElement;
     textField.dismissSoftInput();
 
+    this.isLoading = true;
+
     this._groceryListService.add(this.grocery)
       .subscribe(
         groceryObject => {
           this.groceryList.unshift(groceryObject);
           this.grocery = "";
+          this.isLoading = false;
         },
         () => {
           alert("An error occurred while adding an item to your list.");
-          this.grocery = "";
+          this.isLoading = false;
         }
-      )
+      );
   }
 
   toggleDone(grocery: Grocery) {
@@ -139,12 +142,17 @@ export class ListPage implements OnInit {
   }
 
   delete(grocery: Grocery) {
+    this.isLoading = true;
     this._groceryListService.setDeleteFlag(grocery)
       .subscribe(() => {
         var index = this.groceryList.indexOf(grocery);
         grocery.deleted = true;
         this.groceryList.splice(index, 1);
         this.history.push(grocery);
+        this.isLoading = false;
+      }, () => {
+        alert("An error occurred while deleting an item from your list.");
+        this.isLoading = false;
       });
   }
 
