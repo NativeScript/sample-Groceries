@@ -66,9 +66,6 @@ ListView {
   margin-top: 10;
   horizontal-align: center;
 }
-.line-through {
-  text-decoration: line-through;
-}
 
 .drawer-content {
   background-color: #311217;
