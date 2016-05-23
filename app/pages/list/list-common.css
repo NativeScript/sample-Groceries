@@ -33,8 +33,14 @@ TextField {
   vertical-align: center;
   color: #311217;
 }
-.add-bar-recent-toggle {
+.add-bar StackLayout {
+  height: 50;
+  padding-left: 10;
+  padding-right: 10;
+  margin-right: -10;
   vertical-align: center;
+}
+.add-bar-recent-toggle {
   color: #311217;
 }
 

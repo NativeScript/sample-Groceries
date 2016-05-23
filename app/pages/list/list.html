@@ -44,11 +44,13 @@
       text="Recent items"
       *ngIf="isShowingRecent"
       class="add-bar-recent-label"></Label>
-   <Label
+   <StackLayout
      col="2"
-     class="add-bar-recent-toggle"
-     [text]="isShowingRecent ? 'Done' : 'Recent'"
-     (tap)="toggleRecent()"></Label>
+     (tap)="toggleRecent()">
+     <Label
+       class="add-bar-recent-toggle"
+       [text]="isShowingRecent ? 'Done' : 'Recent'"></Label>
+    </StackLayout>
   </GridLayout>
 
   <!-- Row 3: The main grocery list view -->
