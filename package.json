@@ -25,6 +25,6 @@
 		}
 	},
 	"dependencies": {
-		"tns-core-modules": "2.0.0"
+		"tns-core-modules": "2.0.1"
 	}
 }
