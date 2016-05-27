@@ -135,7 +135,8 @@ export class GroceryStore {
   }
 
   publishUpdates() {
-    this.items.next(this._allItems);
+    // must emit a *new* value (immutability!)
+    this.items.next([...this._allItems]);
   }
 
   handleErrors(error: Response) {
