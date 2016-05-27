@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform} from "@angular/core";
+import {Component, ChangeDetectorRef, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform} from "@angular/core";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {Observable, BehaviorSubject} from "rxjs/Rx";
@@ -10,13 +10,22 @@ declare var UIColor: any;
   pure: false // required to update the value when async in nature
 })
 export class ItemStatusPipe implements PipeTransform {
+  value: Array<Grocery> = [];
+  constructor(private _ref: ChangeDetectorRef) {}
   transform(items: Array<Grocery>, deleted: boolean) {
-    if (!items) return;
-    return items.filter((grocery: Grocery) => {
-      return grocery.deleted == deleted;
-    });
+    if (items && items.length) {
+      this.value = items.filter((grocery: Grocery) => {
+        return grocery.deleted == deleted;
+      });
+      this._ref.markForCheck();
+    }
+    return this.value;
   }
 }
+
+// TODO: why doesn’t the pipe above work when impure?
+// To recreate replace the [items] line in the template with the code below
+// [items]="store.items | async | itemStatus:showDeleted"
 
 @Component({
   selector: "GroceryList",
