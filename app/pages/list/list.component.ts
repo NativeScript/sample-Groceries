@@ -73,11 +73,14 @@ export class ListPage implements OnInit {
 
   load() {
     this.isLoading = true;
+    //clear list view
     this.groceryList = [];
     this.history = [];
 
     this._groceryListService.load()
       .subscribe(loadedGroceries => {
+        //create a new items object to trick change detection
+        this.groceryList = [];
         loadedGroceries.forEach((groceryObject: Grocery) => {
           if (groceryObject.deleted) {
             this.history.unshift(groceryObject);
