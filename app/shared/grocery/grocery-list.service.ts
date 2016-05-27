@@ -15,18 +15,14 @@ export class GroceryListService {
     })
     .map(res => res.json())
     .map(data => {
-      let groceryList = [];
-      data.Result.forEach((grocery) => {
-        groceryList.push(
-          new Grocery(
-            grocery.Id,
-            grocery.Name,
-            grocery.Done || false,
-            grocery.Deleted || false
-          )
+        return data.Result.map(groceryData =>
+            new Grocery(
+                groceryData.Id,
+                groceryData.Name,
+                groceryData.Done || false,
+                groceryData.Deleted || false
+            )
         );
-      });
-      return groceryList;
     })
     .catch(this.handleErrors);
   }
