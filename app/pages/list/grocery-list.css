@@ -1,0 +1,28 @@
+ListView {
+  background-color: transparent;
+  opacity: 0;
+}
+.visible {
+  animation-name: show;
+  animation-duration: 1s;
+}
+@keyframes show {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.grocery-list-item-container {
+  padding-top: 13;
+  padding-bottom: 13;
+  padding-left: 16;
+  background-color: white;
+  margin-top: 1;
+}
+.grocery-list-check-box {
+  margin-right: 10;
+}
+.delete-container {
+  background-color: black;
+  padding: 5;
+  height: 20;
+  margin-right: 15;
+}

@@ -48,35 +48,6 @@ TextField {
   color: #311217;
 }
 
-ListView {
-  background-color: transparent;
-}
-.main-grocery-list {
-  opacity: 0;
-}
-.visible {
-  animation-name: show;
-  animation-duration: 1s;
-}
-@keyframes show {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.grocery-list-item-container {
-  padding-top: 13;
-  padding-bottom: 13;
-  padding-left: 16;
-  background-color: white;
-  margin-top: 1;
-}
-.grocery-list-check-box {
-  margin-right: 10;
-}
-#grocery-list-swipe-button {
-  margin-top: 10;
-  horizontal-align: center;
-}
-
 .drawer-content {
   background-color: #311217;
   color: white;
@@ -84,11 +55,4 @@ ListView {
 .drawer-content-label {
   margin: 16;
   font-weight: bold;
-}
-
-.delete-container {
-  background-color: black;
-  padding: 5;
-  height: 20;
-  margin-right: 15;
 }

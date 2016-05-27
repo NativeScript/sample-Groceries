@@ -34,7 +34,7 @@ export class LoginPage implements OnInit {
     private _userService: UserService,
     private page: Page) {
     this.user = new User();
-    this.user.email = "user@nativescript.org";
+    this.user.email = "ngconf@telerik.com";
     this.user.password = "password";
   }
 

@@ -1,44 +1,40 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild} from "@angular/core";
 import {Router} from "@angular/router-deprecated";
 import {Color} from "color";
 import {action} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
-import {GroceryListService} from "../../shared/grocery/grocery-list.service";
+import {GroceryList} from "../list/grocery-list.component";
+import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {alert} from "../../utils/dialog-util";
 import {setHintColor} from "../../utils/hint-util";
+import "rxjs/add/operator/map";
 var socialShare = require("nativescript-social-share");
-
-declare var UIColor: any;
 
 @Component({
   selector: "list",
+  directives: [GroceryList],
   templateUrl: "pages/list/list.html",
   styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
-  providers: [GroceryListService]
+  providers: [GroceryStore]
 })
 export class ListPage implements OnInit {
-  groceryList: Array<Grocery>;
-  history: Array<Grocery>;
   grocery: string = "";
-
   isAndroid;
   isShowingRecent = false;
   isLoading = false;
-  listLoaded = false;
-
+  
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
   constructor(private _router: Router,
-    private _groceryListService: GroceryListService,
+    private store: GroceryStore,
     private page: Page) {}
 
   ngOnInit() {
     this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
-    this.load();
   }
 
   setTextFieldHintColor(textField) {
@@ -62,35 +58,11 @@ export class ListPage implements OnInit {
     }
   }
 
-  // The following trick makes the background color of each cell
-  // in the UITableView transparent as it’s created.
-  makeBackgroundTransparent(args) {
-    let cell = args.ios;
-    if (cell) {
-      cell.backgroundColor = UIColor.clearColor();
-    }
-  }
-
-  load() {
+  showActivityIndicator() {
     this.isLoading = true;
-    //clear list view
-    this.groceryList = [];
-    this.history = [];
-
-    this._groceryListService.load()
-      .subscribe(loadedGroceries => {
-        //create a new items object to trick change detection
-        this.groceryList = [];
-        loadedGroceries.forEach((groceryObject: Grocery) => {
-          if (groceryObject.deleted) {
-            this.history.unshift(groceryObject);
-          } else {
-            this.groceryList.unshift(groceryObject);
-          }
-        });
-        this.isLoading = false;
-        this.listLoaded = true;
-      });
+  }
+  hideActivityIndicator() {
+    this.isLoading = false;
   }
 
   add() {
@@ -108,11 +80,9 @@ export class ListPage implements OnInit {
     textField.dismissSoftInput();
 
     this.isLoading = true;
-
-    this._groceryListService.add(this.grocery)
+    this.store.add(this.grocery)
       .subscribe(
-        groceryObject => {
-          this.groceryList.unshift(groceryObject);
+        () => {
           this.grocery = "";
           this.isLoading = false;
         },
@@ -123,56 +93,36 @@ export class ListPage implements OnInit {
       );
   }
 
-  toggleDone(grocery: Grocery) {
-    this.isLoading = true;
-    this._groceryListService.toggleDoneFlag(grocery)
-      .subscribe(() => {
-        grocery.done = !grocery.done;
-        this.isLoading = false;
-      }, () => {
-        alert("An error occurred managing your grocery list.");
-        this.isLoading = false;
-      });
-  }
-
-  toggleDoneHistory(grocery: Grocery) {
-    grocery.done = !grocery.done;
-  }
-
   toggleRecent() {
-    let groceriesToRestore = []
-    this.history.forEach((grocery) => {
-      if (grocery.done) {
-        groceriesToRestore.push(grocery);
-      }
-    });
-
-    if (!this.isShowingRecent || groceriesToRestore.length == 0) {
-      this.isShowingRecent = !this.isShowingRecent;
+    if (!this.isShowingRecent) {
+      this.isShowingRecent = true;
       return;
     }
 
     this.isLoading = true;
-    this._groceryListService.restore(groceriesToRestore)
-      .subscribe(() => {
-        this.isShowingRecent = false;
-        this.load();
-      });
+    this.store.restore()
+      .subscribe(
+        () => {
+          this.isShowingRecent = false;
+          this.isLoading = false;
+        },
+        () => {
+          alert("An error occurred while adding groceries to your list.");
+          this.isLoading = false;
+        }
+      );
   }
 
   delete(grocery: Grocery) {
     this.isLoading = true;
-    this._groceryListService.setDeleteFlag(grocery)
-      .subscribe(() => {
-        var index = this.groceryList.indexOf(grocery);
-        grocery.deleted = true;
-        this.groceryList.splice(index, 1);
-        this.history.push(grocery);
-        this.isLoading = false;
-      }, () => {
-        alert("An error occurred while deleting an item from your list.");
-        this.isLoading = false;
-      });
+    this.store.setDeleteFlag(grocery)
+      .subscribe(
+        () => this.isLoading = false,
+        () => {
+          alert("An error occurred while deleting an item from your list.");
+          this.isLoading = false;
+        }
+      );
   }
 
   showMenu() {
@@ -190,12 +140,12 @@ export class ListPage implements OnInit {
   }
 
   share() {
+    let items = this.store.getItems();
     let list = [];
-    for (let i = 0, size = this.groceryList.length; i < size ; i++) {
-      list.push(this.groceryList[i].name);
+    for (let i = 0, size = items.length; i < size ; i++) {
+      list.push(items[i].name);
     }
-    let listString = list.join(", ").trim();
-    socialShare.shareText(listString);
+    socialShare.shareText(list.join(", ").trim());
   }
 
   logoff() {

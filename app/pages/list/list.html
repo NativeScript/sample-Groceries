@@ -52,61 +52,15 @@
     </StackLayout>
   </GridLayout>
 
-  <!-- Row 3: The main grocery list view -->
-  <ListView
-    row="2"
-    [items]="groceryList"
-    (itemLoading)="makeBackgroundTransparent($event)"
-    class="main-grocery-list"
-    [class.visible]="listLoaded"
-    [visibility]="isShowingRecent ? 'collapse' : 'visible'">
-    <template let-item="item">
-      <GridLayout
-        columns="auto, *, auto"
-        class="grocery-list-item-container"
-        [opacity]="item.done ? '0.8' : '1'">
-        <Image
-          col="0"
-          [src]="item.done ? 'res://checked' : 'res://unchecked'"
-          class="grocery-list-check-box"
-          (tap)="toggleDone(item)"></Image>
-        <Label
-          col="1"
-          [text]="item.name"
-          [class.line-through]="item.done"></Label>
-        <StackLayout
-          col="2"
-          class="delete-container"
-          (tap)="delete(item)">
-          <Image src="res://delete"></Image>
-        </StackLayout>
-      </GridLayout>
-    </template>
-  </ListView>
-
-  <!-- Row 3 (initially hidden): The recently deleted grocery list -->
-  <ListView
-    row="2"
-    [items]="history"
-    *ngIf="isShowingRecent">
-    <template let-item="item">
-      <GridLayout columns="auto, *" class="grocery-list-item-container">
-        <Image
-          col="0"
-          (tap)="toggleDoneHistory(item)"
-          [src]="item.done ? 'res://selected' : 'res://nonselected'"
-          class="grocery-list-check-box"></Image>
-        <Label
-          col="1"
-          [text]="item.name"></Label>
-      </GridLayout>
-    </template>
-  </ListView>
+  <!-- Row 3: The grocery list -->
+  <GroceryList
+    [row]="2"
+    (loading)="showActivityIndicator()"
+    (loaded)="hideActivityIndicator()"
+    [showDeleted]="isShowingRecent"></GroceryList>
 
   <ActivityIndicator
     [busy]="isLoading"
-    row="2"
-    horizontalAlignment="center"
-    verticalAlignment="center"></ActivityIndicator>
+    row="2"></ActivityIndicator>
 
 </GridLayout>
