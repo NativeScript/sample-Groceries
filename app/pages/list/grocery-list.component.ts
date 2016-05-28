@@ -22,10 +22,6 @@ export class ItemStatusPipe implements PipeTransform {
   }
 }
 
-// TODO: why doesn’t the pipe above work when impure?
-// To recreate replace the [items] line in the template with the code below
-// [items]="store.items | async | itemStatus:showDeleted"
-
 @Component({
   selector: "GroceryList",
   template: `
