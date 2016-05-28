@@ -1,4 +1,6 @@
 .vscode/
+npm-debug.log
+
 app/**/*.js
 hooks/
 lib/
