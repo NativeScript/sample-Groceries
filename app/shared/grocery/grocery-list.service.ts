@@ -115,6 +115,7 @@ export class GroceryStore {
       .map(res => res.json())
       .map(data => {
         item.done = !item.done;
+        this.publishUpdates();
       });
   }
 
