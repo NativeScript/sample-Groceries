@@ -15,11 +15,12 @@ To run Groceries you’ll first need to install the Angular 2 CLI installed.
 npm install -g angular-cli
 ```
 
-Next, clone this repo.
+Next, clone this repo and switch to the “web” branch.
 
 ```
-git clone https://github.com/tjvantoll/groceries.git
-cd groceries
+git clone https://github.com/NativeScript/sample-Groceries.git
+cd sample-Groceries
+git checkout web
 ```
 
 Then, install this app’s dependencies from npm.
