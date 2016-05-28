@@ -1,0 +1,23 @@
+<div class="list-page">
+  <h1>Add a Grocery</h1> 
+
+  <form>
+    <input [(ngModel)]="grocery">
+    <button (click)="add()">Add</button>
+  </form>
+
+  <hr>
+
+  <div class="link-container">
+    <button class="secondary" (click)="toggleRecent()">
+      {{ isShowingRecent ? 'Done' : 'Add from history' }}
+    </button>
+  </div>
+
+  <grocery-list
+    [groceries]="groceryList"
+    [showDeleted]="isShowingRecent"
+    (loaded)="hideLoadingIndicator()"></grocery-list>
+</div>
+
+<activity-indicator [isLoading]="isLoading"></activity-indicator>

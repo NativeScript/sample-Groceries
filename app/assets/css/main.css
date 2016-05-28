@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300");
+
+/* Box Model */
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Basic */
+
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #ffffff;
+  background-image: url("../../assets/css/images/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Type */
+
+body, input, select, textarea {
+  color: #414f57;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-weight: 300;
+  line-height: 2;
+  letter-spacing: 0.2em;
+}
+input {
+  font-size: 16px;
+  border: solid 1px #c8cccf;
+  border-radius: 4px;
+}
+
+a {
+  color: blue;
+}
+
+strong, b {
+  color: #313f47;
+}
+
+em, i {
+  font-style: italic;
+}
+
+p {
+  margin: 0 0 1.5em 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #313f47;
+  line-height: 1.5;
+  margin: 0 0 0.75em 0;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.85em;
+  letter-spacing: 0.22em;
+  margin: 0 0 0.525em 0;
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.65em;
+  }
+}
+
+/* Form */
+
+.center {
+  padding-top: 1em;
+  text-align: center;
+}
+label {
+  color: #313f47;
+  display: block;
+  font-weight: bold;
+  margin: 0 0 0.75em 0;
+}
+
+input, select, textarea {
+  padding: 0.3em 0.5em;
+}
+
+/* List */
+ul {
+  list-style: none;
+  margin: 0 0 1.5em 0;
+  padding-left: 1em;
+}
+
+ul li {
+  padding-top: 1.5em;
+}
+
+
+/* Button */
+
+button {
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  display: inline-block;
+  height: 2.75em;
+  line-height: 2.75em;
+  padding: 0 1.5em;
+  background-color: transparent;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1em;
+  background-color:#B8D000;
+  border: solid 1px #c8cccf;
+  color: #FFF;
+  cursor: pointer;
+}
+button.plain {
+  background-color: gray;
+}
+button.big {
+  font-size: 1.35em;
+}
+button.secondary {
+  background-color: #1FBDDA;
+  font-weight: normal;
+}
+
+input:disabled, button:disabled {
+  -moz-pointer-events: none;
+  -webkit-pointer-events: none;
+  -ms-pointer-events: none;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 1s;
+}
+
+/* Main */
+.login-page, .list-page {
+  max-width: 480px;
+  margin: 1em auto;
+  padding: 2em;
+  background: #ffffff;
+  border-radius: 4px;
+  opacity: 0.95;
+}
+.login-page.dark {
+  background-color: #301217;
+}
+.login-page.dark h1, .login-page.dark label {
+  color: white;
+}
+.login-page.dark input {
+  color: black;
+}
+
+.avatar {
+  position: relative;
+  display: block;
+  margin-bottom: 1.5em;
+}
+
+.avatar img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 100%;
+  box-shadow: 0 0 0 1.5em #ffffff;
+}
+
+.avatar:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -3em;
+  width: calc(100% + 6em);
+  height: 1px;
+  z-index: -1;
+  background: #c8cccf;
+}
+
+@media screen and (max-width: 480px) {
+  .login-page, .list-page {
+    max-width: 95%;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .avatar:before {
+    left: -2em;
+    width: calc(100% + 4em);
+  }
+}
+
+.hidden {
+  display: none !important;
+}
