@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform} from "@angular/core";
+import {Component, ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform} from "@angular/core";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {Observable, BehaviorSubject} from "rxjs/Rx";
@@ -6,8 +6,7 @@ import {Observable, BehaviorSubject} from "rxjs/Rx";
 declare var UIColor: any;
 
 @Pipe({
-  name: "itemStatus",
-  pure: false // required to update the value when async in nature
+  name: "itemStatus"
 })
 export class ItemStatusPipe implements PipeTransform {
   value: Array<Grocery> = [];
@@ -33,7 +32,7 @@ export class ItemStatusPipe implements PipeTransform {
     <ListView
       [row]="row"
       [class.visible]="listLoaded"
-      [items]="store.items | async"
+      [items]="store.items | async | itemStatus:showDeleted"
       (itemLoading)="makeBackgroundTransparent($event)"
       (loaded)="load()">
       <template let-item="item">
@@ -62,7 +61,8 @@ export class ItemStatusPipe implements PipeTransform {
     </ListView>
   `,
   styleUrls: ["pages/list/grocery-list.css"],
-  pipes: [ItemStatusPipe]
+  pipes: [ItemStatusPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroceryList {
   @Input() showDeleted: boolean;
