@@ -3,14 +3,14 @@
   width: 300;
 }
 .initial-label {
-  font-size: 40;
+  font-size: 30;
   letter-spacing: 6.0;
 }
 .main-label {
   color: #311217;
-  font-size: 32;
+  font-size: 20;
   margin-top: 45;
-  margin-bottom: 52;
+  margin-bottom: 62;
   letter-spacing: 6.0;
 }
 TextField {

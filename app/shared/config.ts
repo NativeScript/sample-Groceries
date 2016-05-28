@@ -1,8 +1,9 @@
 import {getString, setString} from "application-settings";
 
 export class Config {
-  static apiUrl = "https://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/";
-  static get token():string {
+  static apiUrl = "https://firegroceries-904d0.firebaseio.com";
+  static uid = "";
+  /*static get token():string {
     return getString("token");
   }
   static set token(theToken: string) {
@@ -10,5 +11,5 @@ export class Config {
   }
   static hasActiveToken() {
     return !!getString("token");
-  }
+  }*/
 }

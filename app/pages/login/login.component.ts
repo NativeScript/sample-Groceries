@@ -10,6 +10,7 @@ import {User} from "../../shared/user/user";
 import {UserService} from "../../shared/user/user.service";
 import {setHintColor} from "../../utils/hint-util";
 import {alert} from "../../utils/dialog-util";
+var firebase = require("nativescript-plugin-firebase");
 
 @Component({
   selector: "my-app",
@@ -21,7 +22,7 @@ export class LoginPage implements OnInit {
   user: User;
   isLoggingIn = true;
   isAuthenticating = false;
-
+  
   @ViewChild("initialContainer") initialContainer: ElementRef;
   @ViewChild("mainContainer") mainContainer: ElementRef;
   @ViewChild("logoContainer") logoContainer: ElementRef;
@@ -62,7 +63,7 @@ export class LoginPage implements OnInit {
 
   login() {
     this._userService.login(this.user)
-      .subscribe(
+      .then(
         () => {
           this.isAuthenticating = false;
           this._router.navigate(["List"]);
@@ -71,12 +72,12 @@ export class LoginPage implements OnInit {
           alert("Unfortunately we could not find your account.");
           this.isAuthenticating = false;
         }
-      );
+     ); 
   }
 
-  signUp() {
-    this._userService.register(this.user)
-      .subscribe(
+ signUp() {
+     this._userService.register(this.user)
+       .then(
         () => {
           alert("Your account was successfully created.");
           this.isAuthenticating = false;
@@ -87,7 +88,10 @@ export class LoginPage implements OnInit {
           this.isAuthenticating = false;
         }
       );
-  }
+      
+     
+    }
+
 
   forgotPassword() {
     prompt({
@@ -99,11 +103,7 @@ export class LoginPage implements OnInit {
     }).then((data) => {
       if (data.result) {
         this._userService.resetPassword(data.text.trim())
-          .subscribe(() => {
-            alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
-          }, () => {
-            alert("Unfortunately, an error occurred resetting your password.");
-          });
+          
       }
     });
   }

@@ -3,61 +3,47 @@ import {Http, Headers, Response} from "@angular/http";
 import {User} from "./user";
 import {Config} from "../config";
 import {Observable} from "rxjs/Rx";
+var firebase = require("nativescript-plugin-firebase");
+
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 
 @Injectable()
 export class UserService {
-  constructor(private _http: Http) {}
-
+  constructor(private _http: Http) {}  
+    
   register(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "Users",
-      JSON.stringify({
-        Username: user.email,
-        Email: user.email,
-        Password: user.password
-      }),
-      { headers: headers }
+    return firebase.createUser({
+      email: user.email,
+      password: user.password
+    }).then(
+        function (result) {
+          return JSON.stringify(result);
+        },
+        function (errorMessage) {
+          alert(errorMessage);
+        }
     )
-    .catch(this.handleErrors);
   }
 
   login(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "oauth/token",
-      JSON.stringify({
-        username: user.email,
-        password: user.password,
-        grant_type: "password"
-      }),
-      { headers: headers }
+    return firebase.login({
+      type: firebase.LoginType.PASSWORD,
+      email: user.email,
+      password: user.password
+    }).then(
+        function (result) {
+          Config.uid = result.uid
+          return JSON.stringify(result);
+        },
+        function (errorMessage) {
+          console.log(errorMessage);
+        }
     )
-    .map(response => response.json())
-    .do(data => {
-      Config.token = data.Result.access_token;
-    })
-    .catch(this.handleErrors);
   }
 
   resetPassword(email) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "Users/resetpassword",
-      JSON.stringify({
-        Email: email
-      }),
-      { headers: headers }
-    )
-    .catch(this.handleErrors);
+    
   }
 
   handleErrors(error: Response) {

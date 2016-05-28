@@ -4,6 +4,7 @@ import {Config} from "../config";
 import {Grocery} from "./grocery";
 import {Observable} from "rxjs/Rx";
 import "rxjs/add/operator/map";
+var firebase = require("nativescript-plugin-firebase");
 
 @Injectable()
 export class GroceryListService {
@@ -32,16 +33,22 @@ export class GroceryListService {
   }
 
   add(name: string) {
-    return this._http.post(
+    /*return this._http.post(
       Config.apiUrl + "Groceries",
       JSON.stringify({ Name: name }),
       { headers: this.getHeaders() }
-    )
-    .map(res => res.json())
-    .map(data => {
+    )*/
+    return firebase.push(
+      '/Groceries',
+          {'Name': name,
+           'UID': Config.uid
+           }
+        );
+    //.map(res => res.json())
+    /*.map(data => {
       return new Grocery(data.Result.Id, name, false, false);
-    })
-    .catch(this.handleErrors);
+    })*/
+    //.catch(this.handleErrors);
   }
 
   private _put(id: string, data: Object) {
