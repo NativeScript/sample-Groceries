@@ -77,12 +77,12 @@ Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on e
 
 The following is a list of all the people that have helped build Groceries. Thanks for your contributions!
 
-[<img alt="tjvantoll" src="https://avatars.githubusercontent.com/u/544280?v=3&s=117" width="117">](https://github.com/tjvantoll)[<img alt="Mitko-Kerezov" src="https://avatars.githubusercontent.com/u/6683316?v=3&s=117" width="117">](https://github.com/Mitko-Kerezov)[<img alt="jlooper" src="https://avatars.githubusercontent.com/u/1450004?v=3&s=117" width="117">](https://github.com/jlooper)[<img alt="ligaz" src="https://avatars.githubusercontent.com/u/19437?v=3&s=117" width="117">](https://github.com/ligaz)[<img alt="nadyaA" src="https://avatars.githubusercontent.com/u/6064810?v=3&s=117" width="117">](https://github.com/nadyaA)[<img alt="rosen-vladimirov" src="https://avatars.githubusercontent.com/u/8351653?v=3&s=117" width="117">](https://github.com/rosen-vladimirov)
+[<img alt="tjvantoll" src="https://avatars.githubusercontent.com/u/544280?v=3&s=117" width="117">](https://github.com/tjvantoll)[<img alt="Mitko-Kerezov" src="https://avatars.githubusercontent.com/u/6683316?v=3&s=117" width="117">](https://github.com/Mitko-Kerezov)[<img alt="jlooper" src="https://avatars.githubusercontent.com/u/1450004?v=3&s=117" width="117">](https://github.com/jlooper)[<img alt="ligaz" src="https://avatars.githubusercontent.com/u/19437?v=3&s=117" width="117">](https://github.com/ligaz)[<img alt="rosen-vladimirov" src="https://avatars.githubusercontent.com/u/8351653?v=3&s=117" width="117">](https://github.com/rosen-vladimirov)[<img alt="nadyaA" src="https://avatars.githubusercontent.com/u/6064810?v=3&s=117" width="117">](https://github.com/nadyaA)
 
-[<img alt="valentinstoychev" src="https://avatars.githubusercontent.com/u/4980822?v=3&s=117" width="117">](https://github.com/valentinstoychev)[<img alt="bradmartin" src="https://avatars.githubusercontent.com/u/6006148?v=3&s=117" width="117">](https://github.com/bradmartin)[<img alt="cmelo" src="https://avatars.githubusercontent.com/u/872461?v=3&s=117" width="117">](https://github.com/cmelo)
+[<img alt="TsvetanMilanov" src="https://avatars.githubusercontent.com/u/10463529?v=3&s=117" width="117">](https://github.com/TsvetanMilanov)[<img alt="valentinstoychev" src="https://avatars.githubusercontent.com/u/4980822?v=3&s=117" width="117">](https://github.com/valentinstoychev)[<img alt="bradmartin" src="https://avatars.githubusercontent.com/u/6006148?v=3&s=117" width="117">](https://github.com/bradmartin)[<img alt="cmelo" src="https://avatars.githubusercontent.com/u/872461?v=3&s=117" width="117">](https://github.com/cmelo)
 
 <!-- Note: The table above get generated with the following commands -->
-<!-- npm install -g githubcontrib -->
-<!-- githubcontrib --owner NativeScript --repos sample-Groceries --cols 6 --sortOrder desc | pbcopy -->
+<!-- npm install -g github-contributors-list -->
+<!-- githubcontrib --owner NativeScript --repo sample-Groceries --cols 6 --sortOrder desc | pbcopy -->
 
 ![](https://ga-beacon.appspot.com/UA-111455-24/nativescript/sample-groceries?pixel)
