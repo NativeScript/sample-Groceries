@@ -29,7 +29,7 @@
     <StackLayout
       class="add-bar-image-container"
       col="0"
-      (tap)="add()">
+      (tap)="add('button')">
       <Image
         col="0"
         [src]="isShowingRecent ? 'res://recent' : 'res://add'"></Image>
@@ -41,7 +41,7 @@
       [hint]="isAndroid ? 'ADD A GROCERY' : 'Add a grocery'"
       returnKeyType="done"
       *ngIf="!isShowingRecent"
-      (returnPress)="add()"></TextField>
+      (returnPress)="add('textfield')"></TextField>
     <Label
       col="1"
       text="Recent items"

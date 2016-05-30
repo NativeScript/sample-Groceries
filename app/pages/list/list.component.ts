@@ -64,18 +64,29 @@ export class ListPage implements OnInit {
     this.isLoading = false;
   }
 
-  add() {
+  add(target: string) {
+    let textField = <TextField>this.groceryTextField.nativeElement;
+
+    // If showing recent groceries the add button should do nothing.
     if (this.isShowingRecent) {
       return;
     }
 
     if (this.grocery.trim() === "") {
-      alert("Enter a grocery item");
+      // If the user clicked the add button, and the textfield is empty,
+      // focus the text field and return.
+      if (target === "button") {
+        textField.focus();
+      } else {
+        // If the user clicked return with an empty text field show an error.
+        alert("Enter a grocery item");
+      }
       return;
     }
 
     // Dismiss the keyboard
-    let textField = <TextField>this.groceryTextField.nativeElement;
+    // TODO: Is it better UX to dismiss the keyboard, or leave it up so the
+    // user can continue to add more groceries?
     textField.dismissSoftInput();
 
     this.isLoading = true;
