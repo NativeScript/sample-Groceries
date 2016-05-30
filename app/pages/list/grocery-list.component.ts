@@ -24,38 +24,7 @@ export class ItemStatusPipe implements PipeTransform {
 
 @Component({
   selector: "GroceryList",
-  template: `
-    <ListView
-      [row]="row"
-      [class.visible]="listLoaded"
-      [items]="store.items | async | itemStatus:showDeleted"
-      (itemLoading)="makeBackgroundTransparent($event)"
-      (loaded)="load()">
-      <template let-item="item">
-        <GridLayout
-          columns="auto, *, auto"
-          class="grocery-list-item-container"
-          [opacity]="item.done ? '0.8' : '1'">
-          <Image
-            col="0"
-            [src]="imageSource(item)"
-            class="grocery-list-check-box"
-            (tap)="toggleDone(item)"></Image>
-          <Label
-            col="1"
-            [text]="item.name"
-            [class.line-through]="item.done && !item.deleted"></Label>
-          <StackLayout
-            *ngIf="!item.deleted"
-            col="2"
-            class="delete-container"
-            (tap)="delete(item)">
-            <Image src="res://delete"></Image>
-          </StackLayout>
-        </GridLayout>
-      </template>
-    </ListView>
-  `,
+  templateUrl: "pages/list/grocery-list.html",
   styleUrls: ["pages/list/grocery-list.css"],
   pipes: [ItemStatusPipe],
   changeDetection: ChangeDetectionStrategy.OnPush

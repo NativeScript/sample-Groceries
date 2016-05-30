@@ -10,19 +10,25 @@ ListView {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-.grocery-list-item-container {
-  padding-top: 13;
-  padding-bottom: 13;
-  padding-left: 16;
+.container {
   background-color: white;
   margin-top: 1;
 }
-.grocery-list-check-box {
+.tap-target {
+  padding-top: 13;
+  padding-bottom: 13;
+  padding-left: 16;
+}
+.check-box {
   margin-right: 10;
+  height: 20;
 }
 .delete-container {
-  background-color: black;
+  padding: 10 15;
+  vertical-align: middle;
+}
+.delete-container Image {
   padding: 5;
   height: 20;
-  margin-right: 15;
+  background-color: black;
 }
