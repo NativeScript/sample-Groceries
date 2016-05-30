@@ -26,10 +26,14 @@
     columns="auto, *, auto"
     [backgroundColor]="isShowingRecent ? '#BBC169' : '#CB1D00'"
     class="add-bar">
-    <Image
+    <StackLayout
+      class="add-bar-image-container"
       col="0"
-      [src]="isShowingRecent ? 'res://recent' : 'res://add'"
-      (tap)="add()"></Image>
+      (tap)="add()">
+      <Image
+        col="0"
+        [src]="isShowingRecent ? 'res://recent' : 'res://add'"></Image>
+    </StackLayout>
     <TextField #groceryTextField
       col="1"
       [(ngModel)]="grocery"
@@ -45,6 +49,7 @@
       class="add-bar-recent-label"></Label>
    <StackLayout
      col="2"
+     class="add-bar-recent-container"
      (tap)="toggleRecent()">
      <Label
        class="add-bar-recent-toggle"

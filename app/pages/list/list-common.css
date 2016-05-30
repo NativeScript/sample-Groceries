@@ -21,10 +21,15 @@
   padding-right: 16;
   height: 50;
 }
-.add-bar Image {
-  height: 15;
+.add-bar-image-container {
+  height: 50;
   vertical-align: center;
-  margin-left: 1;
+  margin-left: -15;
+  padding-left: 15;
+  padding-right: 13;
+}
+.add-bar Image {
+  height: 20;
 }
 TextField {
   color: white;
@@ -37,7 +42,7 @@ TextField {
   vertical-align: center;
   color: #311217;
 }
-.add-bar StackLayout {
+.add-bar-recent-container {
   height: 50;
   padding-left: 10;
   padding-right: 10;
