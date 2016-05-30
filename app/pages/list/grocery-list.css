@@ -27,8 +27,10 @@ ListView {
   padding: 10 15;
   vertical-align: middle;
 }
-.delete-container Image {
+.delete-container StackLayout {
   padding: 5;
-  height: 20;
   background-color: black;
+}
+.delete-container Image {
+  height: 20;
 }
