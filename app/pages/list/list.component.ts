@@ -9,7 +9,6 @@ import {GroceryList} from "../list/grocery-list.component";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {alert} from "../../utils/dialog-util";
 import {setHintColor} from "../../utils/hint-util";
-import "rxjs/add/operator/map";
 var socialShare = require("nativescript-social-share");
 
 @Component({
