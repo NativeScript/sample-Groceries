@@ -38,7 +38,9 @@ export class GroceryList {
 
   listLoaded = false;
 
-  constructor(private store: GroceryStore) {}
+  constructor(private store: GroceryStore) {
+    this.load();
+  }
 
   load() {
     this.loading.emit("loading");
