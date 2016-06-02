@@ -29,7 +29,6 @@ ListView {
 }
 .delete-container StackLayout {
   padding: 5;
-  background-color: black;
 }
 .delete-container Image {
   height: 20;
