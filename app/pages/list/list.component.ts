@@ -94,9 +94,7 @@ export class ListPage implements OnInit {
     this.store.add(this.grocery).then(() => {
       this.grocery = "";
       this.isLoading = false;
-    }).catch((error) => {
-      console.log(error);
-      console.log(JSON.stringify(error));
+    }).catch(() => {
       alert("An error occurred while adding an item to your list.");
       this.isLoading = false;
     });

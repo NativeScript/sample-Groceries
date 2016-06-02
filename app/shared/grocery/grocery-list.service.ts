@@ -1,17 +1,13 @@
 import {Injectable} from "@angular/core";
-import {Http, Headers, Response, ResponseOptions} from "@angular/http";
 import {Config} from "../config";
 import {Grocery} from "./grocery";
 import {Observable, BehaviorSubject} from "rxjs/Rx";
-import "rxjs/add/operator/map";
 
 @Injectable()
 export class GroceryStore {
 
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private _allItems: Array<Grocery> = [];
-
-  constructor(private _http: Http) {}
 
   load() {
     Config.el.authentication.setAuthorization(Config.token, "bearer");
@@ -30,7 +26,9 @@ export class GroceryStore {
           );
           this.publishUpdates();
         });
-      });
+        return Promise.resolve(this._allItems);
+      })
+      .catch(this.handleErrors);
   }
 
   add(name: string) {
@@ -41,7 +39,9 @@ export class GroceryStore {
       .create({ Name: name })
       .then((data) => {
         newGrocery.id = data.result.Id;
-      });
+        return Promise.resolve(newGrocery);
+      })
+      .catch(this.handleErrors);
   }
 
   getItems() {
@@ -53,14 +53,16 @@ export class GroceryStore {
     item.done = false;
     this.publishUpdates();
     return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Deleted: true, Done: true });
+      .updateSingle({ Id: item.id, Deleted: true, Done: true })
+      .catch(this.handleErrors);
   }
 
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
     return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Done: !item.done });
+      .updateSingle({ Id: item.id, Done: !item.done })
+      .catch(this.handleErrors);
   }
 
   restore() {
@@ -82,11 +84,17 @@ export class GroceryStore {
     this.publishUpdates();
     return Config.el.data("Groceries")
       .withHeaders(headers)
-      .update({ Deleted: false, Done: false });
+      .update({ Deleted: false, Done: false })
+      .catch(this.handleErrors);
   }
 
   publishUpdates() {
     // must emit a *new* value (immutability!)
     this.items.next([...this._allItems]);
+  }
+
+  handleErrors(error) {
+    console.log(JSON.stringify(error));
+    return Promise.reject(error.message);
   }
 }

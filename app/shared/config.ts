@@ -16,7 +16,6 @@ export class Config {
       Config.el.sync();
     }
   }
-
   static setupConnectionMonitoring() {
     startMonitoring(Config.handleOnlineOffline);
   }
