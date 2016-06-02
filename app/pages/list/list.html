@@ -1,0 +1,71 @@
+<GridLayout #container
+  rows="auto, auto, *">
+
+  <!-- Row 1: The custom action bar -->
+  <GridLayout
+    row="0"
+    columns="44, *, auto"
+    class="action-bar-custom">
+    <Label
+      col="1"
+      text="Groceries"></Label>
+    
+    <!-- Wrap the image in a StackLayout to give it a bigger tap target -->
+    <StackLayout
+      col="2"
+      (tap)="showMenu()">
+      <Image
+        src="res://menu"
+        stretch="none"></Image>
+    </StackLayout>
+  </GridLayout>
+
+  <!-- Row 2: The text field to add groceries, and recent button -->
+  <GridLayout
+    row="1"
+    columns="auto, *, auto"
+    [backgroundColor]="isShowingRecent ? '#BBC169' : '#CB1D00'"
+    class="add-bar">
+    <StackLayout
+      class="add-bar-image-container"
+      col="0"
+      (tap)="add('button')">
+      <Image
+        col="0"
+        [src]="isShowingRecent ? 'res://recent' : 'res://add'"></Image>
+    </StackLayout>
+    <TextField #groceryTextField
+      col="1"
+      [(ngModel)]="grocery"
+      (loaded)="setTextFieldHintColor(groceryTextField); handleAndroidFocus(groceryTextField, container)"
+      [hint]="isAndroid ? 'ADD A GROCERY' : 'Add a grocery'"
+      returnKeyType="done"
+      *ngIf="!isShowingRecent"
+      (returnPress)="add('textfield')"></TextField>
+    <Label
+      col="1"
+      text="Recent items"
+      *ngIf="isShowingRecent"
+      class="add-bar-recent-label"></Label>
+   <StackLayout
+     col="2"
+     class="add-bar-recent-container"
+     (tap)="toggleRecent()">
+     <Label
+       class="add-bar-recent-toggle"
+       [text]="isShowingRecent ? 'Done' : 'Recent'"></Label>
+    </StackLayout>
+  </GridLayout>
+
+  <!-- Row 3: The grocery list -->
+  <GroceryList
+    [row]="2"
+    (loading)="showActivityIndicator()"
+    (loaded)="hideActivityIndicator()"
+    [showDeleted]="isShowingRecent"></GroceryList>
+
+  <ActivityIndicator
+    [busy]="isLoading"
+    row="2"></ActivityIndicator>
+
+</GridLayout>

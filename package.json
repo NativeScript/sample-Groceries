@@ -1,6 +1,6 @@
 {
 	"name": "Groceries",
-	"version": "2.1.1",
+	"version": "1.0.0",
 	"description": "A NativeScript-built iOS and Android app for managing grocery lists",
 	"repository": {
 		"type": "git",
@@ -9,30 +9,14 @@
 	"keywords": [
 		"NativeScript"
 	],
-	"author": "TJ VanToll <tj.vantoll@gmail.com> (http://tjvantoll.com/)",
+	"author": "TJ VanToll <tj.vantoll@gmail.com> (https://www.tjvantoll.com/)",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/nativescript/sample-Groceries/issues"
 	},
 	"homepage": "https://github.com/nativescript/sample-Groceries/groceries",
-	"devDependencies": {
-		"babel-traverse": "6.8.0",
-		"babel-types": "6.8.1",
-		"babylon": "6.8.0",
-		"chai": "^3.4.1",
-		"filewalker": "0.1.2",
-		"jscs": "^2.10.1",
-		"jshint": "^2.8.0",
-		"karma": "^0.13.15",
-		"karma-chai": "^0.1.0",
-		"karma-mocha": "^0.2.1",
-		"karma-mocha-reporter": "^1.1.5",
-		"karma-nativescript-launcher": "^0.3.1",
-		"lazy": "1.0.11",
-		"mocha": "^2.3.4"
-	},
 	"nativescript": {
-		"id": "com.tjvantoll.sampleGroceries",
+		"id": "org.nativescript.groceries",
 		"tns-ios": {
 			"version": "2.0.0"
 		},
@@ -41,16 +25,32 @@
 		}
 	},
 	"dependencies": {
+		"@angular/common": "2.0.0-rc.1",
+		"@angular/compiler": "2.0.0-rc.1",
+		"@angular/core": "2.0.0-rc.1",
+		"@angular/http": "2.0.0-rc.1",
+		"@angular/platform-browser": "2.0.0-rc.1",
+		"@angular/platform-browser-dynamic": "2.0.0-rc.1",
+		"@angular/platform-server": "2.0.0-rc.1",
+		"@angular/router-deprecated": "2.0.0-rc.1",
 		"email-validator": "^1.0.4",
+		"nativescript-angular": "0.1.6",
 		"nativescript-iqkeyboardmanager": "^1.0.1",
-		"nativescript-social-share": "^1.1.2",
-		"nativescript-telerik-ui": "^1.1.1",
+		"nativescript-social-share": "^1.1.3",
 		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "2.0.1"
+		"tns-core-modules": "2.0.0-angular-7"
 	},
-	"scripts": {
-		"lint:jscs": "jscs app",
-		"lint:jshint": "jshint app",
-		"lint": "npm run lint:jshint && npm run lint:jscs"
+	"devDependencies": {
+		"babel-traverse": "6.8.0",
+		"babel-types": "6.8.1",
+		"babylon": "6.8.0",
+		"filewalker": "0.1.2",
+		"jasmine-core": "^2.4.1",
+		"karma": "^0.13.22",
+		"karma-jasmine": "^1.0.2",
+		"karma-nativescript-launcher": "^0.4.0",
+		"lazy": "1.0.11",
+		"nativescript-dev-typescript": "^0.3.2",
+		"typescript": "^1.8.10"
 	}
 }

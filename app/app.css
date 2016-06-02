@@ -1,4 +1,24 @@
-page {
-	background-color: white;
-	font-size: 15;
+@import url("~/platform.css");
+
+Page {
+  background-color: white;
+  font-size: 15;
+}
+.list-page {
+  background-image: url("res://bg_inner");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+ActionBar {
+  background-color: black;
+  color: white;
+}
+TextField {
+  padding: 10;
+  font-size: 13;
+}
+.line-through {
+  /* TODO: Why does this cause the app to crash on iOS? */
+  /* text-decoration: line-through; */
 }

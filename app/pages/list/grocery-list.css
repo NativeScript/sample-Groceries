@@ -1,0 +1,36 @@
+ListView {
+  background-color: transparent;
+  opacity: 0;
+}
+.visible {
+  animation-name: show;
+  animation-duration: 1s;
+}
+@keyframes show {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.container {
+  background-color: white;
+  margin-top: 1;
+}
+.tap-target {
+  padding-top: 13;
+  padding-bottom: 13;
+  padding-left: 16;
+}
+.check-box {
+  margin-right: 10;
+  height: 20;
+}
+.delete-container {
+  padding: 10 15;
+  vertical-align: middle;
+}
+.delete-container StackLayout {
+  padding: 5;
+  background-color: black;
+}
+.delete-container Image {
+  height: 20;
+}

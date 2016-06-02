@@ -7,7 +7,6 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
 * [Screenshots](#screenshots)
 * [Development](#development)
     * [Telerik AppBuilder](#telerik-appbuilder)
-    * [Linting](#linting)
     * [Unit testing](#unit-testing)
     * [Travis CI](#travis)
 * [Contributors](#contributors)
@@ -17,18 +16,18 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
 The latest version of Groceries is available on the iOS App Store as well as Google Play:
 
 <a href="https://itunes.apple.com/us/app/groceries-simple-grocery-lists/id1041129105?mt=8">
-	<img src="assets/app-store-icons/ios-app-store.png">
+  <img src="assets/app-store-icons/ios-app-store.png">
 </a>
 <a href="https://play.google.com/store/apps/details?id=org.nativescript.groceries&hl=en">
-	<img src="assets/app-store-icons/google-play.png">
+  <img src="assets/app-store-icons/google-play.png">
 </a>
 
 <h2 id="branches">Branches</h2>
 
 This repository contains a number of branches:
 
-* The [**master** branch](https://github.com/NativeScript/sample-Groceries/) contains the version of Groceries that appears in the iOS App Store and Google Play. The intention of the master branch is to show how to build a robust, real-world app using NativeScript.
-* The [**angular** branch](https://github.com/NativeScript/sample-Groceries/tree/angular) contains the a version of Groceries built with TypeScript and Angular 2.
+* The [**master** branch](https://github.com/NativeScript/sample-Groceries/) shows how to build a robust, real-world app using NativeScript. The branch is built with TypeScript and Angular 2.
+* The [**javascript** branch](https://github.com/NativeScript/sample-Groceries/tree/angular) contains the same real-world implementation, but is built with JavaScript.
 
 ---
 
@@ -101,17 +100,9 @@ If you’d like to try developing Groceries without going through the full setup
 
 <a href="https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries" target="_blank"><img src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/try-in-appbuilder.png" alt="Try in AppBuilder" title="Try in AppBuilder" /></a>
 
-<h3 id="linting">Linting</h3>
-
-Groceries uses [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for code linting. To kick off both, use the app's `npm run lint` command:
-
-```
-$ npm run lint
-```
-
 <h3 id="unit-testing">Unit Testing</h3>
 
-Groceries uses NativeScript’s [integrated unit test runner](http://docs.nativescript.org/core-concepts/testing) and [Mocha](https://mochajs.org/) with [Chai](http://chaijs.com/) for assertions. To run the tests for yourself use the `tns test` command:
+Groceries uses NativeScript’s [integrated unit test runner](http://docs.nativescript.org/core-concepts/testing) with [Jasmine](http://jasmine.github.io/). To run the tests for yourself use the `tns test` command:
 
 ```
 $ tns test ios --emulator
