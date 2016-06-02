@@ -79,6 +79,11 @@ export class LoginPage implements OnInit {
   }
 
   signUp() {
+    if (getConnectionType() == connectionType.none) {
+      alert("Groceries requires an internet connection to register.");
+      return;
+    }
+
     this._userService.register(this.user)
       .then(() => {
         alert("Your account was successfully created.");
