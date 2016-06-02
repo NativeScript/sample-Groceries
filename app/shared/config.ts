@@ -8,7 +8,7 @@ export class Config {
     offlineStorage: true
   });
 
-  private static setOfflineFlag() {
+  private static handleOnlineOffline() {
     if (getConnectionType() == connectionType.none) {
       Config.el.offline();
     } else {
@@ -16,8 +16,9 @@ export class Config {
       Config.el.sync();
     }
   }
+
   static setupConnectionMonitoring() {
-    startMonitoring(Config.setOfflineFlag);
+    startMonitoring(Config.handleOnlineOffline);
   }
 
   static get token():string {
@@ -28,5 +29,8 @@ export class Config {
   }
   static hasActiveToken() {
     return !!getString("token");
+  }
+  static invalidateToken() {
+    Config.token = "";
   }
 }

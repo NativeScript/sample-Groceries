@@ -80,18 +80,20 @@ export class LoginPage implements OnInit {
   }
 
   signUp() {
-    /*this._userService.register(this.user)
-      .subscribe(
-        () => {
-          alert("Your account was successfully created.");
-          this.isAuthenticating = false;
-          this.toggleDisplay();
-        },
-        () => {
+    this._userService.register(this.user)
+      .then(() => {
+        alert("Your account was successfully created.");
+        this.isAuthenticating = false;
+        this.toggleDisplay();
+      })
+      .catch((message) => {
+        if (message.match(/same user/)) {
+          alert("This email address is already in use.");
+        } else {
           alert("Unfortunately we were unable to create your account.");
-          this.isAuthenticating = false;
         }
-      );*/
+        this.isAuthenticating = false;
+      });
   }
 
   forgotPassword() {

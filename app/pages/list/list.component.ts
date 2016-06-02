@@ -4,6 +4,7 @@ import {Color} from "color";
 import {action} from "ui/dialogs";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
+import {Config} from "../../shared/config";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryList} from "../list/grocery-list.component";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
@@ -146,6 +147,7 @@ export class ListPage implements OnInit {
   }
 
   logoff() {
+    Config.invalidateToken();
     this._router.navigate(["Login"]);
   }
 }
