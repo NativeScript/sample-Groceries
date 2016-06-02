@@ -17,6 +17,7 @@ export class Config {
     }
   }
   static setupConnectionMonitoring() {
+    Config.handleOnlineOffline();
     startMonitoring(Config.handleOnlineOffline);
   }
 
