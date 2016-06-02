@@ -35,6 +35,7 @@ export class ListPage implements OnInit {
     this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
+    Config.setupConnectionMonitoring();
   }
 
   setTextFieldHintColor(textField) {
@@ -90,14 +91,12 @@ export class ListPage implements OnInit {
     // user can continue to add more groceries?
     textField.dismissSoftInput();
 
-    this.isLoading = true;
-    this.store.add(this.grocery).then(() => {
-      this.grocery = "";
-      this.isLoading = false;
-    }).catch(() => {
-      alert("An error occurred while adding an item to your list.");
-      this.isLoading = false;
-    });
+    this.store.add(this.grocery)
+      .catch(() => {
+        alert("An error occurred while adding an item to your list.");
+      });
+
+    this.grocery = "";
   }
 
   toggleRecent() {

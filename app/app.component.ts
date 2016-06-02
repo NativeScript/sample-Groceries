@@ -15,8 +15,4 @@ import {Config} from "./shared/config";
   { path: "/Login", component: LoginPage, name: "Login", useAsDefault: !Config.hasActiveToken() },
   { path: "/List", component: ListPage, name: "List", useAsDefault: Config.hasActiveToken() }
 ])
-export class AppComponent {
-  constructor() {
-    Config.setupConnectionMonitoring();
-  }
-}
+export class AppComponent {}
