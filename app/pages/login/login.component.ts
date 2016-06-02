@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
     private _userService: UserService,
     private page: Page) {
     this.user = new User();
-    this.user.email = "ngconf@telerik.com";
+    this.user.email = "ngconf33@telerik.com";
     this.user.password = "password";
   }
 
@@ -69,7 +69,6 @@ export class LoginPage implements OnInit {
 
     this._userService.login(this.user)
       .then(() => {
-        console.log("in login callback...");
         this.isAuthenticating = false;
         this._router.navigate(["List"]);
       })
@@ -105,12 +104,13 @@ export class LoginPage implements OnInit {
       cancelButtonText: "Cancel"
     }).then((data) => {
       if (data.result) {
-        /*this._userService.resetPassword(data.text.trim())
-          .subscribe(() => {
+        this._userService.resetPassword(data.text.trim())
+          .then(() => {
             alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
-          }, () => {
+          })
+          .catch(() => {
             alert("Unfortunately, an error occurred resetting your password.");
-          });*/
+          });
       }
     });
   }

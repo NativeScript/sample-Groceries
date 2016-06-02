@@ -17,17 +17,8 @@ export class UserService {
   }
 
   resetPassword(email) {
-    /*let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "Users/resetpassword",
-      JSON.stringify({
-        Email: email
-      }),
-      { headers: headers }
-    )
-    .catch(this.handleErrors);*/
+    return Config.el.Users.resetPassword({ Username: email })
+      .catch(this.handleErrors);
   }
 
   handleErrors(error) {
