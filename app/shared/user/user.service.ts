@@ -1,59 +1,23 @@
 import {Injectable} from "@angular/core";
-import {Http, Headers, Response} from "@angular/http";
 import {User} from "./user";
 import {Config} from "../config";
-import {Observable} from "rxjs/Rx";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/map";
 
 @Injectable()
 export class UserService {
-  constructor(private _http: Http) {}
-
   register(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "Users",
-      JSON.stringify({
-        Username: user.email,
-        Email: user.email,
-        Password: user.password
-      }),
-      { headers: headers }
-    )
-    .catch(this.handleErrors);
+    return Config.el.Users.register(user.email, user.password)
+      .catch(this.handleErrors);
   }
 
-  login(user: User, successHandler, errorHandler) {
-    Config.el.authentication.login(user.email, user.password, function(data) {
-      successHandler(data.result.access_token);
-    }, function(err) { 
-      console.log(err);
-      errorHandler();
-    });
-    /*let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "oauth/token",
-      JSON.stringify({
-        username: user.email,
-        password: user.password,
-        grant_type: "password"
-      }),
-      { headers: headers }
-    )
-    .map(response => response.json())
-    .do(data => {
-      Config.token = data.Result.access_token;
-    })
-    .catch(this.handleErrors);*/
+  login(user: User) {
+    return Config.el.authentication.login(user.email, user.password).then((data) => {
+      Config.token = data.result.access_token;
+      return Promise.resolve();
+    }).catch(this.handleErrors);
   }
 
   resetPassword(email) {
-    let headers = new Headers();
+    /*let headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     return this._http.post(
@@ -63,11 +27,11 @@ export class UserService {
       }),
       { headers: headers }
     )
-    .catch(this.handleErrors);
+    .catch(this.handleErrors);*/
   }
 
-  handleErrors(error: Response) {
-    console.log(JSON.stringify(error.json()));
-    return Observable.throw(error);
+  handleErrors(error) {
+    console.log(JSON.stringify(error));
+    return Promise.reject(error.message);
   }
 }

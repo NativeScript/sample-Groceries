@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router-deprecated";
 import {Color} from "color";
+import {connectionType, getConnectionType} from "connectivity";
 import {Animation} from "ui/animation";
 import {View} from "ui/core/view";
 import {prompt} from "ui/dialogs";
@@ -61,29 +62,25 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this._userService.login(this.user, () => {
-      this.isAuthenticating = false;
-      this._router.navigate(["List"]);
-    }, () => {
-      alert("Unfortunately we could not find your account.");
-      this.isAuthenticating = false;
-    });
+    if (getConnectionType() == connectionType.none) {
+      alert("Groceries requires an internet connection to log in.");
+      return;
+    }
 
-    /*
-      .subscribe(
-        () => {
-          this.isAuthenticating = false;
-          this._router.navigate(["List"]);
-        },
-        (error) => {
-          alert("Unfortunately we could not find your account.");
-          this.isAuthenticating = false;
-        }
-      );*/
+    this._userService.login(this.user)
+      .then(() => {
+        console.log("in login callback...");
+        this.isAuthenticating = false;
+        this._router.navigate(["List"]);
+      })
+      .catch(() => {
+        alert("Unfortunately we could not find your account.");
+        this.isAuthenticating = false;
+      });
   }
 
   signUp() {
-    this._userService.register(this.user)
+    /*this._userService.register(this.user)
       .subscribe(
         () => {
           alert("Your account was successfully created.");
@@ -94,7 +91,7 @@ export class LoginPage implements OnInit {
           alert("Unfortunately we were unable to create your account.");
           this.isAuthenticating = false;
         }
-      );
+      );*/
   }
 
   forgotPassword() {
@@ -106,12 +103,12 @@ export class LoginPage implements OnInit {
       cancelButtonText: "Cancel"
     }).then((data) => {
       if (data.result) {
-        this._userService.resetPassword(data.text.trim())
+        /*this._userService.resetPassword(data.text.trim())
           .subscribe(() => {
             alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
           }, () => {
             alert("Unfortunately, an error occurred resetting your password.");
-          });
+          });*/
       }
     });
   }

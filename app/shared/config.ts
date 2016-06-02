@@ -1,4 +1,5 @@
 import {getString, setString} from "application-settings";
+import {connectionType, getConnectionType, startMonitoring} from "connectivity";
 var Everlive = require("../shared/everlive.all.min");
 
 export class Config {
@@ -6,7 +7,19 @@ export class Config {
     apiKey: "gwfrtxi1lwt4jcqk",
     offlineStorage: true
   });
-  static apiUrl = "https://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/";
+
+  private static setOfflineFlag() {
+    if (getConnectionType() == connectionType.none) {
+      Config.el.offline();
+    } else {
+      Config.el.online();
+      Config.el.sync();
+    }
+  }
+  static setupConnectionMonitoring() {
+    startMonitoring(Config.setOfflineFlag);
+  }
+
   static get token():string {
     return getString("token");
   }
