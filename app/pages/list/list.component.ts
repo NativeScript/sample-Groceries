@@ -90,17 +90,15 @@ export class ListPage implements OnInit {
     textField.dismissSoftInput();
 
     this.isLoading = true;
-    this.store.add(this.grocery)
-      .subscribe(
-        () => {
-          this.grocery = "";
-          this.isLoading = false;
-        },
-        () => {
-          alert("An error occurred while adding an item to your list.");
-          this.isLoading = false;
-        }
-      );
+    this.store.add(this.grocery).then(() => {
+      this.grocery = "";
+      this.isLoading = false;
+    }).catch((error) => {
+      console.log(error);
+      console.log(JSON.stringify(error));
+      alert("An error occurred while adding an item to your list.");
+      this.isLoading = false;
+    });
   }
 
   toggleRecent() {
@@ -109,30 +107,19 @@ export class ListPage implements OnInit {
       return;
     }
 
-    this.isLoading = true;
     this.store.restore()
-      .subscribe(
-        () => {
-          this.isShowingRecent = false;
-          this.isLoading = false;
-        },
-        () => {
-          alert("An error occurred while adding groceries to your list.");
-          this.isLoading = false;
-        }
-      );
+      .catch(() => {
+        alert("An error occurred while adding groceries to your list.");
+      });
+
+    this.isShowingRecent = false;
   }
 
   delete(grocery: Grocery) {
-    this.isLoading = true;
     this.store.setDeleteFlag(grocery)
-      .subscribe(
-        () => this.isLoading = false,
-        () => {
-          alert("An error occurred while deleting an item from your list.");
-          this.isLoading = false;
-        }
-      );
+      .catch(() => {
+        alert("An error occurred while deleting an item from your list.");
+      });
   }
 
   showMenu() {

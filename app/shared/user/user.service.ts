@@ -26,8 +26,14 @@ export class UserService {
     .catch(this.handleErrors);
   }
 
-  login(user: User) {
-    let headers = new Headers();
+  login(user: User, successHandler, errorHandler) {
+    Config.el.authentication.login(user.email, user.password, function(data) {
+      successHandler(data.result.access_token);
+    }, function(err) { 
+      console.log(err);
+      errorHandler();
+    });
+    /*let headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     return this._http.post(
@@ -43,7 +49,7 @@ export class UserService {
     .do(data => {
       Config.token = data.Result.access_token;
     })
-    .catch(this.handleErrors);
+    .catch(this.handleErrors);*/
   }
 
   resetPassword(email) {

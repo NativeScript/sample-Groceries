@@ -14,134 +14,79 @@ export class GroceryStore {
   constructor(private _http: Http) {}
 
   load() {
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Sort", JSON.stringify({ ModifiedAt: -1 }));
-
-    return this._http.get(Config.apiUrl + "Groceries", {
-      headers: headers
-    })
-    .map(res => res.json())
-    .map(data => {
-      data.Result.forEach((grocery) => {
-        this._allItems.push(
-          new Grocery(
-            grocery.Id,
-            grocery.Name,
-            grocery.Done || false,
-            grocery.Deleted || false
-          )
-        );
-        this.publishUpdates();
+    Config.el.authentication.setAuthorization(Config.token, "bearer");
+    return Config.el.data("Groceries")
+      .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
+      .get()
+      .then((data) => {
+        data.result.forEach((grocery) => {
+          this._allItems.push(
+            new Grocery(
+              grocery.Id,
+              grocery.Name,
+              grocery.Done || false,
+              grocery.Deleted || false
+            )
+          );
+          this.publishUpdates();
+        });
       });
-    })
-    .catch(this.handleErrors);
   }
 
   add(name: string) {
-    return this._http.post(
-      Config.apiUrl + "Groceries",
-      JSON.stringify({ Name: name }),
-      { headers: this.getHeaders() }
-    )
-    .map(res => res.json())
-    .map(data => {
-      this._allItems.unshift(new Grocery(data.Result.Id, name, false, false));
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
+    let newGrocery = new Grocery("", name, false, false);
+    this._allItems.unshift(newGrocery);
+    this.publishUpdates();
+    return Config.el.data("Groceries")
+      .create({ Name: name })
+      .then((data) => {
+        newGrocery.id = data.result.Id;
+      });
   }
 
   getItems() {
     return this._allItems;
   }
 
-  private _put(id: string, data: Object) {
-    return this._http.put(
-      Config.apiUrl + "Groceries/" + id,
-      JSON.stringify(data),
-      { headers: this.getHeaders() }
-    )
-    .catch(this.handleErrors);
+  setDeleteFlag(item: Grocery) {
+    item.deleted = true;
+    item.done = false;
+    this.publishUpdates();
+    return Config.el.data("Groceries")
+      .updateSingle({ Id: item.id, Deleted: true, Done: true });
   }
 
-  setDeleteFlag(item: Grocery) {
-    return this._put(item.id, { Deleted: true, Done: false })
-      .map(res => res.json())
-      .map(data => {
-        item.deleted = true;
-        item.done = false;
-        this.publishUpdates();
-      });
+  toggleDoneFlag(item: Grocery) {
+    item.done = !item.done;
+    this.publishUpdates();
+    return Config.el.data("Groceries")
+      .updateSingle({ Id: item.id, Done: !item.done });
   }
 
   restore() {
     let indeces = [];
     this._allItems.forEach((grocery) => {
       if (grocery.deleted && grocery.done) {
+        grocery.done = false;
+        grocery.deleted = false;
         indeces.push(grocery.id);
       }
     });
 
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Filter", JSON.stringify({
-      "Id": {
-        "$in": indeces
-      }
-    }));
+    let headers = {
+      "X-Everlive-Filter": JSON.stringify({
+        "Id": { "$in": indeces }
+      })
+    };
 
-    return this._http.put(
-      Config.apiUrl + "Groceries",
-      JSON.stringify({
-        Deleted: false,
-        Done: false
-      }),
-      { headers: headers }
-    )
-    .map(res => res.json())
-    .map(data => {
-      this._allItems.forEach((grocery) => {
-        if (grocery.deleted && grocery.done) {
-          grocery.deleted = false;
-          grocery.done = false;
-        }
-      });
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
-  }
-
-  toggleDoneFlag(item: Grocery) {
-    return this._put(item.id, { Done: !item.done })
-      .map(res => res.json())
-      .map(data => {
-        item.done = !item.done;
-        this.publishUpdates();
-      });
-  }
-
-  deleteForever(item: Grocery) {
-    return this._http.delete(
-      Config.apiUrl + "Groceries/" + item.id,
-      { headers: this.getHeaders() }
-    )
-    .map(res => res.json())
-    .catch(this.handleErrors);
-  }
-
-  getHeaders() {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Bearer " + Config.token);
-    return headers;
+    this.publishUpdates();
+    return Config.el.data("Groceries")
+      .withHeaders(headers)
+      .update({ Deleted: false, Done: false });
   }
 
   publishUpdates() {
     // must emit a *new* value (immutability!)
     this.items.next([...this._allItems]);
-  }
-
-  handleErrors(error: Response) {
-    console.log(error);
-    return Observable.throw(error);
   }
 }

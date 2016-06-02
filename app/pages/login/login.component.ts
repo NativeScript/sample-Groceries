@@ -61,7 +61,15 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this._userService.login(this.user)
+    this._userService.login(this.user, () => {
+      this.isAuthenticating = false;
+      this._router.navigate(["List"]);
+    }, () => {
+      alert("Unfortunately we could not find your account.");
+      this.isAuthenticating = false;
+    });
+
+    /*
       .subscribe(
         () => {
           this.isAuthenticating = false;
@@ -71,7 +79,7 @@ export class LoginPage implements OnInit {
           alert("Unfortunately we could not find your account.");
           this.isAuthenticating = false;
         }
-      );
+      );*/
   }
 
   signUp() {
