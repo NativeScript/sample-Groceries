@@ -2,6 +2,7 @@ import {Component, ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter, Inp
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {Observable, BehaviorSubject} from "rxjs/Rx";
+import {alert} from "../../utils/dialog-util";
 
 declare var UIColor: any;
 
@@ -32,22 +33,29 @@ export class ItemStatusPipe implements PipeTransform {
 export class GroceryList {
   @Input() showDeleted: boolean;
   @Input() row;
-
   @Output() loading = new EventEmitter();
   @Output() loaded = new EventEmitter();
 
   listLoaded = false;
 
   constructor(private store: GroceryStore) {
-    this.load();
+    // TODO: This is hacky. Why do I need to defer the call to load()
+    // to get the appropriate events to fire?
+    setTimeout(() => {
+      this.load();
+    });
   }
 
   load() {
-    this.loading.emit("loading");
-    this.store.load().then(() => {
-      this.loaded.emit("loaded");
-      this.listLoaded = true;
-    });
+    this.loading.next("");
+    this.store.load()
+      .then(() => {
+        this.loaded.next("");
+        this.listLoaded = true;
+      })
+      .catch(() => {
+        alert("An error occurred loading your grocery list.");
+      })
   }
 
   // The following trick makes the background color of each cell

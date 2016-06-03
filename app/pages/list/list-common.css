@@ -54,11 +54,7 @@ TextField {
   color: #311217;
 }
 
-.drawer-content {
-  background-color: #311217;
-  color: white;
-}
-.drawer-content-label {
-  margin: 16;
-  font-weight: bold;
+ActivityIndicator {
+  horizontal-align: center;
+  vertical-align: center;
 }
