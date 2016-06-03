@@ -7,18 +7,30 @@ export class Config {
     apiKey: "gwfrtxi1lwt4jcqk",
     offlineStorage: true
   });
+  static lastOnlineState;
 
   private static handleOnlineOffline() {
     if (getConnectionType() == connectionType.none) {
       Config.el.offline();
     } else {
       Config.el.online();
-      Config.el.sync();
     }
   }
   static setupConnectionMonitoring() {
     Config.handleOnlineOffline();
-    startMonitoring(Config.handleOnlineOffline);
+    Config.lastOnlineState = getConnectionType();
+    startMonitoring(() => {
+      Config.handleOnlineOffline();
+
+      // If the user comes back online sync any changes they
+      // made while offline.
+      if (getConnectionType() != connectionType.none
+        && Config.lastOnlineState == connectionType.none) {
+        Config.el.sync();
+      }
+
+      Config.lastOnlineState = getConnectionType();
+    });
   }
 
   static get token():string {
