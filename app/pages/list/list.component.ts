@@ -76,7 +76,7 @@ export class ListPage implements OnInit {
     this.groceryList = [];
     this.history = [];
 
-    this._groceryListService.load()
+    /*this._groceryListService.load()
       .subscribe(loadedGroceries => {
         loadedGroceries.forEach((groceryObject: Grocery) => {
           if (groceryObject.deleted) {
@@ -87,7 +87,7 @@ export class ListPage implements OnInit {
         });
         this.isLoading = false;
         this.listLoaded = true;
-      });
+      });*/
   }
 
   add() {

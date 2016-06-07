@@ -33,7 +33,7 @@ export class UserService {
       password: user.password
     }).then(
         function (result) {
-          Config.uid = result.uid
+          Config.token = result.uid
           return JSON.stringify(result);
         },
         function (errorMessage) {
