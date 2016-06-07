@@ -93,9 +93,10 @@ export class ListPage implements OnInit {
     textField.dismissSoftInput();
 
     this.store.add(this.grocery)
-      .catch(() => {
+    //TODO: this seems to always hit, no matter what
+      /*.catch(() => {
         alert("An error occurred while adding an item to your list.");
-      });
+      });*/
 
     this.grocery = "";
   }
@@ -115,10 +116,10 @@ export class ListPage implements OnInit {
   }
 
   delete(grocery: Grocery) {
-    /*this.store.setDeleteFlag(grocery)
+    this.store.setDeleteFlag(grocery)
       .catch(() => {
         alert("An error occurred while deleting an item from your list.");
-      });*/
+      });
   }
 
   showMenu() {

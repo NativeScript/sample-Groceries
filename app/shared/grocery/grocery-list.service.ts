@@ -27,7 +27,7 @@ export class GroceryStore {
     if (!result.error) {
       if (result.type === "ChildAdded") {
           if (result.value.UID === Config.token) {
-            // TODO: Why is this event firing multiples times? We shouldn’t
+            // TODO: Why is this event firing multiple times? We shouldn’t
             // need to do this manual checking.
             let found = false;
             this._allItems.forEach((grocery) => {
@@ -64,39 +64,17 @@ export class GroceryStore {
       });
   }
   
-  /*load() {
-    Config.el.authentication.setAuthorization(Config.token, "bearer");
-    return Config.el.data("Groceries")
-      .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
-      .get()
-      .then((data) => {
-        data.result.forEach((grocery) => {
-          this._allItems.push(
-            new Grocery(
-              grocery.Id,
-              grocery.Name,
-              grocery.Done || false,
-              grocery.Deleted || false
-            )
-          );
-          this.publishUpdates();
-        });
-        return Promise.resolve(this._allItems);
-      })
-      .catch(this.handleErrors);
-  }*/
-
   add(name: string) {
     let newGrocery = new Grocery("", name, false, false);
-    this._allItems.unshift(newGrocery);
-    this.publishUpdates();
+    //this._allItems.unshift(newGrocery);
+    //this.publishUpdates();
     return firebase.push(
         "/Groceries",
         { "Name": name, "UID": Config.token }
       )
       .then((data) => {
         newGrocery.id = data.result.Id;
-        return Promise.resolve(newGrocery);
+        //return Promise.resolve(newGrocery);
       })
       .catch(this.handleErrors);
   }
@@ -106,12 +84,11 @@ export class GroceryStore {
   }
 
   setDeleteFlag(item: Grocery) {
-    /*item.deleted = true;
+    item.deleted = true;
     item.done = false;
     this.publishUpdates();
-    return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Deleted: true, Done: true })
-      .catch(this.handleErrors);*/
+    return firebase.remove("/Groceries/"+item.id+"")
+      .catch(this.handleErrors);
   }
 
   toggleDoneFlag(item: Grocery) {

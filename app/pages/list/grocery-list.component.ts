@@ -89,9 +89,9 @@ export class GroceryList {
   }
 
   delete(grocery: Grocery) {
-   /* this.store.setDeleteFlag(grocery)
+   this.store.setDeleteFlag(grocery)
       .catch(() => {
         alert("An error occurred while deleting an item from your list.");
-      });*/
+      });
   }
 }
