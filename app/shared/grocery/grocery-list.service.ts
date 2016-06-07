@@ -13,7 +13,6 @@ export class GroceryListService {
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private _allItems: Array<Grocery> = [];
 
-
   constructor(private _http: Http) {
     
     return firebase.addChildEventListener(this.onChildEvent.bind(this), "/Groceries").then(
@@ -26,22 +25,28 @@ export class GroceryListService {
         )
   }
 
-onQueryEvent(result:any){
-    let groceryList = [];
+  onQueryEvent(result:any){
+    //let groceryList = [];
       if (!result.error) {
             console.log("Event type: " + result.type);
             console.log("Key: " + result.key);
             console.log("Value: " + JSON.stringify(result.value.Name));
             if (result.type === "ChildAdded") {            
                 if(result.value.UID === Config.token){
-                  groceryList.push({
-                    name: JSON.stringify(result.value.Name),
-                    id: result.key
-                  });
+                  this._allItems.push(
+                    new Grocery(
+                      result.key,
+                      result.value.Name,
+                      result.value.Done || false,
+                      result.value.Deleted || false
+                    )
+                  );
+                  this.publishUpdates();
                 }
+               return Promise.resolve(this._allItems);
             }
 
-            else if (result.type === "ChildRemoved") {
+            /*else if (result.type === "ChildRemoved") {
               
               let matches = [];
 
@@ -52,9 +57,9 @@ onQueryEvent(result:any){
                     groceryList.splice(index, 1);                                     
                 });
 
-            }
+            }*/
         }
-        return groceryList
+        //return groceryList
  }
   
   onChildEvent(result:any){
