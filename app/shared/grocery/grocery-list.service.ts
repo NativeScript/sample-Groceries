@@ -3,11 +3,17 @@ import {Http, Headers} from "@angular/http";
 import {Config} from "../config";
 import {Grocery} from "./grocery";
 import {Observable} from "rxjs/Rx";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/map";
 var firebase = require("nativescript-plugin-firebase");
 
 @Injectable()
 export class GroceryListService {
+  
+  items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
+  private _allItems: Array<Grocery> = [];
+
+
   constructor(private _http: Http) {
     
     return firebase.addChildEventListener(this.onChildEvent.bind(this), "/Groceries").then(
@@ -25,7 +31,7 @@ onQueryEvent(result:any){
       if (!result.error) {
             console.log("Event type: " + result.type);
             console.log("Key: " + result.key);
-            console.log("Value: " + JSON.stringify(result.value));
+            console.log("Value: " + JSON.stringify(result.value.Name));
             if (result.type === "ChildAdded") {            
                 if(result.value.UID === Config.token){
                   groceryList.push({
@@ -49,33 +55,18 @@ onQueryEvent(result:any){
             }
         }
         return groceryList
-    }
+ }
+  
   onChildEvent(result:any){
-    //get dem groceries
-    
     return firebase.query(
-        this.onQueryEvent,
-        "/Groceries",
-        {
-          orderBy: {
-                type: firebase.QueryOrderByType.CHILD,
-                value: 'Name' // mandatory when type is 'child'
-            }
-        }).then(
-          /*data => {
-           let groceryList = [];
-          data.result.forEach((grocery) => {
-            console.log("groc",data)
-            groceryList.push({
-              name: grocery.value.Name,
-              id: grocery.key
-            }
-              
-            );
-          });
-          return groceryList;
-        }*/)
-        .catch(this.handleErrors);
+          this.onQueryEvent,
+          "/Groceries",
+          {
+            orderBy: {
+                  type: firebase.QueryOrderByType.CHILD,
+                  value: 'Name' // mandatory when type is 'child'
+              }
+          })
   }
   
   add(name: string) {
@@ -149,6 +140,10 @@ onQueryEvent(result:any){
     return headers;
   }
 
+  publishUpdates() {
+      // must emit a *new* value (immutability!)
+      this.items.next([...this._allItems]);
+  }
   handleErrors(error: Response) {
     console.log(JSON.stringify(error));
     return Observable.throw(error);
