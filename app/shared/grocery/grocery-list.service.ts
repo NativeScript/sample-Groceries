@@ -64,7 +64,7 @@ export class GroceryListService {
   
   onChildEvent(result:any){
     return firebase.query(
-          this.onQueryEvent,
+          this.onQueryEvent.bind(this),
           "/Groceries",
           {
             orderBy: {
