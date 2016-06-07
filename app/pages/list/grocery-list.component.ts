@@ -36,7 +36,9 @@ export class GroceryList {
   @Output() loading = new EventEmitter();
   @Output() loaded = new EventEmitter();
 
-  listLoaded = false;
+  // TODO: Implement loading indicators
+  // This should start at false
+  listLoaded = true;
 
   constructor(private store: GroceryStore) {
     // TODO: This is hacky. Why do I need to defer the call to load()

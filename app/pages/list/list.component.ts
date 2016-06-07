@@ -60,7 +60,8 @@ export class ListPage implements OnInit {
   }
 
   showActivityIndicator() {
-    this.isLoading = true;
+    // TODO: Implement loading indicators
+    // this.isLoading = true;
   }
   hideActivityIndicator() {
     this.isLoading = false;
