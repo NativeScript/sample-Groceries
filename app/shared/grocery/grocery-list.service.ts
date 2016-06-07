@@ -14,7 +14,7 @@ export class GroceryStore {
   
   constructor() {
     
-    return firebase.addChildEventListener(this.onChildEvent.bind(this), "/Groceries").then(
+    firebase.addChildEventListener(this.onChildEvent.bind(this), "/Groceries").then(
             () => {
               console.log("firebase.addChildEventListener added");
             },
@@ -58,8 +58,8 @@ export class GroceryStore {
             })
   }
   
-  load() {
-    /*Config.el.authentication.setAuthorization(Config.token, "bearer");
+  /*load() {
+    Config.el.authentication.setAuthorization(Config.token, "bearer");
     return Config.el.data("Groceries")
       .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
       .get()
@@ -77,20 +77,24 @@ export class GroceryStore {
         });
         return Promise.resolve(this._allItems);
       })
-      .catch(this.handleErrors);*/
-  }
+      .catch(this.handleErrors);
+  }*/
 
   add(name: string) {
-    /*let newGrocery = new Grocery("", name, false, false);
+    let newGrocery = new Grocery("", name, false, false);
     this._allItems.unshift(newGrocery);
     this.publishUpdates();
-    return Config.el.data("Groceries")
-      .create({ Name: name })
+    return firebase.push(
+      '/Groceries',
+          {'Name': name,
+           'UID': Config.token
+           }
+        )
       .then((data) => {
         newGrocery.id = data.result.Id;
         return Promise.resolve(newGrocery);
       })
-      .catch(this.handleErrors);*/
+      .catch(this.handleErrors);
   }
 
   getItems() {

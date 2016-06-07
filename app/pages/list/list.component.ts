@@ -91,10 +91,10 @@ export class ListPage implements OnInit {
     // user can continue to add more groceries?
     textField.dismissSoftInput();
 
-    /*this.store.add(this.grocery)
+    this.store.add(this.grocery)
       .catch(() => {
         alert("An error occurred while adding an item to your list.");
-      });*/
+      });
 
     this.grocery = "";
   }
