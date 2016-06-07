@@ -1,16 +1,65 @@
 import {Injectable} from "@angular/core";
+//import {Http} from "@angular/http";
 import {Config} from "../config";
 import {Grocery} from "./grocery";
-import {Observable, BehaviorSubject} from "rxjs/Rx";
+import {Observable} from "rxjs/Rx";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+var firebase = require("nativescript-plugin-firebase");
 
 @Injectable()
 export class GroceryStore {
-
+  
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private _allItems: Array<Grocery> = [];
+  
+  constructor() {
+    
+    return firebase.addChildEventListener(this.onChildEvent.bind(this), "/Groceries").then(
+            () => {
+              console.log("firebase.addChildEventListener added");
+            },
+            (error) => {
+              console.log("firebase.addChildEventListener error: " + error);
+            }
+        )
+  }
+  
+  onQueryEvent(result:any){
+    if (!result.error) {
+            console.log("Event type: " + result.type);
+            console.log("Key: " + result.key);
+            console.log("Value: " + JSON.stringify(result.value.Name));
+            if (result.type === "ChildAdded") {            
+                if(result.value.UID === Config.token){
+                  this._allItems.push(
+                    new Grocery(
+                      result.key,
+                      result.value.Name,
+                      result.value.Done || false,
+                      result.value.Deleted || false
+                    )                  
+                  );
+                  this.publishUpdates();                  
+                }
+               return Promise.resolve(this._allItems);
+            }
+        }
+  }
 
+  onChildEvent(result:any){
+      return firebase.query(
+            this.onQueryEvent.bind(this),
+            "/Groceries",
+            {
+              orderBy: {
+                    type: firebase.QueryOrderByType.CHILD,
+                    value: 'Name' // mandatory when type is 'child'
+                }
+            })
+  }
+  
   load() {
-    Config.el.authentication.setAuthorization(Config.token, "bearer");
+    /*Config.el.authentication.setAuthorization(Config.token, "bearer");
     return Config.el.data("Groceries")
       .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
       .get()
@@ -28,11 +77,11 @@ export class GroceryStore {
         });
         return Promise.resolve(this._allItems);
       })
-      .catch(this.handleErrors);
+      .catch(this.handleErrors);*/
   }
 
   add(name: string) {
-    let newGrocery = new Grocery("", name, false, false);
+    /*let newGrocery = new Grocery("", name, false, false);
     this._allItems.unshift(newGrocery);
     this.publishUpdates();
     return Config.el.data("Groceries")
@@ -41,7 +90,7 @@ export class GroceryStore {
         newGrocery.id = data.result.Id;
         return Promise.resolve(newGrocery);
       })
-      .catch(this.handleErrors);
+      .catch(this.handleErrors);*/
   }
 
   getItems() {
@@ -49,20 +98,20 @@ export class GroceryStore {
   }
 
   setDeleteFlag(item: Grocery) {
-    item.deleted = true;
+    /*item.deleted = true;
     item.done = false;
     this.publishUpdates();
     return Config.el.data("Groceries")
       .updateSingle({ Id: item.id, Deleted: true, Done: true })
-      .catch(this.handleErrors);
+      .catch(this.handleErrors);*/
   }
 
   toggleDoneFlag(item: Grocery) {
-    item.done = !item.done;
+    /*item.done = !item.done;
     this.publishUpdates();
     return Config.el.data("Groceries")
       .updateSingle({ Id: item.id, Done: !item.done })
-      .catch(this.handleErrors);
+      .catch(this.handleErrors);*/
   }
 
   restore() {
@@ -82,10 +131,10 @@ export class GroceryStore {
     };
 
     this.publishUpdates();
-    return Config.el.data("Groceries")
+    /*return Config.el.data("Groceries")
       .withHeaders(headers)
       .update({ Deleted: false, Done: false })
-      .catch(this.handleErrors);
+      .catch(this.handleErrors);*/
   }
 
   publishUpdates() {

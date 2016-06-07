@@ -91,10 +91,10 @@ export class ListPage implements OnInit {
     // user can continue to add more groceries?
     textField.dismissSoftInput();
 
-    this.store.add(this.grocery)
+    /*this.store.add(this.grocery)
       .catch(() => {
         alert("An error occurred while adding an item to your list.");
-      });
+      });*/
 
     this.grocery = "";
   }
@@ -105,19 +105,19 @@ export class ListPage implements OnInit {
       return;
     }
 
-    this.store.restore()
+    /*this.store.restore()
       .catch(() => {
         alert("An error occurred while adding groceries to your list.");
-      });
+      });*/
 
     this.isShowingRecent = false;
   }
 
   delete(grocery: Grocery) {
-    this.store.setDeleteFlag(grocery)
+    /*this.store.setDeleteFlag(grocery)
       .catch(() => {
         alert("An error occurred while deleting an item from your list.");
-      });
+      });*/
   }
 
   showMenu() {

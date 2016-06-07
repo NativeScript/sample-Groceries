@@ -110,12 +110,12 @@ export class LoginPage implements OnInit {
     }).then((data) => {
       if (data.result) {
         this._userService.resetPassword(data.text.trim())
-          .then(() => {
+          /*.then(() => {
             alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
           })
           .catch(() => {
             alert("Unfortunately, an error occurred resetting your password.");
-          });
+          });*/
       }
     });
   }

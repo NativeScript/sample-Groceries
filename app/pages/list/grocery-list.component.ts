@@ -48,14 +48,14 @@ export class GroceryList {
 
   load() {
     this.loading.next("");
-    this.store.load()
+    /*this.store.load()
       .then(() => {
         this.loaded.next("");
         this.listLoaded = true;
       })
       .catch(() => {
         alert("An error occurred loading your grocery list.");
-      })
+      })*/
   }
 
   // The following trick makes the background color of each cell
@@ -80,16 +80,16 @@ export class GroceryList {
       return;
     }
 
-    this.store.toggleDoneFlag(grocery)
+    /*this.store.toggleDoneFlag(grocery)
       .catch(() => {
         alert("An error occurred managing your grocery list.");
-      });
+      });*/
   }
 
   delete(grocery: Grocery) {
-    this.store.setDeleteFlag(grocery)
+   /* this.store.setDeleteFlag(grocery)
       .catch(() => {
         alert("An error occurred while deleting an item from your list.");
-      });
+      });*/
   }
 }
