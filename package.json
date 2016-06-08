@@ -18,7 +18,7 @@
 	"nativescript": {
 		"id": "org.nativescript.groceries",
 		"tns-ios": {
-			"version": "2.0.0"
+			"version": "2.0.1"
 		},
 		"tns-android": {
 			"version": "2.0.0"

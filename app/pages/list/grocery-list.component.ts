@@ -39,11 +39,6 @@ export class GroceryList {
   listLoaded = false;
 
   constructor(private store: GroceryStore) {
-    // TODO: This is hacky. Why do I need to defer the call to load()
-    // to get the appropriate events to fire?
-    setTimeout(() => {
-      this.load();
-    });
   }
 
   load() {
