@@ -6,7 +6,10 @@ app/**/*.js
 hooks/
 lib/
 node_modules/
+
 platforms/
+!platforms/android/google-services.json
+!platforms/android/build.gradle
+
 tmp/
 typings/
-!platforms/android/google-services.json
