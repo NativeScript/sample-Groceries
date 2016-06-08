@@ -11,6 +11,21 @@ export class GroceryStore {
 
   load() {
     Config.el.authentication.setAuthorization(Config.token, "bearer");
+    // TODO: In Everlive docs there is a method named isSynchronizing() unfortunately calling it returns an error that
+    // such thing does not exist, so we need this HACK here.
+    if (Config.isSync) {
+      let timerId = setInterval(() => {
+        if (!Config.isSync) {
+          clearInterval(timerId);
+          return this.loadItems();
+        }
+      }, 500);
+    } else {
+      return this.loadItems();
+    }
+  }
+
+  loadItems() {
     return Config.el.data("Groceries")
       .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
       .get()
