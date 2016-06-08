@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "681992970665",
+    "firebase_url": "https://firegroceries-904d0.firebaseio.com",
+    "project_id": "firegroceries-904d0",
+    "storage_bucket": "firegroceries-904d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681992970665:android:fdb32a7862172e12",
+        "android_client_info": {
+          "package_name": "org.nativescript.groceries"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681992970665-jfo0prrdru9cvp1pmijvspi4b4vmpodu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3n7SkFL3Pil-V2KsCbx_-J7qNV8C-2og"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
