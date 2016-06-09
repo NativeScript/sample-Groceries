@@ -5,6 +5,7 @@ import {Grocery} from "./grocery";
 import {Observable} from "rxjs/Rx";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 var firebase = require("nativescript-plugin-firebase");
+declare var zonedCallback: Function;
 
 @Injectable()
 export class GroceryStore {
@@ -14,30 +15,32 @@ export class GroceryStore {
   private _allItems: Array<Grocery> = [];
   
   constructor() {
-    
-    this.onSync = (result: any) => this.onQueryEvent(result.value);
-    firebase.addValueEventListener(this.onSync, "/Groceries");
-       
+    firebase.addValueEventListener(zonedCallback(this.onQueryEvent.bind(this)), "/Groceries");
   }
   
   onQueryEvent(result: any) {
-    console.log("hit")
-    if (result && !result.error) {
-      this._allItems = [];
-      Object.keys(result).forEach((key) => {
-        let entry = result[key];
-        this._allItems.push(
-          new Grocery(
-            key,
-            entry.Name,
-            entry.Done || false,
-            entry.Deleted || false
+    console.log("hit");
+    if (result) {
+      if (result.error) {
+        console.log(`Error:`);
+        console.log(result.error);
+      } else if (result.value) {
+        result = result.value;
+        this._allItems = [];
+        Object.keys(result).forEach((key) => {
+          let entry = result[key];
+          this._allItems.push(
+            new Grocery(
+              key,
+              entry.Name,
+              entry.Done || false,
+              entry.Deleted || false
+            )
           )
-        )
-      });
-      this.publishUpdates();
+        });
+        this.publishUpdates();
+      }
     }
-
     return Promise.resolve(this._allItems);             
   }
     

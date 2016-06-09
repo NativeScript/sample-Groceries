@@ -1,7 +1,7 @@
 <ListView
   [row]="row"
   [class.visible]="listLoaded"
-  [items]="store.items | async | itemStatus:showDeleted"
+  [items]="(store.items | async) | itemStatus:showDeleted"
   (itemLoading)="makeBackgroundTransparent($event)">
   <template let-item="item">
     <GridLayout
