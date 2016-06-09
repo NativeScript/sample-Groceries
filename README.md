@@ -2,7 +2,8 @@
 
 Groceries is a NativeScript-built iOS and Android app for managing grocery lists. You can learn how to build a version of this app from scratch using either our [JavaScript getting started guide](http://docs.nativescript.org/tutorial/chapter-0), or our [TypeScript and Angular 2 getting started guide](http://docs.nativescript.org/angular/tutorial/ng-chapter-0).
 
-* [Download](#download)
+<!-- * [Download](#download) -->
+
 * [Branches](#branches)
 * [Screenshots](#screenshots)
 * [Development](#development)
