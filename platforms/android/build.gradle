@@ -30,7 +30,6 @@ buildscript {
 }
 
 apply plugin: "com.android.application"
-apply plugin: "com.google.gms.google-services"
 
 def isWinOs = System.properties['os.name'].toLowerCase().contains('windows')
 def metadataParams = new LinkedList <String> ()
@@ -619,3 +618,4 @@ task buildapk {
   
   dependsOn deleteExplodedAarFolder
 }
+apply plugin: "com.google.gms.google-services"

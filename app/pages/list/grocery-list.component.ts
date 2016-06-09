@@ -81,11 +81,10 @@ export class GroceryList {
       grocery.done = !grocery.done;
       return;
     }
-
-    /*this.store.toggleDoneFlag(grocery)
+    this.store.toggleDoneFlag(grocery)
       .catch(() => {
         alert("An error occurred managing your grocery list.");
-      });*/
+      });
   }
 
   delete(grocery: Grocery) {

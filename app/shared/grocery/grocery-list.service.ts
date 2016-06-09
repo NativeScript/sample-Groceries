@@ -24,8 +24,8 @@ export class GroceryStore {
   }
   
   onQueryEvent(result:any){
+    console.log(result.type)
     if (!result.error) {
-      if (result.type === "ChildAdded") {
           if (result.value.UID === Config.token) {
             // TODO: Why is this event firing multiple times? We shouldn’t
             // need to do this manual checking.
@@ -47,8 +47,7 @@ export class GroceryStore {
             }
             this.publishUpdates();                  
           }
-         return Promise.resolve(this._allItems);
-      }
+         return Promise.resolve(this._allItems);             
     }
   }
 
@@ -73,7 +72,8 @@ export class GroceryStore {
         { "Name": name, "UID": Config.token }
       )
       .then((data) => {
-        newGrocery.id = data.result.Id;
+        //console.log(data.result)
+        //newGrocery.id = data.result.Key;
         //return Promise.resolve(newGrocery);
       })
       .catch(this.handleErrors);
@@ -92,11 +92,10 @@ export class GroceryStore {
   }
 
   toggleDoneFlag(item: Grocery) {
-    /*item.done = !item.done;
+    item.done = !item.done;
     this.publishUpdates();
-    return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Done: !item.done })
-      .catch(this.handleErrors);*/
+    return firebase.update("/Groceries/"+item.id+"",{Done: item.done})
+      .catch(this.handleErrors);
   }
 
   restore() {
