@@ -11,6 +11,9 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
     * [Travis CI](#travis)
 * [Contributors](#contributors)
 
+<!--
+Commenting this out for now because until Groceries 3.0 drops (see https://github.com/NativeScript/sample-Groceries/issues/78), the version of the app in the stores and this repo don’t match up. Commenting this out == confusion-- (hopefully).
+
 <h2 id="download">Download</h2>
 
 The latest version of Groceries is available on the iOS App Store as well as Google Play:
@@ -21,6 +24,7 @@ The latest version of Groceries is available on the iOS App Store as well as Goo
 <a href="https://play.google.com/store/apps/details?id=org.nativescript.groceries&hl=en">
   <img src="assets/app-store-icons/google-play.png">
 </a>
+-->
 
 <h2 id="branches">Branches</h2>
 
