@@ -15,8 +15,8 @@ export class GroceryStore {
   
   constructor() {
     
-    this.onSync = (result:any) => this.onQueryEvent(result.value)
-    firebase.addValueEventListener(this.onSync, '/Groceries')
+    this.onSync = (result: any) => this.onQueryEvent(result.value);
+    firebase.addValueEventListener(this.onSync, "/Groceries");
     
     /*firebase.addValueEventListener(this.onValueEvent.bind(this), "/Groceries").then(
       () => {
@@ -28,39 +28,23 @@ export class GroceryStore {
     );*/
   }
   
-  onQueryEvent(result:any){
-    console.log(JSON.stringify(result))
+  onQueryEvent(result: any) {
     if (!result.error) {
-          if (result.UID === Config.token) {
-            // TODO: Why is this event firing multiple times? We shouldn’t
-            // need to do this manual checking.
-            /*let found = false;
-            this._allItems.forEach((grocery) => {
-              if (grocery.id === result.key) {
-                found = true;
-              }
-            });*/
-            //if(result.type === "ValueChanged"){
-              //if (!found) {
-              this._allItems.push(
-                new Grocery(
-                  result.key,
-                  result.Name,
-                  result.Done || false,
-                  result.Deleted || false
-                )
-              );
-            // }
-            this.publishUpdates(); 
-            //}
-            /*else if (result.type === "ChildChanged"){
-              let newGrocery = new Grocery("", result.value.Name, false, false);
-              this._allItems.unshift(newGrocery);
-              this.publishUpdates();
-            } */                           
-          }
-         return Promise.resolve(this._allItems);             
+      Object.keys(result).forEach((key) => {
+        let entry = result[key];
+        this._allItems.push(
+          new Grocery(
+            key,
+            entry.Name,
+            entry.Done || false,
+            entry.Deleted || false
+          )
+        )
+      });
+      this.publishUpdates();
     }
+
+    return Promise.resolve(this._allItems);             
   }
     
   onValueEvent(result:any){
