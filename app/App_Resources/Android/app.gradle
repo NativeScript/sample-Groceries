@@ -1,14 +1,7 @@
-// Add your native dependencies here:
-
-// Uncomment to add recyclerview-v7 dependency
-//dependencies {
-//  compile 'com.android.support:recyclerview-v7:+'
-//}
-
 android {  
   defaultConfig {  
     applicationId "org.nativescript.groceries"
-    multiDexEnabled true
+    // multiDexEnabled true
     generatedDensities = []  
   }  
   aaptOptions {  
