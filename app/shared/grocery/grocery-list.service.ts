@@ -29,7 +29,7 @@ export class GroceryStore {
   }
   
   onQueryEvent(result: any) {
-    if (!result.error) {
+    if (result && !result.error) {
       this._allItems = [];
       Object.keys(result).forEach((key) => {
         let entry = result[key];
@@ -54,8 +54,8 @@ export class GroceryStore {
       "/Groceries",
       {
         orderBy: {
-          type: firebase.QueryOrderByType.CHILD,
-          value: "Name" // mandatory when type is 'child'
+          type: firebase.QueryOrderByType.VALUE,
+          value: "Date" // mandatory when type is 'child'
         }
       });
     }
@@ -68,7 +68,7 @@ export class GroceryStore {
     //this.publishUpdates();
     return firebase.push(
         "/Groceries",
-        { "Name": name, "UID": Config.token }
+        { "Name": name, "UID": Config.token, "Date": 0 - Date.now() }
       )
       .then((data) => {
         //console.log(data.result)
