@@ -8,6 +8,7 @@
 android {  
   defaultConfig {  
     applicationId "org.nativescript.groceries"
+    multiDexEnabled true
     generatedDensities = []  
   }  
   aaptOptions {  

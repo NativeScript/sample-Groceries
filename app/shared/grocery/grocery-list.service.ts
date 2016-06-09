@@ -9,49 +9,61 @@ var firebase = require("nativescript-plugin-firebase");
 @Injectable()
 export class GroceryStore {
   
+  private onSync:Function;
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private _allItems: Array<Grocery> = [];
   
   constructor() {
-    firebase.addChildEventListener(this.onChildEvent.bind(this), "/Groceries").then(
+    
+    this.onSync = (result:any) => this.onQueryEvent(result.value)
+    firebase.addValueEventListener(this.onSync, '/Groceries')
+    
+    /*firebase.addValueEventListener(this.onValueEvent.bind(this), "/Groceries").then(
       () => {
-        console.log("firebase.addChildEventListener added");
+        console.log("firebase.addValueEventListener added");
       },
       (error) => {
-        console.log("firebase.addChildEventListener error: " + error);
+        console.log("firebase.addValueEventListener error: " + error);
       }
-    );
+    );*/
   }
   
   onQueryEvent(result:any){
-    console.log(result.type)
+    console.log(JSON.stringify(result))
     if (!result.error) {
-          if (result.value.UID === Config.token) {
+          if (result.UID === Config.token) {
             // TODO: Why is this event firing multiple times? We shouldn’t
             // need to do this manual checking.
-            let found = false;
+            /*let found = false;
             this._allItems.forEach((grocery) => {
               if (grocery.id === result.key) {
                 found = true;
               }
-            });
-            if (!found) {
+            });*/
+            //if(result.type === "ValueChanged"){
+              //if (!found) {
               this._allItems.push(
                 new Grocery(
                   result.key,
-                  result.value.Name,
-                  result.value.Done || false,
-                  result.value.Deleted || false
+                  result.Name,
+                  result.Done || false,
+                  result.Deleted || false
                 )
               );
-            }
-            this.publishUpdates();                  
+            // }
+            this.publishUpdates(); 
+            //}
+            /*else if (result.type === "ChildChanged"){
+              let newGrocery = new Grocery("", result.value.Name, false, false);
+              this._allItems.unshift(newGrocery);
+              this.publishUpdates();
+            } */                           
           }
          return Promise.resolve(this._allItems);             
     }
   }
-
-  onChildEvent(result:any){
+    
+  onValueEvent(result:any){
     return firebase.query(
       this.onQueryEvent.bind(this),
       "/Groceries",
@@ -61,7 +73,9 @@ export class GroceryStore {
           value: "Name" // mandatory when type is 'child'
         }
       });
-  }
+    }
+
+  
   
   add(name: string) {
     let newGrocery = new Grocery("", name, false, false);
