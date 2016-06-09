@@ -17,18 +17,11 @@ export class GroceryStore {
     
     this.onSync = (result: any) => this.onQueryEvent(result.value);
     firebase.addValueEventListener(this.onSync, "/Groceries");
-    
-    /*firebase.addValueEventListener(this.onValueEvent.bind(this), "/Groceries").then(
-      () => {
-        console.log("firebase.addValueEventListener added");
-      },
-      (error) => {
-        console.log("firebase.addValueEventListener error: " + error);
-      }
-    );*/
+       
   }
   
   onQueryEvent(result: any) {
+    console.log("hit")
     if (result && !result.error) {
       this._allItems = [];
       Object.keys(result).forEach((key) => {
@@ -63,7 +56,7 @@ export class GroceryStore {
   
   
   add(name: string) {
-    let newGrocery = new Grocery("", name, false, false);
+    //let newGrocery = new Grocery("", name, false, false);
     //this._allItems.unshift(newGrocery);
     //this.publishUpdates();
     return firebase.push(
