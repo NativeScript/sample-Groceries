@@ -30,6 +30,7 @@ export class GroceryStore {
   
   onQueryEvent(result: any) {
     if (!result.error) {
+      this._allItems = [];
       Object.keys(result).forEach((key) => {
         let entry = result[key];
         this._allItems.push(
