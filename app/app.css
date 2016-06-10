@@ -19,6 +19,5 @@ TextField {
   font-size: 13;
 }
 .line-through {
-  /* TODO: Why does this cause the app to crash on iOS? */
-  /* text-decoration: line-through; */
+  text-decoration: line-through;
 }
