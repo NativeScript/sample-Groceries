@@ -23,6 +23,26 @@ export class ItemStatusPipe implements PipeTransform {
   }
 }
 
+/*@Pipe({
+  name: "itemSort"
+})
+export class ArraySortPipe implements PipeTransform {
+  value: Array<Grocery> = [];
+  constructor(private _ref: ChangeDetectorRef) {}
+  transform(items: Array<Grocery>, args: string): Array<string> {
+    this.value = items.sort((a: any, b: any) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return this.value;
+  }
+}*/
+
 @Component({
   selector: "GroceryList",
   templateUrl: "pages/list/grocery-list.html",
@@ -41,23 +61,11 @@ export class GroceryList {
   listLoaded = true;
 
   constructor(private store: GroceryStore) {
-    // TODO: This is hacky. Why do I need to defer the call to load()
-    // to get the appropriate events to fire?
-    setTimeout(() => {
-      this.load();
-    });
+    this.load();
   }
 
   load() {
     this.loading.next("");
-    /*this.store.load()
-      .then(() => {
-        this.loaded.next("");
-        this.listLoaded = true;
-      })
-      .catch(() => {
-        alert("An error occurred loading your grocery list.");
-      })*/
   }
 
   // The following trick makes the background color of each cell

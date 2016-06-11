@@ -19,7 +19,6 @@ export class GroceryStore {
   }
   
   onQueryEvent(result: any) {
-    console.log("hit");
     if (result) {
       if (result.error) {
         console.log(`Error:`);
@@ -42,35 +41,13 @@ export class GroceryStore {
       }
     }
     return Promise.resolve(this._allItems);             
-  }
-    
-  onValueEvent(result:any){
-    return firebase.query(
-      this.onQueryEvent.bind(this),
-      "/Groceries",
-      {
-        orderBy: {
-          type: firebase.QueryOrderByType.VALUE,
-          value: "Date" // mandatory when type is 'child'
-        }
-      });
-    }
-
+  }  
   
-  
-  add(name: string) {
-    //let newGrocery = new Grocery("", name, false, false);
-    //this._allItems.unshift(newGrocery);
-    //this.publishUpdates();
+  add(name: string) {   
     return firebase.push(
         "/Groceries",
         { "Name": name, "UID": Config.token, "Date": 0 - Date.now() }
       )
-      .then((data) => {
-        //console.log(data.result)
-        //newGrocery.id = data.result.Key;
-        //return Promise.resolve(newGrocery);
-      })
       .catch(this.handleErrors);
   }
 
@@ -110,10 +87,6 @@ export class GroceryStore {
     };
 
     this.publishUpdates();
-    /*return Config.el.data("Groceries")
-      .withHeaders(headers)
-      .update({ Deleted: false, Done: false })
-      .catch(this.handleErrors);*/
   }
 
   publishUpdates() {
