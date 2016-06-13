@@ -18,6 +18,8 @@ export class GroceryStore {
     firebase.addValueEventListener(zonedCallback(this.onQueryEvent.bind(this)), "/Groceries");
   }
   
+  
+  
   onQueryEvent(result: any) {
     if (result) {
       if (result.error) {
@@ -32,10 +34,12 @@ export class GroceryStore {
             new Grocery(
               key,
               entry.Name,
+              entry.Date,
               entry.Done || false,
               entry.Deleted || false
             )
           )
+          
         });
         this.publishUpdates();
       }
@@ -91,6 +95,11 @@ export class GroceryStore {
 
   publishUpdates() {
     // must emit a *new* value (immutability!)
+    this._allItems.sort(function(a, b){
+        if(a.date < b.date) return -1;
+        if(a.date > b.date) return 1;
+      return 0;
+    })
     this.items.next([...this._allItems]);
   }
 
