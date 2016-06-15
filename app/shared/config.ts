@@ -26,26 +26,11 @@ export class Config {
       // made while offline.
       if (getConnectionType() != connectionType.none
         && Config.lastOnlineState == connectionType.none) {
-          Config.el.on('syncStart', () => {
-            Config.isSync = true;
-          });
-          Config.el.on('syncEnd', () => {
-            Config.isSync = false;
-          })
           Config.el.sync();
       }
 
       Config.lastOnlineState = getConnectionType();
     });
-  }
-
-  private static _isSync = false;
-  static get isSync(): boolean {
-    return Config._isSync;
-  }
-
-  static set isSync(value: boolean) {
-    Config._isSync = value;
   }
 
   static get token():string {
