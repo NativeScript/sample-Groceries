@@ -34,13 +34,10 @@ export class Config {
   }
 
   static get token():string {
-    var result = getString("token");
-    console.log("get token: " + result);
-    return result;
+    return getString("token");
   }
   static set token(theToken: string) {
     setString("token", theToken);
-    console.log("token: " + theToken);
   }
   static hasActiveToken() {
     return !!getString("token");
