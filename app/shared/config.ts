@@ -26,7 +26,7 @@ export class Config {
       // made while offline.
       if (getConnectionType() != connectionType.none
         && Config.lastOnlineState == connectionType.none) {
-        Config.el.sync();
+          Config.el.sync();
       }
 
       Config.lastOnlineState = getConnectionType();
@@ -34,10 +34,13 @@ export class Config {
   }
 
   static get token():string {
-    return getString("token");
+    var result = getString("token");
+    console.log("get token: " + result);
+    return result;
   }
   static set token(theToken: string) {
     setString("token", theToken);
+    console.log("token: " + theToken);
   }
   static hasActiveToken() {
     return !!getString("token");
