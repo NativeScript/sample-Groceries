@@ -70,7 +70,7 @@ export class LoginPageComponent implements OnInit {
     this._userService.login(this.user)
       .then(() => {
         this.isAuthenticating = false;
-        this._router.navigate(["/list"]);
+        this._router.navigate(["/"]);
       })
       .catch(() => {
         alert("Unfortunately we could not find your account.");

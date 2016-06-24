@@ -1,7 +1,6 @@
-import {Component, ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform} from "@angular/core";
+import {Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform} from "@angular/core";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
-import {Observable, BehaviorSubject} from "rxjs/Rx";
 import {alert} from "../../utils/dialog-util";
 
 declare var UIColor: any;
@@ -11,13 +10,11 @@ declare var UIColor: any;
 })
 export class ItemStatusPipe implements PipeTransform {
   value: Array<Grocery> = [];
-  constructor(private _ref: ChangeDetectorRef) {}
   transform(items: Array<Grocery>, deleted: boolean) {
     if (items && items.length) {
       this.value = items.filter((grocery: Grocery) => {
         return grocery.deleted == deleted;
       });
-      this._ref.markForCheck();
     }
     return this.value;
   }
@@ -38,7 +35,7 @@ export class GroceryList {
 
   listLoaded = false;
 
-  constructor(private store: GroceryStore) {}
+  constructor(private store: GroceryStore) { }
 
   load() {
     this.loading.next("");
@@ -69,12 +66,7 @@ export class GroceryList {
   }
 
   toggleDone(grocery: Grocery) {
-    if (grocery.deleted) {
-      grocery.done = !grocery.done;
-      return;
-    }
-
-    this.store.toggleDoneFlag(grocery)
+    this.store.toggleDoneFlag(grocery, this.showDeleted)
       .catch(() => {
         alert("An error occurred managing your grocery list.");
       });
