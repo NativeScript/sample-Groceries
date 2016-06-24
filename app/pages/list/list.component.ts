@@ -67,12 +67,12 @@ export class ListPageComponent implements OnInit {
   }
 
   add(target: string) {
-    let textField = <TextField>this.groceryTextField.nativeElement;
-
     // If showing recent groceries the add button should do nothing.
     if (this.isShowingRecent) {
       return;
     }
+
+    let textField = <TextField>this.groceryTextField.nativeElement;
 
     if (this.grocery.trim() === "") {
       // If the user clicked the add button, and the textfield is empty,
@@ -113,13 +113,6 @@ export class ListPageComponent implements OnInit {
     this.isShowingRecent = false;
   }
 
-  delete(grocery: Grocery) {
-    this.store.setDeleteFlag(grocery)
-      .catch(() => {
-        alert("An error occurred while deleting an item from your list.");
-      });
-  }
-
   showMenu() {
     action({
       message: "What would you like to do?",
@@ -135,7 +128,7 @@ export class ListPageComponent implements OnInit {
   }
 
   share() {
-    let items = this.store.getItems();
+    let items = this.store.items.value;
     let list = [];
     for (let i = 0, size = items.length; i < size ; i++) {
       list.push(items[i].name);
