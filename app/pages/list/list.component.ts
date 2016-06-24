@@ -145,6 +145,6 @@ export class ListPageComponent implements OnInit {
 
   logoff() {
     Config.invalidateToken();
-    this._router.navigate(["/"]);
+    this._router.navigate(["/login"]);
   }
 }
