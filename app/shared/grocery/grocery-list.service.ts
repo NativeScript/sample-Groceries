@@ -1,12 +1,13 @@
-import {Injectable} from "@angular/core";
+import {Injectable, NgZone} from "@angular/core";
 import {Config} from "../config";
 import {Grocery} from "./grocery";
 import {Observable, BehaviorSubject} from "rxjs/Rx";
 
 @Injectable()
 export class GroceryStore {
+  constructor(private _zone: NgZone) { }
 
-  items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
+  public items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private _allItems: Array<Grocery> = [];
 
   load() {
@@ -39,8 +40,9 @@ export class GroceryStore {
               grocery.Deleted || false
             )
           );
-          this.publishUpdates();
         });
+
+        this.publishUpdates();
         return Promise.resolve(this._allItems);
       })
       .catch(this.handleErrors);
@@ -59,24 +61,34 @@ export class GroceryStore {
       .catch(this.handleErrors);
   }
 
-  getItems() {
-    return this._allItems;
-  }
-
   setDeleteFlag(item: Grocery) {
-    item.deleted = true;
-    item.done = false;
+    var newItem = new Grocery(item.id, item.name, false, true);
+    this.updateSingleItem(item, newItem);
+
     this.publishUpdates();
-    return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Deleted: true, Done: true })
-      .catch(this.handleErrors);
+    return this.syncItem(newItem);
   }
 
-  toggleDoneFlag(item: Grocery) {
-    item.done = !item.done;
+  toggleDoneFlag(item: Grocery, skipSync: boolean = false) {
+    var newItem = new Grocery(item.id, item.name, !item.done, item.deleted);
+    this.updateSingleItem(item, newItem);
+
     this.publishUpdates();
+    if (skipSync) {
+      return Promise.resolve(true);
+    } else {
+      return this.syncItem(newItem);
+    }
+  }
+
+  updateSingleItem(item: Grocery, newItem: Grocery) {
+    const index = this._allItems.indexOf(item);
+    this._allItems.splice(index, 1, newItem);
+  }
+
+  syncItem(item: Grocery) {
     return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Done: !item.done })
+      .updateSingle({ Id: item.id, Name: item.name, Deleted: item.deleted, Done: item.done })
       .catch(this.handleErrors);
   }
 
@@ -92,7 +104,7 @@ export class GroceryStore {
 
     let headers = {
       "X-Everlive-Filter": JSON.stringify({
-          "Id": { "$in": indeces }
+        "Id": { "$in": indeces }
       })
     };
 
@@ -104,8 +116,11 @@ export class GroceryStore {
   }
 
   publishUpdates() {
-    // must emit a *new* value (immutability!)
-    this.items.next([...this._allItems]);
+    // Make sure all updates are published inside NgZone so that change detectionis triggered if needed
+    this._zone.run(() => {
+      // must emit a *new* value (immutability!)
+      this.items.next([...this._allItems]);
+    });
   }
 
   handleErrors(error) {

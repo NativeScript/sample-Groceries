@@ -1,19 +1,15 @@
 import {RouterConfig} from "@angular/router";
-import {NS_ROUTER_DIRECTIVES, nsProvideRouter} from "nativescript-angular/router"
+import {nsProvideRouter} from "nativescript-angular/router"
 import {LoginPageComponent} from "./pages/login/login.component";
 import {ListPageComponent} from "./pages/list/list.component";
-import {Config} from "./shared/config";
+import {AuthGuard} from "./auth.guard";
 
 export const routes: RouterConfig = [
-  /* TODO: Why does this break things?
-  { path: "", redirectTo: Config.hasActiveToken() ? "list" : "login", terminal: true },
-  { path: "login", component: LoginPageComponent },
-  { path: "list", component: ListPageComponent }*/
-
-  { path: "", component: LoginPageComponent },
-  { path: "list", component: ListPageComponent }
+  { path: "", component: ListPageComponent, canActivate: [AuthGuard] },
+  { path: "login", component: LoginPageComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  nsProvideRouter(routes, {})
+  nsProvideRouter(routes, {enableTracing: false}),
+  AuthGuard
 ];
