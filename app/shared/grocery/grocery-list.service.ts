@@ -116,7 +116,7 @@ export class GroceryStore {
   }
 
   publishUpdates() {
-    // Make sure all updates are published inside NgZone so that change detectionis triggered if needed
+    // Make sure all updates are published inside NgZone so that change detection is triggered if needed
     this._zone.run(() => {
       // must emit a *new* value (immutability!)
       this.items.next([...this._allItems]);

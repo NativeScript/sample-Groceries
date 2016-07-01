@@ -10,6 +10,6 @@ export const routes: RouterConfig = [
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  nsProvideRouter(routes, {enableTracing: false}),
+  nsProvideRouter(routes, { enableTracing: false }),
   AuthGuard
 ];
