@@ -7,9 +7,9 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
 * [Branches](#branches)
 * [Screenshots](#screenshots)
 * [Development](#development)
-    * [Telerik Platform](#telerik-platform)
     * [Unit testing](#unit-testing)
     * [Travis CI](#travis)
+    * [Telerik Platform](#telerik-platform)
 * [Contributors](#contributors)
 
 <!--
@@ -99,12 +99,6 @@ $ tns livesync ios --emulator --watch
 $ tns livesync android --emulator --watch
 ```
 
-<h3 id="telerik-platform">Telerik Platform</h3>
-
-If you’d like to try developing Groceries without going through the full setup, you may be interested in loading the app in the [Telerik Platform](http://www.telerik.com/platform):
-
-* [Run Groceries in the Telerik Platform](https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries)
-
 <h3 id="unit-testing">Unit Testing</h3>
 
 Groceries uses NativeScript’s [integrated unit test runner](http://docs.nativescript.org/core-concepts/testing) with [Jasmine](http://jasmine.github.io/). To run the tests for yourself use the `tns test` command:
@@ -122,6 +116,12 @@ For more information on unit testing NativeScript apps, refer to the [NativeScri
 <h3 id="travis">Travis CI</h3>
 
 Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on each commit. Refer to the [`.travis.yml` configuration file](https://github.com/NativeScript/sample-Groceries/blob/master/.travis.yml) for details.
+
+<h3 id="telerik-platform">Telerik Platform</h3>
+
+If you’d like to try developing Groceries without going through the full setup, you may be interested in loading the app in the [Telerik Platform](http://www.telerik.com/platform):
+
+* [Run Groceries in the Telerik Platform](https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries)
 
 <h2 id="contributors">Contributors</h2>
 
