@@ -1,32 +1,38 @@
 {
-	"name": "Groceries",
-	"version": "1.0.0",
-	"description": "A NativeScript-built iOS and Android app for managing grocery lists",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/nativescript/sample-Groceries.git"
-	},
-	"keywords": [
-		"NativeScript"
-	],
-	"author": "TJ VanToll <tj.vantoll@gmail.com> (http://tjvantoll.com/)",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/nativescript/sample-Groceries/issues"
-	},
-	"homepage": "https://github.com/nativescript/sample-Groceries/groceries",
-	"nativescript": {
-		"id": "org.nativescript.sampleGroceries",
-		"tns-android": {
-			"version": "2.0.0"
-		},
-		"tns-ios": {
-			"version": "2.0.0"
-		}
-	},
-	"dependencies": {
-		"email-validator": "^1.0.4",
-		"nativescript-social-share": "^1.1.2",
-		"tns-core-modules": "2.0.1"
-	}
+  "name": "Groceries",
+  "version": "1.0.0",
+  "description": "A NativeScript-built iOS and Android app for managing grocery lists",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nativescript/sample-Groceries.git"
+  },
+  "keywords": [
+    "NativeScript"
+  ],
+  "author": "TJ VanToll <tj.vantoll@gmail.com> (http://tjvantoll.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nativescript/sample-Groceries/issues"
+  },
+  "homepage": "https://github.com/nativescript/sample-Groceries/groceries",
+  "nativescript": {
+    "id": "org.nativescript.sampleGroceries",
+    "tns-android": {
+      "version": "2.1.1"
+    },
+    "tns-ios": {
+      "version": "2.1.0"
+    }
+  },
+  "dependencies": {
+    "email-validator": "^1.0.4",
+    "nativescript-social-share": "^1.2.0",
+    "tns-core-modules": "2.1.0"
+  },
+  "devDependencies": {
+    "babel-traverse": "6.10.4",
+    "babel-types": "6.11.1",
+    "babylon": "6.8.2",
+    "lazy": "1.0.11"
+  }
 }
