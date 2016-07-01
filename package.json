@@ -15,6 +15,23 @@
 		"url": "https://github.com/nativescript/sample-Groceries/issues"
 	},
 	"homepage": "https://github.com/nativescript/sample-Groceries/groceries",
+	"nativescript": {
+		"id": "com.tjvantoll.sampleGroceries",
+		"tns-ios": {
+			"version": "2.1.0"
+		},
+		"tns-android": {
+			"version": "2.1.1"
+		}
+	},
+	"dependencies": {
+		"email-validator": "^1.0.4",
+		"nativescript-iqkeyboardmanager": "^1.0.1",
+		"nativescript-social-share": "^1.2.0",
+		"nativescript-telerik-ui": "^1.2.0",
+		"nativescript-unit-test-runner": "^0.3.3",
+		"tns-core-modules": "2.1.0"
+	},
 	"devDependencies": {
 		"babel-traverse": "6.8.0",
 		"babel-types": "6.8.1",
@@ -30,23 +47,6 @@
 		"karma-nativescript-launcher": "^0.3.1",
 		"lazy": "1.0.11",
 		"mocha": "^2.3.4"
-	},
-	"nativescript": {
-		"id": "com.tjvantoll.sampleGroceries",
-		"tns-ios": {
-			"version": "2.0.0"
-		},
-		"tns-android": {
-			"version": "2.0.0"
-		}
-	},
-	"dependencies": {
-		"email-validator": "^1.0.4",
-		"nativescript-iqkeyboardmanager": "^1.0.1",
-		"nativescript-social-share": "^1.1.2",
-		"nativescript-telerik-ui": "^1.1.1",
-		"nativescript-unit-test-runner": "^0.3.3",
-		"tns-core-modules": "2.0.1"
 	},
 	"scripts": {
 		"lint:jscs": "jscs app",
