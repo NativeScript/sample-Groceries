@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from "@angular/core";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
@@ -18,7 +18,9 @@ export class ListPage implements OnInit {
 
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
-  constructor(private _groceryListService: GroceryListService) {}
+  constructor(
+    private _groceryListService: GroceryListService,
+    private _zone: NgZone) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -42,9 +44,11 @@ export class ListPage implements OnInit {
     let textField = <TextField>this.groceryTextField.nativeElement;
     textField.dismissSoftInput();
 
+    console.log("add start");
     this._groceryListService.add(this.grocery)
       .subscribe(
         groceryObject => {
+          console.log("add done");
           this.groceryList.unshift(groceryObject);
           this.grocery = "";
         },
@@ -61,9 +65,13 @@ export class ListPage implements OnInit {
   delete(grocery: Grocery) {
     this._groceryListService.delete(grocery.id)
       .subscribe(() => {
-        var index = this.groceryList.indexOf(grocery);
-        this.groceryList.splice(index, 1);
-      })
+        // Running the change detection in a zone ensures that change
+        // detection gets triggered if needed.
+        this._zone.run(() => {
+          var index = this.groceryList.indexOf(grocery);
+          this.groceryList.splice(index, 1);
+        });
+      });
   }
 
   share() {

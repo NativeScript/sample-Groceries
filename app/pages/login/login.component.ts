@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {Router} from "@angular/router-deprecated";
+import {Router} from "@angular/router";
 import {Color} from "color";
 import {Page} from "ui/page";
 import {TextField} from "ui/text-field";
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
   login() {
     this._userService.login(this.user)
       .subscribe(
-        () => this._router.navigate(["List"]),
+        () => this._router.navigate(["/list"]),
         (error) => alert("Unfortunately we could not find your account.")
       );
   }
