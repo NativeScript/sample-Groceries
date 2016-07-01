@@ -44,11 +44,9 @@ export class ListPage implements OnInit {
     let textField = <TextField>this.groceryTextField.nativeElement;
     textField.dismissSoftInput();
 
-    console.log("add start");
     this._groceryListService.add(this.grocery)
       .subscribe(
         groceryObject => {
-          console.log("add done");
           this.groceryList.unshift(groceryObject);
           this.grocery = "";
         },
