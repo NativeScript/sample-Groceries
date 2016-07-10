@@ -27,7 +27,7 @@ function User(info) {
 
     viewModel.login = function() {
         return firebase.login({
-            type: firebase.loginType.PASSWORD,
+            type: firebase.LoginType.PASSWORD,
             email: viewModel.get("email"),
             password: viewModel.get("password")
           }).then(
