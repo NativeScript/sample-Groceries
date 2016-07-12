@@ -1,6 +1,8 @@
 import {nativeScriptBootstrap} from "nativescript-angular/application";
+import {APP_ROUTER_PROVIDERS} from "./app.routes";
 import {AppComponent} from "./app.component";
 import {setStatusBarColors} from "./utils/status-bar-util";
+
 var firebase = require("nativescript-plugin-firebase");
 
 firebase.init({
@@ -14,4 +16,6 @@ firebase.init({
               }
           );
 setStatusBarColors();
-nativeScriptBootstrap(AppComponent);
+nativeScriptBootstrap(AppComponent, [
+  APP_ROUTER_PROVIDERS
+]);

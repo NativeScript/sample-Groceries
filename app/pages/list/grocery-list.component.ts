@@ -23,25 +23,6 @@ export class ItemStatusPipe implements PipeTransform {
   }
 }
 
-/*@Pipe({
-  name: "itemSort"
-})
-export class ArraySortPipe implements PipeTransform {
-  value: Array<Grocery> = [];
-  constructor(private _ref: ChangeDetectorRef) {}
-  transform(items: Array<Grocery>, args: string): Array<string> {
-    this.value = items.sort((a: any, b: any) => {
-      if (a < b) {
-        return -1;
-      } else if (a > b) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-    return this.value;
-  }
-}*/
 
 @Component({
   selector: "GroceryList",

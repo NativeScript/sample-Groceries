@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild} from "@angular/core";
-import {Router} from "@angular/router-deprecated";
+import {Router} from "@angular/router";
 import {Color} from "color";
 import {action} from "ui/dialogs";
 import {Page} from "ui/page";
@@ -11,6 +11,7 @@ import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {alert} from "../../utils/dialog-util";
 import {setHintColor} from "../../utils/hint-util";
 var socialShare = require("nativescript-social-share");
+var firebase = require("nativescript-plugin-firebase");
 
 @Component({
   selector: "list",
@@ -19,7 +20,7 @@ var socialShare = require("nativescript-social-share");
   styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
   providers: [GroceryStore]
 })
-export class ListPage implements OnInit {
+export class ListPageComponent implements OnInit {
   grocery: string = "";
   isAndroid;
   isShowingRecent = false;
@@ -147,6 +148,7 @@ export class ListPage implements OnInit {
 
   logoff() {
     Config.invalidateToken();
-    this._router.navigate(["Login"]);
+    firebase.logout();
+    this._router.navigate(["/login"]);
   }
 }

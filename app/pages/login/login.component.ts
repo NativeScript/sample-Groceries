@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {Router} from "@angular/router-deprecated";
+import {Router} from "@angular/router";
 import {Color} from "color";
 import {connectionType, getConnectionType} from "connectivity";
 import {Animation} from "ui/animation";
@@ -18,7 +18,7 @@ import {alert} from "../../utils/dialog-util";
   templateUrl: "pages/login/login.html",
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"],
 })
-export class LoginPage implements OnInit {
+export class LoginPageComponent implements OnInit {
   user: User;
   isLoggingIn = true;
   isAuthenticating = false;
@@ -70,7 +70,7 @@ export class LoginPage implements OnInit {
     this._userService.login(this.user)
       .then(() => {
         this.isAuthenticating = false;
-        this._router.navigate(["List"]);
+        this._router.navigate(["/"]);
       })
       .catch(() => {
         alert("Unfortunately we could not find your account.");
