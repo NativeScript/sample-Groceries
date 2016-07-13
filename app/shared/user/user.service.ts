@@ -36,8 +36,17 @@ export class UserService {
   }
   
   resetPassword(email) {
-    //return Config.el.Users.resetPassword({ Username: email })
-     // .catch(this.handleErrors);
+    return firebase.resetPassword({
+    email: email
+    }).then(
+        function () {
+          // called when password reset was successful,
+          // you could now prompt the user to check his email
+        },
+        function (errorMessage) {
+          console.log(errorMessage);
+        }
+    ).catch(this.handleErrors);
   }
 
   handleErrors(error) {

@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-//import {Http} from "@angular/http";
 import {Config} from "../config";
 import {Grocery} from "./grocery";
 import {Observable} from "rxjs/Rx";
@@ -83,12 +82,6 @@ export class GroceryStore {
         indeces.push(grocery.id);
       }
     });
-
-    let headers = {
-      "X-Everlive-Filter": JSON.stringify({
-        "Id": { "$in": indeces }
-      })
-    };
 
     this.publishUpdates();
   }
