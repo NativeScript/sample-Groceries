@@ -29,16 +29,17 @@ export class GroceryStore {
         this._allItems = [];
         Object.keys(result).forEach((key) => {
           let entry = result[key];
-          this._allItems.push(
-            new Grocery(
-              key,
-              entry.Name,
-              entry.Date,
-              entry.Done || false,
-              entry.Deleted || false
+          if(Config.token === entry.UID){
+            this._allItems.push(
+              new Grocery(
+                key,
+                entry.Name,
+                entry.Date,
+                entry.Done || false,
+                entry.Deleted || false
+              )
             )
-          )
-          
+          }
         });
         this.publishUpdates();
       }
