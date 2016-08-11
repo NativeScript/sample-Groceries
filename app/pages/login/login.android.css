@@ -1,5 +1,5 @@
 .main-container {
-  height: 380;
+  height: 360;
   width: 275;
 }
 .initial-label {
@@ -15,6 +15,9 @@
 TextField {
   margin-bottom: 10;
 }
+.submit-button {
+  margin-top: 15;
+}
 .sign-up-stack Label {
   padding-top: 10;
   height: 200;
@@ -25,5 +28,5 @@ TextField {
   text-transform: uppercase;
 }
 .logo-container Image {
-  top: 85;
+  top: 90;
 }
