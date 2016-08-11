@@ -10,7 +10,7 @@ import {GroceryList} from "../list/grocery-list.component";
 import {GroceryStore} from "../../shared/grocery/grocery-list.service";
 import {alert} from "../../utils/dialog-util";
 import {setHintColor} from "../../utils/hint-util";
-var socialShare = require("nativescript-social-share");
+import * as SocialShare from "nativescript-social-share";
 
 @Component({
   selector: "list",
@@ -133,7 +133,7 @@ export class ListPageComponent implements OnInit {
     for (let i = 0, size = items.length; i < size ; i++) {
       list.push(items[i].name);
     }
-    socialShare.shareText(list.join(", ").trim());
+    SocialShare.shareText(list.join(", ").trim());
   }
 
   logoff() {
