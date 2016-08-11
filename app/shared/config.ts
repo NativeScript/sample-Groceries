@@ -5,7 +5,8 @@ var Everlive = require("../shared/everlive.all.min");
 export class Config {
   static el = new Everlive({
     apiKey: "gwfrtxi1lwt4jcqk",
-    offlineStorage: true
+    offlineStorage: true,
+    scheme: "https"
   });
   static lastOnlineState;
 
