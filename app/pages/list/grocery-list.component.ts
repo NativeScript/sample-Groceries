@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform} from "@angular/core";
-import {Grocery} from "../../shared/grocery/grocery";
-import {GroceryStore} from "../../shared/grocery/grocery-list.service";
-import {alert} from "../../utils/dialog-util";
+import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform } from "@angular/core";
+import { Grocery } from "../../shared/grocery/grocery";
+import { GroceryStore } from "../../shared/grocery/grocery-list.service";
+import { alert } from "../../utils/dialog-util";
 
 declare var UIColor: any;
 
@@ -13,7 +13,7 @@ export class ItemStatusPipe implements PipeTransform {
   transform(items: Array<Grocery>, deleted: boolean) {
     if (items && items.length) {
       this.value = items.filter((grocery: Grocery) => {
-        return grocery.deleted == deleted;
+        return grocery.deleted === deleted;
       });
     }
     return this.value;
@@ -46,7 +46,7 @@ export class GroceryList {
       })
       .catch(() => {
         alert("An error occurred loading your grocery list.");
-      })
+      });
   }
 
   // The following trick makes the background color of each cell
@@ -60,7 +60,7 @@ export class GroceryList {
 
   imageSource(grocery) {
     if (grocery.deleted) {
-      return grocery.done ? "res://selected" : "res://nonselected"
+      return grocery.done ? "res://selected" : "res://nonselected";
     }
     return grocery.done ? "res://checked" : "res://unchecked";
   }

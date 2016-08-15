@@ -1,7 +1,7 @@
-import {Injectable, NgZone} from "@angular/core";
-import {Config} from "../config";
-import {Grocery} from "./grocery";
-import {Observable, BehaviorSubject} from "rxjs/Rx";
+import { Injectable, NgZone } from "@angular/core";
+import { Config } from "../config";
+import { Grocery } from "./grocery";
+import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
 export class GroceryStore {
@@ -62,7 +62,7 @@ export class GroceryStore {
   }
 
   setDeleteFlag(item: Grocery) {
-    var newItem = new Grocery(item.id, item.name, false, true);
+    const newItem = new Grocery(item.id, item.name, false, true);
     this.updateSingleItem(item, newItem);
 
     this.publishUpdates();
@@ -70,7 +70,7 @@ export class GroceryStore {
   }
 
   toggleDoneFlag(item: Grocery, skipSync: boolean = false) {
-    var newItem = new Grocery(item.id, item.name, !item.done, item.deleted);
+    const newItem = new Grocery(item.id, item.name, !item.done, item.deleted);
     this.updateSingleItem(item, newItem);
 
     this.publishUpdates();

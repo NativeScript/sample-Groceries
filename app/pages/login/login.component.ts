@@ -1,16 +1,16 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {Router} from "@angular/router";
-import {Color} from "color";
-import {connectionType, getConnectionType} from "connectivity";
-import {Animation} from "ui/animation";
-import {View} from "ui/core/view";
-import {prompt} from "ui/dialogs";
-import {Page} from "ui/page";
-import {TextField} from "ui/text-field";
-import {User} from "../../shared/user/user";
-import {UserService} from "../../shared/user/user.service";
-import {setHintColor} from "../../utils/hint-util";
-import {alert} from "../../utils/dialog-util";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { Color } from "color";
+import { connectionType, getConnectionType } from "connectivity";
+import { Animation } from "ui/animation";
+import { View } from "ui/core/view";
+import { prompt } from "ui/dialogs";
+import { Page } from "ui/page";
+import { TextField } from "ui/text-field";
+import { User } from "../../shared/user/user";
+import { UserService } from "../../shared/user/user.service";
+import { setHintColor } from "../../utils/hint-util";
+import { alert } from "../../utils/dialog-util";
 
 @Component({
   selector: "my-app",
@@ -62,7 +62,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   login() {
-    if (getConnectionType() == connectionType.none) {
+    if (getConnectionType() === connectionType.none) {
       alert("Groceries requires an internet connection to log in.");
       return;
     }
@@ -79,7 +79,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   signUp() {
-    if (getConnectionType() == connectionType.none) {
+    if (getConnectionType() === connectionType.none) {
       alert("Groceries requires an internet connection to register.");
       return;
     }
@@ -167,7 +167,7 @@ export class LoginPageComponent implements OnInit {
 
       // Kick off the animation queue
       new Animation(animations, false).play();
-    })
+    });
   }
 
   setTextFieldColors() {

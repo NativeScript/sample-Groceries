@@ -1,15 +1,14 @@
-import {Component, ElementRef, OnInit, Pipe, PipeTransform, ViewChild} from "@angular/core";
-import {Router} from "@angular/router";
-import {Color} from "color";
-import {action} from "ui/dialogs";
-import {Page} from "ui/page";
-import {TextField} from "ui/text-field";
-import {Config} from "../../shared/config";
-import {Grocery} from "../../shared/grocery/grocery";
-import {GroceryList} from "../list/grocery-list.component";
-import {GroceryStore} from "../../shared/grocery/grocery-list.service";
-import {alert} from "../../utils/dialog-util";
-import {setHintColor} from "../../utils/hint-util";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { Color } from "color";
+import { action } from "ui/dialogs";
+import { Page } from "ui/page";
+import { TextField } from "ui/text-field";
+import { Config } from "../../shared/config";
+import { GroceryList } from "../list/grocery-list.component";
+import { GroceryStore } from "../../shared/grocery/grocery-list.service";
+import { alert } from "../../utils/dialog-util";
+import { setHintColor } from "../../utils/hint-util";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({
@@ -119,9 +118,9 @@ export class ListPageComponent implements OnInit {
       actions: ["Share", "Log Off"],
       cancelButtonText: "Cancel"
     }).then((result) => {
-      if (result == "Share") {
+      if (result === "Share") {
         this.share();
-      } else if (result == "Log Off") {
+      } else if (result === "Log Off") {
         this.logoff();
       }
     });

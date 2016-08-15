@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {User} from "./user";
-import {Config} from "../config";
+import { Injectable } from "@angular/core";
+import { User } from "./user";
+import { Config } from "../config";
 
 @Injectable()
 export class UserService {

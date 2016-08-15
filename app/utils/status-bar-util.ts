@@ -12,7 +12,7 @@ export function setStatusBarColors() {
   // See https://github.com/burkeholland/nativescript-statusbar/issues/2
   // for details on the technique used.
   if (application.ios) {
-    var AppDelegate = UIResponder.extend({
+    const AppDelegate = UIResponder.extend({
       applicationDidFinishLaunchingWithOptions: function() {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
         return true;
@@ -30,11 +30,11 @@ export function setStatusBarColors() {
   if (application.android) {
     application.android.onActivityStarted = function() {
       if (application.android && platform.device.sdkVersion >= "21") {
-        var View = android.view.View;
-        var window = application.android.startActivity.getWindow();
+        const View = android.view.View;
+        const window = application.android.startActivity.getWindow();
         window.setStatusBarColor(0x000000);
 
-        var decorView = window.getDecorView();
+        const decorView = window.getDecorView();
         decorView.setSystemUiVisibility(
           View.SYSTEM_UI_FLAG_LAYOUT_STABLE
           | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
