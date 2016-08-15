@@ -1,6 +1,6 @@
 import {getString, setString} from "application-settings";
 import {connectionType, getConnectionType, startMonitoring} from "connectivity";
-var Everlive = require("../shared/everlive.all.min");
+var Everlive = require("everlive-sdk");
 
 export class Config {
   static el = new Everlive({
