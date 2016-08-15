@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform } from "@angular/core";
-import { Grocery } from "../../shared/grocery/grocery";
+import { Grocery } from "../../shared/grocery/grocery.model";
 import { GroceryStore } from "../../shared/grocery/grocery-list.service";
 import { alert } from "../../utils/dialog-util";
 
@@ -22,8 +22,8 @@ export class ItemStatusPipe implements PipeTransform {
 
 @Component({
   selector: "GroceryList",
-  templateUrl: "pages/list/grocery-list.html",
-  styleUrls: ["pages/list/grocery-list.css"],
+  templateUrl: "pages/list/grocery-list.component.html",
+  styleUrls: ["pages/list/grocery-list.component.css"],
   pipes: [ItemStatusPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

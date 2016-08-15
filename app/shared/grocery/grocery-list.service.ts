@@ -1,14 +1,14 @@
 import { Injectable, NgZone } from "@angular/core";
 import { Config } from "../config";
-import { Grocery } from "./grocery";
+import { Grocery } from "./grocery.model";
 import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
 export class GroceryStore {
-  constructor(private _zone: NgZone) { }
-
   public items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
-  private _allItems: Array<Grocery> = [];
+  private allItems: Array<Grocery> = [];
+
+  constructor(private zone: NgZone) { }
 
   load() {
     Config.el.authentication.setAuthorization(Config.token, "bearer");
@@ -26,13 +26,13 @@ export class GroceryStore {
     });
   }
 
-  loadItems() {
+  private loadItems() {
     return Config.el.data("Groceries")
       .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
       .get()
       .then((data) => {
         data.result.forEach((grocery) => {
-          this._allItems.push(
+          this.allItems.push(
             new Grocery(
               grocery.Id,
               grocery.Name,
@@ -43,14 +43,14 @@ export class GroceryStore {
         });
 
         this.publishUpdates();
-        return Promise.resolve(this._allItems);
+        return Promise.resolve(this.allItems);
       })
       .catch(this.handleErrors);
   }
 
   add(name: string) {
     let newGrocery = new Grocery("", name, false, false);
-    this._allItems.unshift(newGrocery);
+    this.allItems.unshift(newGrocery);
     this.publishUpdates();
     return Config.el.data("Groceries")
       .create({ Name: name })
@@ -81,20 +81,9 @@ export class GroceryStore {
     }
   }
 
-  updateSingleItem(item: Grocery, newItem: Grocery) {
-    const index = this._allItems.indexOf(item);
-    this._allItems.splice(index, 1, newItem);
-  }
-
-  syncItem(item: Grocery) {
-    return Config.el.data("Groceries")
-      .updateSingle({ Id: item.id, Name: item.name, Deleted: item.deleted, Done: item.done })
-      .catch(this.handleErrors);
-  }
-
   restore() {
     let indeces = [];
-    this._allItems.forEach((grocery) => {
+    this.allItems.forEach((grocery) => {
       if (grocery.deleted && grocery.done) {
         grocery.done = false;
         grocery.deleted = false;
@@ -115,15 +104,26 @@ export class GroceryStore {
       .catch(this.handleErrors);
   }
 
-  publishUpdates() {
+  private updateSingleItem(item: Grocery, newItem: Grocery) {
+    const index = this.allItems.indexOf(item);
+    this.allItems.splice(index, 1, newItem);
+  }
+
+  private syncItem(item: Grocery) {
+    return Config.el.data("Groceries")
+      .updateSingle({ Id: item.id, Name: item.name, Deleted: item.deleted, Done: item.done })
+      .catch(this.handleErrors);
+  }
+
+  private publishUpdates() {
     // Make sure all updates are published inside NgZone so that change detection is triggered if needed
-    this._zone.run(() => {
+    this.zone.run(() => {
       // must emit a *new* value (immutability!)
-      this.items.next([...this._allItems]);
+      this.items.next([...this.allItems]);
     });
   }
 
-  handleErrors(error) {
+  private handleErrors(error) {
     console.log(JSON.stringify(error));
     return Promise.reject(error.message);
   }

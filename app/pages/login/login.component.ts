@@ -7,7 +7,7 @@ import { View } from "ui/core/view";
 import { prompt } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
-import { User } from "../../shared/user/user";
+import { User } from "../../shared/user/user.model";
 import { UserService } from "../../shared/user/user.service";
 import { setHintColor } from "../../utils/hint-util";
 import { alert } from "../../utils/dialog-util";
@@ -15,7 +15,7 @@ import { alert } from "../../utils/dialog-util";
 @Component({
   selector: "my-app",
   providers: [UserService],
-  templateUrl: "pages/login/login.html",
+  templateUrl: "pages/login/login.component.html",
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"],
 })
 export class LoginPageComponent implements OnInit {

@@ -14,7 +14,7 @@ import * as SocialShare from "nativescript-social-share";
 @Component({
   selector: "list",
   directives: [GroceryList],
-  templateUrl: "pages/list/list.html",
+  templateUrl: "pages/list/list.component.html",
   styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
   providers: [GroceryStore]
 })
@@ -23,7 +23,7 @@ export class ListPageComponent implements OnInit {
   isAndroid;
   isShowingRecent = false;
   isLoading = false;
-  
+
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
   constructor(private _router: Router,
