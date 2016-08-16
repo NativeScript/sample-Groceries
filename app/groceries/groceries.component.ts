@@ -4,11 +4,9 @@ import { Color } from "color";
 import { action } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
-import { Config } from "../shared/config";
 import { GroceryList } from "./grocery-list/grocery-list.component";
-import { GroceryService } from "./shared/grocery.service";
-import { alert } from "../shared/dialog-util";
-import { setHintColor } from "../shared/hint-util";
+import { GroceryService } from "./shared";
+import { Config, alert, setHintColor } from "../shared";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({

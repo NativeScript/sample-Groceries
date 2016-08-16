@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform } from "@angular/core";
-import { Grocery } from "../shared/grocery.model";
-import { GroceryService } from "../shared/grocery.service";
-import { alert } from "../../shared/dialog-util";
+import { Grocery, GroceryService } from "../shared";
+import { alert } from "../../shared";
 
 declare var UIColor: any;
 

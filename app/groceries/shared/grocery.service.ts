@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Config } from "../../shared/config";
+import { Config } from "../../shared";
 import { Grocery } from "./grocery.model";
 import { BehaviorSubject } from "rxjs/Rx";
 

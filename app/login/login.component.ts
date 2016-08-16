@@ -7,10 +7,8 @@ import { View } from "ui/core/view";
 import { prompt } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
-import { User } from "./shared/user.model";
-import { UserService } from "./shared/user.service";
-import { setHintColor } from "../shared/hint-util";
-import { alert } from "../shared/dialog-util";
+import { User, UserService } from "./shared";
+import { alert, setHintColor } from "../shared";
 
 @Component({
   selector: "my-app",
