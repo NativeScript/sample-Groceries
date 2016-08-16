@@ -1,23 +1,25 @@
 import { Injectable } from "@angular/core";
 import { User } from "./user.model";
-import { Config } from "../../shared/config";
+import { BackendService } from "../../shared";
 
 @Injectable()
 export class UserService {
+  constructor(private backend: BackendService) { }
+
   register(user: User) {
-    return Config.el.Users.register(user.email, user.password)
+    return this.backend.el.Users.register(user.email, user.password)
       .catch(this.handleErrors);
   }
 
   login(user: User) {
-    return Config.el.authentication.login(user.email, user.password).then((data) => {
-      Config.token = data.result.access_token;
+    return this.backend.el.authentication.login(user.email, user.password).then((data) => {
+      this.backend.token = data.result.access_token;
       return Promise.resolve();
     }).catch(this.handleErrors);
   }
 
   resetPassword(email) {
-    return Config.el.Users.resetPassword({ Username: email })
+    return this.backend.el.Users.resetPassword({ Username: email })
       .catch(this.handleErrors);
   }
 

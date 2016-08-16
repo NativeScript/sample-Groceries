@@ -6,7 +6,7 @@ import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
 import { GroceryList } from "./grocery-list/grocery-list.component";
 import { GroceryService } from "./shared";
-import { Config, alert, setHintColor } from "../shared";
+import { BackendService, alert, setHintColor } from "../shared";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({
@@ -24,15 +24,16 @@ export class ListPageComponent implements OnInit {
 
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
-  constructor(private _router: Router,
+  constructor(private router: Router,
     private store: GroceryService,
+    private backend: BackendService,
     private page: Page) {}
 
   ngOnInit() {
     this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
-    Config.setupConnectionMonitoring();
+    this.backend.setupConnectionMonitoring();
   }
 
   setTextFieldHintColor(textField) {
@@ -134,7 +135,7 @@ export class ListPageComponent implements OnInit {
   }
 
   logoff() {
-    Config.invalidateToken();
-    this._router.navigate(["/login"]);
+    this.backend.invalidateToken();
+    this.router.navigate(["/login"]);
   }
 }

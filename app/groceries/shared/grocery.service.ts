@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Config } from "../../shared";
+import { BackendService } from "../../shared";
 import { Grocery } from "./grocery.model";
 import { BehaviorSubject } from "rxjs/Rx";
 
@@ -8,17 +8,17 @@ export class GroceryService {
   public items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private allItems: Array<Grocery> = [];
 
-  constructor(private zone: NgZone) { }
+  constructor(private zone: NgZone, private backend: BackendService) { }
 
   load() {
-    Config.el.authentication.setAuthorization(Config.token, "bearer");
+    this.backend.el.authentication.setAuthorization(this.backend.token, "bearer");
 
-    if (!Config.el.offlineStorage.isSynchronizing()) {
+    if (!this.backend.el.offlineStorage.isSynchronizing()) {
       return this.loadItems();
     }
 
     return new Promise((resolve, reject) => {
-      Config.el.on("syncEnd", () => {
+      this.backend.el.on("syncEnd", () => {
         this.loadItems()
           .then(() => { resolve(); })
           .catch(() => { reject(); });
@@ -27,7 +27,7 @@ export class GroceryService {
   }
 
   private loadItems() {
-    return Config.el.data("Groceries")
+    return this.backend.el.data("Groceries")
       .withHeaders({ "X-Everlive-Sort": JSON.stringify({ ModifiedAt: -1 }) })
       .get()
       .then((data) => {
@@ -52,7 +52,7 @@ export class GroceryService {
     let newGrocery = new Grocery("", name, false, false);
     this.allItems.unshift(newGrocery);
     this.publishUpdates();
-    return Config.el.data("Groceries")
+    return this.backend.el.data("Groceries")
       .create({ Name: name })
       .then((data) => {
         newGrocery.id = data.result.Id;
@@ -98,7 +98,7 @@ export class GroceryService {
     };
 
     this.publishUpdates();
-    return Config.el.data("Groceries")
+    return this.backend.el.data("Groceries")
       .withHeaders(headers)
       .update({ Deleted: false, Done: false })
       .catch(this.handleErrors);
@@ -110,7 +110,7 @@ export class GroceryService {
   }
 
   private syncItem(item: Grocery) {
-    return Config.el.data("Groceries")
+    return this.backend.el.data("Groceries")
       .updateSingle({ Id: item.id, Name: item.name, Deleted: item.deleted, Done: item.done })
       .catch(this.handleErrors);
   }

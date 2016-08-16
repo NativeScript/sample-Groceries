@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Router, CanActivate } from '@angular/router';
-import { Config } from "./shared";
+import { BackendService } from "./shared";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private backend: BackendService) { }
 
   canActivate() {
-    if (Config.hasActiveToken()) {
+    if (this.backend.hasActiveToken()) {
       return true;
     }
     else {
