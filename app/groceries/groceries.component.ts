@@ -6,11 +6,11 @@ import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
 import { GroceryList } from "./grocery-list/grocery-list.component";
 import { GroceryService } from "./shared";
-import { BackendService, alert, setHintColor } from "../shared";
+import { LoginService, alert, setHintColor } from "../shared";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({
-  selector: "list",
+  selector: "groceries",
   directives: [GroceryList],
   templateUrl: "groceries/groceries.component.html",
   styleUrls: ["groceries/groceries-common.css", "groceries/groceries.component.css"],
@@ -26,14 +26,13 @@ export class ListPageComponent implements OnInit {
 
   constructor(private router: Router,
     private store: GroceryService,
-    private backend: BackendService,
+    private loginService: LoginService,
     private page: Page) {}
 
   ngOnInit() {
     this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
-    this.backend.setupConnectionMonitoring();
   }
 
   setTextFieldHintColor(textField) {
@@ -135,7 +134,7 @@ export class ListPageComponent implements OnInit {
   }
 
   logoff() {
-    this.backend.invalidateToken();
+    this.loginService.logoff();
     this.router.navigate(["/login"]);
   }
 }

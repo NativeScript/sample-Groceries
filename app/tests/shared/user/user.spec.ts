@@ -1,4 +1,4 @@
-import { User } from "../../../login/shared/user.model";
+import { User } from "../../../shared";
 
 declare var describe: any;
 declare var expect: any;

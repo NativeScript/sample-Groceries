@@ -20,7 +20,7 @@ export class ItemStatusPipe implements PipeTransform {
 }
 
 @Component({
-  selector: "GroceryList",
+  selector: "grocery-list",
   templateUrl: "groceries/grocery-list/grocery-list.component.html",
   styleUrls: ["groceries/grocery-list/grocery-list.component.css"],
   pipes: [ItemStatusPipe],

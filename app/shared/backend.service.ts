@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
-import { getString, setString } from "application-settings";
+
 import { connectionType, getConnectionType, startMonitoring } from "connectivity";
 const Everlive = require("everlive-sdk");
-
-const tokenKey = "token";
 
 @Injectable()
 export class BackendService {
@@ -14,6 +12,10 @@ export class BackendService {
   });
 
   private lastOnlineState;
+
+  constructor() {
+    this.setupConnectionMonitoring();
+  }
 
   private handleOnlineOffline() {
     if (getConnectionType() === connectionType.none) {
@@ -38,20 +40,5 @@ export class BackendService {
 
       this.lastOnlineState = getConnectionType();
     });
-  }
-
-  get token(): string {
-    return getString(tokenKey);
-  }
-  set token(theToken: string) {
-    setString(tokenKey, theToken);
-  }
-
-  hasActiveToken() {
-    return !!getString(tokenKey);
-  }
-
-  invalidateToken() {
-    this.token = "";
   }
 }

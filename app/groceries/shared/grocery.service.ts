@@ -11,8 +11,6 @@ export class GroceryService {
   constructor(private zone: NgZone, private backend: BackendService) { }
 
   load() {
-    this.backend.el.authentication.setAuthorization(this.backend.token, "bearer");
-
     if (!this.backend.el.offlineStorage.isSynchronizing()) {
       return this.loadItems();
     }

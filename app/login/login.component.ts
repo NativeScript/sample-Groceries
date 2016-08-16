@@ -7,12 +7,11 @@ import { View } from "ui/core/view";
 import { prompt } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
-import { User, UserService } from "./shared";
-import { alert, setHintColor } from "../shared";
+import { alert, setHintColor, LoginService, User } from "../shared";
 
 @Component({
-  selector: "my-app",
-  providers: [UserService],
+  selector: "login",
+  providers: [LoginService],
   templateUrl: "login/login.component.html",
   styleUrls: ["login/login-common.css", "login/login.component.css"],
 })
@@ -29,8 +28,8 @@ export class LoginPageComponent implements OnInit {
   @ViewChild("email") email: ElementRef;
   @ViewChild("password") password: ElementRef;
 
-  constructor(private _router: Router,
-    private _userService: UserService,
+  constructor(private router: Router,
+    private userService: LoginService,
     private page: Page) {
     this.user = new User();
     this.user.email = "ngconf@telerik33.com";
@@ -65,10 +64,10 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    this._userService.login(this.user)
+    this.userService.login(this.user)
       .then(() => {
         this.isAuthenticating = false;
-        this._router.navigate(["/"]);
+        this.router.navigate(["/"]);
       })
       .catch(() => {
         alert("Unfortunately we could not find your account.");
@@ -82,7 +81,7 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    this._userService.register(this.user)
+    this.userService.register(this.user)
       .then(() => {
         alert("Your account was successfully created.");
         this.isAuthenticating = false;
@@ -107,7 +106,7 @@ export class LoginPageComponent implements OnInit {
       cancelButtonText: "Cancel"
     }).then((data) => {
       if (data.result) {
-        this._userService.resetPassword(data.text.trim())
+        this.userService.resetPassword(data.text.trim())
           .then(() => {
             alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
           })
