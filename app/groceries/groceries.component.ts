@@ -4,19 +4,19 @@ import { Color } from "color";
 import { action } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
-import { Config } from "../../shared/config";
-import { GroceryList } from "../list/grocery-list.component";
-import { GroceryStore } from "../../shared/grocery/grocery-list.service";
-import { alert } from "../../utils/dialog-util";
-import { setHintColor } from "../../utils/hint-util";
+import { Config } from "../shared/config";
+import { GroceryList } from "./grocery-list/grocery-list.component";
+import { GroceryService } from "./shared/grocery.service";
+import { alert } from "../shared/dialog-util";
+import { setHintColor } from "../shared/hint-util";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({
   selector: "list",
   directives: [GroceryList],
-  templateUrl: "pages/list/list.component.html",
-  styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
-  providers: [GroceryStore]
+  templateUrl: "groceries/groceries.component.html",
+  styleUrls: ["groceries/groceries-common.css", "groceries/groceries.component.css"],
+  providers: [GroceryService]
 })
 export class ListPageComponent implements OnInit {
   grocery: string = "";
@@ -27,7 +27,7 @@ export class ListPageComponent implements OnInit {
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
   constructor(private _router: Router,
-    private store: GroceryStore,
+    private store: GroceryService,
     private page: Page) {}
 
   ngOnInit() {

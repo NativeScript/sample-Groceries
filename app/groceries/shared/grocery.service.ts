@@ -1,10 +1,10 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Config } from "../config";
+import { Config } from "../../shared/config";
 import { Grocery } from "./grocery.model";
 import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
-export class GroceryStore {
+export class GroceryService {
   public items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
   private allItems: Array<Grocery> = [];
 

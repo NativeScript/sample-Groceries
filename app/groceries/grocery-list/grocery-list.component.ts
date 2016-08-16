@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform } from "@angular/core";
-import { Grocery } from "../../shared/grocery/grocery.model";
-import { GroceryStore } from "../../shared/grocery/grocery-list.service";
-import { alert } from "../../utils/dialog-util";
+import { Grocery } from "../shared/grocery.model";
+import { GroceryService } from "../shared/grocery.service";
+import { alert } from "../../shared/dialog-util";
 
 declare var UIColor: any;
 
@@ -22,8 +22,8 @@ export class ItemStatusPipe implements PipeTransform {
 
 @Component({
   selector: "GroceryList",
-  templateUrl: "pages/list/grocery-list.component.html",
-  styleUrls: ["pages/list/grocery-list.component.css"],
+  templateUrl: "groceries/grocery-list/grocery-list.component.html",
+  styleUrls: ["groceries/grocery-list/grocery-list.component.css"],
   pipes: [ItemStatusPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -35,7 +35,7 @@ export class GroceryList {
 
   listLoaded = false;
 
-  constructor(private store: GroceryStore) {}
+  constructor(private store: GroceryService) {}
 
   load() {
     this.loading.next("");
