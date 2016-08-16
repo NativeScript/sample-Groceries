@@ -15,7 +15,7 @@ import { alert, setHintColor, LoginService, User } from "../shared";
   templateUrl: "login/login.component.html",
   styleUrls: ["login/login-common.css", "login/login.component.css"],
 })
-export class LoginPageComponent implements OnInit {
+export class LoginComponent implements OnInit {
   user: User;
   isLoggingIn = true;
   isAuthenticating = false;

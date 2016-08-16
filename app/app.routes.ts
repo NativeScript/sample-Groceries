@@ -1,12 +1,12 @@
 import { RouterConfig } from "@angular/router";
 import { nsProvideRouter } from "nativescript-angular/router";
-import { LoginPageComponent } from "./login/login.component";
-import { ListPageComponent } from "./groceries/groceries.component";
+import { LoginComponent } from "./login/login.component";
+import { GroceriesComponent } from "./groceries/groceries.component";
 import { AuthGuard } from "./auth.guard";
 
 export const routes: RouterConfig = [
-  { path: "", component: ListPageComponent, canActivate: [AuthGuard] },
-  { path: "login", component: LoginPageComponent }
+  { path: "", component: GroceriesComponent, canActivate: [AuthGuard] },
+  { path: "login", component: LoginComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS = [

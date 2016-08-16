@@ -4,19 +4,19 @@ import { Color } from "color";
 import { action } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
-import { GroceryList } from "./grocery-list/grocery-list.component";
+import { GroceryListComponent } from "./grocery-list/grocery-list.component";
 import { GroceryService } from "./shared";
 import { LoginService, alert, setHintColor } from "../shared";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({
   selector: "groceries",
-  directives: [GroceryList],
+  directives: [GroceryListComponent],
   templateUrl: "groceries/groceries.component.html",
   styleUrls: ["groceries/groceries-common.css", "groceries/groceries.component.css"],
   providers: [GroceryService]
 })
-export class ListPageComponent implements OnInit {
+export class GroceriesComponent implements OnInit {
   grocery: string = "";
   isAndroid;
   isShowingRecent = false;

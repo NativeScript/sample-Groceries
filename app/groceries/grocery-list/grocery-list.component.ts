@@ -1,23 +1,8 @@
-import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, Pipe, PipeTransform } from "@angular/core";
+import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from "@angular/core";
 import { Grocery, GroceryService } from "../shared";
 import { alert } from "../../shared";
-
+import { ItemStatusPipe } from "./item-status.pipe";
 declare var UIColor: any;
-
-@Pipe({
-  name: "itemStatus"
-})
-export class ItemStatusPipe implements PipeTransform {
-  value: Array<Grocery> = [];
-  transform(items: Array<Grocery>, deleted: boolean) {
-    if (items && items.length) {
-      this.value = items.filter((grocery: Grocery) => {
-        return grocery.deleted === deleted;
-      });
-    }
-    return this.value;
-  }
-}
 
 @Component({
   selector: "grocery-list",
@@ -26,7 +11,7 @@ export class ItemStatusPipe implements PipeTransform {
   pipes: [ItemStatusPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroceryList {
+export class GroceryListComponent {
   @Input() showDeleted: boolean;
   @Input() row;
   @Output() loading = new EventEmitter();
@@ -34,7 +19,7 @@ export class GroceryList {
 
   listLoaded = false;
 
-  constructor(private store: GroceryService) {}
+  constructor(private store: GroceryService) { }
 
   load() {
     this.loading.next("");
