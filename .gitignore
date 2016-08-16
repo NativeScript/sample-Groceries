@@ -1,5 +1,6 @@
 .vscode/
 npm-debug.log
+.DS_Store
 
 app/**/*.js
 !app/shared/everlive.all.min.js

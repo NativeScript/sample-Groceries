@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { User } from "../../../shared";
 
 declare var describe: any;
