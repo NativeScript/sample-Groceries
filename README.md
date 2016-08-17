@@ -99,6 +99,15 @@ $ tns livesync ios --emulator --watch
 $ tns livesync android --emulator --watch
 ```
 
+<h3 id="linting">Linting</h3>
+
+Groceries uses [tslint](https://www.npmjs.com/package/tslint) + [codelyzer](https://github.com/mgechev/codelyzer) rules to ensure the code follows the [angular style guide](https://angular.io/docs/ts/latest/guide/style-guide.html).
+
+You can run the linter with the `tslint` npm script:
+```
+$ npm run tslint
+```
+
 <h3 id="unit-testing">Unit Testing</h3>
 
 Groceries uses NativeScript’s [integrated unit test runner](http://docs.nativescript.org/core-concepts/testing) with [Jasmine](http://jasmine.github.io/). To run the tests for yourself use the `tns test` command:
