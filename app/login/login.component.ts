@@ -7,10 +7,11 @@ import { View } from "ui/core/view";
 import { prompt } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
+
 import { alert, setHintColor, LoginService, User } from "../shared";
 
 @Component({
-  selector: "login",
+  selector: "gr-login",
   providers: [LoginService],
   templateUrl: "login/login.component.html",
   styleUrls: ["login/login-common.css", "login/login.component.css"],

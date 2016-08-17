@@ -1,11 +1,13 @@
 import { Injectable, NgZone } from "@angular/core";
+import { BehaviorSubject } from "rxjs/Rx";
+
 import { BackendService } from "../../shared";
 import { Grocery } from "./grocery.model";
-import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
 export class GroceryService {
-  public items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
+  items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
+
   private allItems: Array<Grocery> = [];
 
   constructor(private zone: NgZone, private backend: BackendService) { }

@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
+import { getString, setString } from "application-settings";
+
 import { User } from "./user.model";
 import { BackendService } from "./backend.service";
-import { getString, setString } from "application-settings";
+
 const tokenKey = "token";
 
 @Injectable()
 export class LoginService {
-  public get isLogged(): boolean {
+  get isLoggedIn(): boolean {
     return !!getString(tokenKey);
   }
 

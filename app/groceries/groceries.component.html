@@ -58,11 +58,11 @@
   </GridLayout>
 
   <!-- Row 3: The grocery list -->
-  <grocery-list
+  <gr-grocery-list
     [row]="2"
     (loading)="showActivityIndicator()"
     (loaded)="hideActivityIndicator()"
-    [showDeleted]="isShowingRecent"></grocery-list>
+    [showDeleted]="isShowingRecent"></gr-grocery-list>
 
   <ActivityIndicator
     [busy]="isLoading"

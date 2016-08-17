@@ -1,11 +1,13 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from "@angular/core";
+
 import { Grocery, GroceryService } from "../shared";
 import { alert } from "../../shared";
 import { ItemStatusPipe } from "./item-status.pipe";
+
 declare var UIColor: any;
 
 @Component({
-  selector: "grocery-list",
+  selector: "gr-grocery-list",
   templateUrl: "groceries/grocery-list/grocery-list.component.html",
   styleUrls: ["groceries/grocery-list/grocery-list.component.css"],
   pipes: [ItemStatusPipe],

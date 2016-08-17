@@ -1,16 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { Color } from "color";
 import { action } from "ui/dialogs";
+import { Color } from "color";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
+import * as SocialShare from "nativescript-social-share";
+
 import { GroceryListComponent } from "./grocery-list/grocery-list.component";
 import { GroceryService } from "./shared";
 import { LoginService, alert, setHintColor } from "../shared";
-import * as SocialShare from "nativescript-social-share";
 
 @Component({
-  selector: "groceries",
+  selector: "gr-groceries",
   directives: [GroceryListComponent],
   templateUrl: "groceries/groceries.component.html",
   styleUrls: ["groceries/groceries-common.css", "groceries/groceries.component.css"],
