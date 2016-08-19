@@ -6,7 +6,7 @@ var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 var page;
 
 var groceryList = new GroceryListViewModel([]);
-var pageData = new Observable({
+var pageData = Observable.fromJSON({
     groceryList: groceryList,
     grocery: ""
 });
