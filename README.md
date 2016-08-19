@@ -7,6 +7,7 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
 * [Branches](#branches)
 * [Screenshots](#screenshots)
 * [Development](#development)
+    * [Linting](#linting)
     * [Unit testing](#unit-testing)
     * [Travis CI](#travis)
     * [Telerik Platform](#telerik-platform)
