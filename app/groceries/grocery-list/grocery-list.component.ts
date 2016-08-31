@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from 
 
 import { Grocery, GroceryService } from "../shared";
 import { alert } from "../../shared";
-import { ItemStatusPipe } from "./item-status.pipe";
 
 declare var UIColor: any;
 
