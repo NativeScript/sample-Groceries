@@ -12,7 +12,6 @@ import { alert, setHintColor, LoginService, User } from "../shared";
 
 @Component({
   selector: "gr-login",
-  providers: [LoginService],
   templateUrl: "login/login.component.html",
   styleUrls: ["login/login-common.css", "login/login.component.css"],
 })

@@ -10,7 +10,6 @@ declare var UIColor: any;
   selector: "gr-grocery-list",
   templateUrl: "groceries/grocery-list/grocery-list.component.html",
   styleUrls: ["groceries/grocery-list/grocery-list.component.css"],
-  pipes: [ItemStatusPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroceryListComponent {

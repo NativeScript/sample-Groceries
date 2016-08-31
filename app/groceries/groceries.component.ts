@@ -12,7 +12,6 @@ import { LoginService, alert, setHintColor } from "../shared";
 
 @Component({
   selector: "gr-groceries",
-  directives: [GroceryListComponent],
   templateUrl: "groceries/groceries.component.html",
   styleUrls: ["groceries/groceries-common.css", "groceries/groceries.component.css"],
   providers: [GroceryService]
