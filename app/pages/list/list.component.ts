@@ -2,7 +2,7 @@ import {Component, ElementRef, NgZone, OnInit, ViewChild} from "@angular/core";
 import {TextField} from "ui/text-field";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
-var socialShare = require("nativescript-social-share");
+import * as SocialShare from "nativescript-social-share";
 
 @Component({
   selector: "list",
@@ -12,7 +12,7 @@ var socialShare = require("nativescript-social-share");
 })
 export class ListPage implements OnInit {
   groceryList: Array<Grocery> = [];
-  grocery: string = "";
+  grocery = "";
   isLoading = false;
   listLoaded = false;
 
@@ -78,6 +78,6 @@ export class ListPage implements OnInit {
       list.push(this.groceryList[i].name);
     }
     let listString = list.join(", ").trim();
-    socialShare.shareText(listString);
+    SocialShare.shareText(listString);
   }
 }
