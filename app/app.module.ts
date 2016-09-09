@@ -24,6 +24,9 @@ setStatusBarColors();
     LoginModule,
     GroceriesModule,
   ],
+  declarations: [
+      AppComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
