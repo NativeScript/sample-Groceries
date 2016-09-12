@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     private userService: LoginService,
     private page: Page) {
     this.user = new User();
-    this.user.email = "ngconf@telerik33.com";
+    this.user.email = "user@nativescript.org";
     this.user.password = "password";
   }
 
