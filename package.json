@@ -28,15 +28,15 @@
     "tslint": "tslint \"app/**/*.ts\""
   },
   "dependencies": {
-    "@angular/core": "2.0.0-rc.7",
-    "@angular/common": "2.0.0-rc.7",
-    "@angular/compiler": "2.0.0-rc.7",
-    "@angular/http": "2.0.0-rc.7",
-    "@angular/platform-browser": "2.0.0-rc.7",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.7",
-    "@angular/platform-server": "2.0.0-rc.7",
-    "@angular/forms": "2.0.0-rc.7",
-    "@angular/router": "3.0.0-rc.3",
+    "@angular/core": "2.0.0",
+    "@angular/common": "2.0.0",
+    "@angular/compiler": "2.0.0",
+    "@angular/http": "2.0.0",
+    "@angular/platform-browser": "2.0.0",
+    "@angular/platform-browser-dynamic": "2.0.0",
+    "@angular/platform-server": "2.0.0",
+    "@angular/forms": "2.0.0",
+    "@angular/router": "3.0.0",
     "email-validator": "1.0.4",
     "everlive-sdk": "1.7.1",
     "nativescript-angular": "0.6.0",
@@ -48,7 +48,7 @@
     "tns-core-modules": "2.2.1"
   },
   "devDependencies": {
-    "zone.js": "0.6.21",
+    "zone.js": "^0.6.21",
     "babel-traverse": "6.8.0",
     "babel-types": "6.8.1",
     "babylon": "6.8.0",
