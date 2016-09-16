@@ -14,7 +14,7 @@ export function setStatusBarColors() {
   if (application.ios) {
     var AppDelegate = UIResponder.extend({
       applicationDidFinishLaunchingWithOptions: function() {
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
+        UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyle.LightContent;
         return true;
       }
     }, {
