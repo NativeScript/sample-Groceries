@@ -1,8 +1,26 @@
-import {nativeScriptBootstrap} from "nativescript-angular/application";
-import {NS_HTTP_PROVIDERS} from "nativescript-angular/http";
-import {AppComponent} from "./app.component";
-import {APP_ROUTER_PROVIDERS} from "./app.routes";
-import {setStatusBarColors} from "./utils/status-bar-util";
+import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
+import { NgModule } from "@angular/core"; 
+import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { NativeScriptHttpModule } from "nativescript-angular/http";
+import { routes, navigatableComponents } from "./app.routes";
+import { AppComponent } from "./app.component";
+import { setStatusBarColors } from "./utils/status-bar-util";
 
 setStatusBarColors();
-nativeScriptBootstrap(AppComponent, [NS_HTTP_PROVIDERS, APP_ROUTER_PROVIDERS]);
+
+@NgModule({
+    declarations: [
+        AppComponent,
+        ...navigatableComponents,
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        NativeScriptModule,
+        NativeScriptHttpModule,
+        NativeScriptRouterModule,
+        NativeScriptRouterModule.forRoot(routes),
+    ],
+})
+class AppModule {}
+
+platformNativeScriptDynamic().bootstrapModule(AppModule);
