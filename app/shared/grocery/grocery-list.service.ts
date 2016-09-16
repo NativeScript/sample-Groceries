@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {Http, Headers} from "@angular/http";
-import {Config} from "../config";
-import {Grocery} from "./grocery";
-import {Observable} from "rxjs/Rx";
+import { Injectable } from "@angular/core";
+import { Http, Headers } from "@angular/http";
+import { Config } from "../config";
+import { Grocery } from "./grocery";
+import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 
 @Injectable()

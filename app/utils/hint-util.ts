@@ -1,5 +1,5 @@
-import {Color} from "color";
-import {TextField} from "ui/text-field";
+import { Color } from "color";
+import { TextField } from "ui/text-field";
 
 declare var NSAttributedString: any;
 declare var NSDictionary: any;
