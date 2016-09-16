@@ -11,7 +11,7 @@ import * as SocialShare from "nativescript-social-share";
   styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
   providers: [GroceryListService]
 })
-export class ListPage implements OnInit {
+export class ListComponent implements OnInit {
   groceryList: Array<Grocery> = [];
   grocery = "";
   isLoading = false;
@@ -20,12 +20,12 @@ export class ListPage implements OnInit {
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
   constructor(
-    private _groceryListService: GroceryListService,
-    private _zone: NgZone) {}
+    private groceryListService: GroceryListService,
+    private zone: NgZone) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this._groceryListService.load()
+    this.groceryListService.load()
       .subscribe(loadedGroceries => {
         loadedGroceries.forEach((groceryObject) => {
           this.groceryList.unshift(groceryObject);
@@ -45,7 +45,7 @@ export class ListPage implements OnInit {
     let textField = <TextField>this.groceryTextField.nativeElement;
     textField.dismissSoftInput();
 
-    this._groceryListService.add(this.grocery)
+    this.groceryListService.add(this.grocery)
       .subscribe(
         groceryObject => {
           this.groceryList.unshift(groceryObject);
@@ -62,11 +62,10 @@ export class ListPage implements OnInit {
   }
 
   delete(grocery: Grocery) {
-    this._groceryListService.delete(grocery.id)
+    this.groceryListService.delete(grocery.id)
       .subscribe(() => {
-        // Running the change detection in a zone ensures that change
-        // detection gets triggered if needed.
-        this._zone.run(() => {
+        // Running the array splice in a zone ensures that change detection gets triggered.
+        this.zone.run(() => {
           var index = this.groceryList.indexOf(grocery);
           this.groceryList.splice(index, 1);
         });

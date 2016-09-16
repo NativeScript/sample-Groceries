@@ -1,12 +1,12 @@
-import { LoginPage } from "./pages/login/login.component";
-import { ListPage } from "./pages/list/list.component";
+import { LoginComponent } from "./pages/login/login.component";
+import { ListComponent } from "./pages/list/list.component";
 
 export const routes = [
-  { path: "", component: LoginPage },
-  { path: "list", component: ListPage }
+  { path: "", component: LoginComponent },
+  { path: "list", component: ListComponent }
 ];
 
 export const navigatableComponents = [
-  LoginPage,
-  ListPage
+  LoginComponent,
+  ListComponent
 ];

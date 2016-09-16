@@ -15,7 +15,7 @@ import { setHintColor } from "../../utils/hint-util";
   templateUrl: "pages/login/login.html",
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"],
 })
-export class LoginPage implements OnInit {
+export class LoginComponent implements OnInit {
   user: User;
   isLoggingIn = true;
 
@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
   @ViewChild("email") email: ElementRef;
   @ViewChild("password") password: ElementRef;
 
-  constructor(private _router: Router, private _userService: UserService, private page: Page) {
+  constructor(private router: Router, private userService: UserService, private page: Page) {
     this.user = new User();
     this.user.email = "user@nativescript.org";
     this.user.password = "password";
@@ -48,15 +48,15 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this._userService.login(this.user)
+    this.userService.login(this.user)
       .subscribe(
-        () => this._router.navigate(["/list"]),
+        () => this.router.navigate(["/list"]),
         (error) => alert("Unfortunately we could not find your account.")
       );
   }
 
   signUp() {
-    this._userService.register(this.user)
+    this.userService.register(this.user)
       .subscribe(
         () => {
           alert("Your account was successfully created.");
