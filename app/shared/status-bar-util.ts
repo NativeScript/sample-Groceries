@@ -1,5 +1,6 @@
 import * as application from "application";
 import * as platform from "platform";
+import * as utils from "utils/utils";
 
 declare var android: any;
 declare var UIResponder: any;
@@ -14,7 +15,8 @@ export function setStatusBarColors() {
   if (application.ios) {
     const AppDelegate = UIResponder.extend({
       applicationDidFinishLaunchingWithOptions: function() {
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
+        // Allow for XCode 8 API changes
+        utils.ios.getter(UIApplication, UIApplication.sharedApplication).statusBarStyle = UIStatusBarStyle.LightContent;
         return true;
       }
     }, {
