@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from "@angular/core";
-
 import * as utils from "utils/utils";
 
 import { Grocery, GroceryService } from "../shared";
