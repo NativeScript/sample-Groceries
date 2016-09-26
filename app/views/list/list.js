@@ -1,12 +1,12 @@
 var dialogsModule = require("ui/dialogs");
-var Observable = require("data/observable").Observable;
+var observableModule = require("data/observable");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
 var socialShare = require("nativescript-social-share");
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 var page;
 
 var groceryList = new GroceryListViewModel([]);
-var pageData = Observable.fromJSON({
+var pageData = observableModule.fromObject({
     groceryList: groceryList,
     grocery: ""
 });
