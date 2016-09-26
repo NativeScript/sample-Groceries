@@ -33,7 +33,6 @@ The latest version of Groceries is available on the iOS App Store as well as Goo
 This repository contains a number of branches:
 
 * The [**master** branch](https://github.com/NativeScript/sample-Groceries/) shows how to build a robust, real-world app using NativeScript. The branch is built with TypeScript and Angular 2.
-* The [**javascript** branch](https://github.com/NativeScript/sample-Groceries/tree/javascript) contains the same real-world implementation, but is built with JavaScript.
 
 ---
 
@@ -49,10 +48,6 @@ This repository contains a number of branches:
 
 * The [**web** branch](https://github.com/NativeScript/sample-Groceries/tree/web) contains a web version of Groceries that shares code with the NativeScript-built native app. The app is built with the Angular 2 CLI.
 * The [**gh-pages** branch](https://github.com/NativeScript/sample-Groceries/tree/gh-pages) contains the GitHub Pages hosted version of the web branch. You can view the web app live at <https://nativescript.github.io/sample-Groceries>.
-
----
-
-* The [**firebase** branch](https://github.com/NativeScript/sample-Groceries/tree/firebase) contains a version of Groceries that [uses Firebase as its data store](https://www.nativescript.org/blog/ignite-your-app-development-with-nativescript-and-firebase).
 
 <h2 id="screenshots">Screenshots</h2>
 
