@@ -1,10 +1,11 @@
 var applicationModule = require("application");
+var utilsModule = require("utils/utils");
 var navigation = require("./shared/navigation");
 
 if (applicationModule.ios) {
 	var AppDelegate = UIResponder.extend({
 		applicationDidFinishLaunchingWithOptions: function () {
-			UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent;
+			utilsModule.ios.getter(UIApplication, UIApplication.sharedApplication).statusBarStyle = UIStatusBarStyle.LightContent;
 			return true;
 		}
 	}, {

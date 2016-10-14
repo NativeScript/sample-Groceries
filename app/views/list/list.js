@@ -57,9 +57,10 @@ exports.loaded = function(args) {
 
 	// Set the hint color for iOS
 	if (groceryElement.ios) {
+		var white = utilsModule.ios.getter(UIColor, UIColor.whiteColor);
 		groceryElement.ios.attributedPlaceholder = NSAttributedString.alloc().initWithStringAttributes(
 			groceryElement.hint,
-			new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]));
+			new NSDictionary([white], [NSForegroundColorAttributeName]));
 	}
 
 	showPageLoadingIndicator();
@@ -85,8 +86,9 @@ exports.loaded = function(args) {
 
 exports.itemLoading = function(args) {
 	var cell = args.ios;
+	var clear = utilsModule.ios.getter(UIColor, UIColor.clearColor);
 	if (cell) {
-		cell.backgroundView.backgroundColor = UIColor.clearColor();
+		cell.backgroundView.backgroundColor = clear;
 	}
 };
 
