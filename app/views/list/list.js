@@ -86,8 +86,8 @@ exports.loaded = function(args) {
 
 exports.itemLoading = function(args) {
 	var cell = args.ios;
-	var clear = utilsModule.ios.getter(UIColor, UIColor.clearColor);
 	if (cell) {
+		var clear = utilsModule.ios.getter(UIColor, UIColor.clearColor);
 		cell.backgroundView.backgroundColor = clear;
 	}
 };
