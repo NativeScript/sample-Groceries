@@ -19,7 +19,7 @@ TextField {
   margin-top: 15;
 }
 .sign-up-stack Label {
-  padding-top: 10;
+  padding-top: 5;
   height: 200;
   text-transform: uppercase;
 }
