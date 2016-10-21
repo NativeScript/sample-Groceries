@@ -59,14 +59,13 @@ export class GroceryListComponent {
       return;
     }
 
-    this.loading.emit("loading");
     this.store.toggleDoneFlag(grocery)
-      .subscribe(() => {
-        this.loaded.emit("loaded");
-      }, () => {
-        alert("An error occurred managing your grocery list.");
-        this.loaded.emit("loaded");
-      });
+      .subscribe(
+        () => { },
+        () => {
+          alert("An error occurred managing your grocery list.");
+        }
+      );
   }
 
   delete(grocery: Grocery) {

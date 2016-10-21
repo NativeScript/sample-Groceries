@@ -108,16 +108,16 @@ export class GroceriesComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
+    this.showActivityIndicator();
     this.store.restore()
       .subscribe(
         () => {
           this.isShowingRecent = false;
-          this.isLoading = false;
+          this.hideActivityIndicator();
         },
         () => {
           alert("An error occurred while adding groceries to your list.");
-          this.isLoading = false;
+          this.hideActivityIndicator();
         }
       );
   }
