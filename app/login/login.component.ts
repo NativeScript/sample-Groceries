@@ -65,14 +65,16 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.login(this.user)
-      .then(() => {
-        this.isAuthenticating = false;
-        this.router.navigate(["/"]);
-      })
-      .catch(() => {
-        alert("Unfortunately we could not find your account.");
-        this.isAuthenticating = false;
-      });
+      .subscribe(
+        () => {
+          this.isAuthenticating = false;
+          this.router.navigate(["/"]);
+        },
+        (error) => {
+          alert("Unfortunately we could not find your account.");
+          this.isAuthenticating = false;
+        }
+      );
   }
 
   signUp() {
@@ -82,19 +84,22 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.register(this.user)
-      .then(() => {
-        alert("Your account was successfully created.");
-        this.isAuthenticating = false;
-        this.toggleDisplay();
-      })
-      .catch((message) => {
-        if (message.match(/same user/)) {
-          alert("This email address is already in use.");
-        } else {
-          alert("Unfortunately we were unable to create your account.");
+      .subscribe(
+        () => {
+          alert("Your account was successfully created.");
+          this.isAuthenticating = false;
+          this.toggleDisplay();
+        },
+        (message) => {
+          // TODO: Verify this works
+          if (message.match(/same user/)) {
+            alert("This email address is already in use.");
+          } else {
+            alert("Unfortunately we were unable to create your account.");
+          }
+          this.isAuthenticating = false;
         }
-        this.isAuthenticating = false;
-      });
+      );
   }
 
   forgotPassword() {
@@ -107,10 +112,9 @@ export class LoginComponent implements OnInit {
     }).then((data) => {
       if (data.result) {
         this.userService.resetPassword(data.text.trim())
-          .then(() => {
+          .subscribe(() => {
             alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
-          })
-          .catch(() => {
+          }, () => {
             alert("Unfortunately, an error occurred resetting your password.");
           });
       }

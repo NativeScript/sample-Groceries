@@ -1,55 +1,72 @@
 import { Injectable } from "@angular/core";
-import { getString, setString } from "application-settings";
+import { Http, Headers, Response } from "@angular/http";
+import { Observable } from "rxjs/Rx";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/map";
 
 import { User } from "./user.model";
 import { BackendService } from "./backend.service";
 
-const tokenKey = "token";
-
 @Injectable()
 export class LoginService {
-  get isLoggedIn(): boolean {
-    return !!getString(tokenKey);
-  }
-
-  private get token(): string {
-    return getString(tokenKey);
-  }
-  private set token(theToken: string) {
-    setString(tokenKey, theToken);
-  }
-
-  constructor(private backend: BackendService) {
-    if (this.token) {
-      this.backend.el.authentication.setAuthorization(this.token, "bearer");
-    }
-  }
+  constructor(private http: Http) { }
 
   register(user: User) {
-    return this.backend.el.Users.register(user.email, user.password)
-      .catch(this.handleErrors);
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    return this.http.post(
+      BackendService.apiUrl + "Users",
+      JSON.stringify({
+        Username: user.email,
+        Email: user.email,
+        Password: user.password
+      }),
+      { headers: headers }
+    )
+    .catch(this.handleErrors);
   }
 
   login(user: User) {
-    return this.backend.el.authentication.login(user.email, user.password).then((data) => {
-      this.token = data.result.access_token;
-      this.backend.el.authentication.setAuthorization(this.token, "bearer");
-      return Promise.resolve();
-    }).catch(this.handleErrors);
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    return this.http.post(
+      BackendService.apiUrl + "oauth/token",
+      JSON.stringify({
+        username: user.email,
+        password: user.password,
+        grant_type: "password"
+      }),
+      { headers: headers }
+    )
+    .map(response => response.json())
+    .do(data => {
+      BackendService.token = data.Result.access_token;
+    })
+    .catch(this.handleErrors);
   }
 
   logoff() {
-    this.backend.el.authentication.clearAuthorization();
-    this.token = "";
+    BackendService.token = "";
   }
 
   resetPassword(email) {
-    return this.backend.el.Users.resetPassword({ Username: email })
-      .catch(this.handleErrors);
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    return this.http.post(
+      BackendService.apiUrl + "Users/resetpassword",
+      JSON.stringify({
+        Email: email
+      }),
+      { headers: headers }
+    )
+    .catch(this.handleErrors);
   }
 
-  handleErrors(error) {
-    console.log(JSON.stringify(error));
-    return Promise.reject(error.message);
+  handleErrors(error: Response) {
+    console.log(JSON.stringify(error.json()));
+    return Observable.throw(error);
   }
 }

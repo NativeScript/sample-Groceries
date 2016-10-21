@@ -25,13 +25,15 @@ export class GroceryListComponent {
   load() {
     this.loading.next("");
     this.store.load()
-      .then(() => {
-        this.loaded.next("");
-        this.listLoaded = true;
-      })
-      .catch(() => {
-        alert("An error occurred loading your grocery list.");
-      });
+      .subscribe(
+        () => {
+          this.loaded.next("");
+          this.listLoaded = true;
+        },
+        () => {
+          alert("An error occurred loading your grocery list.");
+        }
+      );
   }
 
   // The following trick makes the background color of each cell
@@ -52,16 +54,30 @@ export class GroceryListComponent {
   }
 
   toggleDone(grocery: Grocery) {
-    this.store.toggleDoneFlag(grocery, this.showDeleted)
-      .catch(() => {
+    if (grocery.deleted) {
+      grocery.done = !grocery.done;
+      return;
+    }
+
+    this.loading.emit("loading");
+    this.store.toggleDoneFlag(grocery)
+      .subscribe(() => {
+        this.loaded.emit("loaded");
+      }, () => {
         alert("An error occurred managing your grocery list.");
+        this.loaded.emit("loaded");
       });
   }
 
   delete(grocery: Grocery) {
+    this.loading.next("");
     this.store.setDeleteFlag(grocery)
-      .catch(() => {
-        alert("An error occurred while deleting an item from your list.");
-      });
+      .subscribe(
+        () => this.loaded.next(""),
+        () => {
+          alert("An error occurred while deleting an item from your list.");
+          this.loaded.next("");
+        }
+      );
   }
 }

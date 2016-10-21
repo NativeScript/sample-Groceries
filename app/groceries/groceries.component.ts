@@ -88,12 +88,18 @@ export class GroceriesComponent implements OnInit {
     // user can continue to add more groceries?
     textField.dismissSoftInput();
 
+    this.showActivityIndicator();
     this.store.add(this.grocery)
-      .catch(() => {
-        alert("An error occurred while adding an item to your list.");
-      });
-
-    this.grocery = "";
+      .subscribe(
+        () => {
+          this.grocery = "";
+          this.hideActivityIndicator();
+        },
+        () => {
+          alert("An error occurred while adding an item to your list.");
+          this.hideActivityIndicator();
+        }
+      );
   }
 
   toggleRecent() {
@@ -102,12 +108,18 @@ export class GroceriesComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     this.store.restore()
-      .catch(() => {
-        alert("An error occurred while adding groceries to your list.");
-      });
-
-    this.isShowingRecent = false;
+      .subscribe(
+        () => {
+          this.isShowingRecent = false;
+          this.isLoading = false;
+        },
+        () => {
+          alert("An error occurred while adding groceries to your list.");
+          this.isLoading = false;
+        }
+      );
   }
 
   showMenu() {

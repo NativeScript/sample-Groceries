@@ -1,45 +1,20 @@
 import { Injectable } from "@angular/core";
+import { getString, setString } from "application-settings";
 
-import { connectionType, getConnectionType, startMonitoring } from "connectivity";
+const tokenKey = "token";
 
-const Everlive = require("everlive-sdk");
-
-@Injectable()
 export class BackendService {
-  el = new Everlive({
-    apiKey: "gwfrtxi1lwt4jcqk",
-    offlineStorage: true,
-    scheme: "https"
-  });
+  static apiUrl = "https://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/";
 
-  private lastOnlineState;
-
-  constructor() {
-    this.setupConnectionMonitoring();
+  static isLoggedIn(): boolean {
+    return !!getString("token");
   }
 
-  setupConnectionMonitoring() {
-    this.handleOnlineOffline();
-    this.lastOnlineState = getConnectionType();
-    startMonitoring(() => {
-      this.handleOnlineOffline();
-
-      // If the user comes back online sync any changes they
-      // made while offline.
-      if (getConnectionType() !== connectionType.none
-        && this.lastOnlineState === connectionType.none) {
-        this.el.sync();
-      }
-
-      this.lastOnlineState = getConnectionType();
-    });
+  static get token():string {
+    return getString("token");
   }
 
-  private handleOnlineOffline() {
-    if (getConnectionType() === connectionType.none) {
-      this.el.offline();
-    } else {
-      this.el.online();
-    }
+  static set token(theToken: string) {
+    setString("token", theToken);
   }
 }
