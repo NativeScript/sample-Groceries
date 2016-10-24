@@ -10,7 +10,7 @@ export class BackendService {
     return !!getString("token");
   }
 
-  static get token():string {
+  static get token(): string {
     return getString("token");
   }
 
