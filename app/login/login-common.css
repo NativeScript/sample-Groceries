@@ -56,6 +56,14 @@ Button, TextField {
   margin-right: 16;
   margin-bottom: 10;
 }
+TextField {
+  color: black;
+  placeholder-color: #ACA6A7;
+}
+TextField.light {
+  color: #C4AFB4;
+  placeholder-color: #C4AFB4;
+}
 .submit-button {
   background-color: #CB1D00;
   color: white;

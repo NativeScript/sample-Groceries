@@ -33,6 +33,7 @@
 }
 TextField {
   color: white;
+  placeholder-color: white;
   background-color: transparent;
   font-size: 15;
   border-width: 0;

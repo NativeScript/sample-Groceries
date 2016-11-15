@@ -35,7 +35,7 @@
       class="form-controls"
       rows="auto, auto"
       translateY="50">
-      <TextField #email
+      <TextField
         hint="Email Address"
         keyboardType="email"
         returnKeyType="next"
@@ -44,6 +44,7 @@
         [isEnabled]="!isAuthenticating"
         autocorrect="false"
         autocapitalizationType="none"
+        [class.light]="!isLoggingIn"
         row="0"></TextField>
       <TextField #password
         hint="Password"
@@ -52,6 +53,7 @@
         (returnPress)="submit()"
         [(ngModel)]="user.password"
         [isEnabled]="!isAuthenticating"
+        [class.light]="!isLoggingIn"
         row="1"></TextField>
 
       <ActivityIndicator

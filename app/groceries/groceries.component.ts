@@ -8,7 +8,7 @@ import * as SocialShare from "nativescript-social-share";
 
 import { GroceryListComponent } from "./grocery-list/grocery-list.component";
 import { GroceryService } from "./shared";
-import { LoginService, alert, setHintColor } from "../shared";
+import { LoginService, alert } from "../shared";
 
 @Component({
   selector: "gr-groceries",
@@ -33,17 +33,6 @@ export class GroceriesComponent implements OnInit {
     this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
-  }
-
-  setTextFieldHintColor(textField) {
-    // TODO: Why is it necessary to defer this code on iOS?
-    // It should work without the setTimeout like it does on Android.
-    setTimeout(() => {
-      setHintColor({
-        view: <TextField>textField,
-        color: new Color("white")
-      });
-    });
   }
 
   // Prevent the first textfield from receiving focus on Android

@@ -8,7 +8,7 @@ import { prompt } from "ui/dialogs";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
 
-import { alert, setHintColor, LoginService, User } from "../shared";
+import { alert, LoginService, User } from "../shared";
 
 @Component({
   selector: "gr-login",
@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit {
   isLoggingIn = true;
   isAuthenticating = false;
 
+
   @ViewChild("initialContainer") initialContainer: ElementRef;
   @ViewChild("mainContainer") mainContainer: ElementRef;
   @ViewChild("logoContainer") logoContainer: ElementRef;
   @ViewChild("formControls") formControls: ElementRef;
   @ViewChild("signUpStack") signUpStack: ElementRef;
-  @ViewChild("email") email: ElementRef;
   @ViewChild("password") password: ElementRef;
 
   constructor(private router: Router,
@@ -123,7 +123,6 @@ export class LoginComponent implements OnInit {
 
   toggleDisplay() {
     this.isLoggingIn = !this.isLoggingIn;
-    this.setTextFieldColors();
     let mainContainer = <View>this.mainContainer.nativeElement;
     mainContainer.animate({
       backgroundColor: this.isLoggingIn ? new Color("white") : new Color("#301217"),
@@ -169,18 +168,5 @@ export class LoginComponent implements OnInit {
       // Kick off the animation queue
       new Animation(animations, false).play();
     });
-  }
-
-  setTextFieldColors() {
-    let emailTextField = <TextField>this.email.nativeElement;
-    let passwordTextField = <TextField>this.password.nativeElement;
-
-    let mainTextColor = new Color(this.isLoggingIn ? "black" : "#C4AFB4");
-    emailTextField.color = mainTextColor;
-    passwordTextField.color = mainTextColor;
-
-    let hintColor = new Color(this.isLoggingIn ? "#ACA6A7" : "#C4AFB4");
-    setHintColor({ view: emailTextField, color: hintColor });
-    setHintColor({ view: passwordTextField, color: hintColor });
   }
 }

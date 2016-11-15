@@ -37,7 +37,7 @@
     <TextField #groceryTextField
       col="1"
       [(ngModel)]="grocery"
-      (loaded)="setTextFieldHintColor(groceryTextField); handleAndroidFocus(groceryTextField, container)"
+      (loaded)="handleAndroidFocus(groceryTextField, container)"
       [hint]="isAndroid ? 'ADD A GROCERY' : 'Add a grocery'"
       returnKeyType="done"
       *ngIf="!isShowingRecent"
