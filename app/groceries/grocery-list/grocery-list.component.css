@@ -19,6 +19,9 @@ ListView {
   padding-bottom: 13;
   padding-left: 16;
 }
+.tap-target Label {
+  min-width: 200;
+}
 .check-box {
   margin-right: 10;
   height: 20;
