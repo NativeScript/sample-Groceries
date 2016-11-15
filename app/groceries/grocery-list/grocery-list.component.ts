@@ -70,13 +70,19 @@ export class GroceryListComponent {
 
   delete(grocery: Grocery) {
     this.loading.next("");
-    this.store.setDeleteFlag(grocery)
-      .subscribe(
-        () => this.loaded.next(""),
-        () => {
-          alert("An error occurred while deleting an item from your list.");
-          this.loaded.next("");
-        }
-      );
+    let successHandler = () => this.loaded.next("");
+    let errorHandler = () => {
+      alert("An error occurred while deleting an item from your list.");
+      this.loaded.next("");
+    }
+
+    if (grocery.deleted) {
+      this.store.permanentlyDelete(grocery)
+        .subscribe(successHandler, errorHandler);
+    } else {
+      this.store.setDeleteFlag(grocery)
+        .subscribe(successHandler, errorHandler);
+    }
   }
 }
+

@@ -105,6 +105,21 @@ export class GroceryService {
     .catch(this.handleErrors);
   }
 
+  permanentlyDelete(item: Grocery) {
+    return this.http
+      .delete(
+        BackendService.apiUrl + "Groceries/" + item.id,
+        { headers: this.getHeaders() }
+      )
+      .map(res => res.json())
+      .map(data => {
+        let index = this.allItems.indexOf(item);
+        this.allItems.splice(index, 1);
+        this.publishUpdates();
+      })
+      .catch(this.handleErrors);
+  }
+
   private put(id: string, data: Object) {
     return this.http.put(
       BackendService.apiUrl + "Groceries/" + id,

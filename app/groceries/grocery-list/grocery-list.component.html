@@ -22,7 +22,6 @@
           [class.line-through]="item.done && !item.deleted"></Label>
       </StackLayout>
       <GridLayout
-        *ngIf="!item.deleted"
         col="1"
         class="delete-container"
         (tap)="delete(item)">
