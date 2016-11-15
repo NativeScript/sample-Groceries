@@ -4,13 +4,13 @@
 }
 .initial-label {
   font-size: 32;
-  letter-spacing: 0.4;
+  letter-spacing: 0.35;
 }
 .main-label {
   font-size: 28;
   margin-top: 32;
   margin-bottom: 32;
-  letter-spacing: 0.4;
+  letter-spacing: 0.3;
 }
 TextField {
   margin-bottom: 10;
