@@ -114,11 +114,6 @@ export class GroceryService {
     .catch(this.handleErrors);
   }
 
-  private updateSingleItem(item: Grocery, newItem: Grocery) {
-    const index = this.allItems.indexOf(item);
-    this.allItems.splice(index, 1, newItem);
-  }
-
   private publishUpdates() {
     // Make sure all updates are published inside NgZone so that change detection is triggered if needed
     this.zone.run(() => {
