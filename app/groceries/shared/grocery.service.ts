@@ -65,7 +65,7 @@ export class GroceryService {
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
-    return this.put(item.id, { Done: !item.done })
+    return this.put(item.id, { Done: item.done })
       .map(res => res.json());
   }
 
