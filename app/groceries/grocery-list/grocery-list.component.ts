@@ -74,7 +74,7 @@ export class GroceryListComponent {
     let errorHandler = () => {
       alert("An error occurred while deleting an item from your list.");
       this.loaded.next("");
-    }
+    };
 
     if (grocery.deleted) {
       this.store.permanentlyDelete(grocery)
