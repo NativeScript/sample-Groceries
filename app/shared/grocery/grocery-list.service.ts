@@ -45,7 +45,7 @@ export class GroceryListService {
   }
 
   delete(id: string) {
-    var headers = new Headers();
+    let headers = new Headers();
     headers.append("Authorization", "Bearer " + Config.token);
     headers.append("Content-Type", "application/json");
 

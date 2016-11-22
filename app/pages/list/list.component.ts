@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
           });
           this.grocery = "";
         }
-      )
+      );
   }
 
   delete(grocery: Grocery) {
@@ -66,7 +66,7 @@ export class ListComponent implements OnInit {
       .subscribe(() => {
         // Running the array splice in a zone ensures that change detection gets triggered.
         this.zone.run(() => {
-          var index = this.groceryList.indexOf(grocery);
+          let index = this.groceryList.indexOf(grocery);
           this.groceryList.splice(index, 1);
         });
       });
