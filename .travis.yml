@@ -37,6 +37,5 @@ install:
 #     - android-wait-for-emulator
 
 script:
-    - npm run tslint
     - tns build android
     # - tns test android --emulator --justlaunch
