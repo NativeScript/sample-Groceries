@@ -1,0 +1,42 @@
+env:
+    global:
+        - NODE_VERSION=4.4.7
+
+language: android
+
+jdk: oraclejdk8
+
+android:
+  components:
+    - platform-tools
+    - build-tools-23.0.1
+    - android-23
+    - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-19
+
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+    directories:
+        - .nvm
+        - $HOME/.gradle/caches/
+        - $HOME/.gradle/wrapper/
+
+install:
+    - nvm install $NODE_VERSION
+    - wget -O ./nativescript.tgz "https://s3.amazonaws.com/nativescript-ci/build_result/nativescript.tgz"
+    - npm install -g nativescript.tgz --ignore-scripts
+    - tns usage-reporting disable
+    - tns error-reporting disable
+    - npm install
+
+# before_script:
+#     - echo no | android create avd --force -n test -t android-19 -b armeabi-v7a
+#     - emulator -avd test -no-audio -no-window &
+#     - android-wait-for-emulator
+
+script:
+    - npm run tslint
+    - tns build android
+    # - tns test android --emulator --justlaunch
