@@ -6,3 +6,4 @@ node_modules/
 platforms/
 tmp/
 typings/
+.DS_Store
