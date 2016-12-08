@@ -5,5 +5,7 @@ export const authProviders = [
 ];
 
 export const appRoutes = [
-  { path: "", redirectTo: "/groceries", pathMatch: "full" }
+  { path: "", redirectTo: "/groceries", pathMatch: "full" },
+  { path: "groceries", loadChildren: "./groceries/groceries.module#GroceriesModule" },
+  { path: "login", loadChildren: "./login/login.module#LoginModule" },
 ];
