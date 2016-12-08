@@ -19,8 +19,6 @@ export class LoginComponent {
     private _router: Router) {
 
     this.user = new User();
-    this.user.email = "ngconf@telerik.com";
-    this.user.password = "password";
   }
 
   submit() {
