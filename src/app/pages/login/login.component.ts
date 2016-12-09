@@ -18,10 +18,7 @@ export class LoginComponent {
   constructor(
     private _userService: UserService,
     private _router: Router) {
-
     this.user = new User();
-    this.user.email = "user@nativescript.org";
-    this.user.password = "password";
   }
 
   submit() {
