@@ -4,7 +4,7 @@ import { Component, Input } from "@angular/core";
   selector: "activity-indicator",
   template: `
     <div [class.hidden]="!isLoading">
-      <img src="./images/loading.gif">
+      <img src="./assets/loading.gif">
       <span>{{ message }}</span>
     </div>
   `,

@@ -1,7 +1,7 @@
 <div class="login-page" [class.dark]="!isLoggingIn">
   <header>
     <span class="avatar">
-      <img src="./images/logo.png" alt="Groceries logo">
+      <img src="./assets/logo.png" alt="Groceries logo">
     </span>
   </header>
 
@@ -23,7 +23,7 @@
 
     <div class="center">
       <button class="big" (click)="submit()" [disabled]="isAuthenticating">
-        <img [hidden]="!isAuthenticating" src="./images/loading.gif">
+        <img [hidden]="!isAuthenticating" src="./assets/loading.gif">
         <span [hidden]="isAuthenticating">{{ isLoggingIn ? 'Login' : 'Register' }}</span>
       </button>
       <button class="plain" (click)="toggleDisplay()" [disabled]="isAuthenticating">

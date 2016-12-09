@@ -35,9 +35,9 @@ export class GroceryList {
 
   imageSource(grocery) {
     if (grocery.deleted) {
-      return grocery.done ? "./images/selected.png" : "./images/nonselected.png"
+      return grocery.done ? "./assets/selected.png" : "./assets/nonselected.png"
     }
-    return grocery.done ? "./images/checked.png" : "./images/unchecked.png";
+    return grocery.done ? "./assets/checked.png" : "./assets/unchecked.png";
   }
 
   toggleDone(grocery: Grocery) {
