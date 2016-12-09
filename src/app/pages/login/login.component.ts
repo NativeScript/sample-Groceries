@@ -22,10 +22,10 @@ export class LoginComponent {
   }
 
   submit() {
-    if (!this.user.isValidEmail()) {
+    /*if (!this.user.isValidEmail()) {
       alert("Enter a valid email address");
       return;
-    }
+    }*/
 
     this.isAuthenticating = true;
     if (this.isLoggingIn) {

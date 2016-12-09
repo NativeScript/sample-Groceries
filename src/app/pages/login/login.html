@@ -6,27 +6,27 @@
   </header>
 
   <h1>GROCERIES</h1>
-  <form>
+  <form (submit)="submit()">
     <div>
       <label>
         Email:
-        <input name="email" type="email" autocapitalize="off" autocorrect="off" [(ngModel)]="user.email" [disabled]="isAuthenticating">
+        <input name="email" type="text" required autocapitalize="off" autocorrect="off" [(ngModel)]="user.email" [disabled]="isAuthenticating">
       </label>
     </div>
 
     <div>
       <label>
         Password:
-        <input name="password" type="password" [(ngModel)]="user.password" [disabled]="isAuthenticating">
+        <input name="password" type="password" required [(ngModel)]="user.password" [disabled]="isAuthenticating">
       </label>
     </div>
 
     <div class="center">
-      <button class="big" (click)="submit()" [disabled]="isAuthenticating">
+      <button class="big" [disabled]="isAuthenticating">
         <img [hidden]="!isAuthenticating" src="./assets/loading.gif">
         <span [hidden]="isAuthenticating">{{ isLoggingIn ? 'Login' : 'Register' }}</span>
       </button>
-      <button class="plain" (click)="toggleDisplay()" [disabled]="isAuthenticating">
+      <button type="button" class="plain" (click)="toggleDisplay()" [disabled]="isAuthenticating">
         <span>{{ isLoggingIn ? 'Sign Up' : 'Back to Login' }}</span>
       </button>
     </div>

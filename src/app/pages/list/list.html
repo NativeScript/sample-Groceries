@@ -1,9 +1,9 @@
 <div class="list-page">
   <h1>Add a Grocery</h1> 
 
-  <form>
-    <input name="grocery" [(ngModel)]="grocery">
-    <button (click)="add()">Add</button>
+  <form (submit)="add()">
+    <input name="grocery" type="text" required [(ngModel)]="grocery">
+    <button>Add</button>
   </form>
 
   <hr>
