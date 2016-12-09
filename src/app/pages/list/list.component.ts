@@ -1,16 +1,15 @@
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router-deprecated";
-import {Grocery} from "../../shared/grocery/grocery";
-import {GroceryStore} from "../../shared/grocery/grocery-list.service";
-import {Config} from "../../shared/config";
-import {ActivityIndicator} from "../../components/activity-indicator.component";
-import {GroceryList} from "./grocery-list.component";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { Grocery } from "../../shared/grocery/grocery";
+import { GroceryStore } from "../../shared/grocery/grocery-list.service";
+import { Config } from "../../shared/config";
+import { GroceryList } from "./grocery-list.component";
 
 @Component({
   selector: "list",
-  directives: [ActivityIndicator, GroceryList],
-  templateUrl: "./app/pages/list/list.html",
-  styleUrls: ["./app/pages/list/list.css"],
+  templateUrl: "./list.html",
+  styleUrls: ["./list.css"],
   providers: [GroceryStore]
 })
 export class ListComponent implements OnInit {

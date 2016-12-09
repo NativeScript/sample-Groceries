@@ -1,7 +1,7 @@
 <div class="login-page" [class.dark]="!isLoggingIn">
   <header>
     <span class="avatar">
-      <img src="./app/assets/css/images/logo.png" alt="Groceries logo">
+      <img src="./images/logo.png" alt="Groceries logo">
     </span>
   </header>
 
@@ -10,20 +10,20 @@
     <div>
       <label>
         Email:
-        <input type="email" autocapitalize="off" autocorrect="off" [(ngModel)]="user.email" [disabled]="isAuthenticating">
+        <input name="email" type="email" autocapitalize="off" autocorrect="off" [(ngModel)]="user.email" [disabled]="isAuthenticating">
       </label>
     </div>
 
     <div>
       <label>
         Password:
-        <input type="password" [(ngModel)]="user.password" [disabled]="isAuthenticating">
+        <input name="password" type="password" [(ngModel)]="user.password" [disabled]="isAuthenticating">
       </label>
     </div>
 
     <div class="center">
       <button class="big" (click)="submit()" [disabled]="isAuthenticating">
-        <img [hidden]="!isAuthenticating" src="./app/assets/images/loading.gif">
+        <img [hidden]="!isAuthenticating" src="./images/loading.gif">
         <span [hidden]="isAuthenticating">{{ isLoggingIn ? 'Login' : 'Register' }}</span>
       </button>
       <button class="plain" (click)="toggleDisplay()" [disabled]="isAuthenticating">

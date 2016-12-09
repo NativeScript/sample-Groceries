@@ -1,11 +1,10 @@
-import {Component, Input} from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: "activity-indicator",
-  inputs: ["isLoading"],
   template: `
     <div [class.hidden]="!isLoading">
-      <img src="./app/assets/images/loading.gif">
+      <img src="./images/loading.gif">
       <span>{{ message }}</span>
     </div>
   `,

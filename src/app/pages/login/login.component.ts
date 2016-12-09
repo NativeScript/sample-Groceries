@@ -1,12 +1,13 @@
-import {Component} from "@angular/core";
-import {Router} from "@angular/router-deprecated";
-import {User} from "../../shared/user/user";
-import {UserService} from "../../shared/user/user.service"
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { User } from "../../shared/user/user";
+import { UserService } from "../../shared/user/user.service"
 
 @Component({
   selector: "login",
-  templateUrl: "./app/pages/login/login.html",
-  styleUrls: ["./app/pages/login/login.css"],
+  templateUrl: "./login.html",
+  styleUrls: ["./login.css"],
   providers: [UserService]
 })
 export class LoginComponent {
@@ -19,6 +20,8 @@ export class LoginComponent {
     private _router: Router) {
 
     this.user = new User();
+    this.user.email = "user@nativescript.org";
+    this.user.password = "password";
   }
 
   submit() {
@@ -40,7 +43,7 @@ export class LoginComponent {
       .subscribe(
         () => {
           this.isAuthenticating = false;
-          this._router.navigate(["List"]);
+          this._router.navigate(["/list"]);
         },
         () => {
           alert("Unfortunately we were not able to log you in to the system");

@@ -2,7 +2,7 @@
   <h1>Add a Grocery</h1> 
 
   <form>
-    <input [(ngModel)]="grocery">
+    <input name="grocery" [(ngModel)]="grocery">
     <button (click)="add()">Add</button>
   </form>
 
@@ -15,7 +15,6 @@
   </div>
 
   <grocery-list
-    [groceries]="groceryList"
     [showDeleted]="isShowingRecent"
     (loaded)="hideLoadingIndicator()"></grocery-list>
 </div>

@@ -1,23 +1,7 @@
-import {ChangeDetectorRef, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform} from "@angular/core";
-import {Grocery} from "../../shared/grocery/grocery";
-import {GroceryStore} from "../../shared/grocery/grocery-list.service";
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({
-  name: "itemStatus"
-})
-export class ItemStatusPipe implements PipeTransform {
-  value: Array<Grocery> = [];
-  constructor(private _ref: ChangeDetectorRef) {}
-  transform(items: Array<Grocery>, deleted: boolean) {
-    if (items && items.length) {
-      this.value = items.filter((grocery: Grocery) => {
-        return grocery.deleted == deleted;
-      });
-      this._ref.markForCheck();
-    }
-    return this.value;
-  }
-}
+import { Grocery } from "../../shared/grocery/grocery";
+import { GroceryStore } from "../../shared/grocery/grocery-list.service";
 
 @Component({
   selector: "grocery-list",
@@ -35,8 +19,7 @@ export class ItemStatusPipe implements PipeTransform {
       </li>
     </ul>
   `,
-  styleUrls: ["./app/pages/list/grocery-list.css"],
-  pipes: [ItemStatusPipe],
+  styleUrls: ["./grocery-list.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroceryList {
@@ -52,9 +35,9 @@ export class GroceryList {
 
   imageSource(grocery) {
     if (grocery.deleted) {
-      return grocery.done ? "./app/assets/images/selected.png" : "./app/assets/images/nonselected.png"
+      return grocery.done ? "./images/selected.png" : "./images/nonselected.png"
     }
-    return grocery.done ? "./app/assets/images/checked.png" : "./app/assets/images/unchecked.png";
+    return grocery.done ? "./images/checked.png" : "./images/unchecked.png";
   }
 
   toggleDone(grocery: Grocery) {

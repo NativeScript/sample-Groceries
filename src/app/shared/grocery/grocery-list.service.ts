@@ -1,9 +1,10 @@
-import {Injectable} from "@angular/core";
-import {Http, Headers, Response, ResponseOptions} from "@angular/http";
-import {Config} from "../config";
-import {Grocery} from "./grocery";
-import {Observable, BehaviorSubject} from "rxjs/Rx";
+import { Injectable } from "@angular/core";
+import { Http, Headers, Response, ResponseOptions } from "@angular/http";
+import { Observable, BehaviorSubject } from "rxjs";
 import "rxjs/add/operator/map";
+
+import { Config } from "../config";
+import { Grocery } from "./grocery";
 
 @Injectable()
 export class GroceryStore {
@@ -135,8 +136,8 @@ export class GroceryStore {
     this.items.next([...this._allItems]);
   }
 
-  handleErrors(error: Response) {
-    console.log(error);
+  private handleErrors(error: Response) {
+    console.log(JSON.stringify(error.json()));
     return Observable.throw(error);
   }
 }
