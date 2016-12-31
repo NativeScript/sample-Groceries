@@ -3,27 +3,15 @@ import * as platform from "platform";
 import * as utils from "utils/utils";
 
 declare var android: any;
-declare var UIResponder: any;
 declare var UIStatusBarStyle: any;
 declare var UIApplication: any;
-declare var UIApplicationDelegate: any;
 
 export function setStatusBarColors() {
   // Make the iOS status bar transparent with white text.
-  // See https://github.com/burkeholland/nativescript-statusbar/issues/2
-  // for details on the technique used.
   if (application.ios) {
-    const AppDelegate = UIResponder.extend({
-      applicationDidFinishLaunchingWithOptions: function() {
-        // Allow for XCode 8 API changes
-        utils.ios.getter(UIApplication, UIApplication.sharedApplication).statusBarStyle = UIStatusBarStyle.LightContent;
-        return true;
-      }
-    }, {
-        name: "AppDelegate",
-        protocols: [UIApplicationDelegate]
-      });
-    application.ios.delegate = AppDelegate;
+    application.on("launch", () => {
+      utils.ios.getter(UIApplication, UIApplication.sharedApplication).statusBarStyle = UIStatusBarStyle.LightContent;
+    });
   }
 
   // Make the Android status bar transparent.
