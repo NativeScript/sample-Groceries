@@ -12,8 +12,9 @@ import { LoginService, alert } from "../shared";
 
 @Component({
   selector: "gr-groceries",
-  templateUrl: "groceries/groceries.component.html",
-  styleUrls: ["groceries/groceries-common.css", "groceries/groceries.component.css"],
+  moduleId: module.id,
+  templateUrl: "./groceries.component.html",
+  styleUrls: ["./groceries-common.css", "./groceries.component.css"],
   providers: [GroceryService]
 })
 export class GroceriesComponent implements OnInit {

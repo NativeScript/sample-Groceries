@@ -8,8 +8,9 @@ declare var UIColor: any;
 
 @Component({
   selector: "gr-grocery-list",
-  templateUrl: "groceries/grocery-list/grocery-list.component.html",
-  styleUrls: ["groceries/grocery-list/grocery-list.component.css"],
+  moduleId: module.id,
+  templateUrl: "./grocery-list.component.html",
+  styleUrls: ["./grocery-list.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroceryListComponent {
