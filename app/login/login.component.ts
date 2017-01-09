@@ -12,8 +12,9 @@ import { alert, LoginService, User } from "../shared";
 
 @Component({
   selector: "gr-login",
-  templateUrl: "login/login.component.html",
-  styleUrls: ["login/login-common.css", "login/login.component.css"],
+  moduleId: module.id,
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login-common.css", "./login.component.css"],
 })
 export class LoginComponent implements OnInit {
   user: User;
