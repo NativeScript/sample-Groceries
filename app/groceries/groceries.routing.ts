@@ -5,6 +5,6 @@ import { GroceriesComponent } from "./groceries.component";
 import { AuthGuard } from "../auth-guard.service";
 
 const groceriesRoutes: Routes = [
-  { path: "groceries", component: GroceriesComponent, canActivate: [AuthGuard] },
+  { path: "", component: GroceriesComponent, canActivate: [AuthGuard] },
 ];
 export const groceriesRouting: ModuleWithProviders = RouterModule.forChild(groceriesRoutes);
