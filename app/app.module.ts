@@ -1,11 +1,14 @@
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-import { NgModule, NgModuleFactoryLoader } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
-import { NativeScriptRouterModule, NSModuleFactoryLoader } from "nativescript-angular/router";
+import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { authProviders, appRoutes } from "./app.routing";
 import { AppComponent } from "./app.component";
 import { setStatusBarColors, BackendService, LoginService } from "./shared";
+
+import { LoginModule } from "./login/login.module";
+import { GroceriesModule } from "./groceries/groceries.module";
 
 setStatusBarColors();
 
@@ -13,14 +16,15 @@ setStatusBarColors();
   providers: [
     BackendService,
     LoginService,
-    authProviders,
-    { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader },
+    authProviders
   ],
   imports: [
     NativeScriptModule,
     NativeScriptHttpModule,
     NativeScriptRouterModule,
     NativeScriptRouterModule.forRoot(appRoutes),
+    LoginModule,
+    GroceriesModule,
   ],
   declarations: [
       AppComponent,
