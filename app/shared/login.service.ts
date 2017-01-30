@@ -3,8 +3,8 @@ import { Http, Headers, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
+import "rxjs/add/observable/throw";
+import "rxjs/add/operator/catch";
 
 import { User } from "./user.model";
 import { BackendService } from "./backend.service";
