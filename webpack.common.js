@@ -27,7 +27,6 @@ module.exports = function (platform, destinationApp) {
         }),
         //Define useful constants like TNS_WEBPACK
         new webpack.DefinePlugin({
-            __dirname: "__dirname",
             "global.TNS_WEBPACK": "true",
         }),
         //Copy assets to out dir. Add your own globs as needed.
