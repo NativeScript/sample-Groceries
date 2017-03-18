@@ -58,25 +58,6 @@ function handleAndroidFocus() {
 	}
 }
 
-// TODO: Replace with letter-spacing in CSS when {N} 2.0 is out.
-function addLetterSpacing() {
-	var mainLabel = page.getViewById("main-label");
-	var initialLabel = page.getViewById("initial-label");
-	var androidLetterSpacing = 0.2;
-
-	if (mainLabel.android && platform.device.sdkVersion >= "21") {
-		mainLabel.android.setLetterSpacing(androidLetterSpacing);
-		initialLabel.android.setLetterSpacing(androidLetterSpacing);
-	}
-	if (mainLabel.ios) {
-		var text = mainLabel.ios.text;
-		var attributedString = NSMutableAttributedString.alloc().initWithString(text);
-		attributedString.addAttributeValueRange(NSKernAttributeName, 5.0, NSMakeRange(0, text.length));
-		mainLabel.ios.attributedText = attributedString;
-		initialLabel.ios.attributedText = attributedString;
-	}
-}
-
 function setHintColors() {
 	var placeHolderColor = pageData.get("isLogin") ? "#ACA6A7" : "#C4AFB4";
 
