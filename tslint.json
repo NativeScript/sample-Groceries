@@ -54,16 +54,11 @@
             "check-decl",
             "check-operator",
             "check-separator",
-            "check-type"
+            "check-type",
+            "check-module"
         ],
-
-        "directive-selector-name": [true, "camelCase"],
-        "directive-selector-type": [true, "attribute"],
-        "directive-selector-prefix": [true, "gr"],
-        "component-selector-type": [true, "element"],
-        "component-selector-name": [true, "kebab-case"],
-        "component-selector-prefix": [true, "gr"],
-        // "pipe-naming": [true, "camelCase", "gr"],
+        "directive-selector": [true, "attribute", "gr", "camelCase"],
+        "component-selector": [true, "element", "gr", "kebab-case"],
         "use-input-property-decorator": true,
         "use-output-property-decorator": true,
         "use-host-property-decorator": true,
@@ -74,7 +69,6 @@
         "use-life-cycle-interface": true,
         "use-pipe-transform-interface": true,
         "component-class-suffix": true,
-        "directive-class-suffix": true,
-        "import-destructuring-spacing": true
+        "directive-class-suffix": true
     }
 }

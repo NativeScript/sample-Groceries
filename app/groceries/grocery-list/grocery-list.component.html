@@ -3,7 +3,7 @@
   [class.visible]="listLoaded"
   [items]="store.items | async | itemStatus:showDeleted"
   (itemLoading)="makeBackgroundTransparent($event)" (loaded)="load()">
-  <template let-item="item">
+  <ng-template let-item="item">
     <GridLayout
       columns="*, auto"
       class="container"
@@ -30,5 +30,5 @@
         </StackLayout>
       </GridLayout>
     </GridLayout>
-  </template>
+  </ng-template>
 </ListView>
