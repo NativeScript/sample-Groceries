@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Color } from "color";
-import { connectionType, getConnectionType } from "connectivity";
+import { getConnectionType } from "connectivity";
 import { Animation } from "ui/animation";
 import { View } from "ui/core/view";
 import { prompt } from "ui/dialogs";
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (getConnectionType() === connectionType.none) {
+    if (getConnectionType() === 0) {
       alert("Groceries requires an internet connection to log in.");
       return;
     }
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
   }
 
   signUp() {
-    if (getConnectionType() === connectionType.none) {
+    if (getConnectionType() === 0) {
       alert("Groceries requires an internet connection to register.");
       return;
     }
