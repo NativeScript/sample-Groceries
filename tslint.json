@@ -57,13 +57,8 @@
             "check-type"
         ],
 
-        "directive-selector-name": [true, "camelCase"],
-        "directive-selector-type": [true, "attribute"],
-        "directive-selector-prefix": [true, "gr"],
-        "component-selector-type": [true, "element"],
-        "component-selector-name": [true, "kebab-case"],
-        "component-selector-prefix": [true, "gr"],
-        // "pipe-naming": [true, "camelCase", "gr"],
+        "directive-selector": [true, "attribute", "gr", "camelCase"],
+        "component-selector": [true, "kebab-case", "gr", "element"],
         "use-input-property-decorator": true,
         "use-output-property-decorator": true,
         "use-host-property-decorator": true,

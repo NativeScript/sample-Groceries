@@ -19,9 +19,12 @@ export class GroceryListComponent {
   @Output() loading = new EventEmitter();
   @Output() loaded = new EventEmitter();
 
+  public store: GroceryService;
   listLoaded = false;
 
-  constructor(private store: GroceryService) { }
+  constructor(store: GroceryService) {
+      this.store = store;
+  }
 
   load() {
     this.loading.next("");
