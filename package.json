@@ -18,21 +18,22 @@
   "nativescript": {
     "id": "org.nativescript.sampleGroceries",
     "tns-android": {
-      "version": "2.5.0"
+      "version": "3.0.0-rc.1"
     },
     "tns-ios": {
-      "version": "2.5.0"
+      "version": "3.0.0-rc.2"
     }
   },
   "dependencies": {
     "email-validator": "1.0.7",
     "nativescript-social-share": "1.3.2",
-    "tns-core-modules": "2.5.0"
+    "tns-core-modules": "^3.0.0-rc.2"
   },
   "devDependencies": {
-    "babel-traverse": "6.10.4",
-    "babel-types": "6.11.1",
-    "babylon": "6.8.2",
-    "lazy": "1.0.11"
+    "babel-traverse": "6.24.1",
+    "babel-types": "6.24.1",
+    "babylon": "6.17.0",
+    "lazy": "1.0.11",
+    "nativescript-dev-android-snapshot": "^0.*.*"
   }
 }
