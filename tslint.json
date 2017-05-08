@@ -58,7 +58,7 @@
         ],
 
         "directive-selector": [true, "attribute", "gr", "camelCase"],
-        "component-selector": [true, "kebab-case", "gr", "element"],
+        "component-selector": [true, "element", "gr", "kebab-case"],
         "use-input-property-decorator": true,
         "use-output-property-decorator": true,
         "use-host-property-decorator": true,
