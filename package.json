@@ -67,7 +67,7 @@
     "lazy": "1.0.11",
     "nativescript-css-loader": "~0.26.0",
     "nativescript-dev-typescript": "^0.4.2",
-    "nativescript-dev-webpack": "^0.4.2",
+    "nativescript-dev-webpack": "^0.5.0",
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.0.2",
     "tslint": "^5.2.0",

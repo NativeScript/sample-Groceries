@@ -2046,9 +2046,9 @@ nativescript-dev-typescript@^0.4.2:
   dependencies:
     nativescript-hook "^0.2.0"
 
-nativescript-dev-webpack@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/nativescript-dev-webpack/-/nativescript-dev-webpack-0.4.2.tgz#1234b1d7e53a11632a34de9cd4e5ca334881276b"
+nativescript-dev-webpack@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/nativescript-dev-webpack/-/nativescript-dev-webpack-0.5.0.tgz#b439853be73f0776ff1b60b883dee4afbda551cd"
 
 nativescript-hook@^0.2.0:
   version "0.2.1"
