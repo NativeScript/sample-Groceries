@@ -26,7 +26,7 @@ export class GroceryList {
   @Input() showDeleted: boolean;
   @Output() loaded = new EventEmitter();
 
-  constructor(private store: GroceryStore) {}
+  constructor(public store: GroceryStore) {}
 
   ngOnInit() {
     this.store.load()
