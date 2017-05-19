@@ -5,4 +5,5 @@ export class Grocery {
     public done: boolean,
     public deleted: boolean
   ) {}
+  public deleting = false;
 }

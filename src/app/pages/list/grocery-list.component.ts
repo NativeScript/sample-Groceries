@@ -14,8 +14,11 @@ import { GroceryStore } from "../../shared/grocery/grocery-list.service";
         <span
           [class.done]="grocery.done && !grocery.deleted">{{ grocery.name }}</span>
         <button
-          *ngIf="!grocery.deleted"
+          *ngIf="!grocery.deleted && !grocery.deleting"
           (click)="delete(grocery)">&times;</button>
+        <img
+          *ngIf="!grocery.deleted && grocery.deleting"
+          src="./assets/loading.gif">
       </li>
     </ul>
   `,
@@ -54,6 +57,8 @@ export class GroceryList {
   }
 
   delete(grocery: Grocery) {
+    grocery.deleting = true;
+
     this.store.setDeleteFlag(grocery)
       .subscribe(
         () => {},
