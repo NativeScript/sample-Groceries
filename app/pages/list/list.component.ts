@@ -73,11 +73,11 @@ export class ListComponent implements OnInit {
   }
 
   share() {
-    let list = [];
-    for (let i = 0, size = this.groceryList.length; i < size ; i++) {
-      list.push(this.groceryList[i].name);
-    }
-    let listString = list.join(", ").trim();
+    let listString = this.groceryList
+      .map(grocery => grocery.name)
+      .join(", ")
+      .trim();
+
     SocialShare.shareText(listString);
   }
 }
