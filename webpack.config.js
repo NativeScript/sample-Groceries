@@ -85,7 +85,10 @@ function getRules() {
                     loader: "resolve-url-loader",
                     options: { silent: true },
                 },
-                "nativescript-css-loader",
+                {
+                    loader: "nativescript-css-loader",
+                    options: { minimize: false }
+                },
                 "nativescript-dev-webpack/platform-css-loader",
             ]),
         },
