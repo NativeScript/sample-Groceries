@@ -99,17 +99,17 @@ export class GroceriesComponent implements OnInit {
     }
 
     this.showActivityIndicator();
-    this.store.restore()
-      .subscribe(
-        () => {
-          this.isShowingRecent = false;
-          this.hideActivityIndicator();
-        },
-        () => {
-          alert("An error occurred while adding groceries to your list.");
-          this.hideActivityIndicator();
-        }
-      );
+    // this.store.restore()
+    //   .subscribe(
+    //     () => {
+    //       this.isShowingRecent = false;
+    //       this.hideActivityIndicator();
+    //     },
+    //     () => {
+    //       alert("An error occurred while adding groceries to your list.");
+    //       this.hideActivityIndicator();
+    //     }
+    //   );
   }
 
   showMenu() {

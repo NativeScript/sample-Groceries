@@ -36,11 +36,10 @@
       rows="auto, auto"
       translateY="50">
       <TextField
-        hint="Email Address"
-        keyboardType="email"
+        hint="Username"
         returnKeyType="next"
         (returnPress)="focusPassword()"
-        [(ngModel)]="user.email"
+        [(ngModel)]="user.username"
         [isEnabled]="!isAuthenticating"
         autocorrect="false"
         autocapitalizationType="none"

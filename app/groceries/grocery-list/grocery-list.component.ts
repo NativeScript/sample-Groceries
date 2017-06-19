@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from "@angular/core";
 import * as utils from "utils/utils";
+import { registerElement } from "nativescript-angular/element-registry";
 
 import { Grocery, GroceryService } from "../shared";
 import { alert } from "../../shared";
@@ -81,8 +82,8 @@ export class GroceryListComponent {
     };
 
     if (grocery.deleted) {
-      this.store.permanentlyDelete(grocery)
-        .subscribe(successHandler, errorHandler);
+      // this.store.permanentlyDelete(grocery)
+      //   .subscribe(successHandler, errorHandler);
     } else {
       this.store.setDeleteFlag(grocery)
         .subscribe(successHandler, errorHandler);

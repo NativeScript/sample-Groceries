@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    if (!this.user.isValidEmail()) {
+    if (this.user.email && !this.user.isValidEmail()) {
       alert("Enter a valid email address.");
       return;
     }
@@ -63,17 +63,15 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.userService.login(this.user)
-      .subscribe(
-        () => {
-          this.isAuthenticating = false;
-          this.router.navigate(["/"]);
-        },
-        (error) => {
-          alert("Unfortunately we could not find your account.");
-          this.isAuthenticating = false;
-        }
-      );
+    this.userService.loginWithMIC()
+      .then(() => {
+        this.isAuthenticating = false;
+        this.router.navigate(['/']);
+      })
+      .catch((error) => {
+        alert("Unfortunately we could not find your account.");
+        this.isAuthenticating = false;
+      });
   }
 
   signUp() {
