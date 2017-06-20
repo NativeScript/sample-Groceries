@@ -75,6 +75,7 @@
     "tslint": "^5.4.2",
     "typescript": "~2.3.4",
     "webpack": "~2.6.1",
+    "webpack-bundle-analyzer": "^2.8.2",
     "webpack-sources": "~1.0.1"
   }
 }
