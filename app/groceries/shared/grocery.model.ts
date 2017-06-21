@@ -1,6 +1,7 @@
-export class Grocery {
+import { Kinvey } from 'kinvey-nativescript-sdk';
+export class Grocery implements Kinvey.Entity {
   constructor(
-    public id: string,
+    public _id: string,
     public name: string,
     public done: boolean,
     public deleted: boolean

@@ -7,18 +7,21 @@ import { Grocery } from "./grocery.model";
 
 @Injectable()
 export class GroceryService {
-  items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
+  items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject<Array<Grocery>>([]);
 
   private allItems: Array<Grocery> = [];
+  private datastore = Kinvey.DataStore.collection<Grocery>('groceries');
 
   constructor(private zone: NgZone) { }
 
   load() {
-    const datastore = Kinvey.DataStore.collection('groceries');
-    return datastore.find()
-      .map(data => {
-        this.allItems = [];
-        data.forEach((grocery) => {
+    var promise = Promise.resolve();
+    return promise.then(() => {
+      var stream = this.datastore.find();
+      return stream.toPromise();
+    }).then((data)=> {
+      this.allItems = [];
+      data.forEach((grocery)=>{
           this.allItems.push(
             new Grocery(
               grocery._id,
@@ -28,14 +31,14 @@ export class GroceryService {
             )
           );
           this.publishUpdates();
-        });
-      })
-      .catch(this.handleErrors);
+      });
+    }).catch((error)=> {
+      this.handleErrors;
+    });
   }
 
   add(name: string) {
-    const datastore = Kinvey.DataStore.collection('groceries');
-    return datastore.save({ name: name })
+    return this.datastore.save({ name: name })
       .then((data) => {
         this.allItems.unshift(new Grocery(data._id, name, false, false));
         this.publishUpdates();
@@ -44,7 +47,7 @@ export class GroceryService {
   }
 
   setDeleteFlag(item: Grocery) {
-    return this.put({ _id: item.id, deleted: true, done: false })
+    return this.put({ _id: item._id, deleted: true, done: false })
       .then(data => {
         item.deleted = true;
         item.done = false;
@@ -55,60 +58,30 @@ export class GroceryService {
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
-    return this.put({ _id: item.id, done: item.done });
+    return this.put({ _id: item._id, done: item.done });
   }
 
   restore() {
     let indeces = [];
     this.allItems.forEach((grocery) => {
       if (grocery.deleted && grocery.done) {
-        indeces.push(grocery.id);
+        indeces.push(grocery._id);
       }
     });
-
-    const datastore = Kinvey.DataStore.collection('groceries');
-    const query = new Kinvey.Query();
-    query.containsAll('_id', indeces);
-
-    // return this.http.put(
-    //   BackendService.apiUrl + "Groceries",
-    //   JSON.stringify({
-    //     Deleted: false,
-    //     Done: false
-    //   }),
-    //   { headers: headers }
-    // )
-    // .map(res => res.json())
-    // .map(data => {
-    //   this.allItems.forEach((grocery) => {
-    //     if (grocery.deleted && grocery.done) {
-    //       grocery.deleted = false;
-    //       grocery.done = false;
-    //     }
-    //   });
-    //   this.publishUpdates();
-    // })
-    // .catch(this.handleErrors);
   }
 
   permanentlyDelete(item: Grocery) {
-    // return this.http
-    //   .delete(
-    //     BackendService.apiUrl + "Groceries/" + item.id,
-    //     { headers: this.getHeaders() }
-    //   )
-    //   .map(res => res.json())
-    //   .map(data => {
-    //     let index = this.allItems.indexOf(item);
-    //     this.allItems.splice(index, 1);
-    //     this.publishUpdates();
-    //   })
-    //   .catch(this.handleErrors);
+    const datastore = Kinvey.DataStore.collection<Grocery>('')
+    return this.datastore.removeById(item._id)
+      .then(() => {
+        let index = this.allItems.indexOf(item);
+        this.allItems.splice(index, 1);
+        this.publishUpdates();
+      }).catch(this.handleErrors);
   }
 
   private put(data: Object) {
-    const datastore = Kinvey.DataStore.collection('groceries');
-    return datastore.save(data)
+    return this.datastore.save(data)
       .catch(this.handleErrors);
   }
 

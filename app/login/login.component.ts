@@ -63,7 +63,9 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.userService.loginWithMIC()
+    //The following code assumes the user is already set up in the Kinvey user store.
+    //If your app uses Mobile Identity Connect (enterprise or social auth), use `userService.loginWithMIC()` instead.
+    this.userService.login(this.user)
       .then(() => {
         this.isAuthenticating = false;
         this.router.navigate(['/']);
@@ -81,7 +83,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.register(this.user)
-      .subscribe(
+      .then(
         () => {
           alert("Your account was successfully created.");
           this.isAuthenticating = false;
@@ -109,7 +111,7 @@ export class LoginComponent implements OnInit {
     }).then((data) => {
       if (data.result) {
         this.userService.resetPassword(data.text.trim())
-          .subscribe(() => {
+          .then(() => {
             alert("Your password was successfully reset. Please check your email for instructions on choosing a new password.");
           }, () => {
             alert("Unfortunately, an error occurred resetting your password.");

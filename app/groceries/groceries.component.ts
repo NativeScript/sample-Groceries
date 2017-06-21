@@ -80,7 +80,7 @@ export class GroceriesComponent implements OnInit {
 
     this.showActivityIndicator();
     this.store.add(this.grocery)
-      .subscribe(
+      .then(
         () => {
           this.grocery = "";
           this.hideActivityIndicator();
