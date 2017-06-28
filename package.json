@@ -43,7 +43,7 @@
     "@angular/platform-browser": "~4.1.3",
     "@angular/router": "~4.1.3",
     "email-validator": "^1.0.7",
-    "kinvey-nativescript-sdk": "3.6.0-ns.3",
+    "kinvey-nativescript-sdk": "3.7.0",
     "nativescript-angular": "next",
     "nativescript-iqkeyboardmanager": "1.0.1",
     "nativescript-pulltorefresh": "2.0.1",
