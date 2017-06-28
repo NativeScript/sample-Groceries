@@ -32,7 +32,7 @@ export class GroceryListComponent {
     this.store.load()
       .then(() => {
          this.loaded.next("");
-         this.listLoaded = true;        
+         this.listLoaded = true;
       }).catch(() => {
         alert("An error occurred loading your grocery list.");
       });
@@ -62,12 +62,9 @@ export class GroceryListComponent {
     }
 
     this.store.toggleDoneFlag(grocery)
-      .subscribe(
-        () => { },
-        () => {
-          alert("An error occurred managing your grocery list.");
-        }
-      );
+      .catch(() => {
+        alert("An error occurred managing your grocery list.");
+      });
   }
 
   delete(grocery: Grocery) {
@@ -83,7 +80,8 @@ export class GroceryListComponent {
       //   .subscribe(successHandler, errorHandler);
     } else {
       this.store.setDeleteFlag(grocery)
-        .subscribe(successHandler, errorHandler);
+        .then(successHandler)
+        .catch(errorHandler);
     }
   }
 }
