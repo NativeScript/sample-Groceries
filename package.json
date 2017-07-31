@@ -35,7 +35,6 @@
     "build-ios-bundle": "npm run ns-bundle --ios --build-app"
   },
   "dependencies": {
-    "@angular/animations": "~4.2.3",
     "@angular/common": "~4.2.3",
     "@angular/compiler": "~4.2.3",
     "@angular/core": "~4.2.3",
