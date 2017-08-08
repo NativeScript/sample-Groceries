@@ -1,7 +1,6 @@
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
-import { NativeScriptCommonModule } from "nativescript-angular/common";
-
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { groceriesRouting } from "./groceries.routing";
 import { GroceriesComponent } from "./groceries.component";
 import { GroceryListComponent } from "./grocery-list/grocery-list.component";
@@ -9,7 +8,7 @@ import { ItemStatusPipe } from "./grocery-list/item-status.pipe";
 
 @NgModule({
   imports: [
-    NativeScriptCommonModule,
+    NativeScriptModule,
     NativeScriptFormsModule,
     groceriesRouting
   ],
