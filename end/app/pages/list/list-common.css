@@ -1,0 +1,16 @@
+ListView {
+  margin: 5;
+}
+Label {
+  margin: 10;
+  horizontal-align: left;
+  vertical-align: center;
+}
+TextField {
+  border-width: 5;
+  border-style: solid;
+  border-color: #034793;
+}
+Image {
+  margin: 10;
+}
