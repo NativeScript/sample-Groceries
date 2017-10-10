@@ -1,0 +1,5 @@
+@import url("~/pages/list/list-common.css");
+
+TextField {
+  border-width: 0;
+}
