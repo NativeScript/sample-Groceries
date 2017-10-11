@@ -1,6 +1,7 @@
 import * as application from "application";
 import * as platform from "platform";
 import * as utils from "utils/utils";
+import { Page } from "ui/page";
 
 declare var android: any;
 declare var UIResponder: any;
@@ -43,5 +44,14 @@ export function setStatusBarColors() {
           | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
       }
     });
+  }
+}
+
+// The iPhone X’s status bar has different dimensions, and therefore must be
+// be detected and styled differently.
+// See https://discourse.nativescript.org/t/translucent-status-bars-and-the-iphone-x-notch/2806
+export function handleIPhoneX(page: Page) {
+  if (platform.isIOS && platform.screen.mainScreen.heightPixels == 2436 && platform.screen.mainScreen.widthPixels == 1125) {
+    page.className = page.className + " iphonex";
   }
 }

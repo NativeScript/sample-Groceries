@@ -4,3 +4,6 @@ TextField {
 .add-bar {
   margin-top: 20;
 }
+.iphonex .add-bar {
+  margin-top: 44;
+}

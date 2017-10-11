@@ -8,6 +8,7 @@ import { View } from "ui/core/view";
 import { User } from "../../shared/user/user";
 import { UserService } from "../../shared/user/user.service";
 import { setHintColor } from "../../utils/hint-util";
+import { handleIPhoneX } from "../../utils/status-bar-util";
 
 @Component({
   selector: "my-app",
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.page.actionBarHidden = true;
     this.page.backgroundImage = this.page.ios ? "res://bg_login.jpg" : "res://bg_login";
+    handleIPhoneX(this.page);
   }
 
   submit() {

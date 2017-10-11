@@ -1,6 +1,9 @@
 Page {
   margin-top: -20;
 }
+Page.iphonex {
+  margin-top: -44;
+}
 TextField {
   border-width: 1;
   border-color: black;
