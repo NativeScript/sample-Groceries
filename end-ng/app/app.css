@@ -2,6 +2,7 @@
 
 Page {
   background-color: white;
+  background-size: cover;
   font-size: 15;
 }
 ActionBar {
