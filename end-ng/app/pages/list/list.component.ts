@@ -2,6 +2,8 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from "@angular/core"
 import { Page } from "ui/page";
 import { GridLayout } from "ui/layouts/grid-layout";
 import { TextField } from "ui/text-field";
+import { View } from "tns-core-modules/ui/core/view";
+import { ListViewEventData, RadListView } from "nativescript-pro-ui/listview";
 
 import { Grocery} from "../../shared/grocery/grocery";
 import { GroceryListService } from "../../shared/grocery/grocery-list.service";
@@ -73,7 +75,17 @@ export class ListComponent implements OnInit {
       );
   }
 
-  delete(grocery: Grocery) {
+  public onSwipeCellStarted(args: ListViewEventData) {
+    var swipeLimits = args.data.swipeLimits;
+    var swipeView = args["object"];
+    var rightItem = swipeView.getViewById<View>("delete-view");
+    swipeLimits.right = rightItem.getMeasuredWidth();
+    swipeLimits.left = 0;
+    swipeLimits.threshold = rightItem.getMeasuredWidth() / 2;
+  }
+
+  delete(args: ListViewEventData) {
+    let grocery = <Grocery>args.object.bindingContext;
     this.groceryListService.delete(grocery.id)
       .subscribe(() => {
         // Running the array splice in a zone ensures that change detection gets triggered.

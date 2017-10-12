@@ -23,9 +23,12 @@ ListView {
 TextField {
   color: white;
 }
-.delete-container {
+.delete-view {
   background-color: #CB1D00;
   padding: 5;
   height: 20;
   margin-right: 8;
+}
+.delete-view Image {
+  color: white;
 }

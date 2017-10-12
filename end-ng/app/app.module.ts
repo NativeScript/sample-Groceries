@@ -3,6 +3,7 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { NativeScriptUIListViewModule } from "nativescript-pro-ui/listview/angular";
 
 import { AppComponent } from "./app.component";
 import { routes, navigatableComponents } from "./app.routing";
@@ -13,7 +14,8 @@ import { routes, navigatableComponents } from "./app.routing";
     NativeScriptFormsModule,
     NativeScriptHttpModule,
     NativeScriptRouterModule,
-    NativeScriptRouterModule.forRoot(routes)
+    NativeScriptRouterModule.forRoot(routes),
+    NativeScriptUIListViewModule
   ],
   declarations: [
     AppComponent,

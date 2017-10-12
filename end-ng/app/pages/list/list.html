@@ -7,16 +7,22 @@
     <Image src="res://add" (tap)="add()" col="1"></Image>
   </GridLayout>
 
-  <ListView [items]="groceryList" row="1" class="m-5" [class.visible]="listLoaded">
-    <ng-template let-item="item">
-      <GridLayout columns="*, auto">
-        <Label col="0" [text]="item.name" class="m-10"></Label>
-        <StackLayout col="1" class="delete-container" (tap)="delete(item)">
-          <Image src="res://delete"></Image>
-        </StackLayout>
+  <RadListView [items]="groceryList" row="1" class="m-5" [class.visible]="listLoaded"
+    swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
+
+    <ng-template tkListItemTemplate let-item="item">
+      <GridLayout backgroundColor="white">
+        <Label [text]="item.name" class="m-x-10 m-y-15"></Label>
       </GridLayout>
     </ng-template>
-  </ListView>
+
+    <GridLayout *tkListItemSwipeTemplate columns="*, auto">
+      <StackLayout id="delete-view" col="1" (tap)="delete($event)" class="delete-view">
+        <Image src="res://delete"></Image>
+      </StackLayout>
+    </GridLayout>
+
+  </RadListView>
 
   <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
 
