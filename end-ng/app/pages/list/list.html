@@ -9,10 +9,10 @@
     <Image src="res://add" (tap)="add()" col="1"></Image>
   </GridLayout>
 
-  <ListView [items]="groceryList" row="1" class="small-spacing" [class.visible]="listLoaded">
+  <ListView [items]="groceryList" row="1" class="m-5" [class.visible]="listLoaded">
     <ng-template let-item="item">
       <GridLayout columns="*, auto">
-        <Label col="0" [text]="item.name" class="medium-spacing"></Label>
+        <Label col="0" [text]="item.name" class="m-10"></Label>
         <StackLayout col="1" class="delete-container" (tap)="delete(item)">
           <Image src="res://delete"></Image>
         </StackLayout>
