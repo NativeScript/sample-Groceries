@@ -5,8 +5,7 @@ import { TextField } from "ui/text-field";
 
 import { Grocery} from "../../shared/grocery/grocery";
 import { GroceryListService } from "../../shared/grocery/grocery-list.service";
-import { isIPhoneX, handleIPhoneX } from "../../utils/status-bar-util";
-import * as SocialShare from "nativescript-social-share";
+import { isIPhoneX } from "../../utils/status-bar-util";
 
 @Component({
   selector: "list",
@@ -23,8 +22,9 @@ export class ListComponent implements OnInit {
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
   @ViewChild("addBar") addBar: ElementRef;
 
-  constructor(private groceryListService: GroceryListService, private zone: NgZone, private page: Page) {
-    handleIPhoneX(page);
+  constructor(private groceryListService: GroceryListService,
+    private zone: NgZone,
+    private page: Page) {
   }
 
   ngOnInit() {
@@ -44,7 +44,6 @@ export class ListComponent implements OnInit {
       let addBar = <GridLayout>this.addBar.nativeElement;
       addBar.paddingTop = 12;
       addBar.paddingBottom = 12;
-      addBar.marginTop = 44;
     }
   }
 
