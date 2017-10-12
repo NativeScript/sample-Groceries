@@ -11,7 +11,7 @@
     swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
 
     <ng-template tkListItemTemplate let-item="item">
-      <GridLayout backgroundColor="white">
+      <GridLayout class="grocery-list-item">
         <Label [text]="item.name" class="p-15"></Label>
       </GridLayout>
     </ng-template>
