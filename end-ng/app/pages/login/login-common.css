@@ -15,4 +15,6 @@ Button, TextField {
 }
 .btn-primary {
   background-color: #CB1D00;
+  margin-left: 0;
+  margin-right: 0;
 }
