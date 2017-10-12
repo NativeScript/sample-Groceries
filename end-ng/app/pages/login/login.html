@@ -2,9 +2,9 @@
   <StackLayout #container class="form">
     <Image src="res://logo_login" stretch="none" horizontalAlignment="center"></Image>
 
-    <TextField #email hint="Email Address" keyboardType="email" [(ngModel)]="user.email"
+    <TextField hint="Email Address" keyboardType="email" [(ngModel)]="user.email"
       autocorrect="false" autocapitalizationType="none" class="input input-border"></TextField>
-    <TextField #password hint="Password" secure="true" [(ngModel)]="user.password"
+    <TextField hint="Password" secure="true" [(ngModel)]="user.password"
       class="input input-border"></TextField>
 
     <Button [text]="isLoggingIn ? 'Sign in' : 'Sign up'" class="btn btn-primary" (tap)="submit()"></Button>
