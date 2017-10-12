@@ -3,6 +3,7 @@ const { resolve, join  } = require("path");
 const webpack = require("webpack");
 const nsWebpack = require("nativescript-dev-webpack");
 const nativescriptTarget = require("nativescript-dev-webpack/nativescript-target");
+const PlatformSuffixPlugin = require("nativescript-dev-webpack/PlatformSuffixPlugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -30,7 +31,6 @@ module.exports = env => {
 
     const rules = getRules();
     const plugins = getPlugins(platform, env);
-    const extensions = getExtensions(platform);
 
     const config = {
         context: resolve("./app"),
@@ -43,7 +43,7 @@ module.exports = env => {
             filename: "[name].js",
         },
         resolve: {
-            extensions,
+            extensions: [ ".aot.ts", ".ts", ".js", ".css" ],
 
             // Resolve {N} system modules from tns-core-modules
             modules: [
@@ -54,6 +54,13 @@ module.exports = env => {
             alias: {
                 '~': resolve("./app")
             },
+
+            plugins: [new PlatformSuffixPlugin(platform, ["ios", "android"])],
+
+            symlinks: false
+        },
+        resolveLoader: {
+            symlinks: false,
         },
         node: {
             // Disable node shims that conflict with NativeScript
@@ -208,17 +215,4 @@ function getPlugins(platform, env) {
     }
 
     return plugins;
-}
-
-// Resolve platform-specific modules like module.android.js
-function getExtensions(platform) {
-    return Object.freeze([
-        `.${platform}.ts`,
-        `.${platform}.js`,
-        ".aot.ts",
-        ".ts",
-        ".js",
-        ".css",
-        `.${platform}.css`,
-    ]);
 }
