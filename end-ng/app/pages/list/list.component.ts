@@ -1,5 +1,4 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from "@angular/core";
-import { Page } from "ui/page";
 import { GridLayout } from "ui/layouts/grid-layout";
 import { TextField } from "ui/text-field";
 import { View } from "tns-core-modules/ui/core/view";
@@ -7,7 +6,6 @@ import { ListViewEventData, RadListView } from "nativescript-pro-ui/listview";
 
 import { Grocery} from "../../shared/grocery/grocery";
 import { GroceryListService } from "../../shared/grocery/grocery-list.service";
-import { isIPhoneX } from "../../utils/status-bar-util";
 
 @Component({
   selector: "list",
@@ -25,8 +23,7 @@ export class ListComponent implements OnInit {
   @ViewChild("addBar") addBar: ElementRef;
 
   constructor(private groceryListService: GroceryListService,
-    private zone: NgZone,
-    private page: Page) {
+    private zone: NgZone) {
   }
 
   ngOnInit() {
@@ -39,14 +36,6 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
         this.listLoaded = true;
       });
-
-    // This is a hack.
-    // TODO: Why doesn’t this work in CSS?
-    if (isIPhoneX()) {
-      let addBar = <GridLayout>this.addBar.nativeElement;
-      addBar.paddingTop = 12;
-      addBar.paddingBottom = 12;
-    }
   }
 
   add() {
@@ -77,7 +66,7 @@ export class ListComponent implements OnInit {
 
   public onSwipeCellStarted(args: ListViewEventData) {
     var swipeLimits = args.data.swipeLimits;
-    var swipeView = args["object"];
+    var swipeView = args.object;
     var rightItem = swipeView.getViewById<View>("delete-view");
     swipeLimits.right = rightItem.getMeasuredWidth();
     swipeLimits.left = 0;
