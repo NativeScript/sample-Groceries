@@ -7,12 +7,12 @@
     <Image src="res://add" (tap)="add()" col="1"></Image>
   </GridLayout>
 
-  <RadListView [items]="groceryList" row="1" class="m-5" [class.visible]="listLoaded"
+  <RadListView [items]="groceryList" row="1" [class.visible]="listLoaded"
     swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
 
     <ng-template tkListItemTemplate let-item="item">
       <GridLayout backgroundColor="white">
-        <Label [text]="item.name" class="m-x-10 m-y-15"></Label>
+        <Label [text]="item.name" class="p-15"></Label>
       </GridLayout>
     </ng-template>
 
