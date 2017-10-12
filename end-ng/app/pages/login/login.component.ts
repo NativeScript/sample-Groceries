@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.page.actionBarHidden = true;
     handleIPhoneX(this.page);
     this.user.email = "user@nativescript.org";
     this.user.password = "password";
