@@ -20,9 +20,13 @@ Button, TextField {
   margin-left: 0;
   margin-right: 0;
 }
+.dark {
+  background-color: #301217;
+}
 TextField {
   placeholder-color: #C4AFB4;
+  color: black;
 }
-.register TextField {
+.dark TextField {
   color:  #C4AFB4;
 }

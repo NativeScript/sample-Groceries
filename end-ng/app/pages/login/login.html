@@ -1,5 +1,5 @@
 <FlexboxLayout>
-  <StackLayout #container class="form">
+  <StackLayout class="form" [class.dark]="!isLoggingIn">
     <Image src="res://logo_login" stretch="none" horizontalAlignment="center"></Image>
 
     <TextField hint="Email Address" keyboardType="email" [(ngModel)]="user.email"
