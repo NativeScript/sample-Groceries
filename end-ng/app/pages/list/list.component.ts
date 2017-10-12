@@ -84,13 +84,4 @@ export class ListComponent implements OnInit {
         });
       });
   }
-
-  share() {
-    let listString = this.groceryList
-      .map(grocery => grocery.name)
-      .join(", ")
-      .trim();
-
-    SocialShare.shareText(listString);
-  }
 }
