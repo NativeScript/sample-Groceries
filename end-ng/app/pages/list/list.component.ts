@@ -1,8 +1,11 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from "@angular/core";
+import { Page } from "ui/page";
+import { GridLayout } from "ui/layouts/grid-layout";
 import { TextField } from "ui/text-field";
 
 import { Grocery} from "../../shared/grocery/grocery";
 import { GroceryListService } from "../../shared/grocery/grocery-list.service";
+import { isIPhoneX, handleIPhoneX } from "../../utils/status-bar-util";
 import * as SocialShare from "nativescript-social-share";
 
 @Component({
@@ -18,10 +21,11 @@ export class ListComponent implements OnInit {
   listLoaded = false;
 
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
+  @ViewChild("addBar") addBar: ElementRef;
 
-  constructor(
-    private groceryListService: GroceryListService,
-    private zone: NgZone) {}
+  constructor(private groceryListService: GroceryListService, private zone: NgZone, private page: Page) {
+    handleIPhoneX(page);
+  }
 
   ngOnInit() {
     this.isLoading = true;
@@ -33,6 +37,15 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
         this.listLoaded = true;
       });
+
+    // This is a hack.
+    // TODO: Why doesn’t this work in CSS?
+    if (isIPhoneX()) {
+      let addBar = <GridLayout>this.addBar.nativeElement;
+      addBar.paddingTop = 12;
+      addBar.paddingBottom = 12;
+      addBar.marginTop = 44;
+    }
   }
 
   add() {

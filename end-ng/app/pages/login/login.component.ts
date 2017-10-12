@@ -32,6 +32,8 @@ export class LoginComponent implements OnInit {
     this.page.actionBarHidden = true;
     this.page.backgroundImage = this.page.ios ? "res://bg_login.jpg" : "res://bg_login";
     handleIPhoneX(this.page);
+    this.user.email = "user@nativescript.org";
+    this.user.password = "password";
   }
 
   submit() {

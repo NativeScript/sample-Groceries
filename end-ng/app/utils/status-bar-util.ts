@@ -47,11 +47,15 @@ export function setStatusBarColors() {
   }
 }
 
+export function isIPhoneX() {
+ return platform.isIOS && platform.screen.mainScreen.heightPixels == 2436 && platform.screen.mainScreen.widthPixels == 1125;
+}
+
 // The iPhone X’s status bar has different dimensions, and therefore must be
 // be detected and styled differently.
 // See https://discourse.nativescript.org/t/translucent-status-bars-and-the-iphone-x-notch/2806
 export function handleIPhoneX(page: Page) {
-  if (platform.isIOS && platform.screen.mainScreen.heightPixels == 2436 && platform.screen.mainScreen.widthPixels == 1125) {
+  if (isIPhoneX()) {
     page.className = page.className + " iphonex";
   }
 }
