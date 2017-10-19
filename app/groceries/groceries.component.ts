@@ -5,7 +5,6 @@ import { Color } from "color";
 import { Page } from "ui/page";
 import { TextField } from "ui/text-field";
 import * as SocialShare from "nativescript-social-share";
-import { isAndroid } from "platform";
 
 import { GroceryListComponent } from "./grocery-list/grocery-list.component";
 import { GroceryService } from "./shared";
@@ -20,7 +19,6 @@ import { LoginService, alert } from "../shared";
 })
 export class GroceriesComponent implements OnInit {
   grocery: string = "";
-  isAndroid;
   isShowingRecent = false;
   isLoading = false;
 
@@ -32,7 +30,6 @@ export class GroceriesComponent implements OnInit {
     private page: Page) {}
 
   ngOnInit() {
-    this.isAndroid = isAndroid;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
   }
