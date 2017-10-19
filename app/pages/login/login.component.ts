@@ -11,9 +11,10 @@ import { setHintColor } from "../../utils/hint-util";
 
 @Component({
   selector: "my-app",
+  moduleId: module.id,
   providers: [UserService],
-  templateUrl: "pages/login/login.html",
-  styleUrls: ["pages/login/login-common.css", "pages/login/login.css"],
+  templateUrl: "./login.html",
+  styleUrls: ["./login-common.css", "./login.css"],
 })
 export class LoginComponent implements OnInit {
   user: User;
