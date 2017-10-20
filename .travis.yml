@@ -1,6 +1,6 @@
 env:
     global:
-        - NODE_VERSION=4.4.7
+        - NODE_VERSION=6.9.4
 
 language: android
 
