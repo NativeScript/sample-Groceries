@@ -7,6 +7,9 @@
     "id": "org.nativescript.Groceries",
     "tns-ios": {
       "version": "3.2.0"
+    },
+    "tns-android": {
+      "version": "3.2.0"
     }
   },
   "dependencies": {
@@ -14,6 +17,10 @@
     "tns-core-modules": "3.2.0"
   },
   "devDependencies": {
+    "babel-traverse": "6.26.0",
+    "babel-types": "6.26.0",
+    "babylon": "6.18.0",
+    "lazy": "1.0.11",
     "nativescript-dev-android-snapshot": "^0.*.*"
   }
 }
