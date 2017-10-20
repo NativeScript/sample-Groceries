@@ -7,8 +7,9 @@ import * as SocialShare from "nativescript-social-share";
 
 @Component({
   selector: "list",
-  templateUrl: "pages/list/list.html",
-  styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
+  moduleId: module.id,
+  templateUrl: "./list.html",
+  styleUrls: ["./list-common.css", "./list.css"],
   providers: [GroceryListService]
 })
 export class ListComponent implements OnInit {
