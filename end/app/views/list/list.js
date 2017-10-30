@@ -1,7 +1,9 @@
 var dialogsModule = require("ui/dialogs");
 var observableModule = require("data/observable");
 var GroceryListViewModel = require("../../shared/view-models/grocery-list-view-model");
-var swipeDelete = require("../../shared/utils/ios-swipe-delete");
+var ListViewEventData = require("nativescript-pro-ui/listview").ListViewEventData;
+
+var viewModule = require('tns-core-modules/ui/core/view');
 var page;
 
 var groceryList = new GroceryListViewModel([]);
@@ -14,12 +16,6 @@ exports.loaded = function(args) {
     page = args.object;
     var listView = page.getViewById("groceryList");
 
-    if (page.ios) {
-        swipeDelete.enable(listView, function(index) {
-            groceryList.delete(index);
-        });
-    }
-    
     page.bindingContext = pageData;
 
     groceryList.empty();
@@ -37,7 +33,7 @@ exports.add = function() {
     // Check for empty submissions
     if (pageData.get("grocery").trim() !== "") {
         // Dismiss the keyboard
-        page.getViewById("grocery").dismissSoftInput();
+        page.getViewById("groceryTextField").dismissSoftInput();
         groceryList.add(pageData.get("grocery"))
             .catch(function(error) {
                 console.log(error);
@@ -54,6 +50,15 @@ exports.add = function() {
             okButtonText: "OK"
         });
     }
+};
+
+exports.onSwipeCellStarted = function(args) {
+    var swipeLimits = args.data.swipeLimits;
+    var swipeView = args.object;
+    var rightItem = swipeView.getViewById('delete-view');
+    swipeLimits.right = rightItem.getMeasuredWidth();
+    swipeLimits.left = 0;
+    swipeLimits.threshold = rightItem.getMeasuredWidth() / 2;
 };
 
 exports.delete = function(args) {

@@ -15,6 +15,7 @@ function GroceryListViewModel(items) {
         .then(function(response) {
             return response.json();
         }).then(function(data) {
+            
             data.Result.forEach(function(grocery) {
                 viewModel.push({
                     name: grocery.Name,

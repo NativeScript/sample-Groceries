@@ -18,7 +18,6 @@ exports.loaded = function(args) {
 exports.signIn = function() {
     user.login()
         .catch(function(error) {
-            console.log(error);
             dialogsModule.alert({
                 message: "Unfortunately we could not find your account.",
                 okButtonText: "OK"
@@ -30,7 +29,19 @@ exports.signIn = function() {
         });
 };
 
-exports.register = function() {
-    var topmost = frameModule.topmost();
-    topmost.navigate("views/register/register");
-};
+/*exports.register = function() {
+    user.register()
+        .then(function() {
+            dialogsModule
+                .alert("Your account was successfully created.")
+                .then(function() {
+                    frameModule.topmost().navigate("views/login/login");
+                });
+        }).catch(function(error) {
+            dialogsModule
+                .alert({
+                    message: "Unfortunately we were unable to create your account.",
+                    okButtonText: "OK"
+                });
+        });
+};*/

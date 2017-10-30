@@ -1,29 +1,34 @@
-FlexboxLayout {
+StackLayout {
+    width: 300;
+    padding: 10 16;
+    background-color: white;
+  }
+  FlexboxLayout {
     justify-content: center;
     align-items: center;
     background-size: cover;
     background-image: url("res://bg_login");
   }
-
-  StackLayout {
-    width: 300;
-    padding: 10 16;
-    background-color: white;
-  }
+  
   Image {
     margin-bottom: 20;
   }
   Button, TextField {
     margin-bottom: 10;
   }
+  
   .btn-primary {
     background-color: #CB1D00;
     margin-left: 0;
     margin-right: 0;
   }
-  .dark {
+
+  /*dark
+  StackLayout {
+    width: 300;
+    padding: 10 16;
     background-color: #301217;
-  }
+  } 
   TextField {
     placeholder-color: #C4AFB4;
     color: black;
@@ -31,3 +36,4 @@ FlexboxLayout {
   .dark TextField {
     color:  #C4AFB4;
   }
+*/

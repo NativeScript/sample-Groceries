@@ -5,3 +5,6 @@ Page {
     margin-top: -44;
   }
   
+  Button {
+    height: 40;
+  }

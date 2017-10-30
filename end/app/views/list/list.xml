@@ -1,19 +1,35 @@
-<Page loaded="loaded">
-    <Page.actionBar>
-        <ActionBar title="Groceries">
-        </ActionBar>
-    </Page.actionBar>
-    <GridLayout rows="auto, *" columns="2*, *">
-        <TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" row="0" col="0" />
-        <Button text="Add" tap="add" row="0" col="1" />
-        <ListView items="{{ groceryList }}" id="groceryList" row="1" colSpan="2">
-            <ListView.itemTemplate>
-                <GridLayout columns="*, auto">
-                    <Label text="{{ name }}"/>
-                    <Image src="res://ic_menu_delete" ios:visibility="collapsed" col="1" tap="delete" />
-                </GridLayout>
-            </ListView.itemTemplate>
-        </ListView>
-        <ActivityIndicator busy="{{ isLoading }}" rowSpan="2" colSpan="2" />
-    </GridLayout>
+<Page loaded="loaded" xmlns:lv="nativescript-pro-ui/listview">
+    <ActionBar title="Groceries"></ActionBar>
+    
+<GridLayout rows="auto, *">
+
+<GridLayout id="addBar" row="0" columns="*, auto" class="add-bar">
+    <TextField id="groceryTextField" text="{{ grocery }}" hint="Enter a grocery item" row="0" col="0"/>
+    <Image src="res://add" tap="add" row="0" col="1"/>
+</GridLayout>
+
+    <lv:RadListView items="{{ groceryList }}" 
+        row="1" 
+        itemSwipeProgressStarted="onSwipeCellStarted($event)" 
+        swipeActions="true"
+        >
+        <lv:RadListView.itemTemplate>
+            <GridLayout class="grocery-list-item">
+                <Label class="p-15" text="{{ name }}"/>
+            </GridLayout>
+        </lv:RadListView.itemTemplate>
+    </lv:RadListView>
+
+    <lv:RadListView.itemSwipeTemplate>
+        <GridLayout columns="*,auto">
+            <StackLayout id="delete-view" col="1" tap="delete($event)" class="delete-view">
+                <Image src="res://delete" />
+            </StackLayout>
+        </GridLayout>
+    </lv:RadListView.itemSwipeTemplate>
+
+  <ActivityIndicator busy="{{ isLoading }}" row="1" horizontalAlignment="center" verticalAlignment="center" />
+
+</GridLayout>
+
 </Page>

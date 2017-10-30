@@ -7,8 +7,8 @@ function User(info) {
 
     // You can add properties to observables on creation
     var viewModel = new observableModule.fromObject({
-        email: info.email || "",
-        password: info.password || ""
+        email: info.email || "user@nativescript.org",
+        password: info.password || "password"
     });
 
     viewModel.login = function() {
