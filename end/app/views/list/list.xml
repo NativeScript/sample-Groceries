@@ -10,7 +10,7 @@
 
     <lv:RadListView items="{{ groceryList }}" 
         row="1" 
-        itemSwipeProgressStarted="onSwipeCellStarted($event)" 
+        itemSwipeProgressStarted="onSwipeCellStarted" 
         swipeActions="true"
         >
         <lv:RadListView.itemTemplate>
@@ -18,15 +18,15 @@
                 <Label class="p-15" text="{{ name }}"/>
             </GridLayout>
         </lv:RadListView.itemTemplate>
-    </lv:RadListView>
 
-    <lv:RadListView.itemSwipeTemplate>
-        <GridLayout columns="*,auto">
-            <StackLayout id="delete-view" col="1" tap="delete($event)" class="delete-view">
-                <Image src="res://delete" />
-            </StackLayout>
-        </GridLayout>
-    </lv:RadListView.itemSwipeTemplate>
+        <lv:RadListView.itemSwipeTemplate>
+            <GridLayout columns="*,auto" backgroundColor="blue">
+                <StackLayout id="delete-view" col="1" tap="delete" class="delete-view">
+                    <Image src="res://delete" />
+                </StackLayout>
+            </GridLayout>
+        </lv:RadListView.itemSwipeTemplate>
+    </lv:RadListView>
 
   <ActivityIndicator busy="{{ isLoading }}" row="1" horizontalAlignment="center" verticalAlignment="center" />
 
