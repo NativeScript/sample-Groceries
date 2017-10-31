@@ -1,8 +1,4 @@
-.form {
-    width: 300;
-    padding: 10 16;
-    background-color: white;
-  }
+
   FlexboxLayout {
     justify-content: center;
     align-items: center;
@@ -23,6 +19,12 @@
     margin-right: 0;
   }
 
+  .form {
+    width: 300;
+    padding: 10 16;
+    background-color: white;
+  }
+
   .dark {
     background-color: #301217;
   }
@@ -31,18 +33,3 @@
     placeholder-color: #C4AFB4;
     color:  #C4AFB4;
   }
-
-  /*dark
-  StackLayout .dark {
-    width: 300;
-    padding: 10 16;
-    background-color: #301217;
-  } 
-  TextField {
-    placeholder-color: #C4AFB4;
-    color: black;
-  }
-  .dark TextField {
-    color:  #C4AFB4;
-  }
-*/

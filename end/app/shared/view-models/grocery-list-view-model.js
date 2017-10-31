@@ -17,7 +17,7 @@ function GroceryListViewModel(items) {
         }).then(function(data) {
             
             data.Result.forEach(function(grocery) {
-                viewModel.push({
+                viewModel.unshift({
                     name: grocery.Name,
                     id: grocery.Id
                 });
@@ -47,7 +47,7 @@ function GroceryListViewModel(items) {
             return response.json();
         })
         .then(function(data) {
-            viewModel.push({ name: grocery, id: data.Result.Id });
+            viewModel.unshift({ name: grocery, id: data.Result.Id });
         });
     };
 

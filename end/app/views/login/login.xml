@@ -7,8 +7,8 @@
             <TextField class="input input-border" id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
             <TextField class="input input-border" secure="true" text="{{ password }}" hint="Password" />
 
-            <Button class="btn btn-primary" text="{{ isLoggingIn ? 'Sign In' : 'Sign Up' }}" tap="signIn" />
-            <Button text="{{ isLoggingIn ? 'Sign Up for Groceries' : 'Sign In' }}" class="link" tap="register" />
+            <Button class="btn btn-primary" text="{{ isLoggingIn ? 'Sign in' : 'Sign up' }}" tap="submit" />
+            <Button text="{{ isLoggingIn ? 'Sign up' : 'Back to login' }}" class="link" tap="toggleDisplay" />
         </StackLayout>
 </FlexboxLayout>
 
