@@ -2,28 +2,28 @@
 
 <GridLayout rows="auto, *">
 
-  <GridLayout #addBar row="0" columns="*, auto" class="add-bar">
+  <GridLayout row="0" columns="*, auto" class="add-bar">
     <TextField #groceryTextField [(ngModel)]="grocery" hint="Enter a grocery item" col="0"></TextField>
-    <Image src="res://add" (tap)="add()" col="1"></Image>
+    <Image src="~/images/add.png" (tap)="add()" col="1"></Image>
   </GridLayout>
 
-  <RadListView [items]="groceryList" row="1" [class.visible]="listLoaded"
+  <RadListView row="1" [items]="groceryList" [class.visible]="listLoaded"
     swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
 
+    <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical"
+      itemInsertAnimation="Fade" itemDeleteAnimation="Scale"></ListViewLinearLayout>
+
     <ng-template tkListItemTemplate let-item="item">
-      <GridLayout class="grocery-list-item">
-        <Label [text]="item.name" class="p-15"></Label>
-      </GridLayout>
+      <Label [text]="item.name" class="p-15"></Label>
     </ng-template>
 
     <GridLayout *tkListItemSwipeTemplate columns="*, auto">
       <StackLayout id="delete-view" col="1" (tap)="delete($event)" class="delete-view">
-        <Image src="res://delete"></Image>
+        <Image src="~/images/delete.png"></Image>
       </StackLayout>
     </GridLayout>
 
   </RadListView>
 
   <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
-
 </GridLayout>

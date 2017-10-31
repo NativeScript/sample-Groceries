@@ -1,3 +1,21 @@
+.add-bar {
+  background-color: #CB1D00;
+  padding: 5;
+}
+.add-bar Image {
+  height: 15;
+  vertical-align: center;
+  margin-left: 10;
+  margin-right: 10;
+}
+.add-bar TextField {
+  padding: 10;
+}
+Label {
+  background-color: white;
+  border-bottom-width: 1;
+  border-bottom-color: gray;
+}
 ListView {
   opacity: 0;
 }
@@ -9,24 +27,6 @@ ListView {
 @keyframes show {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-.add-bar {
-  background-color: #CB1D00;
-  padding: 5 10;
-}
-.add-bar Image {
-  height: 15;
-  vertical-align: center;
-  margin-left: 10;
-  margin-right: 5;
-}
-TextField {
-  color: white;
-}
-.grocery-list-item {
-  background-color: white;
-  border-bottom-width: 1;
-  border-bottom-color: gray;
 }
 .delete-view {
   background-color: #CB1D00;

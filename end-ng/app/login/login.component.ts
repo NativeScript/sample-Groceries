@@ -1,29 +1,27 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Page } from "ui/page";
+import { Page } from "tns-core-modules/ui/page";
 
-import { User } from "../../shared/user/user";
-import { UserService } from "../../shared/user/user.service";
-import { handleIPhoneX } from "../../utils/status-bar-util";
+import { User } from "../shared/user/user.model";
+import { UserService } from "../shared/user/user.service";
 
 @Component({
   selector: "my-app",
   providers: [UserService],
-  templateUrl: "pages/login/login.html",
-  styleUrls: ["pages/login/login-common.css", "pages/login/login.css"],
+  styleUrls: ["login/login.component.css"],
+  templateUrl: "login/login.component.html"
 })
 export class LoginComponent implements OnInit {
   user: User;
   isLoggingIn = true;
 
-  constructor(private router: Router, private userService: UserService, private page: Page) {
-    this.user = new User();
-  }
-
   ngOnInit() {
     this.page.actionBarHidden = true;
-    handleIPhoneX(this.page);
-    this.user.email = "user@nativescript.org";
+  }
+
+  constructor(private router: Router, private userService: UserService, private page: Page) {
+    this.user = new User();
+    this.user.email = "nativescript789@progress.com";
     this.user.password = "password";
   }
 
@@ -33,8 +31,9 @@ export class LoginComponent implements OnInit {
     } else {
       this.signUp();
     }
+    
   }
-
+  
   login() {
     this.userService.login(this.user)
       .subscribe(
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
         (error) => alert("Unfortunately we could not find your account.")
       );
   }
-
+  
   signUp() {
     this.userService.register(this.user)
       .subscribe(

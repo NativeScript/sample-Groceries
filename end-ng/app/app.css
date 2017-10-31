@@ -1,9 +1,5 @@
 @import "nativescript-theme-core/css/core.light.css";
-@import url("~/platform.css");
 
-Page {
-  background-color: white;
-}
 ActionBar {
   background-color: black;
   color: white;

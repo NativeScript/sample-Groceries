@@ -1,5 +1,5 @@
-import { LoginComponent } from "./pages/login/login.component";
-import { ListComponent } from "./pages/list/list.component";
+import { LoginComponent } from "./login/login.component";
+import { ListComponent } from "./list/list.component";
 
 export const routes = [
   { path: "", component: LoginComponent },

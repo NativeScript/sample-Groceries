@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
-import { Config } from "../config";
-import { Grocery } from "./grocery";
+import { Http, Headers, Response } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 
+import { Config } from "../config";
+import { Grocery } from "./grocery.model";
+
 @Injectable()
-export class GroceryListService {
+export class GroceryService {
   constructor(private http: Http) {}
 
   load() {
@@ -31,7 +32,7 @@ export class GroceryListService {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + Config.token);
     headers.append("Content-Type", "application/json");
-
+  
     return this.http.post(
       Config.apiUrl + "Groceries",
       JSON.stringify({ Name: name }),
@@ -48,7 +49,7 @@ export class GroceryListService {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + Config.token);
     headers.append("Content-Type", "application/json");
-
+  
     return this.http.delete(
       Config.apiUrl + "Groceries/" + id,
       { headers: headers }
