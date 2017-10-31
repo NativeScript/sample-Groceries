@@ -1,14 +1,14 @@
 <Page loaded="loaded">
 
 <FlexboxLayout flexDirection="column">
-        <StackLayout class="form" orientation="vertical">
+        <StackLayout id="form" class="{{ isLoggingIn ? 'form' : 'form dark' }}" orientation="vertical">
             <Image src="res://logo_login" stretch="none" horizontalAlignment="center" />
 
             <TextField class="input input-border" id="email" text="{{ email }}" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" />
             <TextField class="input input-border" secure="true" text="{{ password }}" hint="Password" />
 
-            <Button class="btn btn-primary" text="Sign in" tap="signIn" />
-            <Button text="Sign up for Groceries" class="link" tap="register" />
+            <Button class="btn btn-primary" text="{{ isLoggingIn ? 'Sign In' : 'Sign Up' }}" tap="signIn" />
+            <Button text="{{ isLoggingIn ? 'Sign Up for Groceries' : 'Sign In' }}" class="link" tap="register" />
         </StackLayout>
 </FlexboxLayout>
 

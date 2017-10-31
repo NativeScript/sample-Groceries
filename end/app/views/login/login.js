@@ -5,7 +5,8 @@ var UserViewModel = require("../../shared/view-models/user-view-model");
 var user = new UserViewModel();
 
 exports.loaded = function(args) {
-    var page = args.object;
+    page = args.object;
+    isLoggingIn = user.isLoggingIn;
 
     if (page.ios) {
         var navigationBar = frameModule.topmost().ios.controller.navigationBar;
@@ -29,6 +30,14 @@ exports.signIn = function() {
         });
 };
 
+toggleDisplay = function() {
+    isLoggingIn = !isLoggingIn;
+    user.set('isLoggingIn', isLoggingIn);
+}
+
+exports.register = function(){
+    toggleDisplay();
+}
 /*exports.register = function() {
     user.register()
         .then(function() {
