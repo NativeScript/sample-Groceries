@@ -1,4 +1,4 @@
-StackLayout {
+.form {
     width: 300;
     padding: 10 16;
     background-color: white;
@@ -23,8 +23,17 @@ StackLayout {
     margin-right: 0;
   }
 
+  .dark {
+    background-color: #301217;
+  }
+
+  .dark TextField {
+    placeholder-color: #C4AFB4;
+    color:  #C4AFB4;
+  }
+
   /*dark
-  StackLayout {
+  StackLayout .dark {
     width: 300;
     padding: 10 16;
     background-color: #301217;
