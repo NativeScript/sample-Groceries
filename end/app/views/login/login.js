@@ -6,17 +6,26 @@ var user = new UserViewModel();
 
 exports.loaded = function(args) {
     page = args.object;
+    page.actionBarHidden = true;
     isLoggingIn = user.isLoggingIn;
-
-    if (page.ios) {
-        var navigationBar = frameModule.topmost().ios.controller.navigationBar;
-        navigationBar.barStyle = UIBarStyle.UIBarStyleBlack;
-    }
-
     page.bindingContext = user;
 };
 
-exports.signIn = function() {
+exports.toggleDisplay = function() {
+    isLoggingIn = !isLoggingIn;
+    user.set('isLoggingIn', isLoggingIn);
+}
+
+exports.submit = function(){
+    if (isLoggingIn) {
+        login();
+      } else {
+        signUp();
+      }
+}
+
+function login() {
+    console.log("logging in")
     user.login()
         .catch(function(error) {
             dialogsModule.alert({
@@ -30,15 +39,7 @@ exports.signIn = function() {
         });
 };
 
-toggleDisplay = function() {
-    isLoggingIn = !isLoggingIn;
-    user.set('isLoggingIn', isLoggingIn);
-}
-
-exports.register = function(){
-    toggleDisplay();
-}
-/*exports.register = function() {
+function signUp() {
     user.register()
         .then(function() {
             dialogsModule
@@ -53,4 +54,5 @@ exports.register = function(){
                     okButtonText: "OK"
                 });
         });
-};*/
+};
+
