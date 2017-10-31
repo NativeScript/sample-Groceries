@@ -5,7 +5,7 @@
 
 <GridLayout id="addBar" row="0" columns="*, auto" class="add-bar">
     <TextField id="groceryTextField" text="{{ grocery }}" hint="Enter a grocery item" row="0" col="0"/>
-    <Image src="res://add" tap="add" row="0" col="1"/>
+    <Image src="~/images/add" tap="add" row="0" col="1"/>
 </GridLayout>
 
     <lv:RadListView items="{{ groceryList }}" 
@@ -22,7 +22,7 @@
         <lv:RadListView.itemSwipeTemplate>
             <GridLayout columns="*,auto" backgroundColor="blue">
                 <StackLayout id="delete-view" col="1" tap="delete" class="delete-view">
-                    <Image src="res://delete" />
+                    <Image src="~/images/delete" />
                 </StackLayout>
             </GridLayout>
         </lv:RadListView.itemSwipeTemplate>

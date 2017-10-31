@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     background-size: cover;
-    background-image: url("res://bg_login");
+    background-image: url("~/images/background.jpg");
   }
   
   Image {
@@ -22,7 +22,7 @@
   .form {
     width: 300;
     padding: 10 16;
-    background-color: white;
+    background-color: #f0f0f0; 
   }
 
   .dark {
