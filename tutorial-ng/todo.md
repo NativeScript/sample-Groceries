@@ -1,5 +1,4 @@
 - Create all images
-- Update all “save” wording.
 - Kinvey?
 - Add a tip about Android vs. iOS CSS files.
 - Fix item animations or abandon
