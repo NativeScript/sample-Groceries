@@ -1,2 +1,0 @@
-- Create all images
-- Kinvey?
