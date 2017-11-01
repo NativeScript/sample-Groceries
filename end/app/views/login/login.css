@@ -1,35 +1,33 @@
-
-  FlexboxLayout {
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-image: url("~/images/background.jpg");
-  }
-  
-  Image {
-    margin-bottom: 20;
-  }
-  Button, TextField {
-    margin-bottom: 10;
-  }
-  
-  .btn-primary {
-    background-color: #CB1D00;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .form {
-    width: 300;
-    padding: 10 16;
-    background-color: #f0f0f0; 
-  }
-
-  .dark {
-    background-color: #301217;
-  }
-
-  .dark TextField {
-    placeholder-color: #C4AFB4;
-    color:  #C4AFB4;
-  }
+FlexboxLayout {
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-image: url("~/images/background.jpg");
+}
+StackLayout {
+  width: 300;
+  padding: 10 16;
+  background-color: #f0f0f0;
+}
+Image {
+  margin-bottom: 20;
+  height: 70;
+}
+Button, TextField {
+  margin-bottom: 10;
+}
+.btn-primary {
+  background-color: #CB1D00;
+  margin-left: 0;
+  margin-right: 0;
+}
+TextField {
+  placeholder-color: #C4AFB4;
+  color: black;
+}
+.dark {
+  background-color: #301217;
+}
+.dark TextField {
+  color:  #C4AFB4;
+}
