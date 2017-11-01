@@ -1,3 +1,2 @@
 - Create all images
 - Kinvey?
-- Move to an external template right away in the template

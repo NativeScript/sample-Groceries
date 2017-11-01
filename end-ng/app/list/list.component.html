@@ -10,10 +10,7 @@
   <RadListView row="1" [items]="groceryList" [class.visible]="listLoaded"
     swipeActions="true" (itemSwipeProgressStarted)="onSwipeCellStarted($event)">
 
-    <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical"
-      itemInsertAnimation="Fade" itemDeleteAnimation="Scale"></ListViewLinearLayout>
-
-    <ng-template tkListItemTemplate let-item="item">
+    <ng-template let-item="item">
       <Label [text]="item.name" class="p-15"></Label>
     </ng-template>
 
@@ -22,7 +19,6 @@
         <Image src="~/images/delete.png"></Image>
       </StackLayout>
     </GridLayout>
-
   </RadListView>
 
   <ActivityIndicator [busy]="isLoading" [visibility]="isLoading ? 'visible' : 'collapse'" row="1" horizontalAlignment="center" verticalAlignment="center"></ActivityIndicator>
