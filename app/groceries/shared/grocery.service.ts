@@ -24,6 +24,7 @@ export class GroceryService {
     })
     .map(res => res.json())
     .map(data => {
+      this.allItems = [];
       data.Result.forEach((grocery) => {
         this.allItems.push(
           new Grocery(
