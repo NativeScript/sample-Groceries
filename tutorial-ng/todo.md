@@ -1,5 +1,3 @@
 - Create all images
 - Kinvey?
-- Add a tip about Android vs. iOS CSS files.
-- Fix item animations or abandon
-- Explain ActionBars somehow
+- Move to an external template right away in the template
