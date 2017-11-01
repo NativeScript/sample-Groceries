@@ -5,7 +5,10 @@
   "description": "Template for starting the NativeScript getting started Groceries tutorial",
   "repository": "https://github.com/tjvantoll/nativescript-template-groceries",
   "nativescript": {
-    "id": "org.nativescript.tutorial"
+    "id": "org.nativescript.tutorial",
+    "tns-ios": {
+      "version": "3.3.0"
+    }
   },
   "dependencies": {
     "nativescript-theme-core": "~1.0.4",

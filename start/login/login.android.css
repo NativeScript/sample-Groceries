@@ -1,0 +1,5 @@
+@import url("~/login/login-common.css");
+
+StackLayout {
+  height: 340;
+}
