@@ -6,7 +6,7 @@ import { User } from "../shared/user/user.model";
 import { UserService } from "../shared/user/user.service";
 
 @Component({
-  selector: "my-app",
+  selector: "gr-login",
   providers: [UserService],
   styleUrls: ["login/login.component.css"],
   templateUrl: "login/login.component.html"
