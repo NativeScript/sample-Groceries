@@ -45,7 +45,7 @@ function signUp() {
             dialogsModule
                 .alert("Your account was successfully created.")
                 .then(function() {
-                    frameModule.topmost().navigate("views/login/login");
+                    exports.toggleDisplay();
                 });
         }).catch(function(error) {
             dialogsModule

@@ -1,10 +1,7 @@
-Page {
-    margin-top: -20;
-  }
-  Page.iphonex {
+Page.iphonex {
     margin-top: -44;
-  }
+}
   
-  Button {
+Button {
     height: 40;
-  }
+}

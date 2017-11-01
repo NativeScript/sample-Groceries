@@ -12,13 +12,16 @@ ListView {
 }
 .add-bar {
   background-color: #CB1D00;
-  padding: 5 10;
+  padding: 5;
 }
 .add-bar Image {
   height: 15;
   vertical-align: center;
   margin-left: 10;
-  margin-right: 5;
+  margin-right: 10;
+}
+.add-bar TextField {
+  padding: 10;
 }
 TextField {
   color: white;
