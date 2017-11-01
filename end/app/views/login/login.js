@@ -25,7 +25,6 @@ exports.submit = function(){
 }
 
 function login() {
-    console.log("logging in")
     user.login()
         .catch(function(error) {
             dialogsModule.alert({
