@@ -7,7 +7,7 @@ FlexboxLayout {
 StackLayout {
   width: 300;
   padding: 10 16;
-  background-color: white;
+  background-color: #f0f0f0;
 }
 Image {
   margin-bottom: 20;
