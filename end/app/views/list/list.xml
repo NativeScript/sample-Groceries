@@ -3,9 +3,9 @@
     
 <GridLayout rows="auto, *">
 
-<GridLayout id="addBar" row="0" columns="*, auto" class="add-bar">
-    <TextField id="groceryTextField" text="{{ grocery }}" hint="Enter a grocery item" row="0" col="0"/>
-    <Image src="~/images/add" tap="add" row="0" col="1"/>
+<GridLayout row="0" columns="*, auto" class="add-bar">
+    <TextField id="groceryTextField" text="{{ grocery }}" hint="Enter a grocery item" col="0"/>
+    <Image src="~/images/add" tap="add" col="1"/>
 </GridLayout>
 
     <lv:RadListView items="{{ groceryList }}" 
