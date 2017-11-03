@@ -9,7 +9,9 @@ var page;
 var groceryList = new GroceryListViewModel([]);
 var pageData = observableModule.fromObject({
     groceryList: groceryList,
-    grocery: ""
+    grocery: "",
+    isLoading: false,
+    listLoaded: true
 });
 
 exports.loaded = function(args) {
@@ -22,10 +24,7 @@ exports.loaded = function(args) {
     pageData.set("isLoading", true);
     groceryList.load().then(function() {
         pageData.set("isLoading", false);
-        listView.animate({
-            opacity: 1,
-            duration: 1000
-        });
+        pageData.set("listLoaded",true);
     });
 };
 

@@ -14,7 +14,7 @@ exports.loaded = function(args) {
 exports.toggleDisplay = function() {
     isLoggingIn = !isLoggingIn;
     user.set('isLoggingIn', isLoggingIn);
-}
+};
 
 exports.submit = function(){
     if (isLoggingIn) {
@@ -22,7 +22,7 @@ exports.submit = function(){
       } else {
         signUp();
       }
-}
+};
 
 function login() {
     user.login()

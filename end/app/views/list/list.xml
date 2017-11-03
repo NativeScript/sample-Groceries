@@ -8,7 +8,7 @@
     <Image src="~/images/add" tap="add" col="1"/>
 </GridLayout>
 
-    <lv:RadListView items="{{ groceryList }}" 
+    <lv:RadListView items="{{ groceryList }}" class="{{ visible : 'listLoaded' }}" 
         row="1" 
         itemSwipeProgressStarted="onSwipeCellStarted" 
         swipeActions="true"
@@ -20,7 +20,7 @@
         </lv:RadListView.itemTemplate>
 
         <lv:RadListView.itemSwipeTemplate>
-            <GridLayout columns="*,auto" backgroundColor="blue">
+            <GridLayout columns="*,auto">
                 <StackLayout id="delete-view" col="1" tap="delete" class="delete-view">
                     <Image src="~/images/delete" />
                 </StackLayout>

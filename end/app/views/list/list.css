@@ -1,15 +1,3 @@
-ListView {
-  opacity: 0;
-}
-.visible {
-  animation-name: show;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-}
-@keyframes show {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
 .add-bar {
   background-color: #CB1D00;
   padding: 5;
@@ -23,13 +11,22 @@ ListView {
 .add-bar TextField {
   padding: 10;
 }
-TextField {
-  color: white;
-}
-.grocery-list-item {
+Label {
   background-color: white;
   border-bottom-width: 1;
   border-bottom-color: gray;
+}
+ListView {
+  opacity: 0;
+}
+.visible {
+  animation-name: show;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+@keyframes show {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 .delete-view {
   background-color: #CB1D00;
