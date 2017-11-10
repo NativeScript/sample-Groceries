@@ -19,7 +19,6 @@ import { LoginService, alert } from "../shared";
 })
 export class GroceriesComponent implements OnInit {
   grocery: string = "";
-  isAndroid;
   isShowingRecent = false;
   isLoading = false;
 
@@ -31,7 +30,6 @@ export class GroceriesComponent implements OnInit {
     private page: Page) {}
 
   ngOnInit() {
-    this.isAndroid = !!this.page.android;
     this.page.actionBarHidden = true;
     this.page.className = "list-page";
   }

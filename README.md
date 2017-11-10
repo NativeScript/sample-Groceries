@@ -10,19 +10,14 @@ Groceries is a NativeScript-built iOS and Android app for managing grocery lists
     * [Linting](#linting)
     * [Unit testing](#unit-testing)
     * [Travis CI](#travis)
-    * [Telerik Platform](#telerik-platform)
 * [Contributors](#contributors)
 
 <h2 id="branches">Branches</h2>
 
 This repository contains a number of branches:
 
-* The [**release** branch](https://github.com/NativeScript/sample-Groceries/) shows how to build a robust, real-world app using NativeScript. The branch is built with TypeScript and Angular.
+* The [**master** branch](https://github.com/NativeScript/sample-Groceries/tree/master) shows how to build a robust, real-world app using NativeScript. The branch is built with TypeScript and Angular.
 This branch targets latest official release of {N}.
-
----
-
-* The [**master** branch](https://github.com/NativeScript/sample-Groceries/tree/master) contains the same as relase branch, but it is configured against latest bits of {N}.
 
 ---
 
@@ -94,12 +89,6 @@ For more information on unit testing NativeScript apps, refer to the [NativeScri
 <h3 id="travis">Travis CI</h3>
 
 Groceries uses [Travis CI](https://travis-ci.org/) to verify all tests pass on each commit. Refer to the [`.travis.yml` configuration file](https://github.com/NativeScript/sample-Groceries/blob/release/.travis.yml) for details.
-
-<h3 id="telerik-platform">Telerik Platform</h3>
-
-If you’d like to try developing Groceries without going through the full setup, you may be interested in loading the app in the [Telerik Platform](http://www.telerik.com/platform):
-
-* [Run Groceries in the Telerik Platform](https://platform.telerik.com/#appbuilder/clone/https%3A%2F%2Fgithub.com%2FIcenium%2Fnativescript-sample-groceries)
 
 <h2 id="contributors">Contributors</h2>
 

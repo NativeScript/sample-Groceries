@@ -1,5 +1,7 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Observable, BehaviorSubject } from "rxjs/Rx";
+import { Http, Headers, Response, ResponseOptions } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/map";
 import { Kinvey } from 'kinvey-nativescript-sdk';
 
