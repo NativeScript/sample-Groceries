@@ -83,22 +83,21 @@ export class LoginComponent implements OnInit {
     }
 
     this.userService.register(this.user)
-      .then(
-        () => {
-          alert("Your account was successfully created.");
-          this.isAuthenticating = false;
-          this.toggleDisplay();
-        },
-        (message) => {
-          // TODO: Verify this works
-          if (message.match(/same user/)) {
-            alert("This email address is already in use.");
-          } else {
-            alert("Unfortunately we were unable to create your account.");
-          }
-          this.isAuthenticating = false;
+      .then(() => {
+        alert("Your account was successfully created.");
+        this.isAuthenticating = false;
+        this.toggleDisplay();
+      })
+      .catch((error) => {
+        // TODO: Verify this works
+        const msg = typeof error === 'string' ? error : error.message;
+        if (msg.match(/same user/)) {
+          alert("This email address is already in use.");
+        } else {
+          alert("Unfortunately we were unable to create your account.");
         }
-      );
+        this.isAuthenticating = false;
+      });
   }
 
   forgotPassword() {
@@ -148,7 +147,7 @@ export class LoginComponent implements OnInit {
     initialContainer.animate({
       opacity: 0,
       duration: 500
-    }).then(function() {
+    }).then(() => {
       // After the animation completes, hide the initial container and
       // show the main container and logo. The main container and logo will
       // not immediately appear because their opacity is set to 0 in CSS.

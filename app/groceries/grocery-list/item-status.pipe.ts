@@ -6,13 +6,13 @@ import { Grocery } from "../shared";
   name: "itemStatus"
 })
 export class ItemStatusPipe implements PipeTransform {
-  value: Array<Grocery> = [];
   transform(items: Array<Grocery>, deleted: boolean) {
-    if (items && items.length) {
-      this.value = items.filter((grocery: Grocery) => {
+    let itemsToShow: Grocery[] = [];
+    if (items && Array.isArray(items)) {
+      itemsToShow = items.filter((grocery: Grocery) => {
         return grocery.deleted === deleted;
       });
     }
-    return this.value;
+    return itemsToShow;
   }
 }
