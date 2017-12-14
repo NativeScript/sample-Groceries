@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers, Response, ResponseOptions } from "@angular/http";
 import { Observable, BehaviorSubject } from "rxjs";
+import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 
 import { Config } from "../config";
@@ -97,6 +98,7 @@ export class GroceryStore {
     .map(res => res.json())
     .map(data => {
       this._allItems.forEach((grocery) => {
+        grocery.deleting = false;
         if (grocery.deleted && grocery.done) {
           grocery.deleted = false;
           grocery.done = false;
