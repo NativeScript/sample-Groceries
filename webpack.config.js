@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { NativeScriptWorkerPlugin } = require("nativescript-worker-loader/NativeScriptWorkerPlugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = env => {
     const platform = env && (env.android && "android" || env.ios && "ios");
@@ -60,12 +61,24 @@ module.exports = env => {
                 { test: /\.html$|\.xml$/, use: "raw-loader" },
 
                 // tns-core-modules reads the app.css and its imports using css-loader
-                { test: /\/app\.css$/, use: "css-loader?url=false" },
-                { test: /\/app\.scss$/, use: ["css-loader?url=false", "sass-loader"] },
+                {
+                    test: /[\/|\\]app\.css$/,
+                    use: {
+                        loader: "css-loader",
+                        options: { minimize: false, url: false },
+                    }
+                },
+                {
+                    test: /[\/|\\]app\.scss$/,
+                    use: [
+                        { loader: "css-loader", options: { minimize: false, url: false } },
+                        "sass-loader"
+                    ]
+                },
 
                 // Angular components reference css files and their imports using raw-loader
-                { test: /\.css$/, exclude: /\/app\.css$/, use: "raw-loader" },
-                { test: /\.scss$/, exclude: /\/app\.scss$/, use: ["raw-loader", "resolve-url-loader", "sass-loader"] },
+                { test: /\.css$/, exclude: /[\/|\\]app\.css$/, use: "raw-loader" },
+                { test: /\.scss$/, exclude: /[\/|\\]app\.scss$/, use: ["raw-loader", "resolve-url-loader", "sass-loader"] },
 
                 // Compile TypeScript files with ahead-of-time compiler.
                 { test: /.ts$/, use: [
@@ -139,9 +152,11 @@ module.exports = env => {
 
         // Work around an Android issue by setting compress = false
         const compress = platform !== "android";
-        config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-            mangle: { except: nsWebpack.uglifyMangleExcludes },
-            compress,
+        config.plugins.push(new UglifyJsPlugin({
+            uglifyOptions: {
+                mangle: { reserved: nsWebpack.uglifyMangleExcludes },
+                compress,
+            }
         }));
     }
     return config;
