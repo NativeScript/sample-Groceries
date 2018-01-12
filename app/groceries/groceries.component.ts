@@ -27,7 +27,7 @@ export class GroceriesComponent implements OnInit {
   constructor(private router: Router,
     private store: GroceryService,
     private loginService: LoginService,
-    private page: Page) {}
+    private page: Page) { }
 
   ngOnInit() {
     this.page.actionBarHidden = true;
@@ -78,16 +78,14 @@ export class GroceriesComponent implements OnInit {
 
     this.showActivityIndicator();
     this.store.add(this.grocery)
-      .then(
-        () => {
-          this.grocery = "";
-          this.hideActivityIndicator();
-        },
-        () => {
-          alert("An error occurred while adding an item to your list.");
-          this.hideActivityIndicator();
-        }
-      );
+      .then(() => {
+        this.grocery = "";
+        this.hideActivityIndicator();
+      })
+      .catch(() => {
+        alert("An error occurred while adding an item to your list.");
+        this.hideActivityIndicator();
+      });
   }
 
   toggleRecent() {
@@ -97,17 +95,16 @@ export class GroceriesComponent implements OnInit {
     }
 
     this.showActivityIndicator();
-    // this.store.restore()
-    //   .subscribe(
-    //     () => {
-    //       this.isShowingRecent = false;
-    //       this.hideActivityIndicator();
-    //     },
-    //     () => {
-    //       alert("An error occurred while adding groceries to your list.");
-    //       this.hideActivityIndicator();
-    //     }
-    //   );
+
+    this.store.restore()
+      .then(() => {
+        this.isShowingRecent = false;
+        this.hideActivityIndicator();
+      })
+      .catch(() => {
+        alert("An error occurred while adding groceries to your list.");
+        this.hideActivityIndicator();
+      });
   }
 
   showMenu() {
@@ -127,7 +124,7 @@ export class GroceriesComponent implements OnInit {
   share() {
     let items = this.store.items.value;
     let list = [];
-    for (let i = 0, size = items.length; i < size ; i++) {
+    for (let i = 0, size = items.length; i < size; i++) {
       list.push(items[i].name);
     }
     SocialShare.shareText(list.join(", ").trim());

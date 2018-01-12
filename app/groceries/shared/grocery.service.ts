@@ -22,20 +22,20 @@ export class GroceryService {
     return promise.then(() => {
       var stream = this.datastore.find();
       return stream.toPromise();
-    }).then((data)=> {
+    }).then((data) => {
       this.allItems = [];
-      data.forEach((grocery)=>{
-          this.allItems.push(
-            new Grocery(
-              grocery._id,
-              grocery.name,
-              grocery.done || false,
-              grocery.deleted || false
-            )
-          );
-          this.publishUpdates();
+      data.forEach((grocery) => {
+        this.allItems.push(
+          new Grocery(
+            grocery._id,
+            grocery.name,
+            grocery.done || false,
+            grocery.deleted || false
+          )
+        );
+        this.publishUpdates();
       });
-    }).catch((error)=> {
+    }).catch((error) => {
       this.handleErrors;
     });
   }
@@ -50,37 +50,61 @@ export class GroceryService {
   }
 
   setDeleteFlag(item: Grocery) {
-    return this.put({ _id: item._id, deleted: true, done: false })
+    const clone = this.cloneGrocery(item);
+    clone.deleted = true;
+    clone.done = false;
+    return this.datastore.update(clone)
       .then(data => {
         item.deleted = true;
         item.done = false;
         this.publishUpdates();
-      });
+      })
+      .catch((err) => this.handleErrors(err));
   }
 
   toggleDoneFlag(item: Grocery) {
-    item.done = !item.done;
-    this.publishUpdates();
-    return this.put({ _id: item._id, done: item.done });
+    const clone = this.cloneGrocery(item);
+    clone.done = !clone.done;
+    return this.datastore.update(clone)
+      .then(() => {
+        item.done = !item.done;
+        this.publishUpdates();
+      })
+      .catch(err => this.handleErrors(err));
   }
 
   restore() {
-    let indeces = [];
-    this.allItems.forEach((grocery) => {
-      if (grocery.deleted && grocery.done) {
-        indeces.push(grocery._id);
-      }
-    });
+    const groceriesToRestore = this.allItems.filter(g => g.deleted && g.done);
+    const promise = groceriesToRestore.reduce((result, grocery) => {
+      return result.then(() => {
+        const clone = this.cloneGrocery(grocery);
+        clone.deleted = false;
+        clone.done = false;
+        return this.datastore.update(clone);
+      });
+    }, Promise.resolve(null));
+
+    return promise
+      .then(() => {
+        groceriesToRestore.forEach((grocery) => {
+          grocery.deleted = false;
+          grocery.done = false;
+        });
+        this.publishUpdates();
+      })
+      .catch(err => this.handleErrors(err));
   }
 
   permanentlyDelete(item: Grocery) {
-    const datastore = Kinvey.DataStore.collection<Grocery>('')
     return this.datastore.removeById(item._id)
       .then(() => {
-        let index = this.allItems.indexOf(item);
-        this.allItems.splice(index, 1);
-        this.publishUpdates();
-      }).catch(this.handleErrors);
+        const index = this.allItems.findIndex(i => i._id === item._id);
+        if (index > -1) {
+          this.allItems.splice(index, 1);
+          this.publishUpdates();
+        }
+      })
+      .catch(this.handleErrors);
   }
 
   private put(data: Object) {
@@ -92,12 +116,18 @@ export class GroceryService {
     // Make sure all updates are published inside NgZone so that change detection is triggered if needed
     this.zone.run(() => {
       // must emit a *new* value (immutability!)
-      this.items.next([...this.allItems]);
+      const newVal = [...this.allItems];
+      this.items.next(newVal);
     });
   }
 
   private handleErrors(error: Response) {
     console.log(error);
     return Observable.throw(error);
+  }
+
+  private cloneGrocery(grocery: Grocery) {
+    const { _id, name, done, deleted } = grocery;
+    return new Grocery(_id, name, done, deleted);
   }
 }

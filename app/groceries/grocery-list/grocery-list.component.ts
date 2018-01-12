@@ -24,15 +24,15 @@ export class GroceryListComponent {
   listLoaded = false;
 
   constructor(store: GroceryService) {
-      this.store = store;
+    this.store = store;
   }
 
   load() {
     this.loading.next("");
     this.store.load()
       .then(() => {
-         this.loaded.next("");
-         this.listLoaded = true;
+        this.loaded.next("");
+        this.listLoaded = true;
       }).catch(() => {
         alert("An error occurred loading your grocery list.");
       });
@@ -75,14 +75,16 @@ export class GroceryListComponent {
       this.loaded.next("");
     };
 
+    let actionPromise;
+
     if (grocery.deleted) {
-      // this.store.permanentlyDelete(grocery)
-      //   .subscribe(successHandler, errorHandler);
+      actionPromise = this.store.permanentlyDelete(grocery);
     } else {
-      this.store.setDeleteFlag(grocery)
-        .then(successHandler)
-        .catch(errorHandler);
+      actionPromise = this.store.setDeleteFlag(grocery);
     }
+    return actionPromise
+      .then(successHandler)
+      .catch(errorHandler);
   }
 }
 
