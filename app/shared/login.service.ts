@@ -16,17 +16,18 @@ export class LoginService {
   register(user: User) {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "Basic a2lkX0h5SG9UX1JFZjo1MTkxMDJlZWFhMzQ0MzMyODFjN2MyODM3MGQ5OTIzMQ");
 
     return this.http.post(
-      BackendService.apiUrl + "Users",
+      "https://baas.kinvey.com/user/kid_HyHoT_REf/",
       JSON.stringify({
-        Username: user.email,
-        Email: user.email,
-        Password: user.password
+        username: user.email,
+        password: user.password
       }),
       { headers: headers }
     )
     .catch(this.handleErrors);
+
   }
 
   login(user: User) {
@@ -34,17 +35,18 @@ export class LoginService {
     headers.append("Content-Type", "application/json");
 
     return this.http.post(
-      BackendService.apiUrl + "oauth/token",
+      "https://baas.kinvey.com/user/kid_HyHoT_REf/",
+      // BackendService.apiUrl + "oauth/token",
       JSON.stringify({
         username: user.email,
-        password: user.password,
-        grant_type: "password"
+        password: user.password
       }),
       { headers: headers }
     )
     .map(response => response.json())
     .do(data => {
-      BackendService.token = data.Result.access_token;
+      console.log("here?");
+      // BackendService.token = data.Result.access_token;
     })
     .catch(this.handleErrors);
   }

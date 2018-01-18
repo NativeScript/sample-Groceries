@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
   isLoggingIn = true;
   isAuthenticating = false;
 
-
   @ViewChild("initialContainer") initialContainer: ElementRef;
   @ViewChild("mainContainer") mainContainer: ElementRef;
   @ViewChild("logoContainer") logoContainer: ElementRef;
@@ -33,6 +32,8 @@ export class LoginComponent implements OnInit {
     private userService: LoginService,
     private page: Page) {
     this.user = new User();
+    this.user.email = "foo@foo.com";
+    this.user.password = "password";
   }
 
   ngOnInit() {
