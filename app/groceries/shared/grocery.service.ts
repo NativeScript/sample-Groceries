@@ -10,14 +10,13 @@ import { Grocery } from "./grocery.model";
 @Injectable()
 export class GroceryService {
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
-
   private allItems: Array<Grocery> = [];
+  baseUrl = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
 
   constructor(private http: Http, private zone: NgZone) { }
 
   load() {
-    let url = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
-    return this.http.get(url, {
+    return this.http.get(this.baseUrl, {
       headers: this.getCommonHeaders()
     })
     .map(res => res.json())
@@ -25,7 +24,7 @@ export class GroceryService {
       data.forEach((grocery) => {
         this.allItems.push(
           new Grocery(
-            grocery.Id,
+            grocery._id,
             grocery.Name,
             grocery.Done || false,
             grocery.Deleted || false
@@ -38,9 +37,8 @@ export class GroceryService {
   }
 
   add(name: string) {
-    let url = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
     return this.http.post(
-      url,
+      this.baseUrl,
       JSON.stringify({ Name: name }),
       { headers: this.getCommonHeaders() }
     )
@@ -53,7 +51,9 @@ export class GroceryService {
   }
 
   setDeleteFlag(item: Grocery) {
-    return this.put(item.id, { Deleted: true, Done: false })
+    item.deleted = true;
+    item.done = false;
+    return this.put(item)
       .map(res => res.json())
       .map(data => {
         item.deleted = true;
@@ -65,7 +65,7 @@ export class GroceryService {
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
-    return this.put(item.id, { Done: item.done })
+    return this.put(item)
       .map(res => res.json());
   }
 
@@ -101,7 +101,7 @@ export class GroceryService {
   permanentlyDelete(item: Grocery) {
     return this.http
       .delete(
-        BackendService.apiUrl + "Groceries/" + item.id,
+        this.baseUrl + "/" + item.id,
         { headers: this.getCommonHeaders() }
       )
       .map(res => res.json())
@@ -113,10 +113,14 @@ export class GroceryService {
       .catch(this.handleErrors);
   }
 
-  private put(id: string, data: Object) {
+  private put(grocery: Grocery) {
     return this.http.put(
-      BackendService.apiUrl + "Groceries/" + id,
-      JSON.stringify(data),
+      this.baseUrl + "/" + grocery.id,
+      JSON.stringify({
+        Name: grocery.name,
+        Done: grocery.done,
+        Deleted: grocery.deleted
+      }),
       { headers: this.getCommonHeaders() }
     )
     .catch(this.handleErrors);
