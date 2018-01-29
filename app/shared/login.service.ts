@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
+import { Headers, Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
@@ -14,8 +14,6 @@ export class LoginService {
   constructor(private http: Http) { }
 
   register(user: User) {
-    let headers = this.getCommonHeaders();
-
     return this.http.post(
       BackendService.baseUrl + "user/" + BackendService.appKey,
       JSON.stringify({
@@ -23,21 +21,19 @@ export class LoginService {
         email: user.email,
         password: user.password
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
     .catch(this.handleErrors);
   }
 
   login(user: User) {
-    let headers = this.getCommonHeaders();
-
     return this.http.post(
       BackendService.baseUrl + "user/" + BackendService.appKey + "/login",
       JSON.stringify({
         username: user.email,
         password: user.password
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
     .map(response => response.json())
     .do(data => {
@@ -51,19 +47,17 @@ export class LoginService {
   }
 
   resetPassword(email) {
-    let headers = this.getCommonHeaders();
-
     return this.http.post(
       BackendService.baseUrl + "rpc/" + BackendService.appKey + "/" + email + "/user-password-reset-initiate",
       {},
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     ).catch(this.handleErrors);
   }
 
   private getCommonHeaders() {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
-    headers.append("Authorization", BackendService.authHeader);
+    headers.append("Authorization", BackendService.appUserHeader);
     return headers;
   }
 

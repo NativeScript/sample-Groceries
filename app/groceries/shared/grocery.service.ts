@@ -16,15 +16,13 @@ export class GroceryService {
   constructor(private http: Http, private zone: NgZone) { }
 
   load() {
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Sort", JSON.stringify({ ModifiedAt: -1 }));
-
-    return this.http.get(BackendService.apiUrl + "Groceries", {
-      headers: headers
+    let url = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
+    return this.http.get(url, {
+      headers: this.getCommonHeaders()
     })
     .map(res => res.json())
     .map(data => {
-      data.Result.forEach((grocery) => {
+      data.forEach((grocery) => {
         this.allItems.push(
           new Grocery(
             grocery.Id,
@@ -40,14 +38,15 @@ export class GroceryService {
   }
 
   add(name: string) {
+    let url = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
     return this.http.post(
-      BackendService.apiUrl + "Groceries",
+      url,
       JSON.stringify({ Name: name }),
-      { headers: this.getHeaders() }
+      { headers: this.getCommonHeaders() }
     )
     .map(res => res.json())
     .map(data => {
-      this.allItems.unshift(new Grocery(data.Result.Id, name, false, false));
+      this.allItems.unshift(new Grocery(data._kmd._id, name, false, false));
       this.publishUpdates();
     })
     .catch(this.handleErrors);
@@ -78,20 +77,13 @@ export class GroceryService {
       }
     });
 
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Filter", JSON.stringify({
-      "Id": {
-        "$in": indeces
-      }
-    }));
-
     return this.http.put(
       BackendService.apiUrl + "Groceries",
       JSON.stringify({
         Deleted: false,
         Done: false
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
     .map(res => res.json())
     .map(data => {
@@ -110,7 +102,7 @@ export class GroceryService {
     return this.http
       .delete(
         BackendService.apiUrl + "Groceries/" + item.id,
-        { headers: this.getHeaders() }
+        { headers: this.getCommonHeaders() }
       )
       .map(res => res.json())
       .map(data => {
@@ -125,7 +117,7 @@ export class GroceryService {
     return this.http.put(
       BackendService.apiUrl + "Groceries/" + id,
       JSON.stringify(data),
-      { headers: this.getHeaders() }
+      { headers: this.getCommonHeaders() }
     )
     .catch(this.handleErrors);
   }
@@ -138,10 +130,10 @@ export class GroceryService {
     });
   }
 
-  private getHeaders() {
+  private getCommonHeaders() {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Bearer " + BackendService.token);
+    headers.append("Authorization", "Kinvey " + BackendService.token);
     return headers;
   }
 
