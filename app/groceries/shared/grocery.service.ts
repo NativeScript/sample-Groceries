@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Http, Headers, Response, ResponseOptions } from "@angular/http";
+import { Http, Headers, Response, ResponseOptions, URLSearchParams } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/map";
@@ -16,8 +16,12 @@ export class GroceryService {
   constructor(private http: Http, private zone: NgZone) { }
 
   load() {
+    let params = new URLSearchParams();
+    params.append("sort", "{\"_kmd.lmt\": -1}");
+
     return this.http.get(this.baseUrl, {
-      headers: this.getCommonHeaders()
+      headers: this.getCommonHeaders(),
+      params: params
     })
     .map(res => res.json())
     .map(data => {
