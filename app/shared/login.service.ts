@@ -14,29 +14,25 @@ export class LoginService {
   constructor(private http: Http) { }
 
   register(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Basic a2lkX0h5SG9UX1JFZjo1MTkxMDJlZWFhMzQ0MzMyODFjN2MyODM3MGQ5OTIzMQ");
+    let headers = this.getCommonHeaders();
 
     return this.http.post(
-      "https://baas.kinvey.com/user/kid_HyHoT_REf/",
+      BackendService.baseUrl + "user/" + BackendService.appKey,
       JSON.stringify({
         username: user.email,
+        email: user.email,
         password: user.password
       }),
       { headers: headers }
     )
     .catch(this.handleErrors);
-
   }
 
   login(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
+    let headers = this.getCommonHeaders();
 
     return this.http.post(
-      "https://baas.kinvey.com/user/kid_HyHoT_REf/",
-      // BackendService.apiUrl + "oauth/token",
+      BackendService.baseUrl + "user/" + BackendService.appKey + "/login",
       JSON.stringify({
         username: user.email,
         password: user.password
@@ -45,8 +41,7 @@ export class LoginService {
     )
     .map(response => response.json())
     .do(data => {
-      console.log("here?");
-      // BackendService.token = data.Result.access_token;
+      BackendService.token = data._kmd.authtoken;
     })
     .catch(this.handleErrors);
   }
@@ -56,16 +51,20 @@ export class LoginService {
   }
 
   resetPassword(email) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
+    let headers = this.getCommonHeaders();
 
     return this.http.post(
-      BackendService.apiUrl + "Users/resetpassword",
-      JSON.stringify({
-        Email: email
-      }),
+      BackendService.baseUrl + "rpc/" + BackendService.appKey + "/" + email + "/user-password-reset-initiate",
+      {},
       { headers: headers }
     ).catch(this.handleErrors);
+  }
+
+  private getCommonHeaders() {
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", BackendService.authHeader);
+    return headers;
   }
 
   handleErrors(error: Response) {
