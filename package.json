@@ -45,7 +45,7 @@
     "@angular/router": "~5.2.0",
     "email-validator": "^1.0.7",
     "nativescript-angular": "~5.2.0",
-    "nativescript-iqkeyboardmanager": "~1.1.0",
+    "nativescript-iqkeyboardmanager": "~1.2.0",
     "nativescript-social-share": "~1.4.0",
     "nativescript-unit-test-runner": "^0.3.3",
     "reflect-metadata": "~0.1.8",
