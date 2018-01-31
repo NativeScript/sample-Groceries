@@ -3,22 +3,21 @@ var fetchModule = require("fetch");
 var ObservableArray = require("data/observable-array").ObservableArray;
 
 function GroceryListViewModel(items) {
+    var baseUrl = config.apiUrl + "appdata/" + config.appKey + "/Groceries";
     var viewModel = new ObservableArray(items);
 
     viewModel.load = function() {
-        return fetch(config.apiUrl + "Groceries", {
-            headers: {
-                "Authorization": "Bearer " + config.token
-            }
+        return fetch(baseUrl, {
+            headers: getCommonHeaders()
         })
         .then(handleErrors)
         .then(function(response) {
             return response.json();
         }).then(function(data) {
-            data.Result.forEach(function(grocery) {
+            data.forEach(function(grocery) {
                 viewModel.push({
                     name: grocery.Name,
-                    id: grocery.Id
+                    id: grocery._id
                 });
             });
         });
@@ -31,32 +30,26 @@ function GroceryListViewModel(items) {
     };
 
     viewModel.add = function(grocery) {
-        return fetch(config.apiUrl + "Groceries", {
+        return fetch(baseUrl, {
             method: "POST",
             body: JSON.stringify({
                 Name: grocery
             }),
-            headers: {
-                "Authorization": "Bearer " + config.token,
-                "Content-Type": "application/json"
-            }
+            headers: getCommonHeaders()
         })
         .then(handleErrors)
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
-            viewModel.push({ name: grocery, id: data.Result.Id });
+            viewModel.push({ name: grocery, id: data._id });
         });
     };
 
     viewModel.delete = function(index) {
-        return fetch(config.apiUrl + "Groceries/" + viewModel.getItem(index).id, {
+        return fetch(baseUrl + "/" + viewModel.getItem(index).id, {
             method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + config.token,
-                "Content-Type": "application/json"
-            }
+            headers: getCommonHeaders()
         })
         .then(handleErrors)
         .then(function() {
@@ -65,6 +58,13 @@ function GroceryListViewModel(items) {
     };
 
     return viewModel;
+}
+
+function getCommonHeaders() {
+    return {
+        "Content-Type": "application/json",
+        "Authorization": "Kinvey " + config.token
+    }
 }
 
 function handleErrors(response) {

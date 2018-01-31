@@ -13,37 +13,32 @@ function User(info) {
     });
 
     viewModel.login = function() {
-        return fetchModule.fetch(config.apiUrl + "oauth/token", {
+        return fetchModule.fetch(config.apiUrl + "user/" + config.appKey + "/login", {
             method: "POST",
             body: JSON.stringify({
                 username: viewModel.get("email"),
-                password: viewModel.get("password"),
-                grant_type: "password"
+                password: viewModel.get("password")
             }),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: getCommonHeaders()
         })
         .then(handleErrors)
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
-            config.token = data.Result.access_token;
+            config.token = data._kmd.authtoken;
         });
     };
 
     viewModel.register = function() {
-        return fetchModule.fetch(config.apiUrl + "Users", {
+        return fetchModule.fetch(config.apiUrl + "user/" + config.appKey, {
             method: "POST",
             body: JSON.stringify({
-                Username: viewModel.get("email"),
-                Email: viewModel.get("email"),
-                Password: viewModel.get("password")
+                username: viewModel.get("email"),
+                email: viewModel.get("email"),
+                password: viewModel.get("password")
             }),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            headers: getCommonHeaders()
         }).then(handleErrors);
     };
 
@@ -53,6 +48,13 @@ function User(info) {
     };
 
     return viewModel;
+}
+
+function getCommonHeaders() {
+    return {
+        "Content-Type": "application/json",
+        "Authorization": config.appUserHeader
+    }
 }
 
 function handleErrors(response) {
