@@ -56,50 +56,30 @@ export class GroceryService {
 
   setDeleteFlag(item: Grocery) {
     item.deleted = true;
-    item.done = false;
     return this.put(item)
       .map(res => res.json())
       .map(data => {
-        item.deleted = true;
         item.done = false;
         this.publishUpdates();
       });
   }
+
+  unsetDeleteFlag(item: Grocery) {
+    item.deleted = false;
+    return this.put(item)
+      .map(res => res.json())
+      .map(data => {
+        item.done = false;
+        this.publishUpdates();
+      });
+  }
+
 
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
     return this.put(item)
       .map(res => res.json());
-  }
-
-  restore() {
-    let indeces = [];
-    this.allItems.forEach((grocery) => {
-      if (grocery.deleted && grocery.done) {
-        indeces.push(grocery.id);
-      }
-    });
-
-    return this.http.put(
-      BackendService.apiUrl + "Groceries",
-      JSON.stringify({
-        Deleted: false,
-        Done: false
-      }),
-      { headers: this.getCommonHeaders() }
-    )
-    .map(res => res.json())
-    .map(data => {
-      this.allItems.forEach((grocery) => {
-        if (grocery.deleted && grocery.done) {
-          grocery.deleted = false;
-          grocery.done = false;
-        }
-      });
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
   }
 
   permanentlyDelete(item: Grocery) {

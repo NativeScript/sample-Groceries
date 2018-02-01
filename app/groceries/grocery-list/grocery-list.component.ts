@@ -52,24 +52,29 @@ export class GroceryListComponent {
 
   imageSource(grocery) {
     if (grocery.deleted) {
-      return grocery.done ? "res://selected" : "res://nonselected";
+      return "res://add";
     }
     return grocery.done ? "res://checked" : "res://unchecked";
   }
 
   toggleDone(grocery: Grocery) {
     if (grocery.deleted) {
-      grocery.done = !grocery.done;
-      return;
+      this.store.unsetDeleteFlag(grocery)
+        .subscribe(
+          () => { },
+          () => {
+            alert("An error occurred managing your grocery list.");
+          }
+        );
+    } else {
+      this.store.toggleDoneFlag(grocery)
+        .subscribe(
+          () => { },
+          () => {
+            alert("An error occurred managing your grocery list.");
+          }
+        );
     }
-
-    this.store.toggleDoneFlag(grocery)
-      .subscribe(
-        () => { },
-        () => {
-          alert("An error occurred managing your grocery list.");
-        }
-      );
   }
 
   delete(grocery: Grocery) {

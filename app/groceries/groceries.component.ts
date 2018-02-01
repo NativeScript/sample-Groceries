@@ -91,23 +91,7 @@ export class GroceriesComponent implements OnInit {
   }
 
   toggleRecent() {
-    if (!this.isShowingRecent) {
-      this.isShowingRecent = true;
-      return;
-    }
-
-    this.showActivityIndicator();
-    this.store.restore()
-      .subscribe(
-        () => {
-          this.isShowingRecent = false;
-          this.hideActivityIndicator();
-        },
-        () => {
-          alert("An error occurred while adding groceries to your list.");
-          this.hideActivityIndicator();
-        }
-      );
+    this.isShowingRecent = !this.isShowingRecent;
   }
 
   showMenu() {
