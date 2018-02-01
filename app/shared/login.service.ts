@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
+import { Headers, Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
@@ -14,37 +14,30 @@ export class LoginService {
   constructor(private http: Http) { }
 
   register(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
     return this.http.post(
-      BackendService.apiUrl + "Users",
+      BackendService.baseUrl + "user/" + BackendService.appKey,
       JSON.stringify({
-        Username: user.email,
-        Email: user.email,
-        Password: user.password
+        username: user.email,
+        email: user.email,
+        password: user.password
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
     .catch(this.handleErrors);
   }
 
   login(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
     return this.http.post(
-      BackendService.apiUrl + "oauth/token",
+      BackendService.baseUrl + "user/" + BackendService.appKey + "/login",
       JSON.stringify({
         username: user.email,
-        password: user.password,
-        grant_type: "password"
+        password: user.password
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
     .map(response => response.json())
     .do(data => {
-      BackendService.token = data.Result.access_token;
+      BackendService.token = data._kmd.authtoken;
     })
     .catch(this.handleErrors);
   }
@@ -54,16 +47,18 @@ export class LoginService {
   }
 
   resetPassword(email) {
+    return this.http.post(
+      BackendService.baseUrl + "rpc/" + BackendService.appKey + "/" + email + "/user-password-reset-initiate",
+      {},
+      { headers: this.getCommonHeaders() }
+    ).catch(this.handleErrors);
+  }
+
+  private getCommonHeaders() {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
-
-    return this.http.post(
-      BackendService.apiUrl + "Users/resetpassword",
-      JSON.stringify({
-        Email: email
-      }),
-      { headers: headers }
-    ).catch(this.handleErrors);
+    headers.append("Authorization", BackendService.appUserHeader);
+    return headers;
   }
 
   handleErrors(error: Response) {

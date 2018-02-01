@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Http, Headers, Response, ResponseOptions } from "@angular/http";
+import { Http, Headers, Response, ResponseOptions, URLSearchParams } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import "rxjs/add/operator/map";
@@ -10,24 +10,25 @@ import { Grocery } from "./grocery.model";
 @Injectable()
 export class GroceryService {
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
-
   private allItems: Array<Grocery> = [];
+  baseUrl = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
 
   constructor(private http: Http, private zone: NgZone) { }
 
   load() {
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Sort", JSON.stringify({ ModifiedAt: -1 }));
+    let params = new URLSearchParams();
+    params.append("sort", "{\"_kmd.lmt\": -1}");
 
-    return this.http.get(BackendService.apiUrl + "Groceries", {
-      headers: headers
+    return this.http.get(this.baseUrl, {
+      headers: this.getCommonHeaders(),
+      params: params
     })
     .map(res => res.json())
     .map(data => {
-      data.Result.forEach((grocery) => {
+      data.forEach((grocery) => {
         this.allItems.push(
           new Grocery(
-            grocery.Id,
+            grocery._id,
             grocery.Name,
             grocery.Done || false,
             grocery.Deleted || false
@@ -41,76 +42,51 @@ export class GroceryService {
 
   add(name: string) {
     return this.http.post(
-      BackendService.apiUrl + "Groceries",
+      this.baseUrl,
       JSON.stringify({ Name: name }),
-      { headers: this.getHeaders() }
+      { headers: this.getCommonHeaders() }
     )
     .map(res => res.json())
     .map(data => {
-      this.allItems.unshift(new Grocery(data.Result.Id, name, false, false));
+      this.allItems.unshift(new Grocery(data._kmd._id, name, false, false));
       this.publishUpdates();
     })
     .catch(this.handleErrors);
   }
 
   setDeleteFlag(item: Grocery) {
-    return this.put(item.id, { Deleted: true, Done: false })
+    item.deleted = true;
+    return this.put(item)
       .map(res => res.json())
       .map(data => {
-        item.deleted = true;
         item.done = false;
         this.publishUpdates();
       });
   }
 
+  unsetDeleteFlag(item: Grocery) {
+    item.deleted = false;
+    return this.put(item)
+      .map(res => res.json())
+      .map(data => {
+        item.done = false;
+        this.publishUpdates();
+      });
+  }
+
+
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
-    return this.put(item.id, { Done: item.done })
+    return this.put(item)
       .map(res => res.json());
-  }
-
-  restore() {
-    let indeces = [];
-    this.allItems.forEach((grocery) => {
-      if (grocery.deleted && grocery.done) {
-        indeces.push(grocery.id);
-      }
-    });
-
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Filter", JSON.stringify({
-      "Id": {
-        "$in": indeces
-      }
-    }));
-
-    return this.http.put(
-      BackendService.apiUrl + "Groceries",
-      JSON.stringify({
-        Deleted: false,
-        Done: false
-      }),
-      { headers: headers }
-    )
-    .map(res => res.json())
-    .map(data => {
-      this.allItems.forEach((grocery) => {
-        if (grocery.deleted && grocery.done) {
-          grocery.deleted = false;
-          grocery.done = false;
-        }
-      });
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
   }
 
   permanentlyDelete(item: Grocery) {
     return this.http
       .delete(
-        BackendService.apiUrl + "Groceries/" + item.id,
-        { headers: this.getHeaders() }
+        this.baseUrl + "/" + item.id,
+        { headers: this.getCommonHeaders() }
       )
       .map(res => res.json())
       .map(data => {
@@ -121,11 +97,15 @@ export class GroceryService {
       .catch(this.handleErrors);
   }
 
-  private put(id: string, data: Object) {
+  private put(grocery: Grocery) {
     return this.http.put(
-      BackendService.apiUrl + "Groceries/" + id,
-      JSON.stringify(data),
-      { headers: this.getHeaders() }
+      this.baseUrl + "/" + grocery.id,
+      JSON.stringify({
+        Name: grocery.name,
+        Done: grocery.done,
+        Deleted: grocery.deleted
+      }),
+      { headers: this.getCommonHeaders() }
     )
     .catch(this.handleErrors);
   }
@@ -138,10 +118,10 @@ export class GroceryService {
     });
   }
 
-  private getHeaders() {
+  private getCommonHeaders() {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Bearer " + BackendService.token);
+    headers.append("Authorization", "Kinvey " + BackendService.token);
     return headers;
   }
 
