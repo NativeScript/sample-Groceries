@@ -48,7 +48,7 @@ export class GroceryService {
     )
     .map(res => res.json())
     .map(data => {
-      this.allItems.unshift(new Grocery(data._kmd._id, name, false, false));
+      this.allItems.unshift(new Grocery(data._id, name, false, false));
       this.publishUpdates();
     })
     .catch(this.handleErrors);
