@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
     private userService: LoginService,
     private page: Page) {
     this.user = new User();
-    this.user.email = "foo@foo.com";
-    this.user.password = "password";
   }
 
   ngOnInit() {
