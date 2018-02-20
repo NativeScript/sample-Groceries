@@ -8,7 +8,7 @@ import { Grocery } from "../shared";
 export class ItemStatusPipe implements PipeTransform {
   value: Array<Grocery> = [];
   transform(items: Array<Grocery>, deleted: boolean) {
-    if (items && items.length) {
+    if (items instanceof Array) {
       this.value = items.filter((grocery: Grocery) => {
         return grocery.deleted === deleted;
       });
