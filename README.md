@@ -107,3 +107,9 @@ The following is a list of all the people that have helped build Groceries. Than
 <!-- githubcontrib --owner NativeScript --repo sample-Groceries --cols 6 --sortOrder desc | pbcopy -->
 
 ![](https://ga-beacon.appspot.com/UA-111455-24/nativescript/sample-groceries?pixel)
+
+### Big Thanks
+
+Cross-browser Testing Platform and Open Source Provided by [Sauce Labs](https://saucelabs.com).
+
+[<img alt="SauceLabs" src="assets/sauceLabs/SauceLabs-white.svg" width="200">](https://saucelabs.com)
