@@ -1,4 +1,4 @@
-import { NativeScriptModule } from "nativescript-angular/nativescript.module";
+import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { groceriesRouting } from "./groceries.routing";
@@ -8,9 +8,9 @@ import { ItemStatusPipe } from "./grocery-list/item-status.pipe";
 
 @NgModule({
   imports: [
-    NativeScriptModule,
     NativeScriptFormsModule,
-    groceriesRouting
+    NativeScriptCommonModule,
+    groceriesRouting,
   ],
   declarations: [
     GroceriesComponent,
