@@ -3,12 +3,6 @@
 Page {
   font-size: 15;
 }
-.login-page {
-  background-image: url("res://bg_login");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
 .list-page {
   background-image: url("res://bg_inner");
   background-repeat: no-repeat;

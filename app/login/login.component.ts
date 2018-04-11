@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     private userService: LoginService,
     private page: Page) {
     this.user = new User();
-    this.page.className = "login-page";
+    // this.page.className = "login-page";
   }
 
   ngOnInit() {
@@ -41,6 +41,13 @@ export class LoginComponent implements OnInit {
 
   focusPassword() {
     this.password.nativeElement.focus();
+  }
+
+  startBackgroundAnimation(background) {
+    background.animate({
+      scale: { x: 1.1, y: 1.1 },
+      duration: 10000
+    });
   }
 
   submit() {
