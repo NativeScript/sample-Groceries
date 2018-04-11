@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
     private userService: LoginService,
     private page: Page) {
     this.user = new User();
+    this.page.className = "login-page";
   }
 
   ngOnInit() {
@@ -125,13 +126,6 @@ export class LoginComponent implements OnInit {
     mainContainer.animate({
       backgroundColor: this.isLoggingIn ? new Color("white") : new Color("#301217"),
       duration: 200
-    });
-  }
-
-  startBackgroundAnimation(background) {
-    background.animate({
-      scale: { x: 1.0, y: 1.0 },
-      duration: 10000
     });
   }
 
