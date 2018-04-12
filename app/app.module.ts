@@ -1,6 +1,6 @@
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptHttpModule } from "nativescript-angular/http";
+import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { authProviders, appRoutes } from "./app.routing";
@@ -20,7 +20,7 @@ setStatusBarColors();
   ],
   imports: [
     NativeScriptModule,
-    NativeScriptHttpModule,
+    NativeScriptHttpClientModule,
     NativeScriptRouterModule,
     NativeScriptRouterModule.forRoot(appRoutes),
     LoginModule,

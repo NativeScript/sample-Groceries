@@ -1,8 +1,12 @@
 import { Injectable, NgZone } from "@angular/core";
-import { Http, Headers, Response, ResponseOptions, URLSearchParams } from "@angular/http";
-import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import "rxjs/add/operator/map";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+  HttpParams,
+} from "@angular/common/http";
+import { Observable, BehaviorSubject, throwError } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 
 import { BackendService } from "../../shared";
 import { Grocery } from "./grocery.model";
@@ -13,31 +17,32 @@ export class GroceryService {
   private allItems: Array<Grocery> = [];
   baseUrl = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
 
-  constructor(private http: Http, private zone: NgZone) { }
+  constructor(private http: HttpClient, private zone: NgZone) { }
 
   load() {
-    let params = new URLSearchParams();
+    const params = new HttpParams();
     params.append("sort", "{\"_kmd.lmt\": -1}");
 
     return this.http.get(this.baseUrl, {
       headers: this.getCommonHeaders(),
-      params: params
+      params,
     })
-    .map(res => res.json())
-    .map(data => {
-      data.forEach((grocery) => {
-        this.allItems.push(
-          new Grocery(
-            grocery._id,
-            grocery.Name,
-            grocery.Done || false,
-            grocery.Deleted || false
-          )
-        );
-        this.publishUpdates();
-      });
-    })
-    .catch(this.handleErrors);
+    .pipe(
+      map((data: any[]) => {
+        data.forEach((grocery) => {
+          this.allItems.push(
+            new Grocery(
+              grocery._id,
+              grocery.Name,
+              grocery.Done || false,
+              grocery.Deleted || false
+            )
+          );
+          this.publishUpdates();
+        });
+      }),
+      catchError(this.handleErrors)
+    )
   }
 
   add(name: string) {
@@ -46,40 +51,42 @@ export class GroceryService {
       JSON.stringify({ Name: name }),
       { headers: this.getCommonHeaders() }
     )
-    .map(res => res.json())
-    .map(data => {
-      this.allItems.unshift(new Grocery(data._id, name, false, false));
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
+    .pipe(
+      map((data: any) => {
+        this.allItems.unshift(new Grocery(data._id, name, false, false));
+        this.publishUpdates();
+      }),
+      catchError(this.handleErrors)
+    )
   }
 
   setDeleteFlag(item: Grocery) {
     item.deleted = true;
     return this.put(item)
-      .map(res => res.json())
-      .map(data => {
-        item.done = false;
-        this.publishUpdates();
-      });
+      .pipe(
+        map(data => {
+          item.done = false;
+          this.publishUpdates();
+        })
+      );
   }
 
   unsetDeleteFlag(item: Grocery) {
     item.deleted = false;
     return this.put(item)
-      .map(res => res.json())
-      .map(data => {
-        item.done = false;
-        this.publishUpdates();
-      });
+      .pipe(
+        map(data => {
+          item.done = false;
+          this.publishUpdates();
+        })
+      );
   }
 
 
   toggleDoneFlag(item: Grocery) {
     item.done = !item.done;
     this.publishUpdates();
-    return this.put(item)
-      .map(res => res.json());
+    return this.put(item);
   }
 
   permanentlyDelete(item: Grocery) {
@@ -88,13 +95,14 @@ export class GroceryService {
         this.baseUrl + "/" + item.id,
         { headers: this.getCommonHeaders() }
       )
-      .map(res => res.json())
-      .map(data => {
-        let index = this.allItems.indexOf(item);
-        this.allItems.splice(index, 1);
-        this.publishUpdates();
-      })
-      .catch(this.handleErrors);
+      .pipe(
+        map(data => {
+          let index = this.allItems.indexOf(item);
+          this.allItems.splice(index, 1);
+          this.publishUpdates();
+        }),
+        catchError(this.handleErrors)
+      )
   }
 
   private put(grocery: Grocery) {
@@ -107,7 +115,7 @@ export class GroceryService {
       }),
       { headers: this.getCommonHeaders() }
     )
-    .catch(this.handleErrors);
+    .pipe(catchError(this.handleErrors));
   }
 
   private publishUpdates() {
@@ -119,14 +127,14 @@ export class GroceryService {
   }
 
   private getCommonHeaders() {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Kinvey " + BackendService.token);
-    return headers;
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": "Kinvey " + BackendService.token,
+    });
   }
 
-  private handleErrors(error: Response) {
+  private handleErrors(error: HttpErrorResponse) {
     console.log(error);
-    return Observable.throw(error);
+    return throwError(error);
   }
 }
