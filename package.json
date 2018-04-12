@@ -56,13 +56,15 @@
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
+    "@angular-devkit/core": "~0.5.5",
     "@angular/compiler-cli": "~6.0.0-rc.3",
-    "@ngtools/webpack": "~1.9.1",
+    "@ngtools/webpack": "~6.0.0-rc.3",
     "babel-traverse": "6.24.1",
     "babel-types": "6.24.1",
     "babylon": "6.17.0",
+    "clean-webpack-plugin": "~0.1.19",
     "codelyzer": "^3.0.1",
-    "copy-webpack-plugin": "~4.3.0",
+    "copy-webpack-plugin": "~4.5.1",
     "css-loader": "~0.28.7",
     "extract-text-webpack-plugin": "~3.0.2",
     "filewalker": "^0.1.3",
@@ -74,15 +76,16 @@
     "nativescript-css-loader": "~0.26.0",
     "nativescript-dev-appium": "^3.2.0",
     "nativescript-dev-typescript": "^0.6.0",
-    "nativescript-dev-webpack": "^0.9.1",
+    "nativescript-dev-webpack": "github:nativescript/nativescript-dev-webpack#sis0k0/webpack4",
     "nativescript-worker-loader": "~0.8.1",
     "raw-loader": "~0.5.1",
-    "resolve-url-loader": "~2.2.1",
+    "resolve-url-loader": "~2.3.0",
     "tslint": "^5.4.2",
     "typescript": "^2.7.2",
-    "uglifyjs-webpack-plugin": "~1.1.6",
-    "webpack": "~3.10.0",
+    "uglifyjs-webpack-plugin": "~1.2.4",
+    "webpack": "~4.5.0",
     "webpack-bundle-analyzer": "^2.9.1",
+    "webpack-cli": "~2.0.14",
     "webpack-sources": "~1.1.0"
   }
 }
