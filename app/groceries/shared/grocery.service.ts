@@ -42,7 +42,7 @@ export class GroceryService {
         });
       }),
       catchError(this.handleErrors)
-    )
+    );
   }
 
   add(name: string) {
@@ -57,7 +57,7 @@ export class GroceryService {
         this.publishUpdates();
       }),
       catchError(this.handleErrors)
-    )
+    );
   }
 
   setDeleteFlag(item: Grocery) {
@@ -102,7 +102,7 @@ export class GroceryService {
           this.publishUpdates();
         }),
         catchError(this.handleErrors)
-      )
+      );
   }
 
   private put(grocery: Grocery) {
