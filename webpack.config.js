@@ -1,4 +1,4 @@
-const { relative, resolve, join  } = require("path");
+const { join, relative, resolve, sep } = require("path");
 
 const webpack = require("webpack");
 const nsWebpack = require("nativescript-dev-webpack");
@@ -17,8 +17,10 @@ module.exports = env => {
 
     const platforms = ["ios", "android"];
     const projectRoot = __dirname;
+    nsWebpack.loadAdditionalPlugins({ projectDir: projectRoot });
+
     // Default destination inside platforms/<platform>/...
-    const dist = resolve(projectRoot, nsWebpack.getAppPath(platform));
+    const dist = resolve(projectRoot, nsWebpack.getAppPath(platform, projectRoot));
     const appResourcesPlatformDir = platform === "android" ? "Android" : "iOS";
 
     const {
@@ -44,8 +46,8 @@ module.exports = env => {
     const entryModule = aot ?
         nsWebpack.getAotEntryModule(appFullPath) : 
         `${nsWebpack.getEntryModule(appFullPath)}.ts`;
-    const entryPath = `./${entryModule}`;
-    const vendorPath = `./vendor.ts`;
+    const entryPath = `.${sep}${entryModule}`;
+    const vendorPath = `.${sep}vendor.ts`;
 
     const config = {
         mode: "development",
@@ -63,7 +65,7 @@ module.exports = env => {
             vendor: vendorPath,
         },
         output: {
-            pathinfo: true,
+            pathinfo: false,
             path: dist,
             libraryTarget: "commonjs2",
             filename: "[name].js",
@@ -73,17 +75,17 @@ module.exports = env => {
             extensions: [".ts", ".js", ".scss", ".css"],
             // Resolve {N} system modules from tns-core-modules
             modules: [
+                resolve(__dirname, "node_modules/tns-core-modules"),
+                resolve(__dirname, "node_modules"),
                 "node_modules/tns-core-modules",
                 "node_modules",
             ],
             alias: {
                 '~': appFullPath
             },
-            // don't resolve symlinks to symlinked modules
-            symlinks: false
+            symlinks: true
         },
         resolveLoader: {
-            // don't resolve symlinks to symlinked loaders
             symlinks: false
         },
         node: {
@@ -156,7 +158,7 @@ module.exports = env => {
                 "global.TNS_WEBPACK": "true",
             }),
             // Remove all files from the out dir.
-            new CleanWebpackPlugin([`${dist}/**/*`]),
+            new CleanWebpackPlugin([ `${dist}/**/*` ]),
             // Copy native app resources to out dir.
             new CopyWebpackPlugin([
                 {
@@ -183,7 +185,7 @@ module.exports = env => {
             // AngularCompilerPlugin with augmented NativeScript filesystem to handle platform specific resource resolution.
             new nsWebpack.NativeScriptAngularCompilerPlugin(
                 Object.assign({
-                    entryModule: resolve(__dirname, "app/app.module#AppModule"),
+                    entryModule: resolve(appPath, "app.module#AppModule"),
                     skipCodeGeneration: !aot,
                     platformOptions: {
                         platform,
