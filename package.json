@@ -76,7 +76,7 @@
     "nativescript-css-loader": "~0.26.0",
     "nativescript-dev-appium": "^3.2.0",
     "nativescript-dev-typescript": "^0.6.0",
-    "nativescript-dev-webpack": "github:nativescript/nativescript-dev-webpack#sis0k0/webpack4",
+    "nativescript-dev-webpack": "next",
     "nativescript-worker-loader": "~0.8.1",
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.3.0",
