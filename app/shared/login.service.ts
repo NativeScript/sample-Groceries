@@ -1,17 +1,14 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from "@angular/http";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/map";
-import "rxjs/add/observable/throw";
-import "rxjs/add/operator/catch";
+import { HttpHeaders, HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { tap, map, catchError } from "rxjs/operators";
 
 import { User } from "./user.model";
 import { BackendService } from "./backend.service";
 
 @Injectable()
 export class LoginService {
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   register(user: User) {
     return this.http.post(
@@ -23,7 +20,7 @@ export class LoginService {
       }),
       { headers: this.getCommonHeaders() }
     )
-    .catch(this.handleErrors);
+    .pipe(catchError(this.handleErrors));
   }
 
   login(user: User) {
@@ -35,11 +32,12 @@ export class LoginService {
       }),
       { headers: this.getCommonHeaders() }
     )
-    .map(response => response.json())
-    .do(data => {
-      BackendService.token = data._kmd.authtoken;
-    })
-    .catch(this.handleErrors);
+    .pipe(
+      tap((data: any) => {
+        BackendService.token = data._kmd.authtoken;
+      }),
+      catchError(this.handleErrors)
+    );
   }
 
   logoff() {
@@ -51,18 +49,18 @@ export class LoginService {
       BackendService.baseUrl + "rpc/" + BackendService.appKey + "/" + email + "/user-password-reset-initiate",
       {},
       { headers: this.getCommonHeaders() }
-    ).catch(this.handleErrors);
+    ).pipe(catchError(this.handleErrors));
   }
 
   private getCommonHeaders() {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", BackendService.appUserHeader);
-    return headers;
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": BackendService.appUserHeader,
+    });
   }
 
-  handleErrors(error: Response) {
-    console.log(JSON.stringify(error.json()));
-    return Observable.throw(error);
+  private handleErrors(error: HttpErrorResponse) {
+    console.log(JSON.stringify(error));
+    return throwError(error);
   }
 }
