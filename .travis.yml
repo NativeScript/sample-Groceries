@@ -16,7 +16,7 @@ matrix:
     - stage: "Lint"
       language: node_js
       os: linux
-      node_js: "6"
+      node_js: "8"
       install: true
       script: npm i && npm run tslint
     - stage: "Build"
@@ -26,7 +26,7 @@ matrix:
         - Xcode="9.2"
       osx_image: xcode9.2
       language: node_js 
-      node_js: "6"
+      node_js: "8"
       jdk: oraclejdk8
       script:
         - tns build ios
@@ -37,7 +37,7 @@ matrix:
         - BuildAndroid="26"
       os: linux
       jdk: oraclejdk8
-      before_install: nvm install 6.10.3
+      before_install: nvm install 8.9.1
       script:
         - tns build android
         - "curl -u $SAUCE_USER:$SAUCE_KEY -X POST -H 'Content-Type: application/octet-stream' $ANDROID_SAUCE_STORAGE --data-binary @$ANDROID_PACKAGE_FOLDER/$ANDROID_PACKAGE"
@@ -46,7 +46,7 @@ matrix:
         - AndroidEmulator="23"
       language: node_js
       os: linux
-      node_js: "6"
+      node_js: "8"
       script:
         - npm i -g appium
         - npm i
@@ -55,7 +55,7 @@ matrix:
       env: 
         - iOS="11"
       language: node_js 
-      node_js: "6"
+      node_js: "8"
       script: 
         - npm i -g appium
         - npm i
