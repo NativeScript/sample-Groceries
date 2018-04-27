@@ -51,7 +51,7 @@
     "nativescript-social-share": "~1.4.0",
     "nativescript-unit-test-runner": "^0.3.3",
     "reflect-metadata": "~0.1.8",
-    "rxjs": "^6.0.0-rc.1",
+    "rxjs": "~6.0.0",
     "tns-core-modules": "4.0.0",
     "zone.js": "^0.8.4"
   },
@@ -81,11 +81,14 @@
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.3.0",
     "tslint": "^5.4.2",
-    "typescript": "^2.7.2",
+    "typescript": "~2.7.2",
     "uglifyjs-webpack-plugin": "~1.2.4",
     "webpack": "~4.5.0",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-cli": "~2.0.14",
-    "webpack-sources": "~1.1.0"
+    "webpack-sources": "~1.1.0",
+    "@types/chai": "^4.0.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.5"
   }
 }
