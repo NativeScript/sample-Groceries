@@ -18,10 +18,10 @@
   "nativescript": {
     "id": "org.nativescript.groceries",
     "tns-android": {
-      "version": "3.4.0"
+      "version": "4.0.1"
     },
     "tns-ios": {
-      "version": "3.4.0"
+      "version": "4.0.1"
     }
   },
   "scripts": {
@@ -38,19 +38,19 @@
     "@angular/platform-browser-dynamic": "~5.2.0",
     "@angular/router": "~5.2.0",
     "email-validator": "~1.0.7",
-    "nativescript-angular": "~5.2.0",
+    "nativescript-angular": "~5.3.0",
     "nativescript-social-share": "~1.4.0",
-    "reflect-metadata": "~0.1.8",
-    "rxjs": "~5.5.0",
-    "tns-core-modules": "~3.4.0",
-    "zone.js": "~0.8.4"
+    "reflect-metadata": "~0.1.10",
+    "rxjs": "~5.5.5",
+    "tns-core-modules": "~4.0.0",
+    "zone.js": "~0.8.18"
   },
   "devDependencies": {
     "babel-traverse": "6.26.0",
     "babel-types": "6.26.0",
     "babylon": "6.18.0",
     "lazy": "1.0.11",
-    "nativescript-dev-typescript": "~0.6.0",
-    "typescript": "~2.6.2"
+    "nativescript-dev-typescript": "~0.7.0",
+    "typescript": "~2.7.2"
   }
 }
