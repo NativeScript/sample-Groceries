@@ -1,7 +1,7 @@
 env:
   global:
-    - ANDROID_PACKAGE='groceries-debug.apk'
-    - ANDROID_PACKAGE_FOLDER=$TRAVIS_BUILD_DIR/platforms/android/app/build/outputs/apk
+    - ANDROID_PACKAGE='groceries.apk'
+    - ANDROID_PACKAGE_FOLDER=$TRAVIS_BUILD_DIR/platforms/android/app/build/outputs/apk/debug/
     - ANDROID_SAUCE_STORAGE="https://saucelabs.com/rest/v1/storage/$SAUCE_USER/$ANDROID_PACKAGE?overwrite=true"
     - IOS_PACKAGE='sampleGroceries.zip'
     - IOS_APP_NAME='sampleGroceries.app'
@@ -40,7 +40,7 @@ matrix:
       before_install: nvm install 8.9.1
       script:
         - tns build android
-        - "curl -u $SAUCE_USER:$SAUCE_KEY -X POST -H 'Content-Type: application/octet-stream' $ANDROID_SAUCE_STORAGE --data-binary @$ANDROID_PACKAGE_FOLDER/$ANDROID_PACKAGE"
+        - "curl -u $SAUCE_USER:$SAUCE_KEY -X POST -H 'Content-Type: application/octet-stream' $ANDROID_SAUCE_STORAGE --data-binary @$ANDROID_PACKAGE_FOLDER/app-debug.apk"
     - stage: "UI Tests"
       env: 
         - AndroidEmulator="23"
