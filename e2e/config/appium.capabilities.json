@@ -28,7 +28,7 @@
         "platformVersion": "6.0",
         "deviceName": "Android Emulator",
         "appium-version": "1.7.1",
-        "appPackage": "org.nativescript.templatehelloworldng",
+        "appPackage": "org.nativescript.groceries",
         "noReset": true,
         "resetKeyboard": true,
         "app": ""
@@ -76,7 +76,7 @@
         "noReset": true,
         "fullReset": false,
         "app": "",
-        "bundleId": "org.nativescript.templatehelloworldng",
+        "bundleId": "org.nativescript.groceries",
         "density": 2,
         "offsetPixels": 33
     },
