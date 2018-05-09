@@ -28,6 +28,7 @@
         "platformVersion": "6.0",
         "deviceName": "Android Emulator",
         "appium-version": "1.7.1",
+        "packageId": "org.nativescript.templatehelloworldng",
         "noReset": true,
         "resetKeyboard": true,
         "app": ""
@@ -75,6 +76,7 @@
         "noReset": true,
         "fullReset": false,
         "app": "",
+        "bundleId": "org.nativescript.templatehelloworldng",
         "density": 2,
         "offsetPixels": 33
     },
