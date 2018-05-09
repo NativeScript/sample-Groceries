@@ -71,7 +71,7 @@
       class="forgot-password-label"
       text="Forgot password?"
       (tap)="forgotPassword()"
-      [opacity]="isLoggingIn ? 1 : 0"></Label>
+      [visibility]="isLoggingIn ? 'visible' : 'hidden'"></Label>
 
     <StackLayout #signUpStack
       class="sign-up-stack"
