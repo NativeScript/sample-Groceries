@@ -29,6 +29,7 @@
         "deviceName": "Android Emulator",
         "appium-version": "1.7.1",
         "appPackage": "org.nativescript.groceries",
+        "appActivity": "com.tns.NativeScriptActivity",
         "noReset": true,
         "resetKeyboard": true,
         "app": ""
