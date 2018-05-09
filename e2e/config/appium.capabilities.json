@@ -64,7 +64,6 @@
         "deviceName": "Emulator-Api26-Google",
         "avd": "Emulator-Api26-Google",
         "lt": 60000,
-        "appActivity": "com.tns.NativeScriptActivity",
         "newCommandTimeout": 720,
         "noReset": true,
         "fullReset": false,
@@ -77,7 +76,6 @@
         "noReset": true,
         "fullReset": false,
         "app": "",
-        "bundleId": "org.nativescript.groceries",
         "density": 2,
         "offsetPixels": 33
     },
