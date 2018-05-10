@@ -59,7 +59,7 @@ matrix:
       script: 
         - npm i -g appium
         - npm i
-        - travis_wait travis_retry npm run e2e -- --runType sim.iPhone6.iOS100 --sauceLab --reuseDevice --appPath $IOS_PACKAGE
+        - travis_wait travis_retry npm run e2e -- --runType sim.iPhone8 --sauceLab --appPath $IOS_PACKAGE
 
 android:
   components:
