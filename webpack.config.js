@@ -10,6 +10,12 @@ const { NativeScriptWorkerPlugin } = require("nativescript-worker-loader/NativeS
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = env => {
+    // Add your custom Activities, Services and other Android app components here.
+    const appComponents = [
+        "tns-core-modules/ui/frame",
+        "tns-core-modules/ui/frame/activity",
+    ];
+
     const platform = env && (env.android && "android" || env.ios && "ios");
     if (!platform) {
         throw new Error("You need to provide a target platform!");
@@ -30,15 +36,13 @@ module.exports = env => {
         appPath = "app",
         appResourcesPath = "app/App_Resources",
 
-        // Aot, snapshot, uglify and report can be enabled by providing
-        // the `--env.snapshot`, `--env.uglify` or `--env.report` flags
-        // when running 'tns run android|ios'
-        aot,
-        snapshot,
-        uglify,
-        report,
+        // You can provide the following flags when running 'tns run android|ios'
+        aot, // --env.aot
+        snapshot, // --env.snapshot
+        uglify, // --env.uglify
+        report, // --env.report
     } = env;
-    const ngToolsWebpackOptions = { tsConfigPath: join(__dirname, "tsconfig.json") };
+    const ngToolsWebpackOptions = { tsConfigPath: join(__dirname, "tsconfig.esm.json") };
 
     const appFullPath = resolve(projectRoot, appPath);
     const appResourcesFullPath = resolve(projectRoot, appResourcesPath);
@@ -47,10 +51,9 @@ module.exports = env => {
         nsWebpack.getAotEntryModule(appFullPath) : 
         `${nsWebpack.getEntryModule(appFullPath)}.ts`;
     const entryPath = `.${sep}${entryModule}`;
-    const vendorPath = `.${sep}vendor.ts`;
 
     const config = {
-        mode: "development",
+        mode: uglify ? "production" : "development",
         context: appFullPath,
         watchOptions: {
             ignored: [
@@ -62,7 +65,6 @@ module.exports = env => {
         target: nativescriptTarget,
         entry: {
             bundle: entryPath,
-            vendor: vendorPath,
         },
         output: {
             pathinfo: false,
@@ -98,29 +100,59 @@ module.exports = env => {
         },
         devtool: "none",
         optimization: {
-            runtimeChunk: { name: "vendor" },
             splitChunks: {
                 cacheGroups: {
-                    common: {
-                        name: "common",
+                    vendor: {
+                        name: "vendor",
                         chunks: "all",
-                        test: /vendor/,
+                        test: (module, chunks) => {
+                            const moduleName = module.nameForCondition ? module.nameForCondition() : '';
+                            return /[\\/]node_modules[\\/]/.test(moduleName) ||
+                                    appComponents.some(comp => comp === moduleName);
+                        },
                         enforce: true,
                     },
                 }
             },
             minimize: !!uglify,
             minimizer: [
-                // Override default minimizer to work around an Android issue by setting compress = false
                 new UglifyJsPlugin({
                     uglifyOptions: {
-                        compress: platform !== "android"
+                        parallel: true,
+                        cache: true,
+                        output: {
+                            comments: false,
+                        },
+                        compress: {
+                            // The Android SBG has problems parsing the output
+                            // when these options are enabled
+                            'collapse_vars': platform !== "android",
+                            sequences: platform !== "android",
+                        }
                     }
                 })
             ],
         },
         module: {
             rules: [
+                {
+                    test: new RegExp(entryPath),
+                    use: [
+                        // Require all Android app components
+                        platform === "android" && {
+                            loader: "nativescript-dev-webpack/android-app-components-loader",
+                            options: { modules: appComponents }
+                        },
+
+                        {
+                            loader: "nativescript-dev-webpack/bundle-config-loader",
+                            options: {
+                                loadCss: !snapshot, // load the application css if in debug mode
+                            }
+                        },
+                    ].filter(loader => !!loader)
+                },
+
                 { test: /\.html$|\.xml$/, use: "raw-loader" },
 
                 // tns-core-modules reads the app.css and its imports using css-loader
@@ -150,6 +182,13 @@ module.exports = env => {
                         { loader: "@ngtools/webpack", options: ngToolsWebpackOptions },
                     ]
                 },
+
+                // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
+                // Removing this will cause deprecation warnings to appear.
+                {
+                    test: /[\/\\]@angular[\/\\]core[\/\\].+\.js$/,
+                    parser: { system: true },
+                },
             ],
         },
         plugins: [
@@ -177,7 +216,6 @@ module.exports = env => {
             // Generate a bundle starter script and activate it in package.json
             new nsWebpack.GenerateBundleStarterPlugin([
                 "./vendor",
-                "./common",
                 "./bundle",
             ]),
             // Support for web workers since v3.2
@@ -198,24 +236,6 @@ module.exports = env => {
         ],
     };
 
-    if (platform === "android") {
-        // Add your custom Activities, Services and other android app components here.
-        const appComponents = [
-            "tns-core-modules/ui/frame",
-            "tns-core-modules/ui/frame/activity",
-        ];
-
-        // Require all Android app components
-        // in the entry module (bundle.ts) and the vendor module (vendor.ts).
-        config.module.rules.unshift({
-            test: new RegExp(`${entryPath}|${vendorPath}`),
-            use: {
-                loader: "nativescript-dev-webpack/android-app-components-loader",
-                options: { modules: appComponents }
-            }
-        });
-    }
-
     if (report) {
         // Generate report files for bundles content
         config.plugins.push(new BundleAnalyzerPlugin({
@@ -229,11 +249,18 @@ module.exports = env => {
 
     if (snapshot) {
         config.plugins.push(new nsWebpack.NativeScriptSnapshotPlugin({
-            chunks: [ "vendor", "common" ],
+            chunk: "vendor",
+            requireModules: [
+                "reflect-metadata",
+                "@angular/platform-browser",
+                "@angular/core",
+                "@angular/common",
+                "@angular/router",
+                "nativescript-angular/platform-static",
+                "nativescript-angular/router",
+            ],
             projectRoot,
             webpackConfig: config,
-            targetArchs: ["arm", "arm64", "ia32"],
-            useLibs: false
         }));
     }
 
