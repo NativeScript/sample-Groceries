@@ -5,3 +5,6 @@ input {
 img[src*=gif] {
   height: 50px;
 }
+.big {
+  margin-right: 10px;
+}

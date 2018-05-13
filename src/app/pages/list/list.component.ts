@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Grocery } from "../../shared/grocery/grocery";
-import { GroceryStore } from "../../shared/grocery/grocery-list.service";
-import { Config } from "../../shared/config";
+import { Grocery } from "../../shared/grocery/grocery.model";
+import { GroceryListService } from "../../shared/grocery/grocery-list.service";
+import { BackendService } from "../../shared/backend.service";
 import { GroceryList } from "./grocery-list.component";
 
 @Component({
   selector: "list",
   templateUrl: "./list.html",
   styleUrls: ["./list.css"],
-  providers: [GroceryStore]
+  providers: [GroceryListService]
 })
 export class ListComponent implements OnInit {
   grocery: string = "";
@@ -18,10 +18,10 @@ export class ListComponent implements OnInit {
   isLoading = false;
   isShowingRecent = false;
 
-  constructor(private _router: Router, private store: GroceryStore) {}
+  constructor(private _router: Router, private store: GroceryListService) {}
 
   ngOnInit() {
-    if (!Config.token) {
+    if (!BackendService.token) {
       this._router.navigate(["Login"]);
       return;
     }
@@ -48,14 +48,6 @@ export class ListComponent implements OnInit {
   }
 
   toggleRecent() {
-    if (this.isShowingRecent) {
-      this.store.restore()
-        .subscribe(
-          () => { this.isShowingRecent = false },
-          () => { alert("An error occurred while adding groceries to your list.") }
-        )
-    } else {
-      this.isShowingRecent = true;
-    }
+    this.isShowingRecent = !this.isShowingRecent;
   }
 }

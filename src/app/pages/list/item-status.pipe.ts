@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-import { Grocery } from "../../shared/grocery/grocery";
+import { Grocery } from "../../shared/grocery/grocery.model";
 
 @Pipe({
   name: "itemStatus"

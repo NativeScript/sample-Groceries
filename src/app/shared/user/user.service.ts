@@ -1,69 +1,66 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
-import { Observable } from "rxjs";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/map";
+import { HttpHeaders, HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { tap, map, catchError } from "rxjs/operators";
 
-import { User } from "./user";
-import { Config } from "../config";
+import { User } from "./user.model";
+import { BackendService } from "../backend.service";
 
 @Injectable()
 export class UserService {
-  constructor(private _http: Http) {}
+  constructor(private http: HttpClient) { }
 
   register(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "Users",
+    return this.http.post(
+      BackendService.baseUrl + "user/" + BackendService.appKey,
       JSON.stringify({
-        Username: user.email,
-        Email: user.email,
-        Password: user.password
+        username: user.email,
+        email: user.email,
+        password: user.password
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
-    .catch(this.handleErrors);
+    .pipe(catchError(this.handleErrors));
   }
 
   login(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "oauth/token",
+    return this.http.post(
+      BackendService.baseUrl + "user/" + BackendService.appKey + "/login",
       JSON.stringify({
         username: user.email,
-        password: user.password,
-        grant_type: "password"
+        password: user.password
       }),
-      { headers: headers }
+      { headers: this.getCommonHeaders() }
     )
-    .map(response => response.json())
-    .do(data => {
-      Config.token = data.Result.access_token;
-    })
-    .catch(this.handleErrors);
+    .pipe(
+      tap((data: any) => {
+        BackendService.token = data._kmd.authtoken;
+      }),
+      catchError(this.handleErrors)
+    );
+  }
+
+  logoff() {
+    BackendService.token = "";
   }
 
   resetPassword(email) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
-    return this._http.post(
-      Config.apiUrl + "Users/resetpassword",
-      JSON.stringify({
-        Email: email
-      }),
-      { headers: headers }
-    )
-    .catch(this.handleErrors);
+    return this.http.post(
+      BackendService.baseUrl + "rpc/" + BackendService.appKey + "/" + email + "/user-password-reset-initiate",
+      {},
+      { headers: this.getCommonHeaders() }
+    ).pipe(catchError(this.handleErrors));
   }
 
-  private handleErrors(error: Response) {
-    console.log(JSON.stringify(error.json()));
-    return Observable.throw(error);
+  private getCommonHeaders() {
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": BackendService.appUserHeader,
+    });
+  }
+
+  private handleErrors(error: HttpErrorResponse) {
+    console.log(JSON.stringify(error));
+    return throwError(error);
   }
 }

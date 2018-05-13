@@ -1,145 +1,140 @@
-import { Injectable } from "@angular/core";
-import { Http, Headers, Response, ResponseOptions } from "@angular/http";
-import { Observable, BehaviorSubject } from "rxjs";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/map";
+import { Injectable, NgZone } from "@angular/core";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+  HttpParams,
+} from "@angular/common/http";
+import { Observable, BehaviorSubject, throwError } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 
-import { Config } from "../config";
-import { Grocery } from "./grocery";
+import { BackendService } from "../backend.service";
+import { Grocery } from "./grocery.model";
 
 @Injectable()
-export class GroceryStore {
-
+export class GroceryListService {
   items: BehaviorSubject<Array<Grocery>> = new BehaviorSubject([]);
-  private _allItems: Array<Grocery> = [];
+  private allItems: Array<Grocery> = [];
+  baseUrl = BackendService.baseUrl + "appdata/" + BackendService.appKey + "/Groceries";
 
-  constructor(private _http: Http) {}
+  constructor(private http: HttpClient, private zone: NgZone) { }
 
   load() {
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Sort", JSON.stringify({ ModifiedAt: -1 }));
+    const params = new HttpParams();
+    params.append("sort", "{\"_kmd.lmt\": -1}");
 
-    return this._http.get(Config.apiUrl + "Groceries", {
-      headers: headers
+    return this.http.get(this.baseUrl, {
+      headers: this.getCommonHeaders(),
+      params,
     })
-    .map(res => res.json())
-    .map(data => {
-      data.Result.forEach((grocery) => {
-        this._allItems.push(
-          new Grocery(
-            grocery.Id,
-            grocery.Name,
-            grocery.Done || false,
-            grocery.Deleted || false
-          )
-        );
-        this.publishUpdates();
-      });
-    })
-    .catch(this.handleErrors);
+    .pipe(
+      map((data: any[]) => {
+        data.forEach((grocery) => {
+          this.allItems.push(
+            new Grocery(
+              grocery._id,
+              grocery.Name,
+              grocery.Done || false,
+              grocery.Deleted || false
+            )
+          );
+          this.publishUpdates();
+        });
+      }),
+      catchError(this.handleErrors)
+    );
   }
 
   add(name: string) {
-    return this._http.post(
-      Config.apiUrl + "Groceries",
+    return this.http.post(
+      this.baseUrl,
       JSON.stringify({ Name: name }),
-      { headers: this.getHeaders() }
+      { headers: this.getCommonHeaders() }
     )
-    .map(res => res.json())
-    .map(data => {
-      this._allItems.unshift(new Grocery(data.Result.Id, name, false, false));
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
-  }
-
-  private _put(id: string, data: Object) {
-    return this._http.put(
-      Config.apiUrl + "Groceries/" + id,
-      JSON.stringify(data),
-      { headers: this.getHeaders() }
-    )
-    .catch(this.handleErrors);
+    .pipe(
+      map((data: any) => {
+        this.allItems.unshift(new Grocery(data._id, name, false, false));
+        this.publishUpdates();
+      }),
+      catchError(this.handleErrors)
+    );
   }
 
   setDeleteFlag(item: Grocery) {
-    return this._put(item.id, { Deleted: true, Done: false })
-      .map(res => res.json())
-      .map(data => {
-        item.deleted = true;
-        item.done = false;
-        this.publishUpdates();
-      });
+    item.deleted = true;
+    return this.put(item)
+      .pipe(
+        map(data => {
+          item.done = false;
+          this.publishUpdates();
+        })
+      );
   }
 
-  restore() {
-    let indeces = [];
-    this._allItems.forEach((grocery) => {
-      if (grocery.deleted && grocery.done) {
-        indeces.push(grocery.id);
-      }
-    });
-
-    let headers = this.getHeaders();
-    headers.append("X-Everlive-Filter", JSON.stringify({
-      "Id": {
-        "$in": indeces
-      }
-    }));
-
-    return this._http.put(
-      Config.apiUrl + "Groceries",
-      JSON.stringify({
-        Deleted: false,
-        Done: false
-      }),
-      { headers: headers }
-    )
-    .map(res => res.json())
-    .map(data => {
-      this._allItems.forEach((grocery) => {
-        grocery.deleting = false;
-        if (grocery.deleted && grocery.done) {
-          grocery.deleted = false;
-          grocery.done = false;
-        }
-      });
-      this.publishUpdates();
-    })
-    .catch(this.handleErrors);
+  unsetDeleteFlag(item: Grocery) {
+    item.deleted = false;
+    return this.put(item)
+      .pipe(
+        map(data => {
+          item.done = false;
+          this.publishUpdates();
+        })
+      );
   }
+
 
   toggleDoneFlag(item: Grocery) {
-    return this._put(item.id, { Done: !item.done })
-      .map(res => res.json())
-      .map(data => {
-        item.done = !item.done;
-        this.publishUpdates();
-      });
+    item.done = !item.done;
+    this.publishUpdates();
+    return this.put(item);
   }
 
-  deleteForever(item: Grocery) {
-    return this._http.delete(
-      Config.apiUrl + "Groceries/" + item.id,
-      { headers: this.getHeaders() }
+  permanentlyDelete(item: Grocery) {
+    return this.http
+      .delete(
+        this.baseUrl + "/" + item.id,
+        { headers: this.getCommonHeaders() }
+      )
+      .pipe(
+        map(data => {
+          let index = this.allItems.indexOf(item);
+          this.allItems.splice(index, 1);
+          this.publishUpdates();
+        }),
+        catchError(this.handleErrors)
+      );
+  }
+
+  private put(grocery: Grocery) {
+    return this.http.put(
+      this.baseUrl + "/" + grocery.id,
+      JSON.stringify({
+        Name: grocery.name,
+        Done: grocery.done,
+        Deleted: grocery.deleted
+      }),
+      { headers: this.getCommonHeaders() }
     )
-    .map(res => res.json())
-    .catch(this.handleErrors);
+    .pipe(catchError(this.handleErrors));
   }
 
-  getHeaders() {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Bearer " + Config.token);
-    return headers;
+  private publishUpdates() {
+    // Make sure all updates are published inside NgZone so that change detection is triggered if needed
+    this.zone.run(() => {
+      // must emit a *new* value (immutability!)
+      this.items.next([...this.allItems]);
+    });
   }
 
-  publishUpdates() {
-    this.items.next([...this._allItems]);
+  private getCommonHeaders() {
+    return new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": "Kinvey " + BackendService.token,
+    });
   }
 
-  private handleErrors(error: Response) {
-    console.log(JSON.stringify(error.json()));
-    return Observable.throw(error);
+  private handleErrors(error: HttpErrorResponse) {
+    console.log(error);
+    return throwError(error);
   }
 }

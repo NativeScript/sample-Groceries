@@ -5,6 +5,7 @@ li {
 }
 li img {
   height: 30px;
+  cursor: pointer;
 }
 li span {
   flex-grow: 1;
