@@ -121,34 +121,29 @@ describe("Groceries", async function () {
     });
 
     it("should delete item from the Groceries list and remove it from Recent", async () => {
-        let allImages;
-        if (isAndroid) {
-            // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
-            allImages = await driver.findElementsByClassName(driver.locators.image);
-            for (let i = 3; i < allImages.length; i = i + 2) {
-                await allImages[3].click(); // Bin button of the first list item
+        
+        const clickOnBinButton = async() =>{
+            if (isAndroid) {
+                // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
+                const allImages = await driver.findElementsByClassName(driver.locators.image);
+                for (let i = 3; i < allImages.length; i = i + 2) {
+                    await allImages[3].click(); // Bin button of the first list item
+                }
+            } else {
+                const allImages = await driver.findElementsByText(fruit);
+                for (let i = 0; i < allImages.length; i++) {
+                    await driver.clickPoint(345, 166); // Bin button of the first list item
+                }
             }
-        } else {
-            allImages = await driver.findElementsByText(fruit);
-            for (let i = 0; i < allImages.length; i++) {
-                await driver.clickPoint(345, 166); // Bin button of the first list item
-            }
+    
         }
 
+        await clickOnBinButton();
+        
         const recentButton = await driver.findElementByText(recentButtonText);
         await recentButton.click();
 
-        if (isAndroid) {
-            allImages = await driver.findElementsByClassName(driver.locators.image);
-            for (let i = 3; i < allImages.length; i = i + 2) {
-                await allImages[3].click(); // Bin button of the first list item
-            }
-        } else {
-            allImages = await driver.findElementsByText(fruit);
-            for (let i = 0; i < allImages.length; i++) {
-                await driver.clickPoint(345, 166); // Bin button of the first list item
-            }
-        }
+        await clickOnBinButton();
 
         const appleListItemXpath = await driver.elementHelper.getXPathByText(fruit, SearchOptions.contains);
         const appleItem = await driver.findElementByXPathIfExists(appleListItemXpath, 10000);

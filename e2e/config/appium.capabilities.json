@@ -89,7 +89,7 @@
     },
     "sim.iPhone8": {
         "platformName": "iOS",
-        "platformVersion": "11.3",
+        "platformVersion": "11.2",
         "deviceName": "iPhone 8",
         "noReset": true,
         "fullReset": false,
