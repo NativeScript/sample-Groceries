@@ -28,8 +28,6 @@
         "platformVersion": "6.0",
         "deviceName": "Android Emulator",
         "appium-version": "1.7.1",
-        "appPackage": "org.nativescript.groceries",
-        "appActivity": "com.tns.NativeScriptActivity",
         "noReset": true,
         "resetKeyboard": true,
         "app": ""
@@ -95,8 +93,7 @@
         "fullReset": false,
         "app": "",
         "density": 2, 
-        "offsetPixels": 33,
-        "bundleId": "org.nativescript.groceries"
+        "offsetPixels": 33
     },
     "sim.iPhoneX.iOS110": {
         "platformName": "iOS",

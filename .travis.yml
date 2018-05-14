@@ -1,6 +1,6 @@
 env:
   global:
-    - ANDROID_PACKAGE='groceries.apk'
+    - ANDROID_PACKAGE='sampleGroceries.apk'
     - ANDROID_PACKAGE_FOLDER=$TRAVIS_BUILD_DIR/platforms/android/app/build/outputs/apk/debug/
     - ANDROID_SAUCE_STORAGE="https://saucelabs.com/rest/v1/storage/$SAUCE_USER/$ANDROID_PACKAGE?overwrite=true"
     - IOS_PACKAGE='sampleGroceries.zip'
