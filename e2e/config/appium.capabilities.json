@@ -91,7 +91,9 @@
         "deviceName": "iPhone 8",
         "noReset": true,
         "fullReset": false,
-        "app": ""
+        "app": "",
+        "density": 2, 
+        "offsetPixels": 33
     },
     "sim.iPhoneX.iOS110": {
         "platformName": "iOS",
