@@ -26,7 +26,7 @@
     "android23": {
         "platformName": "Android",
         "platformVersion": "6.0",
-        "deviceName": "Emulator-Api23-Default",
+        "deviceName": "Android Emulator",
         "appium-version": "1.7.1",
         "appPackage": "org.nativescript.groceries",
         "appActivity": "com.tns.NativeScriptActivity",
@@ -95,7 +95,8 @@
         "fullReset": false,
         "app": "",
         "density": 2, 
-        "offsetPixels": 33
+        "offsetPixels": 33,
+        "bundleId": "org.nativescript.groceries"
     },
     "sim.iPhoneX.iOS110": {
         "platformName": "iOS",
