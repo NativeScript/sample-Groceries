@@ -25,6 +25,31 @@ describe("Groceries", async function () {
     const forgotPasswordButtonText = "Forgot";
     const forgotPasswordFormText = "reset";
 
+    const clickOnCrossCheckboxBtn = async ()=>{
+        if (isAndroid) {
+            // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
+            const allImages = await driver.findElementsByClassName(driver.locators.image);
+            await allImages[2].click(); // Checkbox button
+        } else {
+            await driver.clickPoint(26, 160); // Checkbox button
+        }
+    }
+
+    const clickOnBinButton = async() =>{
+        if (isAndroid) {
+            // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
+            const allImages = await driver.findElementsByClassName(driver.locators.image);
+            for (let i = 3; i < allImages.length; i = i + 2) {
+                await allImages[3].click(); // Bin button of the first list item
+            }
+        } else {
+            const allImages = await driver.findElementsByText(fruit);
+            for (let i = 0; i < allImages.length; i++) {
+                await driver.clickPoint(345, 166); // Bin button of the first list item
+            }
+        }
+    }
+
     before(async () => {
         driver = await createDriver();
         driver.defaultWaitTime = 15000;
@@ -74,26 +99,14 @@ describe("Groceries", async function () {
     });
 
     it("should mark element as Done", async () => {
-        if (isAndroid) {
-            // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
-            const allImages = await driver.findElementsByClassName(driver.locators.image);
-            await allImages[2].click(); // Checkbox button
-        } else {
-            await driver.clickPoint(26, 160); // Checkbox button
-        }
+        await clickOnCrossCheckboxBtn();
         const appleItem = await driver.findElementByText(fruit);
         const isItemDone = await driver.compareElement(appleItem, "itemDone", 0.07);
         expect(isItemDone).to.be.true;
     });
 
     it("should delete item from the list", async () => {
-        if (isAndroid) {
-            // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
-            const allImages = await driver.findElementsByClassName(driver.locators.image);
-            await allImages[3].click(); // Bin button
-        } else {
-            await driver.clickPoint(345, 166); // Bin button
-        }
+        await clickOnBinButton();
         const appleListItemXpath = await driver.elementHelper.getXPathByText(fruit, SearchOptions.exact);
         const appleItem = await driver.findElementByXPathIfExists(appleListItemXpath, 10000);
         expect(appleItem).to.be.undefined;
@@ -107,13 +120,7 @@ describe("Groceries", async function () {
     });
 
     it("should return back an item from the Recent list", async () => {
-        if (isAndroid) {
-            // First image is the menu, second is the cross button. The rest are pairs cross/bin per list item.
-            const allImages = await driver.findElementsByClassName(driver.locators.image);
-            await allImages[2].click(); // Cross button
-        } else {
-            await driver.clickPoint(26, 160); // Cross button
-        }
+        await clickOnCrossCheckboxBtn();
         const doneButton = await driver.findElementByText(doneButtonText);
         await doneButton.click();
         const appleItem = await driver.findElementByText(fruit);
@@ -121,23 +128,6 @@ describe("Groceries", async function () {
     });
 
     it("should delete item from the Groceries list and remove it from Recent", async () => {
-        
-        const clickOnBinButton = async() =>{
-            if (isAndroid) {
-                // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
-                const allImages = await driver.findElementsByClassName(driver.locators.image);
-                for (let i = 3; i < allImages.length; i = i + 2) {
-                    await allImages[3].click(); // Bin button of the first list item
-                }
-            } else {
-                const allImages = await driver.findElementsByText(fruit);
-                for (let i = 0; i < allImages.length; i++) {
-                    await driver.clickPoint(345, 166); // Bin button of the first list item
-                }
-            }
-    
-        }
-
         await clickOnBinButton();
         
         const recentButton = await driver.findElementByText(recentButtonText);
