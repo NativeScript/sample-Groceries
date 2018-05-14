@@ -25,7 +25,7 @@ describe("Groceries", async function () {
     const forgotPasswordButtonText = "Forgot";
     const forgotPasswordFormText = "reset";
 
-    const clickOnCrossCheckboxBtn = async ()=>{
+    const clickOnCrossOrCheckboxBtn = async () => {
         if (isAndroid) {
             // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
             const allImages = await driver.findElementsByClassName(driver.locators.image);
@@ -33,9 +33,9 @@ describe("Groceries", async function () {
         } else {
             await driver.clickPoint(26, 160); // Checkbox button
         }
-    }
+    };
 
-    const clickOnBinButton = async() =>{
+    const clickOnBinButton = async () => {
         if (isAndroid) {
             // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
             const allImages = await driver.findElementsByClassName(driver.locators.image);
@@ -48,7 +48,7 @@ describe("Groceries", async function () {
                 await driver.clickPoint(345, 166); // Bin button of the first list item
             }
         }
-    }
+    };
 
     before(async () => {
         driver = await createDriver();
@@ -99,7 +99,7 @@ describe("Groceries", async function () {
     });
 
     it("should mark element as Done", async () => {
-        await clickOnCrossCheckboxBtn();
+        await clickOnCrossOrCheckboxBtn();
         const appleItem = await driver.findElementByText(fruit);
         const isItemDone = await driver.compareElement(appleItem, "itemDone", 0.07);
         expect(isItemDone).to.be.true;
@@ -120,7 +120,7 @@ describe("Groceries", async function () {
     });
 
     it("should return back an item from the Recent list", async () => {
-        await clickOnCrossCheckboxBtn();
+        await clickOnCrossOrCheckboxBtn();
         const doneButton = await driver.findElementByText(doneButtonText);
         await doneButton.click();
         const appleItem = await driver.findElementByText(fruit);
@@ -129,7 +129,6 @@ describe("Groceries", async function () {
 
     it("should delete item from the Groceries list and remove it from Recent", async () => {
         await clickOnBinButton();
-        
         const recentButton = await driver.findElementByText(recentButtonText);
         await recentButton.click();
 
