@@ -28,7 +28,7 @@ matrix:
       node_js: "8"
       jdk: oraclejdk8
       script:
-        - tns build ios --env.aot --env.uglify --env.report
+        - tns build ios --env.aot --env.uglify
         - cd $IOS_PACKAGE_FOLDER && zip -r $IOS_PACKAGE $IOS_APP_NAME
         - "curl -u $SAUCE_USER:$SAUCE_KEY -X POST -H 'Content-Type: application/octet-stream' $IOS_SAUCE_STORAGE --data-binary @$IOS_PACKAGE_FOLDER/$IOS_PACKAGE"
     - language: android
@@ -38,7 +38,7 @@ matrix:
       jdk: oraclejdk8
       before_install: nvm install 8.9.1
       script:
-        - tns build android --env.aot --env.uglify --env.report --env.snapshot
+        - tns build android --env.aot --env.uglify --env.snapshot
         - "curl -u $SAUCE_USER:$SAUCE_KEY -X POST -H 'Content-Type: application/octet-stream' $ANDROID_SAUCE_STORAGE --data-binary @$ANDROID_PACKAGE_FOLDER/app-debug.apk"
     - stage: "UI Tests"
       env:
