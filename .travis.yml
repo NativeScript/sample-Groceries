@@ -12,7 +12,7 @@ branches:
     - master
 matrix:
   include:
-   - stage: "Lint"
+    - stage: "Lint"
       language: node_js
       os: linux
       node_js: "8"
@@ -32,7 +32,7 @@ matrix:
         - cd $IOS_PACKAGE_FOLDER && zip -r $IOS_PACKAGE $IOS_APP_NAME
         - "curl -u $SAUCE_USER:$SAUCE_KEY -X POST -H 'Content-Type: application/octet-stream' $IOS_SAUCE_STORAGE --data-binary @$IOS_PACKAGE_FOLDER/$IOS_PACKAGE"
     - language: android
-      env: 
+      env:
         - BuildAndroid="26"
       os: linux
       jdk: oraclejdk8
