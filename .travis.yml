@@ -1,10 +1,10 @@
 env:
   global:
-    - ANDROID_PACKAGE='groceries.apk'
+    - ANDROID_PACKAGE='sampleGroceries.apk'
     - ANDROID_PACKAGE_FOLDER=$TRAVIS_BUILD_DIR/platforms/android/app/build/outputs/apk/debug/
     - ANDROID_SAUCE_STORAGE="https://saucelabs.com/rest/v1/storage/$SAUCE_USER/$ANDROID_PACKAGE?overwrite=true"
-    - IOS_PACKAGE='groceries.zip'
-    - IOS_APP_NAME='groceries.app'
+    - IOS_PACKAGE='sampleGroceries.zip'
+    - IOS_APP_NAME='sampleGroceries.app'
     - IOS_PACKAGE_FOLDER=$TRAVIS_BUILD_DIR/platforms/ios/build/emulator
     - IOS_SAUCE_STORAGE="https://saucelabs.com/rest/v1/storage/$SAUCE_USER/$IOS_PACKAGE?overwrite=true"
 branches:
