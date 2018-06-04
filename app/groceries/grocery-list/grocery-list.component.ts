@@ -24,8 +24,11 @@ export class GroceryListComponent {
 
   constructor(store: GroceryService) {
       this.store = store;
+      
   }
-
+  ngAfterViewInit(){
+    this.load();
+  }
   load() {
     this.loading.next("");
     this.store.load()
