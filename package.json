@@ -17,11 +17,11 @@
   "homepage": "https://github.com/nativescript/sample-Groceries/groceries",
   "nativescript": {
     "id": "org.nativescript.groceries",
-    "tns-ios": {
-      "version": "4.0.1"
-    },
     "tns-android": {
-      "version": "4.0.0"
+      "version": "4.1.1"
+    },
+    "tns-ios": {
+      "version": "4.1.0"
     }
   },
   "scripts": {
@@ -52,7 +52,7 @@
     "nativescript-unit-test-runner": "^0.3.3",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~6.0.0",
-    "tns-core-modules": "4.0.0",
+    "tns-core-modules": "^4.1.0",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

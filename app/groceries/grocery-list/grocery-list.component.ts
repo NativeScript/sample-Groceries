@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from "@angular/core";
+import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, AfterViewInit } from "@angular/core";
 import * as utils from "utils/utils";
 
 import { Grocery, GroceryService } from "../shared";
@@ -13,7 +13,7 @@ declare var UIColor: any;
   styleUrls: ["./grocery-list.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GroceryListComponent {
+export class GroceryListComponent implements AfterViewInit {
   @Input() showDeleted: boolean;
   @Input() row;
   @Output() loading = new EventEmitter();
@@ -25,7 +25,9 @@ export class GroceryListComponent {
   constructor(store: GroceryService) {
       this.store = store;
   }
-
+  ngAfterViewInit() {
+      this.load();
+  }
   load() {
     this.loading.next("");
     this.store.load()
