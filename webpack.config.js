@@ -42,7 +42,6 @@ module.exports = env => {
         uglify, // --env.uglify
         report, // --env.report
     } = env;
-    const ngToolsWebpackOptions = { tsConfigPath: join(__dirname, "tsconfig.esm.json") };
 
     const appFullPath = resolve(projectRoot, appPath);
     const appResourcesFullPath = resolve(projectRoot, appResourcesPath);
@@ -147,6 +146,7 @@ module.exports = env => {
                         {
                             loader: "nativescript-dev-webpack/bundle-config-loader",
                             options: {
+                                registerPages: false,
                                 loadCss: !snapshot, // load the application css if in debug mode
                             }
                         },
@@ -179,7 +179,7 @@ module.exports = env => {
                 {
                     test: /.ts$/, use: [
                         "nativescript-dev-webpack/moduleid-compat-loader",
-                        { loader: "@ngtools/webpack", options: ngToolsWebpackOptions },
+                        "@ngtools/webpack",
                     ]
                 },
 
@@ -211,26 +211,25 @@ module.exports = env => {
                 { from: "fonts/**" },
                 { from: "**/*.jpg" },
                 { from: "**/*.png" },
-                { from: "**/*.xml" },
             ], { ignore: [`${relative(appPath, appResourcesFullPath)}/**`] }),
             // Generate a bundle starter script and activate it in package.json
             new nsWebpack.GenerateBundleStarterPlugin([
                 "./vendor",
                 "./bundle",
             ]),
-            // Support for web workers since v3.2
+            // For instructions on how to set up workers with webpack
+            // check out https://github.com/nativescript/worker-loader
             new NativeScriptWorkerPlugin(),
             // AngularCompilerPlugin with augmented NativeScript filesystem to handle platform specific resource resolution.
-            new nsWebpack.NativeScriptAngularCompilerPlugin(
-                Object.assign({
-                    entryModule: resolve(appPath, "app.module#AppModule"),
-                    skipCodeGeneration: !aot,
-                    platformOptions: {
-                        platform,
-                        platforms,
-                    },
-                }, ngToolsWebpackOptions)
-            ),
+            new nsWebpack.NativeScriptAngularCompilerPlugin({
+                entryModule: resolve(appPath, "app.module#AppModule"),
+                tsConfigPath: join(__dirname, "tsconfig.esm.json"),
+                skipCodeGeneration: !aot,
+                platformOptions: {
+                    platform,
+                    platforms,
+                },
+            }),
             // Does IPC communication with the {N} CLI to notify events when running in watch mode.
             new nsWebpack.WatchStateLoggerPlugin(),
         ],
