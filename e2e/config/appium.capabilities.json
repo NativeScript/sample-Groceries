@@ -27,7 +27,7 @@
         "platformName": "Android",
         "platformVersion": "6.0",
         "deviceName": "Android Emulator",
-        "appium-version": "1.7.1",
+        "appiumVersion": "1.8.0",
         "noReset": true,
         "resetKeyboard": true,
         "app": ""
@@ -91,9 +91,7 @@
         "deviceName": "iPhone 8",
         "noReset": true,
         "fullReset": false,
-        "app": "",
-        "density": 2, 
-        "offsetPixels": 33
+        "app": ""
     },
     "sim.iPhoneX.iOS110": {
         "platformName": "iOS",

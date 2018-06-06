@@ -49,7 +49,7 @@ matrix:
       script:
         - npm i -g appium
         - npm i
-        - travis_retry npm run e2e -- --runType android23 --sauceLab  --appPath $ANDROID_PACKAGE
+        - travis_retry npm run e2e -- --runType android23 --sauceLab --appPath $ANDROID_PACKAGE -v
     - os: linux
       env: 
         - iOS="11"
@@ -58,7 +58,7 @@ matrix:
       script: 
         - npm i -g appium
         - npm i
-        - travis_wait travis_retry npm run e2e -- --runType sim.iPhone8 --sauceLab --appPath $IOS_PACKAGE
+        - travis_wait travis_retry npm run e2e -- --runType sim.iPhone8 --sauceLab --appPath $IOS_PACKAGE -v
 android:
   components:
     - tools
