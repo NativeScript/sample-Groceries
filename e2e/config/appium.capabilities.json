@@ -27,7 +27,8 @@
         "platformName": "Android",
         "platformVersion": "6.0",
         "deviceName": "Android Emulator",
-        "appiumVersion": "1.8.0",
+        "appiumVersion": "1.8.1",
+        "relaxed-security": true,
         "noReset": true,
         "resetKeyboard": true,
         "app": ""
