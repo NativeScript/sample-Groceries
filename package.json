@@ -56,9 +56,9 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/core": "~0.6.3",
+    "@angular-devkit/core": "~0.7.0-beta.1",
     "@angular/compiler-cli": "~6.0.0",
-    "@ngtools/webpack": "~6.0.3",
+    "@ngtools/webpack": "~6.1.0-beta.1",
     "@types/chai": "^4.0.2",
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.5",
@@ -79,7 +79,7 @@
     "nativescript-css-loader": "~0.26.0",
     "nativescript-dev-appium": "~3.2.0",
     "nativescript-dev-typescript": "^0.6.0",
-    "nativescript-dev-webpack": "^0.12.0",
+    "nativescript-dev-webpack": "^0.13.0",
     "nativescript-worker-loader": "~0.9.0",
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.3.0",
