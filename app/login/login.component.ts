@@ -6,7 +6,6 @@ import { Animation } from "ui/animation";
 import { View } from "ui/core/view";
 import { prompt } from "ui/dialogs";
 import { Page } from "ui/page";
-import { TextField } from "ui/text-field";
 
 import { alert, LoginService, User } from "../shared";
 
@@ -96,9 +95,8 @@ export class LoginComponent implements OnInit {
           this.isAuthenticating = false;
           this.toggleDisplay();
         },
-        (message) => {
-          // TODO: Verify this works
-          if (message.match(/same user/)) {
+        (errorDetails) => {
+          if (errorDetails.error && errorDetails.error.error == "UserAlreadyExists") {
             alert("This email address is already in use.");
           } else {
             alert("Unfortunately we were unable to create your account.");
