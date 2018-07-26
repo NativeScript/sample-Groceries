@@ -1,0 +1,7 @@
+{
+  "appResourcesPath": "App_Resources",
+  "appPath": "src",
+  "nsext": ".tns",
+  "webext": "",
+  "shared": true
+}

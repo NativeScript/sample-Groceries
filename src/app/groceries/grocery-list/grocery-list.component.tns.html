@@ -1,0 +1,34 @@
+<ListView
+  [row]="row"
+  [class.visible]="listLoaded"
+  [items]="store.items | async | itemStatus:showDeleted"
+  (itemLoading)="makeBackgroundTransparent($event)" >
+  <ng-template let-item="item">
+    <GridLayout
+      columns="*, auto"
+      class="container"
+      [opacity]="item.done ? '0.8' : '1'">
+      <!-- Wrap in containers for bigger tap targets -->
+      <StackLayout
+        col="0"
+        orientation="horizontal"
+        class="tap-target"
+        (tap)="toggleDone(item)">
+        <Image
+          [src]="imageSource(item)"
+          class="check-box"></Image>
+        <Label
+          [text]="item.name"
+          [class.line-through]="item.done && !item.deleted"></Label>
+      </StackLayout>
+      <GridLayout
+        col="1"
+        class="delete-container"
+        (tap)="delete(item)">
+        <StackLayout>
+          <Image src="res://delete"></Image>
+        </StackLayout>
+      </GridLayout>
+    </GridLayout>
+  </ng-template>
+</ListView>

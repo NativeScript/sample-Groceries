@@ -3,7 +3,6 @@ const { join, relative, resolve, sep } = require("path");
 const webpack = require("webpack");
 const nsWebpack = require("nativescript-dev-webpack");
 const nativescriptTarget = require("nativescript-dev-webpack/nativescript-target");
-const { PlatformReplacementHost } = require("nativescript-dev-webpack/host/platform");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -23,9 +22,6 @@ module.exports = env => {
         throw new Error("You need to provide a target platform!");
     }
 
-    const extensions = ["tns", platform];
-    const platformHost = new PlatformReplacementHost(extensions);
-
     const projectRoot = __dirname;
 
     // Default destination inside platforms/<platform>/...
@@ -44,6 +40,7 @@ module.exports = env => {
         snapshot, // --env.snapshot
         uglify, // --env.uglify
         report, // --env.report
+        sourceMap, // --env.sourceMap
     } = env;
 
     const appFullPath = resolve(projectRoot, appPath);
@@ -100,7 +97,7 @@ module.exports = env => {
             "fs": "empty",
             "__dirname": false,
         },
-        devtool: "none",
+        devtool: sourceMap ? "inline-source-map" : "none",
         optimization: {
             splitChunks: {
                 cacheGroups: {
@@ -225,10 +222,11 @@ module.exports = env => {
             new NativeScriptWorkerPlugin(),
 
             new AngularCompilerPlugin({
-                host: platformHost,
-                entryModule: resolve(appPath, "app.module#AppModule"),
-                tsConfigPath: join(__dirname, "tsconfig.esm.json"),
+                hostReplacementPaths: nsWebpack.getResolver([platform, "tns"]),
+                entryModule: resolve(appPath, "./app/app.module#AppModule"),
+                tsConfigPath: join(__dirname, aot ? "tsconfig.aot.json" : "tsconfig.tns.json"),
                 skipCodeGeneration: !aot,
+                sourceMap: !!sourceMap,
             }),
             // Does IPC communication with the {N} CLI to notify events when running in watch mode.
             new nsWebpack.WatchStateLoggerPlugin(),

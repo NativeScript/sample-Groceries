@@ -1,26 +1,30 @@
 {
+    "compileOnSave": false,
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "experimentalDecorators": true,
+        "outDir": "./dist/out-tsc",
+        "declaration": false,
+        "moduleResolution": "node",
         "emitDecoratorMetadata": true,
-        "noEmitHelpers": true,
-        "noEmitOnError": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
         "lib": [
+            "es2017",
             "dom",
             "es6",
             "es2015.iterable"
         ],
         "baseUrl": ".",
         "paths": {
+            "~/*": [
+                "app/*"
+            ],
             "*": [
                 "./node_modules/tns-core-modules/*",
                 "./node_modules/*"
             ]
         }
-    },
-    "exclude": [
-        "node_modules",
-        "platforms"
-    ]
+    }
 }

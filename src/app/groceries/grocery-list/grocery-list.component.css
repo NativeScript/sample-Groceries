@@ -1,0 +1,25 @@
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+li img {
+  height: 30px;
+  cursor: pointer;
+}
+li span {
+  flex-grow: 1;
+  display: inline-block;
+  padding: 0 1em;
+}
+.done {
+  text-decoration: line-through;
+}
+li button {
+  background-color: #9C9C9C;
+  font-weight: bold;
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+  padding: 0;
+}

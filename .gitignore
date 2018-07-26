@@ -1,15 +1,41 @@
-npm-debug.log
-.DS_Store
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-*.js.map
-app/**/*.js
-e2e/**/*.js
-e2e/reports/
-hooks/
-lib/
-node_modules/
-platforms/
-tmp/
-typings/
-report/
-test-results.xml
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/hooks
+/platforms
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
