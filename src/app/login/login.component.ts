@@ -8,7 +8,7 @@ import { LoginHelper } from "./login-helper";
   selector: "gr-login",
   moduleId: module.id,
   templateUrl: "./login.component.html",
-  styleUrls: LoginHelper.styleUrls,
+  styleUrls: ["./login-common.css", "./login.component.css"]
 })
 export class LoginComponent implements OnInit {
   helper: LoginHelper;

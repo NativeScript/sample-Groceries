@@ -6,8 +6,6 @@ import { prompt } from "tns-core-modules/ui/dialogs";
 import { topmost } from "tns-core-modules/ui/frame";
 
 export class LoginHelper {
-  static styleUrls = ["./login-common.css", "./login.component.css"];
-
   configureActionBar() {
     topmost().currentPage.actionBarHidden = true;
   }
@@ -16,7 +14,7 @@ export class LoginHelper {
     return getConnectionType() === connectionType.none;
   }
 
-  forgotPassword() {
+  forgotPasswordPrompt() {
     return prompt({
       title: "Forgot Password",
       message: "Enter the email address you used to register for Groceries to reset your password.",

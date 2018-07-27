@@ -1,6 +1,4 @@
 export class LoginHelper {
-  static styleUrls = ["./login-common.css"];
-
   configureActionBar() {}
 
   // TODO: Can we detect connectivity for the web?
