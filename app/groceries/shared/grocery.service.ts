@@ -29,18 +29,14 @@ export class GroceryService {
     })
     .pipe(
       map((data: any[]) => {
-        this.allItems = [];
-        data.forEach((grocery) => {
-          this.allItems.push(
-            new Grocery(
-              grocery._id,
-              grocery.Name,
-              grocery.Done || false,
-              grocery.Deleted || false
-            )
-          );
-          this.publishUpdates();
-        });
+        this.allItems = data.map(
+          grocery => new Grocery(
+            grocery._id,
+            grocery.Name,
+            grocery.Done || false,
+            grocery.Deleted || false
+        ));
+        this.publishUpdates();
       }),
       catchError(this.handleErrors)
     );
