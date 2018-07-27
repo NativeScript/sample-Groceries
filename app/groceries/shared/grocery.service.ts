@@ -20,22 +20,23 @@ export class GroceryService {
   constructor(private http: HttpClient, private zone: NgZone) { }
 
   load() {
-    const params = new HttpParams();
-    params.append("sort", "{\"_kmd.lmt\": -1}");
-
     return this.http.get(this.baseUrl, {
-      headers: this.getCommonHeaders(),
-      params,
+      headers: this.getCommonHeaders()
     })
     .pipe(
       map((data: any[]) => {
-        this.allItems = data.map(
-          grocery => new Grocery(
-            grocery._id,
-            grocery.Name,
-            grocery.Done || false,
-            grocery.Deleted || false
-        ));
+        this.allItems = data
+          .sort((a, b) => {
+            return a._kmd.lmt > b._kmd.lmt ? -1 : 1;
+          })
+          .map(
+            grocery => new Grocery(
+              grocery._id,
+              grocery.Name,
+              grocery.Done || false,
+              grocery.Deleted || false
+          )
+        );
         this.publishUpdates();
       }),
       catchError(this.handleErrors)
