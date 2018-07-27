@@ -29,6 +29,7 @@ export class GroceryService {
     })
     .pipe(
       map((data: any[]) => {
+        this.allItems = [];
         data.forEach((grocery) => {
           this.allItems.push(
             new Grocery(
