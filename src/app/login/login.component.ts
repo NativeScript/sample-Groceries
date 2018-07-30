@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router"
 
 import { alert, LoginService, User } from "../shared";
@@ -10,7 +10,7 @@ import { LoginHelper } from "./login-helper";
   templateUrl: "./login.component.html",
   styleUrls: ["./login-common.css", "./login.component.css"]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   helper: LoginHelper;
   user: User;
   isLoggingIn = true;
@@ -28,15 +28,12 @@ export class LoginComponent implements OnInit {
     this.user = new User();
   }
 
-  ngOnInit() {
-    this.helper.configureActionBar();
-  }
-
   focusPassword() {
     this.password.nativeElement.focus();
   }
 
   startBackgroundAnimation(background) {
+    this.helper.configureActionBar(background.page);
     background.animate({
       scale: { x: 1.1, y: 1.1 },
       duration: 10000

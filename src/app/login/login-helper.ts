@@ -1,5 +1,5 @@
 export class LoginHelper {
-  configureActionBar() {}
+  configureActionBar(page) {}
 
   // TODO: Can we detect connectivity for the web?
   isOffline() { return false; }

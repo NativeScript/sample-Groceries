@@ -3,11 +3,10 @@ import { connectionType, getConnectionType } from "tns-core-modules/connectivity
 import { Animation } from "tns-core-modules/ui/animation";
 import { View } from "tns-core-modules/ui/core/view";
 import { prompt } from "tns-core-modules/ui/dialogs";
-import { topmost } from "tns-core-modules/ui/frame";
 
 export class LoginHelper {
-  configureActionBar() {
-    topmost().currentPage.actionBarHidden = true;
+  configureActionBar(page) {
+    page.actionBarHidden = true;
   }
 
   isOffline() {

@@ -8,7 +8,7 @@
 android {  
   defaultConfig {  
     generatedDensities = []
-    applicationId = "org.nativescript.groceries" 
+    applicationId = "org.nativescript.sampleGroceries" 
     
     //override supported platforms
     // ndk {

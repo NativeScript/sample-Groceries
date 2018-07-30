@@ -1,3 +1,0 @@
---timeout 1000000
---recursive e2e
---exit
