@@ -21,7 +21,7 @@ describe("Groceries", async function () {
     const forgotPasswordFormText = "reset";
 
     const clickOnCrossOrCheckboxBtn = async () => {
-        if (driver.driver.isAndroid) {
+        if (driver.isAndroid) {
             // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
             const allImages = await driver.findElementsByClassName(driver.locators.image);
             await allImages[2].click(); // Checkbox button
@@ -136,7 +136,7 @@ describe("Groceries", async function () {
 
     it("should log off", async () => {
         // First image is the menu, second is the clock/cross button. The rest are pairs checkbox/bin per list item.
-        await driver.driver.sleep(2000);
+        await driver.sleep(2000);
         const allImages = await driver.findElementsByClassName(driver.locators.image);
         await allImages[0].click(); // Menu button
         const logOffButton = await driver.findElementByText(logOffButtonText);
