@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
           this.toggleDisplay();
         },
         (errorDetails) => {
-          if (errorDetails.error && errorDetails.error.error == "UserAlreadyExists") {
+          if (errorDetails.error && errorDetails.error.error === "UserAlreadyExists") {
             alert("This email address is already in use.");
           } else {
             alert("Unfortunately we were unable to create your account.");

@@ -1,10 +1,5 @@
 import { AppiumDriver, createDriver, SearchOptions } from "nativescript-dev-appium";
-import { isSauceLab, runType, capabilitiesName } from "nativescript-dev-appium/lib/parser";
 import { expect } from "chai";
-import { ImageOptions } from "nativescript-dev-appium/lib/image-options";
-
-const isSauceRun = isSauceLab;
-const isAndroid: string = runType.includes("android");
 
 describe("Groceries", async function () {
     let driver: AppiumDriver;
@@ -26,7 +21,7 @@ describe("Groceries", async function () {
     const forgotPasswordFormText = "reset";
 
     const clickOnCrossOrCheckboxBtn = async () => {
-        if (isAndroid) {
+        if (driver.isAndroid) {
             // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
             const allImages = await driver.findElementsByClassName(driver.locators.image);
             await allImages[2].click(); // Checkbox button
@@ -36,7 +31,7 @@ describe("Groceries", async function () {
     };
 
     const clickOnBinButton = async () => {
-        if (isAndroid) {
+        if (driver.isAndroid) {
             // First image is the menu, second is the cross button. The rest are pairs checkbox/bin per list item.
             const allImages = await driver.findElementsByClassName(driver.locators.image);
             for (let i = 3; i < allImages.length; i = i + 2) {
@@ -56,7 +51,7 @@ describe("Groceries", async function () {
     });
 
     after(async () => {
-        if (isSauceRun) {
+        if (driver.nsCapabilities.isSauceLab) {
             driver.sessionId().then(function (sessionId) {
                 console.log("Report: https://saucelabs.com/beta/tests/" + sessionId);
             });
@@ -68,11 +63,11 @@ describe("Groceries", async function () {
     it("should log in", async () => {
         const loginButton = await driver.findElementByText(loginButtonText, SearchOptions.exact);
         await loginButton.click();
-        if (isAndroid) {
+        if (driver.isAndroid) {
             const allFields = await driver.findElementsByClassName(driver.locators.getElementByName("textfield"));
             await allFields[0].sendKeys(email);
             await allFields[1].sendKeys(password);
-            if (isSauceLab) {
+            if (driver.nsCapabilities.isSauceLab) {
                 await driver.driver.hideDeviceKeyboard("Done");
             }
         } else {
@@ -141,7 +136,7 @@ describe("Groceries", async function () {
 
     it("should log off", async () => {
         // First image is the menu, second is the clock/cross button. The rest are pairs checkbox/bin per list item.
-        await driver.driver.sleep(2000);
+        await driver.sleep(2000);
         const allImages = await driver.findElementsByClassName(driver.locators.image);
         await allImages[0].click(); // Menu button
         const logOffButton = await driver.findElementByText(logOffButtonText);
@@ -155,8 +150,8 @@ describe("Groceries", async function () {
         await loginButton.click();
         const usernameField = await driver.findElementByClassName(driver.locators.getElementByName("textfield"));
         await usernameField.sendKeys(invalidEmail);
-        if (isAndroid) {
-            if (isSauceLab) {
+        if (driver.isAndroid) {
+            if (driver.nsCapabilities.isSauceLab) {
                 await driver.driver.hideDeviceKeyboard("Done");
             }
         } else {
