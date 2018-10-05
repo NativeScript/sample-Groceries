@@ -1,12 +1,14 @@
 <GridLayout>
 
   <GridLayout #background
+    iosOverflowSafeArea="false"
     scaleX="1.4"
     scaleY="1.4"
     class="background"
     (loaded)="startBackgroundAnimation(background)"></GridLayout>
 
   <StackLayout #initialContainer
+    iosOverflowSafeArea="false"
     class="initial-container">
     <Image
       src="res://logo_login"
@@ -25,6 +27,7 @@
   </StackLayout>
 
   <StackLayout #mainContainer
+    iosOverflowSafeArea="false"
     class="main-container">
     <Label
       class="main-label"
