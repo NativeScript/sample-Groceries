@@ -18,10 +18,10 @@
   "nativescript": {
     "id": "org.nativescript.groceries",
     "tns-android": {
-      "version": "4.1.1"
+      "version": "4.2.0"
     },
     "tns-ios": {
-      "version": "4.1.0"
+      "version": "4.2.0"
     }
   },
   "scripts": {
@@ -34,30 +34,33 @@
     "publish-ios-bundle": "npm run ns-bundle --ios --publish-app",
     "generate-android-snapshot": "generate-android-snapshot --targetArchs arm,arm64,ia32 --install",
     "e2e": "tsc -p e2e && mocha --opts ./e2e/config/mocha.opts",
-    "watch-tests": "tsc -p e2e --watch"
+    "watch-tests": "tsc -p e2e --watch",
+    "update-app-ng-deps": "update-app-ng-deps",
+    "ns-verify-bundle": "ns-verify-bundle",
+    "update-ns-webpack": "update-ns-webpack"
   },
   "dependencies": {
-    "@angular/common": "~6.0.6",
-    "@angular/compiler": "~6.0.6",
-    "@angular/core": "~6.0.6",
-    "@angular/forms": "~6.0.6",
-    "@angular/http": "~6.0.6",
-    "@angular/platform-browser": "~6.0.6",
-    "@angular/platform-browser-dynamic": "~6.0.6",
-    "@angular/router": "~6.0.6",
+    "@angular/common": "~6.1.0",
+    "@angular/compiler": "~6.1.0",
+    "@angular/core": "~6.1.0",
+    "@angular/forms": "~6.1.0",
+    "@angular/http": "~6.1.0",
+    "@angular/platform-browser": "~6.1.0",
+    "@angular/platform-browser-dynamic": "~6.1.0",
+    "@angular/router": "~6.1.0",
     "email-validator": "^1.0.7",
-    "nativescript-angular": "~6.0.6",
+    "nativescript-angular": "~6.1.0",
     "nativescript-iqkeyboardmanager": "~1.2.0",
     "nativescript-social-share": "~1.4.0",
     "nativescript-unit-test-runner": "^0.3.3",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~6.1.0",
-    "tns-core-modules": "~4.1.0",
+    "tns-core-modules": "~4.2.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@ngtools/webpack": "6.1.0-rc.0",
-    "@angular/compiler-cli": "~6.1.0-beta.1",
+    "@angular/compiler-cli": "~6.1.0",
+    "@ngtools/webpack": "~6.2.0",
     "@types/chai": "^4.0.2",
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.5",
@@ -73,8 +76,8 @@
     "lazy": "1.0.11",
     "nativescript-css-loader": "~0.26.0",
     "nativescript-dev-appium": "~4.0.6",
-    "nativescript-dev-typescript": "^0.6.0",
-    "nativescript-dev-webpack": "^0.14.0",
+    "nativescript-dev-typescript": "~0.7.4",
+    "nativescript-dev-webpack": "~0.16.2",
     "tslint": "^5.4.2",
     "typescript": "~2.7.2"
   }
