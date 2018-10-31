@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders, HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { tap, map, catchError } from "rxjs/operators";
+import { throwError } from "rxjs";
+import { tap, catchError } from "rxjs/operators";
 
 import { User } from "./user.model";
 import { BackendService } from "./backend.service";

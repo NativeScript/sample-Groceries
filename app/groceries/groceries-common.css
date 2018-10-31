@@ -1,3 +1,10 @@
+.background {
+  background-image: url("res://bg_inner");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .action-bar-custom {
   color: white;
   margin-top: 26;
@@ -7,12 +14,13 @@
   font-size: 21;
   font-weight: bold;
 }
-.action-bar-custom StackLayout {
+.action-bar-custom GridLayout {
   height: 40;
   padding-left: 15;
   padding-right: 15;
+}
+.action-bar-custom GridLayout Image {
   vertical-align: center;
-  horizontal-align: center;
 }
 
 .add-bar {

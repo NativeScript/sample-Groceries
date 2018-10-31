@@ -2,12 +2,7 @@
 
 Page {
   font-size: 15;
-}
-.list-page {
-  background-image: url("res://bg_inner");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-color: black;
 }
 ActionBar {
   background-color: black;
