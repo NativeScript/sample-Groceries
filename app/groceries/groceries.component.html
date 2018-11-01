@@ -1,4 +1,5 @@
 <GridLayout #container
+  class="background"
   rows="auto, auto, *">
 
   <!-- Row 1: The custom action bar -->
@@ -11,13 +12,13 @@
       text="Groceries"></Label>
     
     <!-- Wrap the image in a StackLayout to give it a bigger tap target -->
-    <StackLayout
+    <GridLayout
       col="2"
       (tap)="showMenu()">
       <Image
         src="res://menu"
         stretch="none"></Image>
-    </StackLayout>
+    </GridLayout>
   </GridLayout>
 
   <!-- Row 2: The text field to add groceries, and recent button -->

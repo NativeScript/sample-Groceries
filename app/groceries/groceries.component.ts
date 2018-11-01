@@ -31,7 +31,6 @@ export class GroceriesComponent implements OnInit {
 
   ngOnInit() {
     this.page.actionBarHidden = true;
-    this.page.className = "list-page";
   }
 
   // Prevent the first textfield from receiving focus on Android

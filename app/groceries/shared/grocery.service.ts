@@ -3,9 +3,8 @@ import {
   HttpClient,
   HttpHeaders,
   HttpErrorResponse,
-  HttpParams,
 } from "@angular/common/http";
-import { Observable, BehaviorSubject, throwError } from "rxjs";
+import { BehaviorSubject, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
 import { BackendService } from "../../shared";
