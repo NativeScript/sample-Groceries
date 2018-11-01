@@ -21,7 +21,7 @@ matrix:
     - stage: "Build"
       os: osx
       env: 
-        - BuildiOS="11"
+        - BuildiOS="12"
         - Xcode="10.0"
       osx_image: xcode10.0
       language: node_js 
@@ -77,6 +77,6 @@ cache:
         - $HOME/.gradle/wrapper/
 
 install:
-    - echo no | npm install -g nativescript
+    - echo no | npm install -g nativescript@next
     - tns usage-reporting disable
     - tns error-reporting disable
