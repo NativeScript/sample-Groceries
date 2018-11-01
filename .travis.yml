@@ -23,7 +23,7 @@ matrix:
       env: 
         - BuildiOS="12"
         - Xcode="10.0"
-      osx_image: xcode10.0
+      osx_image: xcode10
       language: node_js 
       node_js: "8"
       jdk: oraclejdk8
@@ -77,6 +77,6 @@ cache:
         - $HOME/.gradle/wrapper/
 
 install:
-    - echo no | npm install -g nativescript@next
+    - echo no | npm install -g nativescript@next --ignore-scripts
     - tns usage-reporting disable
     - tns error-reporting disable
