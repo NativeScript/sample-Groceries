@@ -77,6 +77,7 @@ cache:
         - $HOME/.gradle/wrapper/
 
 install:
+    - pip install six
     - echo no | npm install -g nativescript@next --ignore-scripts
     - tns usage-reporting disable
     - tns error-reporting disable
