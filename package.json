@@ -54,7 +54,7 @@
     "nativescript-social-share": "~1.5.1",
     "nativescript-unit-test-runner": "^0.3.3",
     "reflect-metadata": "~0.1.8",
-    "rxjs": "^6.3.3",
+    "rxjs": "~6.3.3",
     "tns-core-modules": "~5.0.0",
     "zone.js": "^0.8.26"
   },
