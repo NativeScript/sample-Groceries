@@ -7,13 +7,6 @@ declare var UIStatusBarStyle: any;
 declare var UIApplication: any;
 
 export function setStatusBarColors() {
-  // Make the iOS status bar transparent with white text.
-  if (application.ios) {
-    application.on("launch", () => {
-      utils.ios.getter(UIApplication, UIApplication.sharedApplication).statusBarStyle = UIStatusBarStyle.LightContent;
-    });
-  }
-
   // Make the Android status bar transparent.
   // See http://bradmartin.net/2016/03/10/fullscreen-and-navigation-bar-color-in-a-nativescript-android-app/
   // for details on the technique used.
