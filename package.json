@@ -40,16 +40,16 @@
     "update-ns-webpack": "update-ns-webpack"
   },
   "dependencies": {
-    "@angular/common": "~7.2.0",
-    "@angular/compiler": "~7.2.0",
-    "@angular/core": "~7.2.0",
-    "@angular/forms": "~7.2.0",
-    "@angular/http": "~7.2.0",
-    "@angular/platform-browser": "~7.2.0",
-    "@angular/platform-browser-dynamic": "~7.2.0",
-    "@angular/router": "~7.2.0",
+    "@angular/common": "8.0.0-rc.4",
+    "@angular/compiler": "8.0.0-rc.4",
+    "@angular/core": "8.0.0-rc.4",
+    "@angular/forms": "8.0.0-rc.4",
+    "@angular/http": "8.0.0-beta.10",
+    "@angular/platform-browser": "8.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "8.0.0-rc.4",
+    "@angular/router": "8.0.0-rc.4",
     "email-validator": "^2.0.4",
-    "nativescript-angular": "~7.2.0",
+    "nativescript-angular": "8.0.0-rc.4",
     "nativescript-iqkeyboardmanager": "~1.3.0",
     "nativescript-social-share": "~1.5.1",
     "nativescript-unit-test-runner": "^0.3.3",
@@ -81,6 +81,6 @@
     "nativescript-dev-typescript": "~0.7.9",
     "nativescript-dev-webpack": "~0.19.1",
     "tslint": "^5.4.2",
-    "typescript": "~3.1.1"
+    "typescript": "~3.4.5"
   }
 }
