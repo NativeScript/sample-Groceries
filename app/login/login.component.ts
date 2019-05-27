@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit {
   isLoggingIn = true;
   isAuthenticating = false;
 
-  @ViewChild("initialContainer") initialContainer: ElementRef;
-  @ViewChild("mainContainer") mainContainer: ElementRef;
-  @ViewChild("logoContainer") logoContainer: ElementRef;
-  @ViewChild("formControls") formControls: ElementRef;
-  @ViewChild("signUpStack") signUpStack: ElementRef;
-  @ViewChild("password") password: ElementRef;
+  @ViewChild("initialContainer", { read: ElementRef, static: false }) initialContainer: ElementRef;
+  @ViewChild("mainContainer", { read: ElementRef, static: false }) mainContainer: ElementRef;
+  @ViewChild("logoContainer", { read: ElementRef, static: false }) logoContainer: ElementRef;
+  @ViewChild("formControls", { read: ElementRef, static: false }) formControls: ElementRef;
+  @ViewChild("signUpStack", { read: ElementRef, static: false }) signUpStack: ElementRef;
+  @ViewChild("password", { read: ElementRef, static: false }) password: ElementRef;
 
   constructor(private router: Router,
     private userService: LoginService,
