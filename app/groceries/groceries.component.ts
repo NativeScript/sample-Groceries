@@ -22,7 +22,7 @@ export class GroceriesComponent implements OnInit {
   isShowingRecent = false;
   isLoading = false;
 
-  @ViewChild("groceryTextField") groceryTextField: ElementRef;
+  @ViewChild("groceryTextField", { static: false }) groceryTextField: ElementRef;
 
   constructor(private router: Router,
     private store: GroceryService,
