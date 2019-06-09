@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, AfterViewInit } from "@angular/core";
-import * as utils from "utils/utils";
+import * as utils from "tns-core-modules/utils/utils";
 
 import { Grocery, GroceryService } from "../shared";
 import { alert } from "../../shared";
