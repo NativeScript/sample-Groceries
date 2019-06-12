@@ -56,6 +56,9 @@ describe("Groceries", async function () {
     before(async () => {
         driver = await createDriver();
         driver.defaultWaitTime = 15000;
+        if (fs.existsSync(`${__dirname}/screenshots/`)) {
+            fs.mkdirSync(`${__dirname}/screenshots/`)
+        }
     });
 
     after(async () => {
