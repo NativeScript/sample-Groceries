@@ -1,5 +1,11 @@
 import { AppiumDriver, createDriver, SearchOptions } from "nativescript-dev-appium";
 import { expect } from "chai";
+import { Eyes } from "@applitools/eyes-images";
+import { Region } from "@applitools/eyes-common";
+import * as fs from 'fs';
+import { promisify } from 'util';
+
+const readFile = promisify(fs.readFile);
 
 describe("Groceries", async function () {
     let driver: AppiumDriver;
@@ -19,6 +25,8 @@ describe("Groceries", async function () {
     const backToLoginButtonText = "Back to login";
     const forgotPasswordButtonText = "Forgot";
     const forgotPasswordFormText = "reset";
+    const eyes = new Eyes();
+    const sleep = promisify(setTimeout);
 
     const clickOnCrossOrCheckboxBtn = async () => {
         if (driver.isAndroid) {
@@ -60,6 +68,15 @@ describe("Groceries", async function () {
         console.log("Driver quits!");
     });
 
+    const testScreenShot = async (testName: string) => {
+        const imagePath = await driver.takeScreenshot(`${__dirname}/screenshots/${testName}`);
+        const image = await readFile(imagePath);
+        await eyes.open("Sample Groceries", testName);
+        // chopping off top 100 pixels because time display never matches.
+        await eyes.checkRegion(image, new Region(0, 100, 1440, 2560), testName);
+        await eyes.close();
+    }
+
     it("should log in", async () => {
         const loginButton = await driver.findElementByText(loginButtonText, SearchOptions.exact);
         await loginButton.click();
@@ -79,6 +96,7 @@ describe("Groceries", async function () {
             await done.click();
         }
         const loginBtn = await driver.findElementByText(loginButtonText, SearchOptions.exact);
+        await testScreenShot('login');
         await loginBtn.click();
         const recentButton = await driver.findElementByText(recentButtonText, SearchOptions.exact);
         expect(recentButton).to.exist;
@@ -91,13 +109,14 @@ describe("Groceries", async function () {
         await allImages[1].click(); // Cross image button to add the item.
         const appleItem = await driver.findElementByText(fruit);
         expect(appleItem).to.exist;
+        await sleep(200);
+        await testScreenShot('itemAdded');
     });
 
     it("should mark element as Done", async () => {
         await clickOnCrossOrCheckboxBtn();
-        const appleItem = await driver.findElementByText(fruit);
-        const isItemDone = await driver.compareElement(appleItem, "itemDone", 0.07);
-        expect(isItemDone).to.be.true;
+        await sleep(200);
+        await testScreenShot('itemMarked');
     });
 
     it("should delete item from the list", async () => {
@@ -105,6 +124,8 @@ describe("Groceries", async function () {
         const appleListItemXpath = await driver.elementHelper.getXPathByText(fruit, SearchOptions.exact);
         const appleItem = await driver.findElementByXPathIfExists(appleListItemXpath, 10000);
         expect(appleItem).to.be.undefined;
+        await sleep(200);
+        await testScreenShot('itemDeleted');
     });
 
     it("should find deleted item in Recent", async () => {
@@ -112,6 +133,8 @@ describe("Groceries", async function () {
         await recentButton.click();
         const appleItem = await driver.findElementByText(fruit);
         expect(appleItem).to.exist;
+        await sleep(200);
+        await testScreenShot('itemInRecent');
     });
 
     it("should return back an item from the Recent list", async () => {
@@ -120,6 +143,8 @@ describe("Groceries", async function () {
         await doneButton.click();
         const appleItem = await driver.findElementByText(fruit);
         expect(appleItem).to.exist;
+        await sleep(200);
+        await testScreenShot('itemReturned');
     });
 
     it("should delete item from the Groceries list and remove it from Recent", async () => {
