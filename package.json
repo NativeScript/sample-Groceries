@@ -18,10 +18,10 @@
   "nativescript": {
     "id": "org.nativescript.groceries",
     "tns-android": {
-      "version": "5.4.0"
+      "version": "6.0.0"
     },
     "tns-ios": {
-      "version": "5.4.2"
+      "version": "6.0.1"
     }
   },
   "scripts": {
@@ -52,10 +52,10 @@
     "nativescript-angular": "~8.0.0",
     "nativescript-iqkeyboardmanager": "~1.3.0",
     "nativescript-social-share": "~1.5.1",
-    "nativescript-unit-test-runner": "^0.3.3",
+    "nativescript-unit-test-runner": "^0.6.4",
     "reflect-metadata": "~0.1.8",
     "rxjs": "^6.3.3",
-    "tns-core-modules": "~5.4.0",
+    "tns-core-modules": "~6.0.1",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -78,9 +78,8 @@
     "mocha-junit-reporter": "~1.18.0",
     "mocha-multi": "~1.0.1",
     "nativescript-dev-appium": "~5.0.0",
-    "nativescript-dev-typescript": "~0.10.0",
-    "nativescript-dev-webpack": "~0.24.0",
+    "nativescript-dev-webpack": "1.0.0",
     "tslint": "^5.4.2",
-    "typescript": "~3.4.5"
+    "typescript": "3.4.5"
   }
 }
