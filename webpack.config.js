@@ -5,13 +5,15 @@ const nsWebpack = require("nativescript-dev-webpack");
 const nativescriptTarget = require("nativescript-dev-webpack/nativescript-target");
 const { nsReplaceBootstrap } = require("nativescript-dev-webpack/transformers/ns-replace-bootstrap");
 const { nsReplaceLazyLoader } = require("nativescript-dev-webpack/transformers/ns-replace-lazy-loader");
+const { nsSupportHmrNg } = require("nativescript-dev-webpack/transformers/ns-support-hmr-ng");
 const { getMainModulePath } = require("nativescript-dev-webpack/utils/ast-utils");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { NativeScriptWorkerPlugin } = require("nativescript-worker-loader/NativeScriptWorkerPlugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const { AngularCompilerPlugin } = require("@ngtools/webpack");
+const TerserPlugin = require("terser-webpack-plugin");
+const { getAngularCompilerPlugin } = require("nativescript-dev-webpack/plugins/NativeScriptAngularCompilerPlugin");
+const hashSalt = Date.now().toString();
 
 module.exports = env => {
     // Add your custom Activities, Services and other Android app components here.
@@ -25,48 +27,60 @@ module.exports = env => {
         throw new Error("You need to provide a target platform!");
     }
 
+    const AngularCompilerPlugin = getAngularCompilerPlugin(platform);
     const projectRoot = __dirname;
 
     // Default destination inside platforms/<platform>/...
     const dist = resolve(projectRoot, nsWebpack.getAppPath(platform, projectRoot));
-    const appResourcesPlatformDir = platform === "android" ? "Android" : "iOS";
 
     const {
         // The 'appPath' and 'appResourcesPath' values are fetched from
         // the nsconfig.json configuration file
         // when bundling with `tns run android|ios --bundle`.
-        appPath = "src",
+        appPath = "app",
         appResourcesPath = "App_Resources",
 
         // You can provide the following flags when running 'tns run android|ios'
         aot, // --env.aot
-        snapshot, // --env.snapshot
+        snapshot, // --env.snapshot,
+        production, // --env.production
         uglify, // --env.uglify
         report, // --env.report
         sourceMap, // --env.sourceMap
+        hiddenSourceMap, // --env.hiddenSourceMap
         hmr, // --env.hmr,
+        unitTesting, // --env.unitTesting
+        verbose, // --env.verbose
     } = env;
-    env.externals = env.externals || [];
-    const externals = (env.externals).map((e) => { // --env.externals
-        return new RegExp(e + ".*");
-    });
 
+    const isAnySourceMapEnabled = !!sourceMap || !!hiddenSourceMap;
+    const externals = nsWebpack.getConvertedExternals(env.externals);
     const appFullPath = resolve(projectRoot, appPath);
     const appResourcesFullPath = resolve(projectRoot, appResourcesPath);
-
-    const entryModule = `${nsWebpack.getEntryModule(appFullPath)}.ts`;
+    const tsConfigName = "tsconfig.tns.json";
+    const entryModule = `${nsWebpack.getEntryModule(appFullPath, platform)}.ts`;
     const entryPath = `.${sep}${entryModule}`;
+    const entries = { bundle: entryPath };
+    const areCoreModulesExternal = Array.isArray(env.externals) && env.externals.some(e => e.indexOf("tns-core-modules") > -1);
+    if (platform === "ios" && !areCoreModulesExternal) {
+        entries["tns_modules/tns-core-modules/inspector_modules"] = "inspector_modules";
+    };
+
     const ngCompilerTransformers = [];
     const additionalLazyModuleResources = [];
     if (aot) {
         ngCompilerTransformers.push(nsReplaceBootstrap);
     }
 
+    if (hmr) {
+        ngCompilerTransformers.push(nsSupportHmrNg);
+    }
+
     // when "@angular/core" is external, it's not included in the bundles. In this way, it will be used
     // directly from node_modules and the Angular modules loader won't be able to resolve the lazy routes
     // fixes https://github.com/NativeScript/nativescript-cli/issues/4024
-    if (env.externals.indexOf("@angular/core") > -1) {
-        const appModuleRelativePath = getMainModulePath(resolve(appFullPath, entryModule));
+    if (env.externals && env.externals.indexOf("@angular/core") > -1) {
+        const appModuleRelativePath = getMainModulePath(resolve(appFullPath, entryModule), tsConfigName);
         if (appModuleRelativePath) {
             const appModuleFolderPath = dirname(resolve(appFullPath, appModuleRelativePath));
             // include the lazy loader inside app module
@@ -78,16 +92,25 @@ module.exports = env => {
 
     const ngCompilerPlugin = new AngularCompilerPlugin({
         hostReplacementPaths: nsWebpack.getResolver([platform, "tns"]),
-        platformTransformers: ngCompilerTransformers.map(t => t(() => ngCompilerPlugin)),
-        mainPath: resolve(appPath, entryModule),
-        tsConfigPath: join(__dirname, "tsconfig.tns.json"),
+        platformTransformers: ngCompilerTransformers.map(t => t(() => ngCompilerPlugin, resolve(appFullPath, entryModule), projectRoot)),
+        mainPath: join(appFullPath, entryModule),
+        tsConfigPath: join(__dirname, tsConfigName),
         skipCodeGeneration: !aot,
-        sourceMap: !!sourceMap,
+        sourceMap: !!isAnySourceMapEnabled,
         additionalLazyModuleResources: additionalLazyModuleResources
     });
 
+    let sourceMapFilename = nsWebpack.getSourceMapFilename(hiddenSourceMap, __dirname, dist);
+
+    const itemsToClean = [`${dist}/**/*`];
+    if (platform === "android") {
+        itemsToClean.push(`${join(projectRoot, "platforms", "android", "app", "src", "main", "assets", "snapshots")}`);
+        itemsToClean.push(`${join(projectRoot, "platforms", "android", "app", "build", "configurations", "nativescript-android-snapshot")}`);
+    }
+
+    nsWebpack.processAppComponents(appComponents, platform);
     const config = {
-        mode: uglify ? "production" : "development",
+        mode: production ? "production" : "development",
         context: appFullPath,
         externals,
         watchOptions: {
@@ -98,15 +121,15 @@ module.exports = env => {
             ]
         },
         target: nativescriptTarget,
-        entry: {
-            bundle: entryPath,
-        },
+        entry: entries,
         output: {
             pathinfo: false,
             path: dist,
+            sourceMapFilename,
             libraryTarget: "commonjs2",
             filename: "[name].js",
             globalObject: "global",
+            hashSalt
         },
         resolve: {
             extensions: [".ts", ".js", ".scss", ".css"],
@@ -133,8 +156,9 @@ module.exports = env => {
             "fs": "empty",
             "__dirname": false,
         },
-        devtool: sourceMap ? "inline-source-map" : "none",
+        devtool: hiddenSourceMap ? "hidden-source-map" : (sourceMap ? "inline-source-map" : "none"),
         optimization: {
+            runtimeChunk: "single",
             splitChunks: {
                 cacheGroups: {
                     vendor: {
@@ -151,12 +175,14 @@ module.exports = env => {
             },
             minimize: !!uglify,
             minimizer: [
-                new UglifyJsPlugin({
+                new TerserPlugin({
                     parallel: true,
                     cache: true,
-                    uglifyOptions: {
+                    sourceMap: isAnySourceMapEnabled,
+                    terserOptions: {
                         output: {
                             comments: false,
+                            semicolons: !isAnySourceMapEnabled
                         },
                         compress: {
                             // The Android SBG has problems parsing the output
@@ -171,7 +197,7 @@ module.exports = env => {
         module: {
             rules: [
                 {
-                    test: new RegExp(entryPath),
+                    test: nsWebpack.getEntryPathRegExp(appFullPath, entryPath),
                     use: [
                         // Require all Android app components
                         platform === "android" && {
@@ -184,6 +210,10 @@ module.exports = env => {
                             options: {
                                 angular: true,
                                 loadCss: !snapshot, // load the application css if in debug mode
+                                unitTesting,
+                                appFullPath,
+                                projectRoot,
+                                ignoredFiles: nsWebpack.getUserDefinedEntries(entries, platform)
                             }
                         },
                     ].filter(loader => !!loader)
@@ -194,15 +224,16 @@ module.exports = env => {
                 // tns-core-modules reads the app.css and its imports using css-loader
                 {
                     test: /[\/|\\]app\.css$/,
-                    use: {
-                        loader: "css-loader",
-                        options: { minimize: false, url: false },
-                    }
+                    use: [
+                        "nativescript-dev-webpack/style-hot-loader",
+                        { loader: "css-loader", options: { url: false } }
+                    ]
                 },
                 {
                     test: /[\/|\\]app\.scss$/,
                     use: [
-                        { loader: "css-loader", options: { minimize: false, url: false } },
+                        "nativescript-dev-webpack/style-hot-loader",
+                        { loader: "css-loader", options: { url: false } },
                         "sass-loader"
                     ]
                 },
@@ -232,29 +263,17 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "process": undefined,
+                "process": "global.process",
             }),
             // Remove all files from the out dir.
-            new CleanWebpackPlugin([`${dist}/**/*`]),
-            // Copy native app resources to out dir.
-            new CopyWebpackPlugin([
-                {
-                    from: `${appResourcesFullPath}/${appResourcesPlatformDir}`,
-                    to: `${dist}/App_Resources/${appResourcesPlatformDir}`,
-                    context: projectRoot
-                },
-            ]),
+            new CleanWebpackPlugin(itemsToClean, { verbose: !!verbose }),
             // Copy assets to out dir. Add your own globs as needed.
             new CopyWebpackPlugin([
                 { from: { glob: "fonts/**" } },
                 { from: { glob: "**/*.jpg" } },
                 { from: { glob: "**/*.png" } },
             ], { ignore: [`${relative(appPath, appResourcesFullPath)}/**`] }),
-            // Generate a bundle starter script and activate it in package.json
-            new nsWebpack.GenerateBundleStarterPlugin([
-                "./vendor",
-                "./bundle",
-            ]),
+            new nsWebpack.GenerateNativeScriptEntryPointsPlugin("bundle"),
             // For instructions on how to set up workers with webpack
             // check out https://github.com/nativescript/worker-loader
             new NativeScriptWorkerPlugin(),
@@ -263,7 +282,6 @@ module.exports = env => {
             new nsWebpack.WatchStateLoggerPlugin(),
         ],
     };
-
 
     if (report) {
         // Generate report files for bundles content

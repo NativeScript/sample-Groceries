@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { getString, setString } from "application-settings";
+import { getString, setString } from "tns-core-modules/application-settings";
 
 const tokenKey = "token";
 
@@ -10,14 +10,14 @@ export class BackendService {
   static apiUrl = "";
 
   static isLoggedIn(): boolean {
-    return !!getString("token");
+    return !!getString(tokenKey);
   }
 
   static get token(): string {
-    return getString("token");
+    return getString(tokenKey);
   }
 
   static set token(theToken: string) {
-    setString("token", theToken);
+    setString(tokenKey, theToken);
   }
 }

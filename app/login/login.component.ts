@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { Color } from "color";
-import { connectionType, getConnectionType } from "connectivity";
-import { Animation } from "ui/animation";
-import { View } from "ui/core/view";
-import { prompt } from "ui/dialogs";
-import { Page } from "ui/page";
+import { Color } from "tns-core-modules/color";
+import { connectionType, getConnectionType } from "tns-core-modules/connectivity";
+import { Animation } from "tns-core-modules/ui/animation";
+import { View } from "tns-core-modules/ui/core/view";
+import { prompt } from "tns-core-modules/ui/dialogs";
+import { Page } from "tns-core-modules/ui/page";
 
 import { alert, LoginService, User } from "../shared";
 
