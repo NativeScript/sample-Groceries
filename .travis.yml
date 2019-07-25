@@ -15,7 +15,7 @@ matrix:
     - stage: "Lint"
       language: node_js
       os: linux
-      node_js: "8"
+      node_js: "10"
       install: true
       script: npm i && npm run tslint
     - stage: "Build"
@@ -69,7 +69,6 @@ android:
 
 before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
 cache:
     directories:
         - .nvm
