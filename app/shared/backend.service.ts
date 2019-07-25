@@ -1,3 +1,4 @@
+import { Injectable } from "@angular/core";
 import { getString, setString } from "tns-core-modules/application-settings";
 
 const tokenKey = "token";

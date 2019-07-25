@@ -2,8 +2,6 @@ import * as application from "tns-core-modules/application";
 import * as platform from "tns-core-modules/platform";
 
 declare var android: any;
-declare var UIStatusBarStyle: any;
-declare var UIApplication: any;
 
 export function setStatusBarColors() {
   // Make the Android status bar transparent.

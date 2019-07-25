@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output, AfterViewInit } from "@angular/core";
-import * as utils from "tns-core-modules/utils/utils";
 
 import { Grocery, GroceryService } from "../shared";
 import { alert } from "../../shared";
@@ -48,7 +47,7 @@ export class GroceryListComponent implements AfterViewInit {
     let cell = args.ios;
     if (cell) {
       // support XCode 8
-      cell.backgroundColor = utils.ios.getter(UIColor, UIColor.clearColor);
+      cell.backgroundColor = UIColor.clearColor;
     }
   }
 

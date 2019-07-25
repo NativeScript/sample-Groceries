@@ -18,10 +18,10 @@
   "nativescript": {
     "id": "org.nativescript.groceries",
     "tns-android": {
-      "version": "5.4.0"
+      "version": "6.0.0"
     },
     "tns-ios": {
-      "version": "5.4.1"
+      "version": "6.0.1"
     }
   },
   "scripts": {
@@ -40,22 +40,22 @@
     "update-ns-webpack": "update-ns-webpack"
   },
   "dependencies": {
-    "@angular/common": "8.0.0",
-    "@angular/compiler": "8.0.0",
-    "@angular/core": "8.0.0",
-    "@angular/forms": "8.0.0",
+    "@angular/common": "~8.0.0",
+    "@angular/compiler": "~8.0.0",
+    "@angular/core": "~8.0.0",
+    "@angular/forms": "~8.0.0",
     "@angular/http": "8.0.0-beta.10",
-    "@angular/platform-browser": "8.0.0",
-    "@angular/platform-browser-dynamic": "8.0.0",
-    "@angular/router": "8.0.0",
+    "@angular/platform-browser": "~8.0.0",
+    "@angular/platform-browser-dynamic": "~8.0.0",
+    "@angular/router": "~8.0.0",
     "email-validator": "^2.0.4",
     "nativescript-angular": "~8.0.0",
     "nativescript-iqkeyboardmanager": "~1.5.0",
     "nativescript-social-share": "~1.5.1",
-    "nativescript-unit-test-runner": "^0.3.3",
+    "nativescript-unit-test-runner": "0.7.0",
     "reflect-metadata": "~0.1.8",
     "rxjs": "^6.3.3",
-    "tns-core-modules": "~5.4.0",
+    "tns-core-modules": "~6.0.1",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -70,17 +70,17 @@
     "codelyzer": "^4.5.0",
     "filewalker": "^0.1.3",
     "jasmine-core": "^3.3.0",
-    "karma": "^3.1.1",
-    "karma-jasmine": "^1.0.2",
+    "karma": "4.1.0",
+    "karma-jasmine": "2.0.1",
     "karma-nativescript-launcher": "^0.4.0",
     "lazy": "1.0.11",
     "mocha": "~5.2.0",
     "mocha-junit-reporter": "~1.18.0",
     "mocha-multi": "~1.0.1",
-    "nativescript-dev-appium": "~5.0.0",
-    "nativescript-dev-typescript": "~0.7.9",
-    "nativescript-dev-webpack": "~0.24.1",
+    "nativescript-dev-appium": "next",
+    "nativescript-dev-webpack": "~1.0.1",
     "tslint": "^5.4.2",
-    "typescript": "~3.4.5"
+    "typescript": "3.4.5",
+    "karma-webpack": "3.0.5"
   }
 }
