@@ -1,5 +1,4 @@
-import * as application from "tns-core-modules/application";
-import * as platform from "tns-core-modules/platform";
+import { nsApp, device } from "@nativescript/core";
 
 declare var android: any;
 
@@ -7,10 +6,10 @@ export function setStatusBarColors() {
   // Make the Android status bar transparent.
   // See http://bradmartin.net/2016/03/10/fullscreen-and-navigation-bar-color-in-a-nativescript-android-app/
   // for details on the technique used.
-  if (application.android && platform.device.sdkVersion >= "21") {
-    application.android.on("activityStarted", () => {
+  if (nsApp.android && device.sdkVersion >= "21") {
+    nsApp.android.on("activityStarted", () => {
       const View = android.view.View;
-      const window = application.android.startActivity.getWindow();
+      const window = nsApp.android.startActivity.getWindow();
       window.setStatusBarColor(0x000000);
 
       const decorView = window.getDecorView();

@@ -40,6 +40,7 @@
     "update-ns-webpack": "update-ns-webpack"
   },
   "dependencies": {
+    "@angular/animations": "~8.0.0",
     "@angular/common": "~8.0.0",
     "@angular/compiler": "~8.0.0",
     "@angular/core": "~8.0.0",
@@ -48,6 +49,9 @@
     "@angular/platform-browser": "~8.0.0",
     "@angular/platform-browser-dynamic": "~8.0.0",
     "@angular/router": "~8.0.0",
+    "@nativescript/angular": "file:../nativescript/scoped-packages/nativescript-angular-1.0.0.tgz",
+    "@nativescript/core": "file:../nativescript/scoped-packages/nativescript-core-1.0.0.tgz",
+    "@nativescript/ui": "file:../nativescript/scoped-packages/nativescript-ui-1.0.0.tgz",
     "email-validator": "^2.0.4",
     "nativescript-angular": "~8.0.0",
     "nativescript-iqkeyboardmanager": "~1.3.0",

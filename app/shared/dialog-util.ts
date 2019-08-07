@@ -1,7 +1,7 @@
-import * as dialogsModule from "tns-core-modules/ui/dialogs";
+import { nsDialogs } from "@nativescript/ui";
 
 export function alert(message: string) {
-  return dialogsModule.alert({
+  return nsDialogs.alert({
     title: "Groceries",
     okButtonText: "OK",
     message: message

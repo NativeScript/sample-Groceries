@@ -1,7 +1,5 @@
-import { NativeScriptModule } from "nativescript-angular/nativescript.module";
+import { NativeScriptModule, NativeScriptHttpClientModule, NativeScriptRouterModule } from "@nativescript/angular";
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
-import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { authProviders, appRoutes } from "./app.routing";
 import { AppComponent } from "./app.component";

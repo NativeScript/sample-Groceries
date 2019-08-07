@@ -1,5 +1,4 @@
-import { NativeScriptCommonModule } from "nativescript-angular/common";
-import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { NativeScriptCommonModule, NativeScriptFormsModule } from "@nativescript/angular";
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { loginRouting } from "./login.routing";

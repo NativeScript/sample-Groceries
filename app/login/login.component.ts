@@ -1,11 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { Color } from "tns-core-modules/color";
-import { connectionType, getConnectionType } from "tns-core-modules/connectivity";
-import { Animation } from "tns-core-modules/ui/animation";
-import { View } from "tns-core-modules/ui/core/view";
-import { prompt } from "tns-core-modules/ui/dialogs";
-import { Page } from "tns-core-modules/ui/page";
+import { Color, connectionType, getConnectionType } from "@nativescript/core";
+import { Animation, View, prompt, Page } from "@nativescript/ui";
 
 import { alert, LoginService, User } from "../shared";
 
@@ -146,7 +142,7 @@ export class LoginComponent implements OnInit {
     initialContainer.animate({
       opacity: 0,
       duration: 500
-    }).then(function() {
+    }).then(function () {
       // After the animation completes, hide the initial container and
       // show the main container and logo. The main container and logo will
       // not immediately appear because their opacity is set to 0 in CSS.

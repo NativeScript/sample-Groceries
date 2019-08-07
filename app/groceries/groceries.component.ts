@@ -1,8 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { action } from "tns-core-modules/ui/dialogs";
-import { Page } from "tns-core-modules/ui/page";
-import { TextField } from "tns-core-modules/ui/text-field";
+import { action, Page, TextField } from "@nativescript/ui";
 import * as SocialShare from "nativescript-social-share";
 
 import { GroceryService } from "./shared";
@@ -25,7 +23,7 @@ export class GroceriesComponent implements OnInit {
   constructor(private router: Router,
     private store: GroceryService,
     private loginService: LoginService,
-    private page: Page) {}
+    private page: Page) { }
 
   ngOnInit() {
     this.page.actionBarHidden = true;
@@ -108,7 +106,7 @@ export class GroceriesComponent implements OnInit {
   share() {
     let items = this.store.items.value;
     let list = [];
-    for (let i = 0, size = items.length; i < size ; i++) {
+    for (let i = 0, size = items.length; i < size; i++) {
       list.push(items[i].name);
     }
     SocialShare.shareText(list.join(", ").trim());
