@@ -5,6 +5,8 @@
 //	compile 'com.android.support:recyclerview-v7:+'
 //}
 
+project.ext.useKotlin=true
+
 android {  
   defaultConfig {  
     generatedDensities = []
