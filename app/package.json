@@ -3,5 +3,6 @@
     "v8Flags": "--expose_gc",
     "markingMode": "none"
   },
+  "cssParser": "css-tree",
   "main": "main.js"
 }
